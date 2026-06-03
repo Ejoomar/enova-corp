@@ -203,6 +203,15 @@ body::before {
   border-color: var(--hairline);
 }
 
+/* Marquee infinity bar */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
 /* Nav brass underline animation */
 .nav-link {
   position: relative;
