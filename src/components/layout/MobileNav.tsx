@@ -45,14 +45,17 @@ export function MobileNav() {
       >
         <SheetHeader className="border-b border-[var(--hairline)] px-6 py-4">
           <SheetTitle className="text-left">
-            <Link href="/" onClick={() => setOpen(false)}>
+            <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
               <Image
                 src="/images/logo.jpg"
                 alt="ENOVA CORP"
-                width={44}
-                height={44}
-                className="rounded-lg"
+                width={32}
+                height={32}
+                className="rounded-md"
               />
+              <span className="font-display text-[15px] font-medium tracking-[-0.03em] text-foreground">
+                ENOVA CORP
+              </span>
             </Link>
           </SheetTitle>
         </SheetHeader>

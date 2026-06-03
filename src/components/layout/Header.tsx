@@ -40,16 +40,19 @@ export function Header() {
       <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
         <div className="flex h-16 items-center justify-between gap-8">
 
-          {/* Logo */}
-          <Link href="/" className="shrink-0 transition-opacity hover:opacity-80">
+          {/* Logo + wordmark */}
+          <Link href="/" className="flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-80">
             <Image
               src="/images/logo.jpg"
               alt="ENOVA CORP"
-              width={40}
-              height={40}
-              className="rounded-lg"
+              width={32}
+              height={32}
+              className="rounded-md"
               priority
             />
+            <span className="font-display text-[15px] font-medium tracking-[-0.03em] text-foreground">
+              ENOVA CORP
+            </span>
           </Link>
 
           {/* Desktop nav */}
