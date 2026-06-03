@@ -22,8 +22,8 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "ENOVA CORP — Tecnología de última generación",
-  description: "Distribuidor oficial de smartphones, laptops, audio y gaming. Apple, Samsung, Sony, ASUS, MSI y Logitech. Garantía oficial y envío nacional.",
+  title: "ENOVA CORP ® — Computación | Equipos Fiscales",
+  description: "Distribuidor de computación, laptops, smartphones, equipos fiscales e impresoras en Venezuela. Marcas: Apple, Samsung, HP, Lenovo, Brother. Garantía oficial y envíos a todo Venezuela.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

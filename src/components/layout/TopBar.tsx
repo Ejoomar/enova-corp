@@ -7,16 +7,16 @@ export function TopBar() {
         <div className="flex h-9 items-center justify-between text-xs">
           <div className="flex items-center gap-1">
             <span className="hidden sm:inline">Envíos a todo</span>
-            <span className="font-semibold">Chile</span>
+            <span className="font-semibold">Venezuela</span>
           </div>
           <div className="flex items-center gap-4 sm:gap-6">
             <div className="flex items-center gap-1.5">
               <Phone className="h-3.5 w-3.5" />
-              <a href="tel:+56232090021" className="hidden sm:inline hover:underline">Contacto</a>
+              <a href="tel:+582125550100" className="hidden sm:inline hover:underline">Contacto</a>
             </div>
             <div className="flex items-center gap-1.5">
               <Truck className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Despacho 24–48 h</span>
+              <span className="hidden sm:inline">Entrega Express</span>
             </div>
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5" />

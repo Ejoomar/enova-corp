@@ -13,12 +13,12 @@ import {
 } from "@/components/ui/sheet"
 
 const navLinks = [
-  { label: "Smartphones", href: "/products?category=smartphones" },
-  { label: "Laptops / PCs", href: "/products?category=laptops"   },
-  { label: "Audio",        href: "/products?category=audio"      },
-  { label: "Gaming",       href: "/products?category=gaming"     },
-  { label: "Tablets",      href: "/products?category=tablets"    },
-  { label: "Catálogo",     href: "/catalogo"                     },
+  { label: "Laptops / PCs",    href: "/products?category=laptops"          },
+  { label: "Smartphones",      href: "/products?category=smartphones"      },
+  { label: "Equipos Fiscales", href: "/products?category=equipos-fiscales" },
+  { label: "Impresoras",       href: "/products?category=impresoras"       },
+  { label: "Periféricos",      href: "/products?category=perifericos"      },
+  { label: "Catálogo",         href: "/catalogo"                           },
 ]
 
 const utilLinks = [
@@ -44,7 +44,7 @@ export function MobileNav() {
       >
         <SheetHeader className="border-b border-[var(--hairline)] px-6 py-4">
           <SheetTitle className="font-display text-left text-xl font-medium tracking-[-0.04em]">
-            ENOVA CORP
+            ENOVA CORP ®
           </SheetTitle>
         </SheetHeader>
 

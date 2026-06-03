@@ -9,12 +9,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 
 const categoryImages: Record<string, string> = {
-  "smartphones": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&q=80",
-  "laptops":     "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&q=80",
-  "audio":       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80",
-  "gaming":      "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&q=80",
-  "tablets":     "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&q=80",
-  "accesorios":  "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80",
+  "laptops":          "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&q=80",
+  "smartphones":      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&q=80",
+  "equipos-fiscales": "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=400&q=80",
+  "impresoras":       "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400&q=80",
+  "perifericos":      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80",
+  "gaming":           "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&q=80",
+  "audio":            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80",
 }
 
 interface CategoryCardProps {
@@ -92,7 +93,7 @@ export function CategoryGrid() {
             — 02 / 04
           </span>
           <h2 className="col-span-12 font-display text-4xl font-light tracking-[-0.02em] lg:col-span-7">
-            Seis categorías.<br />Una sola tienda.
+            Todo en tecnología.<br />Un solo lugar.
           </h2>
           <Link
             href="/products"

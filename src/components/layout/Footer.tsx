@@ -3,26 +3,26 @@ import { Instagram, Mail, Phone, MapPin } from "lucide-react"
 
 const footerLinks = {
   productos: [
-    { name: "Smartphones",  href: "/products?category=smartphones" },
-    { name: "Laptops / PCs", href: "/products?category=laptops"    },
-    { name: "Audio",        href: "/products?category=audio"       },
-    { name: "Gaming",       href: "/products?category=gaming"      },
-    { name: "Tablets",      href: "/products?category=tablets"     },
-    { name: "Accesorios",   href: "/products?category=accesorios"  },
+    { name: "Laptops / PCs",     href: "/products?category=laptops"          },
+    { name: "Smartphones",       href: "/products?category=smartphones"      },
+    { name: "Equipos Fiscales",  href: "/products?category=equipos-fiscales" },
+    { name: "Impresoras",        href: "/products?category=impresoras"       },
+    { name: "Periféricos",       href: "/products?category=perifericos"      },
+    { name: "Gaming",            href: "/products?category=gaming"           },
   ],
   empresa: [
-    { name: "Sobre Nosotros", href: "/about"    },
-    { name: "Atención B2B",   href: "/b2b"      },
+    { name: "Sobre Nosotros", href: "/about"      },
+    { name: "Atención B2B",   href: "/b2b"        },
     { name: "Cotizaciones",   href: "/cotizacion" },
-    { name: "Contacto",       href: "/contact"  },
+    { name: "Contacto",       href: "/contact"    },
   ],
   ayuda: [
-    { name: "Centro de Ayuda",     href: "/help"     },
-    { name: "Despacho Nacional",   href: "/shipping" },
-    { name: "Garantía",            href: "/warranty" },
-    { name: "Preguntas Frecuentes",href: "/faq"      },
-    { name: "Términos y Cond.",    href: "/terms"    },
-    { name: "Privacidad",          href: "/privacy"  },
+    { name: "Centro de Ayuda",      href: "/help"     },
+    { name: "Envíos Venezuela",     href: "/shipping" },
+    { name: "Garantía",             href: "/warranty" },
+    { name: "Preguntas Frecuentes", href: "/faq"      },
+    { name: "Términos y Cond.",     href: "/terms"    },
+    { name: "Privacidad",           href: "/privacy"  },
   ],
 }
 
@@ -34,31 +34,38 @@ export function Footer() {
 
           {/* Brand col */}
           <div className="flex flex-col gap-6">
-            <p className="eyebrow">ENOVA CORP</p>
+            <p className="eyebrow">ENOVA CORP ®</p>
             <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">
-              Distribuidor oficial de tecnología de consumo. Smartphones, laptops, audio y gaming
-              de las mejores marcas del mundo.
+              Distribuidor oficial de tecnología en Venezuela. Computación, equipos fiscales,
+              smartphones e impresoras de las mejores marcas del mundo.
             </p>
             <address className="not-italic space-y-2">
               <div className="flex items-start gap-2 text-sm text-[var(--muted-foreground)]">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--brass-dim)]" />
-                <span>Santiago, Chile</span>
+                <span>Venezuela</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
                 <Mail className="h-3.5 w-3.5 shrink-0 text-[var(--brass-dim)]" />
                 <a
-                  href="mailto:ventas@enovacorp.cl"
+                  href="mailto:ventas@enovacorp.com.ve"
                   className="transition-colors hover:text-[var(--brass)]"
                 >
-                  ventas@enovacorp.cl
+                  ventas@enovacorp.com.ve
+                </a>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+                <Phone className="h-3.5 w-3.5 shrink-0 text-[var(--brass-dim)]" />
+                <a href="tel:+582125550100" className="transition-colors hover:text-[var(--brass)]">
+                  +58 212 555 0100
                 </a>
               </div>
             </address>
             <div className="flex gap-3">
               <Link
-                href="https://www.instagram.com"
+                href="https://www.instagram.com/enovacorpve/"
                 target="_blank"
                 rel="noopener"
+                aria-label="Instagram ENOVA CORP"
                 className="text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]"
               >
                 <Instagram className="h-4 w-4" />
@@ -125,10 +132,10 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col items-start justify-between gap-4 py-6 sm:flex-row sm:items-center">
           <p className="font-mono-ui text-[11px] text-[var(--muted-foreground)]">
-            © {new Date().getFullYear()} ENOVA CORP · Precios incluyen IVA
+            © {new Date().getFullYear()} ENOVA CORP ® · Computación | Equipos Fiscales
           </p>
           <p className="font-mono-ui text-[11px] text-[var(--muted-foreground)]">
-            Santiago, Chile
+            Venezuela
           </p>
         </div>
       </div>

@@ -52,7 +52,7 @@ export default function AdminSettingsPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="storeEmail">Email de contacto</Label>
-                  <Input id="storeEmail" type="email" defaultValue="info@basictechshop.com" />
+                  <Input id="storeEmail" type="email" defaultValue="info@enovacorp.com.ve" />
                 </div>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">

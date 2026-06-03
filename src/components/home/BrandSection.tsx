@@ -1,10 +1,10 @@
 const specs = [
-  { label: "Apple",    desc: "iPhone, MacBook, iPad, AirPods" },
-  { label: "Samsung",  desc: "Galaxy, Book, Tab, Buds" },
-  { label: "Sony",     desc: "WH/WF-1000X, Xperia, SRS" },
-  { label: "ASUS",     desc: "ROG, VivoBook, ProArt, ZenBook" },
-  { label: "MSI",      desc: "Titan, Stealth, GPUs NVIDIA" },
-  { label: "Logitech", desc: "MX, G Pro, G915, Pebble" },
+  { label: "Apple",   desc: "iPhone, MacBook, iPad, AirPods" },
+  { label: "Samsung", desc: "Galaxy, Book, Tab, Buds" },
+  { label: "HP",      desc: "Laptops, LaserJet, OfficeJet" },
+  { label: "Lenovo",  desc: "ThinkPad, IdeaPad, Legion" },
+  { label: "Brother", desc: "Impresoras, Multifuncionales" },
+  { label: "Sony",    desc: "WH/WF-1000X, Xperia, SRS" },
 ]
 
 export function BrandSection() {

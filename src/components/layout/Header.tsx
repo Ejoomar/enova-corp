@@ -10,11 +10,11 @@ import { SearchDialog } from "@/components/search/SearchDialog"
 import { useCartStore } from "@/stores/cart-store"
 
 const navLinks = [
-  { label: "Smartphones",  href: "/products?category=smartphones" },
-  { label: "Laptops",      href: "/products?category=laptops"      },
-  { label: "Audio",        href: "/products?category=audio"        },
-  { label: "Gaming",       href: "/products?category=gaming"       },
-  { label: "Catálogo",     href: "/catalogo"                       },
+  { label: "Laptops",           href: "/products?category=laptops"          },
+  { label: "Smartphones",       href: "/products?category=smartphones"      },
+  { label: "Equipos Fiscales",  href: "/products?category=equipos-fiscales" },
+  { label: "Periféricos",       href: "/products?category=perifericos"      },
+  { label: "Catálogo",          href: "/catalogo"                           },
 ]
 
 export function Header() {
@@ -44,7 +44,7 @@ export function Header() {
             href="/"
             className="font-display shrink-0 text-xl font-medium tracking-[-0.04em] text-foreground transition-colors hover:text-[var(--brass-bright)]"
           >
-            ENOVA CORP
+            ENOVA CORP ®
           </Link>
 
           {/* Desktop nav */}

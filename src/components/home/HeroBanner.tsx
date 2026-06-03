@@ -18,62 +18,64 @@ interface Slide {
   cta2: { label: string; href: string }
   image: string
   imageAlt: string
-  bg: string          // tailwind gradient classes
+  bg: string
   tagColor: string
+  isBrand?: boolean
 }
 
 const slides: Slide[] = [
   {
+    id: 0,
+    tag: "Computación | Equipos Fiscales",
+    title: "ENOVA",
+    subtitle: "CORP ®",
+    description: "Distribuidor oficial de tecnología en Venezuela. Laptops, smartphones, equipos fiscales e impresoras con garantía oficial.",
+    cta1: { label: "Ver Catálogo", href: "/catalogo" },
+    cta2: { label: "Equipos Fiscales", href: "/products?category=equipos-fiscales" },
+    image: "https://images.unsplash.com/photo-1593640408182-31c228d05b95?w=700&q=85",
+    imageAlt: "ENOVA CORP — Tecnología Venezuela",
+    bg: "from-[#020817] via-[#0a1628] to-[#0c1e3d]",
+    tagColor: "bg-[var(--brass)]/20 text-[var(--brass-bright)] border border-[var(--brass)]/40",
+    isBrand: true,
+  },
+  {
     id: 1,
-    tag: "Nuevo Lanzamiento",
-    title: "RTX Serie 40",
-    subtitle: "Potencia Máxima",
-    description: "Las tarjetas gráficas más potentes para gaming y creación de contenido.",
-    cta1: { label: "Ver GPUs", href: "/products?category=gaming" },
+    tag: "Lo más buscado",
+    title: "MacBook Air",
+    subtitle: "Chip M3",
+    description: "Sin ventilador, ultra liviana y con hasta 18 h de batería. La laptop perfecta para trabajo y estudio.",
+    cta1: { label: "Ver Laptops", href: "/products?category=laptops" },
     cta2: { label: "Ver Todo", href: "/products" },
-    image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=700&q=85",
-    imageAlt: "MSI GeForce RTX 4070",
-    bg: "from-[#3b0764] via-[#581c87] to-[#4c1d95]",
-    tagColor: "bg-white/20 text-white border border-white/30",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=700&q=85",
+    imageAlt: "MacBook Air M3",
+    bg: "from-[#0a0a0a] via-[#111827] to-[#1a2744]",
+    tagColor: "bg-white/15 text-white border border-white/25",
   },
   {
     id: 2,
-    tag: "Lo más buscado",
+    tag: "Nuevo Lanzamiento",
     title: "iPhone 16",
     subtitle: "Pro Max",
-    description: "Chip A18 Pro, cámara de 48 MP y pantalla Super Retina XDR de 6.9\". El flagship de Apple.",
+    description: "Chip A18 Pro, cámara de 48 MP con zoom óptico 5x y pantalla Super Retina XDR de 6.9\".",
     cta1: { label: "Ver iPhones", href: "/products?category=smartphones" },
     cta2: { label: "Ver Todo", href: "/products" },
     image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=700&q=85",
     imageAlt: "iPhone 16 Pro Max",
-    bg: "from-[#0c1445] via-[#1e3a8a] to-[#1e40af]",
-    tagColor: "bg-white/20 text-white border border-white/30",
+    bg: "from-[#0c1445] via-[#0f1f5c] to-[#0a2a6e]",
+    tagColor: "bg-white/15 text-white border border-white/25",
   },
   {
     id: 3,
     tag: "Top ventas",
     title: "Sony WH-1000XM5",
     subtitle: "Silencio Absoluto",
-    description: "La cancelación de ruido más avanzada del mercado. 8 micrófonos, 30 h de batería y audio LDAC.",
-    cta1: { label: "Ver Auriculares", href: "/products?category=audio" },
+    description: "Cancelación de ruido de referencia. 8 micrófonos, 30 h de batería y audio LDAC sin compromisos.",
+    cta1: { label: "Ver Audio", href: "/products?category=audio" },
     cta2: { label: "Ver Todo", href: "/products" },
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700&q=85",
     imageAlt: "Sony WH-1000XM5",
-    bg: "from-[#052e16] via-[#065f46] to-[#0f766e]",
-    tagColor: "bg-white/20 text-white border border-white/30",
-  },
-  {
-    id: 4,
-    tag: "Imprescindible",
-    title: "MacBook Air",
-    subtitle: "Chip M3",
-    description: "Sin ventilador, ultra liviana y con hasta 18 h de batería. La laptop perfecta para todo.",
-    cta1: { label: "Ver MacBooks", href: "/products?category=laptops" },
-    cta2: { label: "Ver Todo", href: "/products" },
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=700&q=85",
-    imageAlt: "MacBook Air M3",
-    bg: "from-[#1c1917] via-[#292524] to-[#1c1917]",
-    tagColor: "bg-white/20 text-white border border-white/30",
+    bg: "from-[#0a0a0a] via-[#141414] to-[#1c1c2e]",
+    tagColor: "bg-white/15 text-white border border-white/25",
   },
 ]
 
@@ -98,7 +100,6 @@ export function HeroBanner() {
 
   return (
     <section className="relative w-full overflow-hidden border-b border-[var(--hairline)]">
-      {/* Viewport */}
       <div ref={emblaRef} className="overflow-hidden">
         <div className="flex">
           {slides.map((slide) => (
@@ -107,40 +108,46 @@ export function HeroBanner() {
               className={`relative min-w-full bg-gradient-to-r ${slide.bg}`}
               style={{ minHeight: 380 }}
             >
-              {/* Subtle noise overlay */}
-              <div className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"
-                style={{ backgroundImage: "url(/noise.svg)" }} />
+              {/* Noise overlay */}
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.04] mix-blend-overlay"
+                style={{ backgroundImage: "url(/noise.svg)" }}
+              />
+
+              {/* Blue accent line for brand slide */}
+              {slide.isBrand && (
+                <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-[var(--brass)] via-[var(--brass-bright)] to-transparent" />
+              )}
 
               <div className="mx-auto grid max-w-[1440px] grid-cols-12 items-center gap-6 px-8 py-14 lg:px-14 lg:py-20">
 
                 {/* Text column */}
                 <div className="col-span-12 flex flex-col gap-5 lg:col-span-6">
-                  {/* Tag */}
                   <span className={`self-start rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${slide.tagColor}`}>
                     {slide.tag}
                   </span>
 
-                  {/* Title */}
                   <div>
-                    <h2 className="font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+                    <h2 className={`font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl ${slide.isBrand ? "text-[var(--brass-bright)]" : "text-white"}`}>
                       {slide.title}
                     </h2>
-                    <h2 className="font-display text-4xl font-bold leading-tight tracking-tight text-white/70 sm:text-5xl lg:text-6xl">
+                    <h2 className={`font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl ${slide.isBrand ? "text-white" : "text-white/70"}`}>
                       {slide.subtitle}
                     </h2>
                   </div>
 
-                  {/* Description */}
-                  <p className="max-w-sm text-sm leading-relaxed text-white/75">
+                  <p className="max-w-sm text-sm leading-relaxed text-white/70">
                     {slide.description}
                   </p>
 
-                  {/* CTAs */}
                   <div className="flex flex-wrap gap-3">
                     <Button
                       asChild
                       size="lg"
-                      className="bg-white text-gray-900 hover:bg-white/90 font-semibold"
+                      className={slide.isBrand
+                        ? "bg-[var(--brass)] text-white hover:bg-[var(--brass-bright)] font-semibold"
+                        : "bg-white text-gray-900 hover:bg-white/90 font-semibold"
+                      }
                     >
                       <Link href={slide.cta1.href}>{slide.cta1.label}</Link>
                     </Button>
@@ -148,14 +155,14 @@ export function HeroBanner() {
                       asChild
                       size="lg"
                       variant="ghost"
-                      className="border border-white/40 text-white hover:bg-white/10"
+                      className="border border-white/30 text-white hover:bg-white/10"
                     >
                       <Link href={slide.cta2.href}>{slide.cta2.label}</Link>
                     </Button>
                   </div>
                 </div>
 
-                {/* Product image column */}
+                {/* Image column */}
                 <div className="col-span-12 flex items-center justify-center lg:col-span-6 lg:justify-end">
                   <div className="relative h-[220px] w-[340px] sm:h-[260px] sm:w-[420px] lg:h-[300px] lg:w-[500px]">
                     <div className="absolute inset-0 rounded-2xl bg-black/20 backdrop-blur-sm" />
@@ -165,7 +172,7 @@ export function HeroBanner() {
                       fill
                       className="rounded-2xl object-cover object-center drop-shadow-2xl"
                       sizes="(max-width: 768px) 340px, 500px"
-                      priority={slide.id === 1}
+                      priority={slide.id === 0}
                     />
                   </div>
                 </div>
@@ -202,7 +209,7 @@ export function HeroBanner() {
             aria-label={`Ir a slide ${i + 1}`}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               i === selectedIndex
-                ? "w-6 bg-white"
+                ? "w-6 bg-[var(--brass-bright)]"
                 : "w-1.5 bg-white/40 hover:bg-white/70"
             }`}
           />
