@@ -6,6 +6,8 @@ export interface Product {
   category: string
   price: number
   originalPrice?: number
+  plusIva?: boolean        // true = precio no incluye IVA
+  code?: string            // código de producto (ej: BIVI0001)
   images: string[]
   description: string
   specs: Record<string, string>

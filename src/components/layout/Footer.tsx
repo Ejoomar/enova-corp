@@ -1,77 +1,80 @@
 import Link from "next/link"
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
+import { Instagram, Mail, Phone, MapPin } from "lucide-react"
 
 const footerLinks = {
   productos: [
-    { name: "Computadoras", href: "/products?category=computadoras" },
-    { name: "Monitores", href: "/products?category=monitores" },
-    { name: "Teclados", href: "/products?category=teclados" },
-    { name: "Mouse", href: "/products?category=mouse" },
-    { name: "Audifonos", href: "/products?category=audifonos" },
-    { name: "Componentes", href: "/products?category=componentes" },
+    { name: "Smartphones",  href: "/products?category=smartphones" },
+    { name: "Laptops / PCs", href: "/products?category=laptops"    },
+    { name: "Audio",        href: "/products?category=audio"       },
+    { name: "Gaming",       href: "/products?category=gaming"      },
+    { name: "Tablets",      href: "/products?category=tablets"     },
+    { name: "Accesorios",   href: "/products?category=accesorios"  },
   ],
   empresa: [
-    { name: "Sobre Nosotros", href: "/about" },
-    { name: "Contacto", href: "/contact" },
-    { name: "Blog", href: "/blog" },
-    { name: "Trabaja con Nosotros", href: "/careers" },
+    { name: "Sobre Nosotros", href: "/about"    },
+    { name: "Atención B2B",   href: "/b2b"      },
+    { name: "Cotizaciones",   href: "/cotizacion" },
+    { name: "Contacto",       href: "/contact"  },
   ],
   ayuda: [
-    { name: "Centro de Ayuda", href: "/help" },
-    { name: "Envios y Entregas", href: "/shipping" },
-    { name: "Devoluciones", href: "/returns" },
-    { name: "Garantia", href: "/warranty" },
-    { name: "Preguntas Frecuentes", href: "/faq" },
-  ],
-  legal: [
-    { name: "Terminos y Condiciones", href: "/terms" },
-    { name: "Politica de Privacidad", href: "/privacy" },
-    { name: "Cookies", href: "/cookies" },
+    { name: "Centro de Ayuda",     href: "/help"     },
+    { name: "Despacho Nacional",   href: "/shipping" },
+    { name: "Garantía",            href: "/warranty" },
+    { name: "Preguntas Frecuentes",href: "/faq"      },
+    { name: "Términos y Cond.",    href: "/terms"    },
+    { name: "Privacidad",          href: "/privacy"  },
   ],
 }
 
 export function Footer() {
   return (
-    <footer className="border-t bg-muted/30">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <span className="text-sm font-bold text-primary-foreground">BT</span>
-              </div>
-              <span className="text-xl font-bold">BasicTechShop</span>
-            </Link>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Tu tienda de tecnologia de confianza. Los mejores productos de computacion a los mejores precios.
+    <footer className="border-t border-[var(--hairline)] bg-[var(--background)]">
+      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
+        <div className="grid gap-12 border-b border-[var(--hairline)] py-16 lg:grid-cols-4">
+
+          {/* Brand col */}
+          <div className="flex flex-col gap-6">
+            <p className="eyebrow">ENOVA CORP</p>
+            <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">
+              Distribuidor oficial de tecnología de consumo. Smartphones, laptops, audio y gaming
+              de las mejores marcas del mundo.
             </p>
-            <div className="mt-4 flex gap-3">
-              <Link href="#" className="text-muted-foreground hover:text-foreground">
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-muted-foreground hover:text-foreground">
-                <Twitter className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-muted-foreground hover:text-foreground">
-                <Instagram className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-muted-foreground hover:text-foreground">
-                <Youtube className="h-5 w-5" />
+            <address className="not-italic space-y-2">
+              <div className="flex items-start gap-2 text-sm text-[var(--muted-foreground)]">
+                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--brass-dim)]" />
+                <span>Santiago, Chile</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+                <Mail className="h-3.5 w-3.5 shrink-0 text-[var(--brass-dim)]" />
+                <a
+                  href="mailto:ventas@enovacorp.cl"
+                  className="transition-colors hover:text-[var(--brass)]"
+                >
+                  ventas@enovacorp.cl
+                </a>
+              </div>
+            </address>
+            <div className="flex gap-3">
+              <Link
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener"
+                className="text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]"
+              >
+                <Instagram className="h-4 w-4" />
               </Link>
             </div>
           </div>
 
-          {/* Products */}
+          {/* Products col */}
           <div>
-            <h3 className="font-semibold">Productos</h3>
-            <ul className="mt-4 space-y-2">
+            <p className="eyebrow mb-6">Productos</p>
+            <ul className="space-y-3">
               {footerLinks.productos.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground"
+                    className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]"
                   >
                     {link.name}
                   </Link>
@@ -80,16 +83,13 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Company col */}
           <div>
-            <h3 className="font-semibold">Empresa</h3>
-            <ul className="mt-4 space-y-2">
+            <p className="eyebrow mb-6">Empresa</p>
+            <ul className="space-y-3">
               {footerLinks.empresa.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
+                  <Link href={link.href} className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]">
                     {link.name}
                   </Link>
                 </li>
@@ -97,61 +97,39 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Help */}
+          {/* Help col */}
           <div>
-            <h3 className="font-semibold">Ayuda</h3>
-            <ul className="mt-4 space-y-2">
+            <p className="eyebrow mb-6">Ayuda</p>
+            <ul className="space-y-3">
               {footerLinks.ayuda.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
+                  <Link href={link.href} className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]">
                     {link.name}
                   </Link>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h3 className="font-semibold">Contacto</h3>
-            <ul className="mt-4 space-y-3">
-              <li className="flex items-start gap-2 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>Av. Tecnologia 123, Lima, Peru</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Phone className="h-4 w-4 shrink-0" />
-                <span>+51 999 888 777</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="h-4 w-4 shrink-0" />
-                <span>info@basictechshop.com</span>
-              </li>
             </ul>
           </div>
         </div>
 
-        <Separator className="my-8" />
-
-        {/* Bottom */}
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} BasicTechShop. Todos los derechos reservados.
+        {/* Wordmark lockup */}
+        <div className="overflow-hidden border-b border-[var(--hairline)] py-8">
+          <p
+            className="font-display select-none text-[clamp(4rem,12vw,10rem)] font-light leading-none tracking-[-0.04em] text-[var(--hairline)]"
+            aria-hidden="true"
+          >
+            ENOVA CORP
           </p>
-          <div className="flex gap-4">
-            {footerLinks.legal.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-xs text-muted-foreground hover:text-foreground"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col items-start justify-between gap-4 py-6 sm:flex-row sm:items-center">
+          <p className="font-mono-ui text-[11px] text-[var(--muted-foreground)]">
+            © {new Date().getFullYear()} ENOVA CORP · Precios incluyen IVA
+          </p>
+          <p className="font-mono-ui text-[11px] text-[var(--muted-foreground)]">
+            Santiago, Chile
+          </p>
         </div>
       </div>
     </footer>

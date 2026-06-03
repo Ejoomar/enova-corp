@@ -1,5 +1,10 @@
 import { create } from "zustand"
 import type { Product, Category, Brand, FilterState } from "@/types"
+import {
+  products as mockProducts,
+  categories as mockCategories,
+  brands as mockBrands,
+} from "@/data/mock-products"
 
 interface ProductsState {
   products: Product[]
@@ -22,7 +27,7 @@ interface ProductsState {
 const defaultFilters: FilterState = {
   categories: [],
   brands: [],
-  priceRange: [0, 10000],
+  priceRange: [0, 10000000],
   sortBy: "newest",
 }
 
@@ -39,29 +44,31 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
     set({ loading: true, error: null })
     try {
       const filters = { ...get().filters, ...filterOverrides }
-      const params = new URLSearchParams()
 
-      if (filters.categories.length === 1) {
-        params.set("category", filters.categories[0])
+      let filtered = [...mockProducts]
+
+      if (filters.categories.length > 0) {
+        filtered = filtered.filter((p) => filters.categories.includes(p.category))
       }
-      if (filters.brands.length === 1) {
-        params.set("brand", filters.brands[0])
+      if (filters.brands.length > 0) {
+        filtered = filtered.filter((p) => filters.brands.includes(p.brand))
       }
       if (filters.priceRange[0] > 0) {
-        params.set("minPrice", filters.priceRange[0].toString())
+        filtered = filtered.filter((p) => p.price >= filters.priceRange[0])
       }
-      if (filters.priceRange[1] < 10000) {
-        params.set("maxPrice", filters.priceRange[1].toString())
-      }
-      if (filters.sortBy) {
-        params.set("sortBy", filters.sortBy)
+      if (filters.priceRange[1] < 10000000) {
+        filtered = filtered.filter((p) => p.price <= filters.priceRange[1])
       }
 
-      const response = await fetch(`/api/products?${params.toString()}`)
-      if (!response.ok) throw new Error("Failed to fetch products")
+      if (filters.sortBy === "price-asc") {
+        filtered.sort((a, b) => a.price - b.price)
+      } else if (filters.sortBy === "price-desc") {
+        filtered.sort((a, b) => b.price - a.price)
+      } else if (filters.sortBy === "rating") {
+        filtered.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
+      }
 
-      const data = await response.json()
-      set({ products: data.products, loading: false })
+      set({ products: filtered, loading: false })
     } catch (error) {
       set({ error: (error as Error).message, loading: false })
     }
@@ -69,37 +76,26 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
 
   fetchFeaturedProducts: async () => {
     try {
-      const response = await fetch("/api/products?featured=true&limit=8")
-      if (!response.ok) throw new Error("Failed to fetch featured products")
-
-      const data = await response.json()
-      set({ featuredProducts: data.products })
+      const featured = mockProducts.filter((p) => p.isFeatured).slice(0, 8)
+      set({ featuredProducts: featured })
     } catch (error) {
-      console.error("Error fetching featured products:", error)
+      set({ error: (error as Error).message })
     }
   },
 
   fetchCategories: async () => {
     try {
-      const response = await fetch("/api/categories")
-      if (!response.ok) throw new Error("Failed to fetch categories")
-
-      const categories = await response.json()
-      set({ categories })
+      set({ categories: mockCategories })
     } catch (error) {
-      console.error("Error fetching categories:", error)
+      set({ error: (error as Error).message })
     }
   },
 
   fetchBrands: async () => {
     try {
-      const response = await fetch("/api/brands")
-      if (!response.ok) throw new Error("Failed to fetch brands")
-
-      const brands = await response.json()
-      set({ brands })
+      set({ brands: mockBrands })
     } catch (error) {
-      console.error("Error fetching brands:", error)
+      set({ error: (error as Error).message })
     }
   },
 

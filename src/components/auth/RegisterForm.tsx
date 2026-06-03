@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { signIn } from "next-auth/react"
 import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -49,43 +48,10 @@ export function RegisterForm() {
     resolver: zodResolver(registerSchema),
   })
 
-  const onSubmit = async (data: RegisterFormData) => {
+  const onSubmit = async (_data: RegisterFormData) => {
     setError(null)
-
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-        }),
-      })
-
-      const result = await response.json()
-
-      if (!response.ok) {
-        setError(result.error || "Error al registrar usuario")
-        return
-      }
-
-      const signInResult = await signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      })
-
-      if (signInResult?.error) {
-        router.push("/login")
-        return
-      }
-
-      router.push("/")
-      router.refresh()
-    } catch {
-      setError("Error al registrar usuario")
-    }
+    // UI-only mode: registration requires DB. Show info message.
+    setError("Registro no disponible en modo demo. Configura la base de datos para activarlo.")
   }
 
   return (

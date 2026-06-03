@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Menu, Monitor, Keyboard, Mouse, Headphones, HardDrive, Cpu, User, Heart, Package } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -11,16 +11,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { Separator } from "@/components/ui/separator"
 
-const categories = [
-  { name: "Computadoras", href: "/products?category=computadoras", icon: Monitor },
-  { name: "Monitores", href: "/products?category=monitores", icon: Monitor },
-  { name: "Teclados", href: "/products?category=teclados", icon: Keyboard },
-  { name: "Mouse", href: "/products?category=mouse", icon: Mouse },
-  { name: "Audifonos", href: "/products?category=audifonos", icon: Headphones },
-  { name: "Almacenamiento", href: "/products?category=almacenamiento", icon: HardDrive },
-  { name: "Componentes", href: "/products?category=componentes", icon: Cpu },
+const navLinks = [
+  { label: "Smartphones", href: "/products?category=smartphones" },
+  { label: "Laptops / PCs", href: "/products?category=laptops"   },
+  { label: "Audio",        href: "/products?category=audio"      },
+  { label: "Gaming",       href: "/products?category=gaming"     },
+  { label: "Tablets",      href: "/products?category=tablets"    },
+  { label: "Catálogo",     href: "/catalogo"                     },
+]
+
+const utilLinks = [
+  { label: "Mi Cuenta",   href: "/profile"          },
+  { label: "Favoritos",   href: "/profile/favorites" },
+  { label: "Mis Pedidos", href: "/profile/orders"    },
+  { label: "Cotización",  href: "/cotizacion"        },
 ]
 
 export function MobileNav() {
@@ -31,71 +36,64 @@ export function MobileNav() {
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="h-9 w-9 md:hidden">
           <Menu className="h-4 w-4" />
-          <span className="sr-only">Menu</span>
+          <span className="sr-only">Menú</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[300px] sm:w-[350px]">
-        <SheetHeader>
-          <SheetTitle className="text-left">Menu</SheetTitle>
+
+      <SheetContent
+        side="left"
+        className="w-full border-r border-[var(--hairline)] bg-[var(--background)] p-0 sm:max-w-sm"
+      >
+        <SheetHeader className="border-b border-[var(--hairline)] px-6 py-4">
+          <SheetTitle className="font-display text-left text-xl font-medium tracking-[-0.04em]">
+            ENOVA CORP
+          </SheetTitle>
         </SheetHeader>
-        <div className="mt-6 flex flex-col gap-4">
-          {/* User Actions */}
+
+        <nav className="flex flex-col">
+          {navLinks.map((link, i) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-between border-b border-[var(--hairline)] px-6 py-5 transition-colors hover:text-[var(--brass)]"
+            >
+              <span className="font-display text-2xl font-light tracking-[-0.02em]">
+                {link.label}
+              </span>
+              <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)] tabular-nums">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            </Link>
+          ))}
+        </nav>
+
+        <div className="mt-6 border-t border-[var(--hairline)] px-6 pt-6">
+          <p className="eyebrow mb-4">Cuenta</p>
           <div className="flex flex-col gap-2">
-            <Link
-              href="/account"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent"
-            >
-              <User className="h-4 w-4" />
-              Mi Cuenta
-            </Link>
-            <Link
-              href="/favorites"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent"
-            >
-              <Heart className="h-4 w-4" />
-              Favoritos
-            </Link>
-            <Link
-              href="/orders"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent"
-            >
-              <Package className="h-4 w-4" />
-              Mis Pedidos
-            </Link>
-          </div>
-
-          <Separator />
-
-          {/* Categories */}
-          <div className="flex flex-col gap-1">
-            <p className="px-3 text-xs font-semibold uppercase text-muted-foreground">
-              Categorias
-            </p>
-            {categories.map((category) => (
+            {utilLinks.map((link) => (
               <Link
-                key={category.name}
-                href={category.href}
+                key={link.href}
+                href={link.href}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent"
+                className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]"
               >
-                <category.icon className="h-4 w-4" />
-                {category.name}
+                {link.label}
               </Link>
             ))}
           </div>
+        </div>
 
-          <Separator />
-
-          {/* All Products */}
-          <Link
-            href="/products"
-            onClick={() => setOpen(false)}
-            className="flex items-center justify-center rounded-lg bg-primary px-3 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Ver Todos los Productos
+        <div className="absolute bottom-6 left-6 right-6 flex gap-3">
+          <Link href="/login" className="flex-1" onClick={() => setOpen(false)}>
+            <Button variant="ghost-hairline" size="lg" className="w-full">
+              Ingresar
+            </Button>
+          </Link>
+          <Link href="/register" className="flex-1" onClick={() => setOpen(false)}>
+            <Button variant="brass" size="lg" className="w-full">
+              Registrarse
+            </Button>
           </Link>
         </div>
       </SheetContent>

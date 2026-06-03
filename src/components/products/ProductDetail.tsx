@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Heart, ShoppingCart, Star, Minus, Plus, Truck, RotateCcw, ShieldCheck, Check } from "lucide-react"
+import { Heart, ShoppingCart, Star, Minus, Plus, Truck, ShieldCheck, Check, ClipboardList } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Product } from "@/types"
 import { useCartStore } from "@/stores/cart-store"
+import { useQuoteStore } from "@/stores/quote-store"
 
 interface ProductDetailProps {
   product: Product
@@ -15,7 +16,9 @@ interface ProductDetailProps {
 export function ProductDetail({ product }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
+  const [quotedAdded, setQuotedAdded] = useState(false)
   const addItem = useCartStore((state) => state.addItem)
+  const addQuoteItem = useQuoteStore((state) => state.addItem)
 
   const hasDiscount = product.originalPrice && product.originalPrice > product.price
   const discountPercent = hasDiscount
@@ -34,6 +37,12 @@ export function ProductDetail({ product }: ProductDetailProps) {
     addItem(product, quantity)
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
+  }
+
+  const handleAddToQuote = () => {
+    addQuoteItem(product, quantity)
+    setQuotedAdded(true)
+    setTimeout(() => setQuotedAdded(false), 2000)
   }
 
   return (
@@ -71,14 +80,32 @@ export function ProductDetail({ product }: ProductDetailProps) {
       </div>
 
       {/* Price */}
-      <div className="flex items-baseline gap-3">
-        <span className="text-3xl font-bold text-primary">
-          S/ {product.price.toFixed(2)}
-        </span>
-        {hasDiscount && (
-          <span className="text-lg text-muted-foreground line-through">
-            S/ {product.originalPrice!.toFixed(2)}
-          </span>
+      <div className="flex flex-wrap items-baseline gap-2">
+        {product.price > 0 ? (
+          <>
+            <span className="text-3xl font-bold text-primary">
+              ${product.price.toLocaleString("es-CL")}
+            </span>
+            {product.plusIva && (
+              <span className="rounded bg-amber-100 px-2 py-0.5 text-sm font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
+                + IVA
+              </span>
+            )}
+            {hasDiscount && (
+              <span className="text-lg text-muted-foreground line-through">
+                ${product.originalPrice!.toLocaleString("es-CL")}
+              </span>
+            )}
+          </>
+        ) : (
+          <a
+            href={`https://wa.me/56233470670?text=${encodeURIComponent("Hola Energlass, quiero cotizar: " + product.name)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xl font-semibold text-green-600 hover:underline"
+          >
+            Solicitar cotización por WhatsApp →
+          </a>
         )}
       </div>
 
@@ -97,7 +124,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
       {/* Description */}
       <div>
-        <h3 className="font-semibold mb-2">Descripcion</h3>
+        <h3 className="font-semibold mb-2">Descripción</h3>
         <p className="text-sm text-muted-foreground">{product.description}</p>
       </div>
 
@@ -155,6 +182,27 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <Heart className="h-4 w-4" />
           </Button>
         </div>
+
+        {/* Add to Quote */}
+        <Button
+          variant="ghost-hairline"
+          size="lg"
+          className="w-full"
+          onClick={handleAddToQuote}
+          disabled={quotedAdded}
+        >
+          {quotedAdded ? (
+            <>
+              <Check className="mr-2 h-4 w-4" />
+              Agregado a cotización
+            </>
+          ) : (
+            <>
+              <ClipboardList className="mr-2 h-4 w-4" />
+              Agregar a cotización
+            </>
+          )}
+        </Button>
       </div>
 
       <Separator />
@@ -164,22 +212,22 @@ export function ProductDetail({ product }: ProductDetailProps) {
         <div className="flex items-center gap-3 text-sm">
           <Truck className="h-5 w-5 text-muted-foreground" />
           <div>
-            <p className="font-medium">Envio gratis</p>
-            <p className="text-xs text-muted-foreground">En pedidos +S/ 200</p>
+            <p className="font-medium">Despacho nacional</p>
+            <p className="text-xs text-muted-foreground">24–48 h hábiles</p>
           </div>
         </div>
         <div className="flex items-center gap-3 text-sm">
-          <RotateCcw className="h-5 w-5 text-muted-foreground" />
+          <ClipboardList className="h-5 w-5 text-muted-foreground" />
           <div>
-            <p className="font-medium">Devoluciones</p>
-            <p className="text-xs text-muted-foreground">30 dias para devolver</p>
+            <p className="font-medium">Cotización rápida</p>
+            <p className="text-xs text-muted-foreground">Respuesta en 24 h</p>
           </div>
         </div>
         <div className="flex items-center gap-3 text-sm">
           <ShieldCheck className="h-5 w-5 text-muted-foreground" />
           <div>
-            <p className="font-medium">Garantia</p>
-            <p className="text-xs text-muted-foreground">1 ano de garantia</p>
+            <p className="font-medium">Garantía oficial</p>
+            <p className="text-xs text-muted-foreground">1 año de fábrica</p>
           </div>
         </div>
       </div>
@@ -189,7 +237,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
         <>
           <Separator />
           <div>
-            <h3 className="font-semibold mb-3">Especificaciones</h3>
+            <h3 className="font-semibold mb-3">Especificaciones técnicas</h3>
             <dl className="grid grid-cols-2 gap-2 text-sm">
               {Object.entries(product.specs).map(([key, value]) => (
                 <div key={key} className="flex flex-col">

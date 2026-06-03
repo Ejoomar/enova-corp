@@ -21,60 +21,59 @@ export function ProductGrid({
 }: ProductGridProps) {
   return (
     <div>
-      {/* View Mode Toggle */}
       {onViewModeChange && (
-        <div className="mb-4 flex justify-end gap-1">
-          <Button
-            variant={viewMode === "grid" ? "default" : "ghost"}
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => onViewModeChange("grid")}
-          >
-            <LayoutGrid className="h-4 w-4" />
-            <span className="sr-only">Vista cuadricula</span>
-          </Button>
-          <Button
-            variant={viewMode === "list" ? "default" : "ghost"}
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => onViewModeChange("list")}
-          >
-            <List className="h-4 w-4" />
-            <span className="sr-only">Vista lista</span>
-          </Button>
+        <div className="mb-8 flex items-center justify-between border-b border-[var(--hairline)] pb-4">
+          <span className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+            {products.length} productos
+          </span>
+          <div className="flex gap-1">
+            <Button
+              variant={viewMode === "grid" ? "ghost-hairline" : "ghost"}
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => onViewModeChange("grid")}
+            >
+              <LayoutGrid className="h-3.5 w-3.5" />
+              <span className="sr-only">Vista cuadrícula</span>
+            </Button>
+            <Button
+              variant={viewMode === "list" ? "ghost-hairline" : "ghost"}
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => onViewModeChange("list")}
+            >
+              <List className="h-3.5 w-3.5" />
+              <span className="sr-only">Vista lista</span>
+            </Button>
+          </div>
         </div>
       )}
 
-      {/* Loading State */}
       {loading ? (
-        <div
-          className={
-            viewMode === "grid"
-              ? "grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-              : "flex flex-col gap-4"
-          }
-        >
+        <div className="grid grid-cols-2 gap-x-6 gap-y-14 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="space-y-3">
-              <Skeleton className="aspect-square rounded-lg" />
-              <Skeleton className="h-4 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
+            <div key={i} className="space-y-4">
+              <Skeleton className="aspect-square rounded-none" />
+              <Skeleton className="h-3 w-2/3" />
+              <Skeleton className="h-3 w-1/2" />
             </div>
           ))}
         </div>
       ) : products.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-12 text-center">
-          <p className="text-lg font-medium">No se encontraron productos</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Intenta ajustar los filtros de busqueda
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <p className="font-display text-2xl font-light text-[var(--muted-foreground)]">
+            Sin resultados
+          </p>
+          <p className="font-mono-ui mt-3 text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+            Ajusta los filtros de búsqueda
           </p>
         </div>
       ) : (
         <div
           className={
             viewMode === "grid"
-              ? "grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-              : "flex flex-col gap-4"
+              ? "grid grid-cols-2 gap-x-6 gap-y-14 lg:grid-cols-3 xl:grid-cols-4"
+              : "flex flex-col divide-y divide-[var(--hairline)]"
           }
         >
           {products.map((product) => (

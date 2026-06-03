@@ -1,57 +1,44 @@
+// Transformers stub — DB not used in UI-only mode
+// Data is loaded directly from public/data/productos.json
 import type { Product, Category, Brand } from "@/types"
-import type {
-  Product as PrismaProduct,
-  Category as PrismaCategory,
-  Brand as PrismaBrand,
-} from "@prisma/client"
 
-type ProductWithRelations = PrismaProduct & {
-  category: PrismaCategory
-  brand: PrismaBrand
-}
-
-type CategoryWithCount = PrismaCategory & {
-  _count?: { products: number }
-}
-
-type BrandWithCount = PrismaBrand & {
-  _count?: { products: number }
-}
-
-export function transformProduct(product: ProductWithRelations): Product {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function transformProduct(product: any): Product {
   return {
     id: product.id,
     name: product.name,
     slug: product.slug,
-    brand: product.brand.name,
-    category: product.category.slug,
-    price: Number(product.price),
+    brand: product.brand?.name ?? product.brand ?? "",
+    category: product.category?.slug ?? product.category ?? "",
+    price: Number(product.price ?? 0),
     originalPrice: product.comparePrice ? Number(product.comparePrice) : undefined,
-    images: product.images,
-    description: product.description || "",
-    specs: (product.specs as Record<string, string>) || {},
-    stock: product.stock,
-    isNew: product.isNew,
-    isFeatured: product.isFeatured,
-    rating: 4.5, // Default rating - could be calculated from reviews in the future
+    images: product.images ?? [],
+    description: product.description ?? "",
+    specs: (product.specs as Record<string, string>) ?? {},
+    stock: product.stock ?? 0,
+    isNew: product.isNew ?? false,
+    isFeatured: product.isFeatured ?? false,
+    rating: product.rating ?? 4.5,
   }
 }
 
-export function transformCategory(category: CategoryWithCount): Category {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function transformCategory(category: any): Category {
   return {
     id: category.id,
     name: category.name,
     slug: category.slug,
-    icon: category.icon || "Package",
-    productCount: category._count?.products || 0,
+    icon: category.icon ?? "Package",
+    productCount: category._count?.products ?? 0,
   }
 }
 
-export function transformBrand(brand: BrandWithCount): Brand {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function transformBrand(brand: any): Brand {
   return {
     id: brand.id,
     name: brand.name,
-    logo: brand.logo || undefined,
-    productCount: brand._count?.products || 0,
+    logo: brand.logo ?? undefined,
+    productCount: brand._count?.products ?? 0,
   }
 }

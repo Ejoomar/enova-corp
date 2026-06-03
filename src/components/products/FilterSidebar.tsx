@@ -1,7 +1,6 @@
 "use client"
 
 import { X } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { BrandFilter } from "./BrandFilter"
 import { PriceFilter } from "./PriceFilter"
 import { CategoryFilter } from "./CategoryFilter"
@@ -29,42 +28,52 @@ export function FilterSidebar({ filters, onFiltersChange }: FilterSidebarProps) 
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Filtros</h2>
+    <div className="border-r border-[var(--hairline)] pr-8">
+      {/* Header */}
+      <div className="mb-8 flex items-center justify-between border-b border-[var(--hairline)] pb-4">
+        <p className="eyebrow">Filtros</p>
         {hasActiveFilters && (
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
             onClick={handleClearFilters}
-            className="h-auto p-0 text-sm text-primary hover:text-primary/80"
+            className="flex items-center gap-1 font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]"
           >
             Limpiar
-            <X className="ml-1 h-3 w-3" />
-          </Button>
+            <X className="h-3 w-3" />
+          </button>
         )}
       </div>
 
-      <BrandFilter
-        selectedBrands={filters.brands}
-        onBrandsChange={(brands) =>
-          onFiltersChange({ ...filters, brands })
-        }
-      />
+      <div className="space-y-8">
+        <div>
+          <p className="eyebrow mb-4">Categoría</p>
+          <CategoryFilter
+            selectedCategories={filters.categories}
+            onCategoriesChange={(categories) =>
+              onFiltersChange({ ...filters, categories })
+            }
+          />
+        </div>
 
-      <PriceFilter
-        priceRange={filters.priceRange}
-        onPriceChange={(priceRange) =>
-          onFiltersChange({ ...filters, priceRange })
-        }
-      />
+        <div className="border-t border-[var(--hairline)] pt-8">
+          <p className="eyebrow mb-4">Precio</p>
+          <PriceFilter
+            priceRange={filters.priceRange}
+            onPriceChange={(priceRange) =>
+              onFiltersChange({ ...filters, priceRange })
+            }
+          />
+        </div>
 
-      <CategoryFilter
-        selectedCategories={filters.categories}
-        onCategoriesChange={(categories) =>
-          onFiltersChange({ ...filters, categories })
-        }
-      />
+        <div className="border-t border-[var(--hairline)] pt-8">
+          <p className="eyebrow mb-4">Marca</p>
+          <BrandFilter
+            selectedBrands={filters.brands}
+            onBrandsChange={(brands) =>
+              onFiltersChange({ ...filters, brands })
+            }
+          />
+        </div>
+      </div>
     </div>
   )
 }
