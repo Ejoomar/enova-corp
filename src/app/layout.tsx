@@ -25,9 +25,9 @@ export const metadata: Metadata = {
   title: "ENOVA CORP ® — Computación | Equipos Fiscales",
   description: "Distribuidor de computación, laptops, smartphones, equipos fiscales e impresoras en Venezuela. Marcas: Apple, Samsung, HP, Lenovo, Brother. Garantía oficial y envíos a todo Venezuela.",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: "/images/logo.jpg",
+    shortcut: "/images/logo.jpg",
+    apple: "/images/logo.jpg",
   },
 }
 

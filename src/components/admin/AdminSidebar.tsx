@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
   LayoutDashboard,
@@ -28,11 +29,15 @@ export function AdminSidebar() {
   return (
     <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 border-r bg-card">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2 border-b px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-          <span className="text-sm font-bold text-primary-foreground">BT</span>
-        </div>
-        <span className="font-bold">Admin Panel</span>
+      <div className="flex h-16 items-center gap-3 border-b px-6">
+        <Image
+          src="/images/logo.jpg"
+          alt="ENOVA CORP"
+          width={32}
+          height={32}
+          className="rounded-md"
+        />
+        <span className="font-bold text-sm">Admin Panel</span>
       </div>
 
       {/* Navigation */}

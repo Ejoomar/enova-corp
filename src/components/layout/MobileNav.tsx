@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -43,8 +44,16 @@ export function MobileNav() {
         className="w-full border-r border-[var(--hairline)] bg-[var(--background)] p-0 sm:max-w-sm"
       >
         <SheetHeader className="border-b border-[var(--hairline)] px-6 py-4">
-          <SheetTitle className="font-display text-left text-xl font-medium tracking-[-0.04em]">
-            ENOVA CORP ®
+          <SheetTitle className="text-left">
+            <Link href="/" onClick={() => setOpen(false)}>
+              <Image
+                src="/images/logo.jpg"
+                alt="ENOVA CORP"
+                width={44}
+                height={44}
+                className="rounded-lg"
+              />
+            </Link>
           </SheetTitle>
         </SheetHeader>
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Search, ShoppingCart, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -39,12 +40,16 @@ export function Header() {
       <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
         <div className="flex h-16 items-center justify-between gap-8">
 
-          {/* Logo wordmark */}
-          <Link
-            href="/"
-            className="font-display shrink-0 text-xl font-medium tracking-[-0.04em] text-foreground transition-colors hover:text-[var(--brass-bright)]"
-          >
-            ENOVA CORP ®
+          {/* Logo */}
+          <Link href="/" className="shrink-0 transition-opacity hover:opacity-80">
+            <Image
+              src="/images/logo.jpg"
+              alt="ENOVA CORP"
+              width={40}
+              height={40}
+              className="rounded-lg"
+              priority
+            />
           </Link>
 
           {/* Desktop nav */}

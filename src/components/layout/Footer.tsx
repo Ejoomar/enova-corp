@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Instagram, Mail, Phone, MapPin } from "lucide-react"
 
 const footerLinks = {
@@ -34,7 +35,15 @@ export function Footer() {
 
           {/* Brand col */}
           <div className="flex flex-col gap-6">
-            <p className="eyebrow">ENOVA CORP ®</p>
+            <Link href="/">
+              <Image
+                src="/images/logo.jpg"
+                alt="ENOVA CORP"
+                width={48}
+                height={48}
+                className="rounded-lg"
+              />
+            </Link>
             <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">
               Distribuidor oficial de tecnología en Venezuela. Computación, equipos fiscales,
               smartphones e impresoras de las mejores marcas del mundo.
