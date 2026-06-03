@@ -22,10 +22,8 @@ const navLinks = [
 ]
 
 const utilLinks = [
-  { label: "Mi Cuenta",   href: "/profile"          },
-  { label: "Favoritos",   href: "/profile/favorites" },
-  { label: "Mis Pedidos", href: "/profile/orders"    },
-  { label: "Cotización",  href: "/cotizacion"        },
+  { label: "Favoritos",  href: "/profile/favorites" },
+  { label: "Cotización", href: "/cotizacion"        },
 ]
 
 export function MobileNav() {
@@ -69,7 +67,7 @@ export function MobileNav() {
         </nav>
 
         <div className="mt-6 border-t border-[var(--hairline)] px-6 pt-6">
-          <p className="eyebrow mb-4">Cuenta</p>
+          <p className="eyebrow mb-4">Más opciones</p>
           <div className="flex flex-col gap-2">
             {utilLinks.map((link) => (
               <Link
@@ -82,19 +80,6 @@ export function MobileNav() {
               </Link>
             ))}
           </div>
-        </div>
-
-        <div className="absolute bottom-6 left-6 right-6 flex gap-3">
-          <Link href="/login" className="flex-1" onClick={() => setOpen(false)}>
-            <Button variant="ghost-hairline" size="lg" className="w-full">
-              Ingresar
-            </Button>
-          </Link>
-          <Link href="/register" className="flex-1" onClick={() => setOpen(false)}>
-            <Button variant="brass" size="lg" className="w-full">
-              Registrarse
-            </Button>
-          </Link>
         </div>
       </SheetContent>
     </Sheet>

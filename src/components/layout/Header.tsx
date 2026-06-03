@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Search, ShoppingCart, Heart, User } from "lucide-react"
+import { Search, ShoppingCart, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { MobileNav } from "./MobileNav"
@@ -100,24 +100,6 @@ export function Header() {
                 <span className="sr-only">Carrito</span>
               </Button>
             </Link>
-
-            <div className="hidden items-center gap-2 sm:flex">
-              <Link href="/login">
-                <Button variant="ghost" size="sm" className="font-mono-ui text-[11px] uppercase tracking-[0.14em]">
-                  Ingresar
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button variant="brass" size="sm">
-                  Registrarse
-                </Button>
-              </Link>
-            </div>
-
-            <Button variant="ghost" size="icon" className="h-9 w-9 sm:hidden">
-              <User className="h-4 w-4" />
-              <span className="sr-only">Mi cuenta</span>
-            </Button>
 
             <MobileNav />
           </div>
