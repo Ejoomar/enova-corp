@@ -1,12 +1,10 @@
 "use client"
 
-import { useEffect } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight } from "lucide-react"
 import { useProductsStore } from "@/stores/products-store"
 import { Skeleton } from "@/components/ui/skeleton"
-import { cn } from "@/lib/utils"
 
 const categoryImages: Record<string, string> = {
   "laptops":          "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=85",
@@ -14,70 +12,102 @@ const categoryImages: Record<string, string> = {
   "equipos-fiscales": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=85",
   "impresoras":       "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=85",
   "perifericos":      "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=800&q=85",
-  "gaming":           "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&q=85",
+  "gaming":           "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=85",
   "audio":            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=85",
 }
 
-interface CategoryCardProps {
+interface FilmCardProps {
   index: number
   name: string
   slug: string
   productCount: number
-  className?: string
 }
 
-function CategoryCard({ index, name, slug, productCount, className }: CategoryCardProps) {
+function FilmCard({ index, name, slug, productCount }: FilmCardProps) {
+  const imgWrapRef = useRef<HTMLDivElement>(null)
   const num = String(index + 1).padStart(2, "0")
   const imageSrc = categoryImages[slug]
+
+  const handleMouseEnter = useCallback(() => {
+    if (imgWrapRef.current) {
+      imgWrapRef.current.style.transition = "transform 80ms linear"
+    }
+  }, [])
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!imgWrapRef.current) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 10
+    imgWrapRef.current.style.transform = `translate(${x}px, ${y}px)`
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    if (!imgWrapRef.current) return
+    imgWrapRef.current.style.transition = "transform 700ms cubic-bezier(0.16,1,0.3,1)"
+    imgWrapRef.current.style.transform = "translate(0, 0)"
+    const el = imgWrapRef.current
+    setTimeout(() => {
+      if (el) el.style.transition = "transform 80ms linear"
+    }, 720)
+  }, [])
 
   return (
     <Link
       href={`/products?category=${slug}`}
-      className={cn(
-        "group relative flex flex-col justify-between overflow-hidden border border-[var(--hairline)] bg-[var(--surface-1)] transition-colors hover:border-[var(--brass)]",
-        className
-      )}
+      className="film-card relative min-w-0 flex-1 overflow-hidden"
+      onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
-      {/* Dark base so cards always look dark regardless of image */}
-      <div className="absolute inset-0 z-0 bg-[#0a0f1a]" />
+      {/* Fondo oscuro base */}
+      <div className="absolute inset-0 bg-[#070b10]" />
 
+      {/* Wrapper parallax — margen negativo para espacio de movimiento */}
       {imageSrc && (
-        <div className="absolute inset-0 z-[1]">
+        <div ref={imgWrapRef} className="absolute" style={{ inset: "-10px" }}>
           <Image
             src={imageSrc}
             alt={name}
             fill
-            className="object-cover opacity-55 transition-all duration-500 group-hover:opacity-70 group-hover:scale-[1.04]"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="film-img object-cover"
+            sizes="(max-width: 768px) 50vw, 20vw"
           />
-          {/* Gradient: strong at bottom for text, lighter at top */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
         </div>
       )}
 
-      <div className="relative z-10 flex h-full flex-col justify-between p-6">
-        <div className="flex items-start justify-between">
-          <span className="font-mono-ui text-[11px] text-white/70">{num}</span>
-          <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-white/70">
-            {productCount} productos
-          </span>
-        </div>
+      {/* Gradiente overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/92 via-black/25 to-black/5" />
 
-        <div className="mt-8">
-          <h3 className="font-display text-2xl font-light leading-tight tracking-[-0.02em] text-white transition-colors group-hover:text-[var(--brass-bright)]">
+      {/* Número top-left */}
+      <span className="film-num pointer-events-none absolute left-3.5 top-3.5 font-mono-ui text-[9px] tracking-[0.14em] text-white/30">
+        {num}
+      </span>
+
+      {/* Flecha top-right */}
+      <span className="film-arrow pointer-events-none absolute right-3.5 top-3.5 flex h-[26px] w-[26px] items-center justify-center rounded-full border border-[var(--brass)]/50 bg-[var(--brass)]/25 text-[11px] text-[var(--brass-bright)]">
+        →
+      </span>
+
+      {/* Línea azul inferior */}
+      <div className="film-line pointer-events-none absolute bottom-0 left-0 h-0.5 bg-[var(--brass)]" />
+
+      {/* Info — nombre y conteo */}
+      <div className="pointer-events-none absolute bottom-[18px] left-3.5 right-3.5 overflow-hidden">
+        {/* Split text — nombre duplicado con clip-path en cada mitad */}
+        <div className="relative mb-1 h-[1.35em] overflow-hidden">
+          <span className="split-left absolute left-0 top-0 inline-block overflow-hidden whitespace-nowrap text-[15px] font-semibold text-white">
             {name}
-          </h3>
-        </div>
-
-        <div className="mt-6 flex items-center gap-2">
-          <span className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass-bright)] opacity-0 transition-all group-hover:opacity-100">
-            Ver productos
           </span>
-          <ArrowRight className="h-3.5 w-3.5 text-[var(--brass-bright)] opacity-0 transition-all group-hover:opacity-100" />
+          <span className="split-right absolute left-0 top-0 inline-block overflow-hidden whitespace-nowrap text-[15px] font-semibold text-white">
+            {name}
+          </span>
         </div>
+        {/* Conteo de productos */}
+        <span className="film-count font-mono-ui text-[9px] uppercase tracking-[0.1em]">
+          {productCount} productos
+        </span>
       </div>
-
-      <div className="absolute bottom-0 left-0 h-px w-0 bg-[var(--brass)] transition-all duration-300 group-hover:w-full" />
     </Link>
   )
 }
@@ -109,25 +139,20 @@ export function CategoryGrid() {
         </div>
 
         {categories.length === 0 ? (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="flex h-[380px] gap-0.5">
             {Array.from({ length: 6 }).map((_, i) => (
-              <Skeleton key={i} className="h-52 rounded-none" />
+              <Skeleton key={i} className="flex-1 rounded-none" />
             ))}
           </div>
         ) : (
-          <div className="grid auto-rows-[minmax(220px,1fr)] gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="filmstrip-grid flex h-[380px] gap-0.5 overflow-hidden rounded-lg border border-[var(--hairline)]">
             {categories.slice(0, 6).map((category, i) => (
-              <CategoryCard
+              <FilmCard
                 key={category.id}
                 index={i}
                 name={category.name}
                 slug={category.slug}
                 productCount={category.productCount}
-                className={
-                  i === 0 ? "lg:col-span-2 lg:row-span-2" :
-                  i === 5 ? "sm:col-span-2 lg:col-span-4" :
-                  ""
-                }
               />
             ))}
           </div>
