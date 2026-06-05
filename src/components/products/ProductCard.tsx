@@ -77,20 +77,20 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
               <Heart className={cn("h-3 w-3", isFavorite && "fill-current")} />
               <span className="sr-only">{isFavorite ? "Quitar de favoritos" : "Favoritos"}</span>
             </Button>
-            <Link
-              href={`/products/${product.slug}`}
-              onClick={(e) => e.stopPropagation()}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 border border-[var(--hairline)] bg-[var(--background)]/80 hover:border-[var(--brass)] hover:text-[var(--brass)]"
+              aria-label="Ver producto"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                router.push(`/products/${product.slug}`)
+              }}
             >
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-7 w-7 border border-[var(--hairline)] bg-[var(--background)]/80 hover:border-[var(--brass)] hover:text-[var(--brass)]"
-                aria-label="Ver producto"
-              >
-                <Eye className="h-3 w-3" />
-                <span className="sr-only">Ver producto</span>
-              </Button>
-            </Link>
+              <Eye className="h-3 w-3" />
+              <span className="sr-only">Ver producto</span>
+            </Button>
           </div>
 
           {/* Image */}
