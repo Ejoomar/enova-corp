@@ -5,9 +5,11 @@ import { Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ProductCard } from "@/components/products/ProductCard"
-import { favorites } from "@/data/mock-user"
+import { useFavoritesStore } from "@/stores/favorites-store"
 
 export default function FavoritesPage() {
+  const favorites = useFavoritesStore((state) => state.items)
+
   return (
     <div className="space-y-6">
       <div>

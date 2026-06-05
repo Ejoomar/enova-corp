@@ -5,15 +5,19 @@ import Link from "next/link"
 import { Minus, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CartItem as CartItemType } from "@/types"
+import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
 
 interface CartItemProps {
   item: CartItemType
+  bsfRate: number | null
   onUpdateQuantity: (productId: string, quantity: number) => void
   onRemove: (productId: string) => void
 }
 
-export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
+export function CartItem({ item, bsfRate, onUpdateQuantity, onRemove }: CartItemProps) {
   const { product, quantity } = item
+  const lineTotal = product.price * quantity
+  const unitPrice = product.price
 
   return (
     <div className="flex gap-4 py-4">
@@ -77,11 +81,16 @@ export function CartItem({ item, onUpdateQuantity, onRemove }: CartItemProps) {
           {/* Price */}
           <div className="text-right">
             <p className="font-semibold text-primary">
-              S/ {(product.price * quantity).toFixed(2)}
+              {formatUSD(lineTotal)}
             </p>
             {quantity > 1 && (
               <p className="text-xs text-muted-foreground">
-                S/ {product.price.toFixed(2)} c/u
+                {formatUSD(unitPrice)} c/u
+              </p>
+            )}
+            {bsfRate !== null && (
+              <p className="text-xs text-muted-foreground">
+                {formatBsF(usdToBsF(lineTotal, bsfRate))}
               </p>
             )}
           </div>

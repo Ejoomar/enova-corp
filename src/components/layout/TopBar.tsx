@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Truck, ShieldCheck, Phone } from "lucide-react"
 
 export function TopBar() {
@@ -10,18 +11,28 @@ export function TopBar() {
             <span className="font-semibold">Venezuela</span>
           </div>
           <div className="flex items-center gap-4 sm:gap-6">
-            <div className="flex items-center gap-1.5">
+            <a
+              href="tel:+582125550100"
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+              aria-label="Llamar a Contacto"
+            >
               <Phone className="h-3.5 w-3.5" />
-              <a href="tel:+582125550100" className="hidden sm:inline hover:underline">Contacto</a>
-            </div>
-            <div className="flex items-center gap-1.5">
+              <span className="hidden sm:inline">Contacto</span>
+            </a>
+            <Link
+              href="/shipping"
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+            >
               <Truck className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Entrega Express</span>
-            </div>
-            <div className="flex items-center gap-1.5">
+            </Link>
+            <Link
+              href="/warranty"
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+            >
               <ShieldCheck className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Garantía oficial</span>
-            </div>
+            </Link>
           </div>
         </div>
       </div>

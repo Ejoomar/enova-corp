@@ -1,11 +1,35 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { transformProduct } from "@/lib/transformers"
+import { products as mockProducts } from "@/data/mock-products"
 
 export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url)
+  const { searchParams } = new URL(request.url)
 
+  // Fallback to mock data when DB is not connected
+  if (!prisma) {
+    const category = searchParams.get("category")
+    const featured = searchParams.get("featured")
+    const isNew = searchParams.get("new")
+    const search = searchParams.get("search")
+    const limit = searchParams.get("limit")
+
+    let filtered = [...mockProducts]
+    if (category) filtered = filtered.filter((p) => p.category === category)
+    if (featured === "true") filtered = filtered.filter((p) => p.isFeatured)
+    if (isNew === "true") filtered = filtered.filter((p) => p.isNew)
+    if (search) {
+      const q = search.toLowerCase()
+      filtered = filtered.filter(
+        (p) => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q)
+      )
+    }
+    if (limit) filtered = filtered.slice(0, Number(limit))
+
+    return NextResponse.json({ products: filtered, total: filtered.length })
+  }
+
+  try {
     // Query params
     const category = searchParams.get("category")
     const brand = searchParams.get("brand")

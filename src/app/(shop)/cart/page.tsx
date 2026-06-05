@@ -6,17 +6,11 @@ import { Button } from "@/components/ui/button"
 import { CartItem } from "@/components/cart/CartItem"
 import { CartSummary } from "@/components/cart/CartSummary"
 import { useCartStore } from "@/stores/cart-store"
+import { useDolarRate } from "@/hooks/useDolarRate"
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem } = useCartStore()
-
-  const handleUpdateQuantity = (productId: string, quantity: number) => {
-    updateQuantity(productId, quantity)
-  }
-
-  const handleRemove = (productId: string) => {
-    removeItem(productId)
-  }
+  const { bcv, loading, updatedAt } = useDolarRate()
 
   if (items.length === 0) {
     return (
@@ -25,9 +19,9 @@ export default function CartPage() {
           <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-muted">
             <ShoppingBag className="h-12 w-12 text-muted-foreground" />
           </div>
-          <h1 className="text-2xl font-bold">Tu carrito esta vacio</h1>
+          <h1 className="text-2xl font-bold">Tu carrito está vacío</h1>
           <p className="mt-2 text-muted-foreground">
-            Parece que aun no has agregado productos a tu carrito.
+            Parece que aún no has agregado productos a tu carrito.
           </p>
           <Button asChild className="mt-6">
             <Link href="/products">Explorar Productos</Link>
@@ -65,8 +59,9 @@ export default function CartPage() {
                   <CartItem
                     key={item.product.id}
                     item={item}
-                    onUpdateQuantity={handleUpdateQuantity}
-                    onRemove={handleRemove}
+                    bsfRate={bcv}
+                    onUpdateQuantity={updateQuantity}
+                    onRemove={removeItem}
                   />
                 ))}
               </div>
@@ -85,7 +80,12 @@ export default function CartPage() {
         {/* Summary */}
         <div className="lg:col-span-1">
           <div className="sticky top-24">
-            <CartSummary items={items} />
+            <CartSummary
+              items={items}
+              bsfRate={bcv}
+              bsfLoading={loading}
+              bsfUpdatedAt={updatedAt}
+            />
           </div>
         </div>
       </div>

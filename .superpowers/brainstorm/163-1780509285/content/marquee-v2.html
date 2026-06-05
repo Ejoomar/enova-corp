@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity Bar — ENOVA CORP</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #e5e7eb; font-family: 'Inter', system-ui, sans-serif; padding: 0 0 80px; }
+
+  /* ── Page chrome ── */
+  .page-title {
+    padding: 36px 40px 8px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: #4b5563;
+  }
+  .page-heading {
+    padding: 0 40px 6px;
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: -.02em;
+    color: #f9fafb;
+  }
+  .page-sub {
+    padding: 0 40px 40px;
+    font-size: 13px;
+    color: #6b7280;
+  }
+
+  /* ── Option cards ── */
+  .options { display: flex; flex-direction: column; gap: 0; }
+
+  .opt {
+    border-top: 1px solid #1a1a1a;
+    cursor: pointer;
+    transition: background 180ms;
+    position: relative;
+  }
+  .opt:last-child { border-bottom: 1px solid #1a1a1a; }
+  .opt:hover { background: #111; }
+  .opt.selected { background: #0d1829; }
+  .opt.selected::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: #0057B7;
+  }
+
+  .opt-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 20px 40px 10px;
+  }
+  .opt-letter {
+    font-size: 11px;
+    font-family: monospace;
+    color: #0057B7;
+    font-weight: 700;
+    letter-spacing: .05em;
+    min-width: 20px;
+  }
+  .opt-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #f3f4f6;
+  }
+  .opt-desc {
+    font-size: 12px;
+    color: #6b7280;
+    margin-left: auto;
+  }
+  .opt-check {
+    width: 18px; height: 18px;
+    border: 1.5px solid #374151;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    color: transparent;
+    transition: all 180ms;
+  }
+  .opt.selected .opt-check {
+    background: #0057B7;
+    border-color: #0057B7;
+    color: white;
+  }
+
+  .bar-wrap { padding: 0 40px 20px; }
+
+  /* ── Marquee core ── */
+  .marquee-outer { overflow: hidden; position: relative; }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 32s linear infinite;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+  .marquee-segment { display: flex; align-items: center; white-space: nowrap; }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Fade edges */
+  .marquee-outer::before,
+  .marquee-outer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 60px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+
+  /* ══ OPTION A — Terminal Signal ══ */
+  .bar-a {
+    background: #060606;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #1c1c1c;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-a .prefix {
+    background: #0057B7;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    padding: 0 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+  .bar-a .marquee-outer {
+    flex: 1;
+    height: 100%;
+  }
+  .bar-a .marquee-outer::before { background: linear-gradient(to right, #060606, transparent); }
+  .bar-a .marquee-outer::after  { background: linear-gradient(to left,  #060606, transparent); right: 0; }
+  .bar-a .marquee-track { height: 100%; align-items: center; }
+  .bar-a .item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #9ca3af;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 0 20px;
+  }
+  .bar-a .item span { color: #60a5fa; }
+  .bar-a .sep { color: #1f2937; font-size: 8px; }
+
+  /* ══ OPTION B — Brand Blue ══ */
+  .bar-b {
+    background: #0057B7;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-b .marquee-outer::before { background: linear-gradient(to right, #0057B7, transparent); }
+  .bar-b .marquee-outer::after  { background: linear-gradient(to left,  #0057B7, transparent); right: 0; }
+  .bar-b .marquee-outer { flex: 1; }
+  .bar-b .item {
+    font-size: 11px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    color: rgba(255,255,255,.92);
+    padding: 0 24px;
+    letter-spacing: .01em;
+  }
+  .bar-b .badge {
+    display: inline-block;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 3px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 1px 5px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .bar-b .sep { color: rgba(255,255,255,.25); font-size: 9px; }
+  .bar-b .icon { margin-right: 5px; font-size: 12px; }
+
+  /* ══ OPTION C — Luxury Void ══ */
+  .bar-c {
+    background: #000;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #0057B7;
+  }
+  .bar-c .marquee-outer::before { background: linear-gradient(to right, #000, transparent); }
+  .bar-c .marquee-outer::after  { background: linear-gradient(to left,  #000, transparent); right: 0; }
+  .bar-c .marquee-outer { flex: 1; }
+  .bar-c .item {
+    font-size: 10px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    color: #9ca3af;
+    padding: 0 24px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .bar-c .hl { color: #fff; font-weight: 500; }
+  .bar-c .sep { color: #0057B7; margin: 0 2px; font-size: 7px; }
+
+  /* ══ OPTION D — Neon Pulse ══ */
+  .bar-d {
+    background: linear-gradient(90deg, #050d1a 0%, #060a14 40%, #050d1a 100%);
+    height: 36px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 0 1px #0d1f3a, inset 0 0 40px rgba(0,87,183,.08);
+  }
+  .bar-d::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #0057B7 30%, #3b82f6 50%, #0057B7 70%, transparent);
+    opacity: .7;
+  }
+  .bar-d .marquee-outer::before { background: linear-gradient(to right, #050d1a, transparent); }
+  .bar-d .marquee-outer::after  { background: linear-gradient(to left,  #050d1a, transparent); right: 0; }
+  .bar-d .marquee-outer { flex: 1; }
+  .bar-d .item {
+    font-size: 11px;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #6b7280;
+    padding: 0 28px;
+    letter-spacing: .02em;
+  }
+  .bar-d .glow {
+    color: #60a5fa;
+    font-weight: 600;
+    text-shadow: 0 0 12px rgba(96,165,250,.5);
+  }
+  .bar-d .dot { color: #1d4ed8; margin: 0 4px; font-size: 8px; }
+
+  /* ── Selection bar ── */
+  .footer-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 52px;
+    background: #111;
+    border-top: 1px solid #1f2937;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    font-size: 12px;
+    color: #6b7280;
+  }
+  .footer-selected { color: #60a5fa; font-weight: 600; }
+  .footer-hint { font-size: 11px; }
+</style>
+</head>
+<body>
+
+<div class="page-title">ENOVA CORP ® — Brainstorm Visual</div>
+<div class="page-heading">Infinity Bar — 4 opciones</div>
+<div class="page-sub">Todos usan datos reales y animación continua. Hover pausa el ticker.</div>
+
+<div class="options">
+
+  <!-- ═══ OPTION A ═══ -->
+  <div class="opt" id="opt-a" onclick="select('a')">
+    <div class="opt-meta">
+      <div class="opt-letter">A</div>
+      <div class="opt-name">Terminal Signal</div>
+      <div class="opt-desc">Tech minimalista · fondo negro · prefix azul · monospace</div>
+      <div class="opt-check" id="check-a">✓</div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-a">
+        <div class="prefix">ENOVA</div>
+        <div class="marquee-outer">
+          <div class="marquee-track">
+            <div class="marquee-segment">
+              <span class="item">Envíos Express <span>Venezuela</span></span><span class="sep">█</span>
+              <span class="item"><span>NUEVO</span> — iPhone 16 Pro Max</span><span class="sep">█</span>
+              <span class="item">MacBook Air <span>M3</span> · Stock disponible</span><span class="sep">█</span>
+              <span class="item">Equipos Fiscales <span>SENIAT</span></span><span class="sep">█</span>
+              <span class="item">Samsung Galaxy <span>S25 Ultra</span></span><span class="sep">█</span>
+              <span class="item">Garantía oficial <span>Apple · HP · Lenovo</span></span><span class="sep">█</span>
+              <span class="item">Instagram <span>@enovacorpve</span></span><span class="sep">█</span>
+              <span class="item">HP LaserJet Pro · <span>Impresoras</span></span><span class="sep">█</span>
+            </div>
+            <div class="marquee-segment" aria-hidden="true">
+              <span class="item">Envíos Express <span>Venezuela</span></span><span class="sep">█</span>
+              <span class="item"><span>NUEVO</span> — iPhone 16 Pro Max</span><span class="sep">█</span>
+              <span class="item">MacBook Air <span>M3</span> · Stock disponible</span><span class="sep">█</span>
+              <span class="item">Equipos Fiscales <span>SENIAT</span></span><span class="sep">█</span>
+              <span class="item">Samsung Galaxy <span>S25 Ultra</span></span><span class="sep">█</span>
+              <span class="item">Garantía oficial <span>Apple · HP · Lenovo</span></span><span class="sep">█</span>
+              <span class="item">Instagram <span>@enovacorpve</span></span><span class="sep">█</span>
+              <span class="item">HP LaserJet Pro · <span>Impresoras</span></span><span class="sep">█</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OPTION B ═══ -->
+  <div class="opt" id="opt-b" onclick="select('b')">
+    <div class="opt-meta">
+      <div class="opt-letter">B</div>
+      <div class="opt-name">Brand Blue</div>
+      <div class="opt-desc">Fondo azul ENOVA · badges NUEVO/OFERTA · máxima visibilidad de marca</div>
+      <div class="opt-check" id="check-b">✓</div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-b">
+        <div class="marquee-outer">
+          <div class="marquee-track">
+            <div class="marquee-segment">
+              <span class="item"><span class="icon">🚀</span><span class="badge">NUEVO</span>iPhone 16 Pro Max — Disponible ahora</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="icon">💻</span>MacBook Air M3 · Garantía Apple oficial</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="icon">🚚</span>Envíos Express a todo Venezuela</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="badge">FISCAL</span>Equipos SENIAT · Instalación incluida</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="icon">📱</span>Samsung Galaxy S25 Ultra · S Pen incluido</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="badge">OFERTA</span>HP LaserJet Pro · Mejor precio Venezuela</span>
+              <span class="sep">◆</span>
+              <span class="item">Síguenos · @enovacorpve</span>
+              <span class="sep">◆</span>
+            </div>
+            <div class="marquee-segment" aria-hidden="true">
+              <span class="item"><span class="icon">🚀</span><span class="badge">NUEVO</span>iPhone 16 Pro Max — Disponible ahora</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="icon">💻</span>MacBook Air M3 · Garantía Apple oficial</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="icon">🚚</span>Envíos Express a todo Venezuela</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="badge">FISCAL</span>Equipos SENIAT · Instalación incluida</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="icon">📱</span>Samsung Galaxy S25 Ultra · S Pen incluido</span>
+              <span class="sep">◆</span>
+              <span class="item"><span class="badge">OFERTA</span>HP LaserJet Pro · Mejor precio Venezuela</span>
+              <span class="sep">◆</span>
+              <span class="item">Síguenos · @enovacorpve</span>
+              <span class="sep">◆</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OPTION C ═══ -->
+  <div class="opt" id="opt-c" onclick="select('c')">
+    <div class="opt-meta">
+      <div class="opt-letter">C</div>
+      <div class="opt-name">Luxury Void</div>
+      <div class="opt-desc">Negro absoluto · borde inferior azul · uppercase discreto · estilo Apple/luxury</div>
+      <div class="opt-check" id="check-c">✓</div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-c">
+        <div class="marquee-outer">
+          <div class="marquee-track">
+            <div class="marquee-segment">
+              <span class="item"><span class="hl">iPhone 16 Pro</span> <span class="sep">◆</span> Disponible</span>
+              <span class="item"><span class="sep">◆</span> <span class="hl">MacBook Air M3</span> <span class="sep">◆</span> Stock</span>
+              <span class="item"><span class="sep">◆</span> Equipos Fiscales <span class="hl">SENIAT</span></span>
+              <span class="item"><span class="sep">◆</span> Envíos <span class="hl">Venezuela</span></span>
+              <span class="item"><span class="sep">◆</span> Garantía <span class="hl">Oficial</span></span>
+              <span class="item"><span class="sep">◆</span> <span class="hl">@enovacorpve</span></span>
+              <span class="item"><span class="sep">◆</span> Galaxy <span class="hl">S25 Ultra</span></span>
+              <span class="item"><span class="sep">◆</span> HP · Lenovo · <span class="hl">Brother</span></span>
+            </div>
+            <div class="marquee-segment" aria-hidden="true">
+              <span class="item"><span class="hl">iPhone 16 Pro</span> <span class="sep">◆</span> Disponible</span>
+              <span class="item"><span class="sep">◆</span> <span class="hl">MacBook Air M3</span> <span class="sep">◆</span> Stock</span>
+              <span class="item"><span class="sep">◆</span> Equipos Fiscales <span class="hl">SENIAT</span></span>
+              <span class="item"><span class="sep">◆</span> Envíos <span class="hl">Venezuela</span></span>
+              <span class="item"><span class="sep">◆</span> Garantía <span class="hl">Oficial</span></span>
+              <span class="item"><span class="sep">◆</span> <span class="hl">@enovacorpve</span></span>
+              <span class="item"><span class="sep">◆</span> Galaxy <span class="hl">S25 Ultra</span></span>
+              <span class="item"><span class="sep">◆</span> HP · Lenovo · <span class="hl">Brother</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OPTION D ═══ -->
+  <div class="opt" id="opt-d" onclick="select('d')">
+    <div class="opt-meta">
+      <div class="opt-letter">D</div>
+      <div class="opt-name">Neon Pulse</div>
+      <div class="opt-desc">Gradiente oscuro · borde azul glowing · highlights neón · moderno/premium</div>
+      <div class="opt-check" id="check-d">✓</div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-d">
+        <div class="marquee-outer">
+          <div class="marquee-track">
+            <div class="marquee-segment">
+              <span class="item"><span class="glow">iPhone 16 Pro Max</span> <span class="dot">◆</span> Disponible en Venezuela</span>
+              <span class="item"><span class="dot">◆</span> <span class="glow">MacBook Air M3</span> — Garantía Apple</span>
+              <span class="item"><span class="dot">◆</span> Equipos Fiscales <span class="glow">SENIAT</span> homologados</span>
+              <span class="item"><span class="dot">◆</span> <span class="glow">Envíos Express</span> a todo Venezuela</span>
+              <span class="item"><span class="dot">◆</span> Samsung <span class="glow">Galaxy S25 Ultra</span></span>
+              <span class="item"><span class="dot">◆</span> <span class="glow">HP · Lenovo · Brother</span> — Garantía oficial</span>
+              <span class="item"><span class="dot">◆</span> Síguenos <span class="glow">@enovacorpve</span></span>
+              <span class="item"><span class="dot">◆</span> Impresoras <span class="glow">Brother</span> · HP LaserJet</span>
+            </div>
+            <div class="marquee-segment" aria-hidden="true">
+              <span class="item"><span class="glow">iPhone 16 Pro Max</span> <span class="dot">◆</span> Disponible en Venezuela</span>
+              <span class="item"><span class="dot">◆</span> <span class="glow">MacBook Air M3</span> — Garantía Apple</span>
+              <span class="item"><span class="dot">◆</span> Equipos Fiscales <span class="glow">SENIAT</span> homologados</span>
+              <span class="item"><span class="dot">◆</span> <span class="glow">Envíos Express</span> a todo Venezuela</span>
+              <span class="item"><span class="dot">◆</span> Samsung <span class="glow">Galaxy S25 Ultra</span></span>
+              <span class="item"><span class="dot">◆</span> <span class="glow">HP · Lenovo · Brother</span> — Garantía oficial</span>
+              <span class="item"><span class="dot">◆</span> Síguenos <span class="glow">@enovacorpve</span></span>
+              <span class="item"><span class="dot">◆</span> Impresoras <span class="glow">Brother</span> · HP LaserJet</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-bar">
+  <span id="footer-txt" class="footer-hint">Haz clic en una opción para seleccionarla</span>
+  <span class="footer-hint">Hover sobre el bar = pausa animación</span>
+</div>
+
+<script>
+  let selected = null;
+  function select(id) {
+    if (selected) {
+      document.getElementById('opt-' + selected).classList.remove('selected');
+    }
+    selected = id;
+    document.getElementById('opt-' + id).classList.add('selected');
+    const names = { a: 'A — Terminal Signal', b: 'B — Brand Blue', c: 'C — Luxury Void', d: 'D — Neon Pulse' };
+    document.getElementById('footer-txt').innerHTML =
+      '<span class="footer-selected">✓ Seleccionado: ' + names[id] + '</span>';
+
+    // write to events if the helper is available
+    if (window.__selectOption) window.__selectOption(id, names[id]);
+  }
+</script>
+</body>
+</html>

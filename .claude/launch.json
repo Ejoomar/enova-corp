@@ -2,13 +2,14 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "Energlass Dev (Next.js + Turbopack)",
+      "name": "ENOVA CORP Dev (Next.js + Turbopack)",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "port": 3000
+      "port": 3000,
+      "autoPort": true
     },
     {
-      "name": "Energlass Production Preview",
+      "name": "ENOVA CORP Production Preview",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "start"],
       "port": 3000

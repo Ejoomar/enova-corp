@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ProductCard } from "./ProductCard"
 import { Product } from "@/types"
+import { useDolarRate } from "@/hooks/useDolarRate"
 
 interface ProductGridProps {
   products: Product[]
@@ -19,6 +20,8 @@ export function ProductGrid({
   onViewModeChange,
   loading = false,
 }: ProductGridProps) {
+  const { bcv } = useDolarRate()
+
   return (
     <div>
       {onViewModeChange && (
@@ -77,7 +80,7 @@ export function ProductGrid({
           }
         >
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} bsfRate={bcv} />
           ))}
         </div>
       )}

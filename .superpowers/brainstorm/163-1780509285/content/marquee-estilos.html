@@ -1,0 +1,109 @@
+<style>
+  .preview-wrap { display: flex; flex-direction: column; gap: 28px; margin-top: 8px; }
+  .bar-preview { border-radius: 8px; overflow: hidden; border: 1px solid #2a2a2a; }
+  .bar-label { font-size: 11px; font-family: monospace; text-transform: uppercase; letter-spacing: .1em; color: #888; margin-bottom: 6px; }
+  .bar-desc { font-size: 13px; color: #aaa; margin-top: 6px; }
+  .option { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .option .letter { align-self: flex-start; margin-top: 4px; }
+
+  /* Estilo A — Minimalista oscuro */
+  .bar-a { background: #050505; padding: 6px 0; overflow: hidden; }
+  .bar-a .track { display: flex; gap: 48px; font-size: 11px; font-family: monospace; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; white-space: nowrap; }
+  .bar-a .sep { color: #0057B7; }
+
+  /* Estilo B — Azul ENOVA activo */
+  .bar-b { background: #0057B7; padding: 7px 0; overflow: hidden; }
+  .bar-b .track { display: flex; gap: 40px; font-size: 11px; font-family: monospace; text-transform: uppercase; letter-spacing: .1em; color: #fff; white-space: nowrap; }
+  .bar-b .sep { color: rgba(255,255,255,.4); }
+  .bar-b .tag { background: rgba(255,255,255,.2); border-radius: 3px; padding: 1px 6px; font-size: 9px; margin-right: 4px; }
+
+  /* Estilo C — Glassmorphism premium */
+  .bar-c-wrap { background: linear-gradient(135deg, #0a0a0a 0%, #0c1e3d 100%); padding: 8px 0; overflow: hidden; position: relative; }
+  .bar-c-wrap::after { content: ''; position: absolute; inset: 0; background: rgba(0,87,183,.08); backdrop-filter: blur(4px); pointer-events: none; }
+  .bar-c .track { display: flex; gap: 48px; font-size: 11px; font-family: monospace; letter-spacing: .1em; color: rgba(255,255,255,.75); white-space: nowrap; }
+  .bar-c .hl { color: #60a5fa; font-weight: 600; }
+  .bar-c .dot { color: #0057B7; font-size: 8px; vertical-align: middle; }
+</style>
+
+<h2>Infinity Bar — ¿Qué estilo va mejor con ENOVA CORP?</h2>
+<p class="subtitle">Los 3 estilos usan los mismos datos. Elige el que mejor represente la marca.</p>
+
+<div class="preview-wrap">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div style="display:flex;gap:12px;align-items:flex-start;width:100%">
+      <div class="letter">A</div>
+      <div style="flex:1">
+        <div class="bar-label">Minimalista oscuro</div>
+        <div class="bar-preview">
+          <div class="bar-a">
+            <div class="track">
+              <span><span class="sep">▸</span> Envíos a todo Venezuela</span>
+              <span><span class="sep">▸</span> Garantía oficial Apple · Samsung · HP · Lenovo</span>
+              <span><span class="sep">▸</span> Equipos Fiscales SENIAT · Instalación incluida</span>
+              <span><span class="sep">▸</span> @enovacorpve — Instagram</span>
+              <span><span class="sep">▸</span> MacBook Air M3 disponible</span>
+              <span><span class="sep">▸</span> Envíos a todo Venezuela</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-desc">Fondo negro, texto gris, acentos azul ENOVA. Discreto y elegante, no compite con el contenido.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div style="display:flex;gap:12px;align-items:flex-start;width:100%">
+      <div class="letter">B</div>
+      <div style="flex:1">
+        <div class="bar-label">Azul ENOVA activo</div>
+        <div class="bar-preview">
+          <div class="bar-b">
+            <div class="track">
+              <span><span class="tag">NUEVO</span>iPhone 16 Pro Max disponible <span class="sep">·</span></span>
+              <span><span class="tag">OFERTA</span>MacBook Air M3 — Garantía Apple <span class="sep">·</span></span>
+              <span>🚚 Envíos Express a todo Venezuela <span class="sep">·</span></span>
+              <span>Equipos Fiscales SENIAT homologados <span class="sep">·</span></span>
+              <span>📱 @enovacorpve <span class="sep">·</span></span>
+              <span><span class="tag">NUEVO</span>Samsung Galaxy S25 Ultra <span class="sep">·</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-desc">Fondo azul primario ENOVA, texto blanco con badges de acento. Llama la atención, refuerza el color de marca.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div style="display:flex;gap:12px;align-items:flex-start;width:100%">
+      <div class="letter">C</div>
+      <div style="flex:1">
+        <div class="bar-label">Premium dark + glow azul</div>
+        <div class="bar-preview">
+          <div class="bar-c-wrap">
+            <div class="bar-c">
+              <div class="track">
+                <span><span class="hl">NUEVO</span> · iPhone 16 Pro Max</span>
+                <span class="dot">◆</span>
+                <span>Garantía oficial <span class="hl">Apple · Samsung · HP</span></span>
+                <span class="dot">◆</span>
+                <span>Equipos Fiscales <span class="hl">SENIAT</span></span>
+                <span class="dot">◆</span>
+                <span>Envíos Express Venezuela</span>
+                <span class="dot">◆</span>
+                <span><span class="hl">@enovacorpve</span></span>
+                <span class="dot">◆</span>
+                <span><span class="hl">OFERTA</span> · MacBook Air M3</span>
+                <span class="dot">◆</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bar-desc">Gradiente grafito → azul oscuro, texto con highlights azul brillante. Premium y coherente con el hero.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px">Haz clic en tu opción preferida, luego respóndeme en el terminal.</p>

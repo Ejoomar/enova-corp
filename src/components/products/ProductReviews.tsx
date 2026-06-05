@@ -39,7 +39,7 @@ function ReviewCard({ review }: { review: Review }) {
         <div className="text-right shrink-0">
           <p className="text-sm font-medium">{review.author}</p>
           <p className="font-mono-ui text-[11px] text-[var(--muted-foreground)]">
-            {new Date(review.date).toLocaleDateString("es-CL", { year: "numeric", month: "short", day: "numeric" })}
+            {new Date(review.date).toLocaleDateString("es-VE", { year: "numeric", month: "short", day: "numeric" })}
           </p>
         </div>
       </div>

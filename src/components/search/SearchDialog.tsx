@@ -100,7 +100,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                     </p>
                   </div>
                   <span className="shrink-0 font-mono-ui text-[12px] font-medium text-[var(--brass)]">
-                    ${product.price.toLocaleString("es-CL")}
+                    ${product.price.toLocaleString("en-US")}
                   </span>
                 </button>
               </li>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option B — Refinada</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #e5e7eb; font-family: 'Inter', system-ui, sans-serif; padding: 40px; }
+
+  .label { font-size: 11px; font-family: monospace; text-transform: uppercase; letter-spacing: .14em; color: #4b5563; margin-bottom: 6px; }
+  .heading { font-size: 24px; font-weight: 300; letter-spacing: -.02em; color: #f9fafb; margin-bottom: 4px; }
+  .sub { font-size: 13px; color: #6b7280; margin-bottom: 32px; }
+
+  /* ── Contexto: cómo se ve en la página ── */
+  .site-context {
+    border: 1px solid #1f2937;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .ctx-label {
+    background: #111;
+    padding: 8px 16px;
+    font-size: 10px;
+    font-family: monospace;
+    color: #4b5563;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #1f2937;
+  }
+
+  /* ── Marquee bar ── */
+  .bar-b {
+    background: #0057B7;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-b::before,
+  .bar-b::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .bar-b::before { background: linear-gradient(to right, #0057B7, transparent); left: 0; }
+  .bar-b::after  { background: linear-gradient(to left,  #0057B7, transparent); right: 0; }
+
+  .track {
+    display: flex;
+    width: max-content;
+    animation: scroll 30s linear infinite;
+    align-items: center;
+    height: 36px;
+  }
+  .track:hover { animation-play-state: paused; }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 28px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,.92);
+    letter-spacing: .015em;
+    white-space: nowrap;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    height: 18px;
+    padding: 0 6px;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 3px;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .badge.new  { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.35); }
+  .badge.sale { background: rgba(255,210,0,.2);    border-color: rgba(255,210,0,.4);    color: #fde68a; }
+  .badge.fiscal { background: rgba(52,211,153,.15); border-color: rgba(52,211,153,.35); color: #6ee7b7; }
+
+  .sep {
+    color: rgba(255,255,255,.22);
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  /* ── Fake header below ── */
+  .fake-header {
+    background: rgba(10,10,10,.95);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    justify-content: space-between;
+    border-bottom: 1px solid #1f2937;
+  }
+  .fake-logo { font-size: 15px; font-weight: 500; letter-spacing: -.03em; color: #f9fafb; }
+  .fake-nav  { display: flex; gap: 28px; }
+  .fake-nav span { font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: #6b7280; }
+  .fake-hero {
+    background: linear-gradient(135deg, #020817, #0a1628, #0c1e3d);
+    height: 120px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+  }
+  .fake-hero-text { font-size: 32px; font-weight: 700; letter-spacing: -.03em; }
+  .fake-hero-text span { color: #60a5fa; }
+
+  /* ── Spec table ── */
+  .spec-table {
+    background: #111;
+    border: 1px solid #1f2937;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .spec-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 20px;
+    border-bottom: 1px solid #1a1a1a;
+    font-size: 12.5px;
+  }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-key { min-width: 140px; color: #6b7280; font-family: monospace; font-size: 11px; letter-spacing: .05em; }
+  .spec-val { color: #e5e7eb; }
+  .spec-val code { background: #1f2937; border-radius: 3px; padding: 1px 6px; font-size: 11px; color: #60a5fa; }
+</style>
+</head>
+<body>
+
+<div class="label">ENOVA CORP ® — Infinity Bar · Diseño final</div>
+<div class="heading">Opción B — Brand Blue · Sin emojis</div>
+<div class="sub">Hover sobre el bar pausa la animación. Así se verá en producción.</div>
+
+<!-- ── In-context preview ── -->
+<div class="site-context">
+  <div class="ctx-label">Contexto — posición en la página</div>
+
+  <!-- THE BAR -->
+  <div class="bar-b">
+    <div class="track">
+      <!-- Segment 1 -->
+      <div class="item"><span class="badge new">Nuevo</span> iPhone 16 Pro Max — Disponible ahora</div>
+      <div class="item sep">◆</div>
+      <div class="item">MacBook Air M3 · Garantía Apple oficial</div>
+      <div class="item sep">◆</div>
+      <div class="item"><span class="badge fiscal">Fiscal</span> Equipos SENIAT · Instalación incluida</div>
+      <div class="item sep">◆</div>
+      <div class="item">Envíos Express a todo Venezuela</div>
+      <div class="item sep">◆</div>
+      <div class="item"><span class="badge new">Nuevo</span> Samsung Galaxy S25 Ultra</div>
+      <div class="item sep">◆</div>
+      <div class="item"><span class="badge sale">Oferta</span> HP LaserJet Pro · Mejor precio</div>
+      <div class="item sep">◆</div>
+      <div class="item">Garantía oficial · Apple · Samsung · HP · Lenovo · Brother</div>
+      <div class="item sep">◆</div>
+      <div class="item">@enovacorpve · Instagram</div>
+      <div class="item sep">◆</div>
+      <!-- Segment 2 (duplicate for seamless loop) -->
+      <div class="item"><span class="badge new">Nuevo</span> iPhone 16 Pro Max — Disponible ahora</div>
+      <div class="item sep">◆</div>
+      <div class="item">MacBook Air M3 · Garantía Apple oficial</div>
+      <div class="item sep">◆</div>
+      <div class="item"><span class="badge fiscal">Fiscal</span> Equipos SENIAT · Instalación incluida</div>
+      <div class="item sep">◆</div>
+      <div class="item">Envíos Express a todo Venezuela</div>
+      <div class="item sep">◆</div>
+      <div class="item"><span class="badge new">Nuevo</span> Samsung Galaxy S25 Ultra</div>
+      <div class="item sep">◆</div>
+      <div class="item"><span class="badge sale">Oferta</span> HP LaserJet Pro · Mejor precio</div>
+      <div class="item sep">◆</div>
+      <div class="item">Garantía oficial · Apple · Samsung · HP · Lenovo · Brother</div>
+      <div class="item sep">◆</div>
+      <div class="item">@enovacorpve · Instagram</div>
+      <div class="item sep">◆</div>
+    </div>
+  </div>
+
+  <!-- Fake site below the bar -->
+  <div class="fake-header">
+    <div class="fake-logo">ENOVA CORP ®</div>
+    <div class="fake-nav">
+      <span>Laptops</span><span>Smartphones</span><span>Eq. Fiscales</span><span>Periféricos</span><span>Catálogo</span>
+    </div>
+  </div>
+  <div class="fake-hero">
+    <div class="fake-hero-text">ENOVA<br><span>CORP ®</span></div>
+  </div>
+</div>
+
+<!-- ── Spec ── -->
+<div class="label" style="margin-bottom:12px">Especificaciones técnicas</div>
+<div class="spec-table">
+  <div class="spec-row"><span class="spec-key">Altura</span><span class="spec-val"><code>36px</code> — h-9 en Tailwind</span></div>
+  <div class="spec-row"><span class="spec-key">Fondo</span><span class="spec-val"><code>#0057B7</code> — var(--primary)</span></div>
+  <div class="spec-row"><span class="spec-key">Velocidad</span><span class="spec-val"><code>30s</code> linear infinite · pausa en hover</span></div>
+  <div class="spec-row"><span class="spec-key">Badges</span><span class="spec-val">Nuevo (blanco), Fiscal (verde), Oferta (amarillo)</span></div>
+  <div class="spec-row"><span class="spec-key">Separador</span><span class="spec-val"><code>◆</code> — blanco 22% opacidad</span></div>
+  <div class="spec-row"><span class="spec-key">Fade edges</span><span class="spec-val">Gradient 80px cada lado — sin corte brusco</span></div>
+  <div class="spec-row"><span class="spec-key">Posición</span><span class="spec-val">Encima de TopBar y Header · fuera del sticky</span></div>
+  <div class="spec-row"><span class="spec-key">Implementación</span><span class="spec-val">CSS animation puro — sin librerías externas</span></div>
+</div>
+
+<p style="margin-top:20px; font-size:12px; color:#4b5563; text-align:center;">
+  Si apruebas este diseño, responde "sí" en el terminal y procedo a implementarlo.
+</p>
+
+</body>
+</html>

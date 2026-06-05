@@ -8,8 +8,9 @@ const adapter = new PrismaPg(pool)
 const prisma = new PrismaClient({ adapter })
 
 async function main() {
-  console.log("Seeding Energlass database...")
+  console.log("Seeding ENOVA CORP database...")
 
+  // Clear in dependency order
   await prisma.orderItem.deleteMany()
   await prisma.order.deleteMany()
   await prisma.address.deleteMany()
@@ -18,17 +19,16 @@ async function main() {
   await prisma.brand.deleteMany()
   await prisma.user.deleteMany()
 
-  // Categories
+  // ── Categories ────────────────────────────────────────────────────────────
   const categoriesData = [
-    { name: "Puertas de Vidrio", slug: "puertas-vidrio", icon: "DoorOpen" },
-    { name: "Shower Door", slug: "shower-door", icon: "Droplets" },
-    { name: "Barandas", slug: "barandas", icon: "Shield" },
-    { name: "Quicios", slug: "quicios", icon: "Settings" },
-    { name: "Cerraduras", slug: "cerraduras", icon: "Lock" },
-    { name: "Canales", slug: "canales", icon: "GripHorizontal" },
-    { name: "Burletes", slug: "burletes", icon: "Layers" },
-    { name: "Balaustros", slug: "balaustros", icon: "Columns2" },
-    { name: "Brazos Hidráulicos", slug: "brazos-hidraulicos", icon: "Wrench" },
+    { name: "Laptops / PCs",    slug: "laptops",          icon: "Laptop"      },
+    { name: "Smartphones",      slug: "smartphones",      icon: "Smartphone"  },
+    { name: "Equipos Fiscales", slug: "equipos-fiscales", icon: "ReceiptText" },
+    { name: "Impresoras",       slug: "impresoras",       icon: "Printer"     },
+    { name: "Periféricos",      slug: "perifericos",      icon: "Keyboard"    },
+    { name: "Gaming",           slug: "gaming",           icon: "Gamepad2"    },
+    { name: "Audio",            slug: "audio",            icon: "Headphones"  },
+    { name: "Tablets",          slug: "tablets",          icon: "Tablet"      },
   ]
 
   const categories: Record<string, string> = {}
@@ -38,14 +38,17 @@ async function main() {
   }
   console.log(`Created ${categoriesData.length} categories`)
 
-  // Brands / Materials
+  // ── Brands ────────────────────────────────────────────────────────────────
   const brandsData = [
-    { name: "Acero Inox SS304", slug: "ss304" },
-    { name: "Acero Inox SS316", slug: "ss316" },
-    { name: "Duplex 2205", slug: "duplex-2205" },
-    { name: "Aluminio", slug: "aluminio" },
-    { name: "Zinc", slug: "zinc" },
-    { name: "PVC", slug: "pvc" },
+    { name: "Apple",    slug: "apple"    },
+    { name: "Samsung",  slug: "samsung"  },
+    { name: "Sony",     slug: "sony"     },
+    { name: "ASUS",     slug: "asus"     },
+    { name: "HP",       slug: "hp"       },
+    { name: "Lenovo",   slug: "lenovo"   },
+    { name: "Brother",  slug: "brother"  },
+    { name: "MSI",      slug: "msi"      },
+    { name: "Logitech", slug: "logitech" },
   ]
 
   const brands: Record<string, string> = {}
@@ -53,349 +56,349 @@ async function main() {
     const created = await prisma.brand.create({ data: brand })
     brands[brand.name] = created.id
   }
-  console.log(`Created ${brandsData.length} materials/brands`)
+  console.log(`Created ${brandsData.length} brands`)
 
-  // Products
+  // ── Products ──────────────────────────────────────────────────────────────
   const productsData = [
-    // PUERTAS DE VIDRIO
+    // Smartphones
     {
-      name: "Pivote Superior",
-      slug: "pivote-superior-hspv0001",
-      brand: "Acero Inox SS304",
-      category: "puertas-vidrio",
-      price: 12300,
-      images: ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500"],
-      description: "Pivote superior para puertas de vidrio de 10 a 12 mm. Acero Inoxidable satinado.",
-      specs: { "Código": "HSPV0001", "Vidrio": "10 a 12 mm", "Material": "Acero Inoxidable satinado" },
-      stock: 50, isNew: false, isFeatured: true,
+      id: "sm-001", name: "iPhone 16 Pro Max", slug: "iphone-16-pro-max",
+      brand: "Apple", category: "smartphones", price: 1299990, comparePrice: 1399990,
+      images: ["https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&q=80"],
+      description: 'El iPhone 16 Pro Max lleva el rendimiento a otro nivel con el chip A18 Pro, cámara de 48 MP con zoom óptico 5x y pantalla Super Retina XDR de 6.9".',
+      specs: { "Pantalla": '6.9" Super Retina XDR', "Chip": "A18 Pro", "Cámara": "48 MP + 12 MP + 12 MP", "Batería": "4685 mAh", "Almacenamiento": "256 GB" },
+      stock: 15, isNew: true, isFeatured: true,
     },
     {
-      name: "Soporte Superior para Alemana",
-      slug: "soporte-superior-hspv0002",
-      brand: "Acero Inox SS304",
-      category: "puertas-vidrio",
-      price: 17500,
-      images: ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500"],
-      description: "Soporte superior para muela tipo Alemana. Para puertas de vidrio 10–12 mm.",
-      specs: { "Código": "HSPV0002", "Vidrio": "10 a 12 mm", "Uso": "Muela tipo Alemana" },
-      stock: 40, isNew: false, isFeatured: true,
+      id: "sm-002", name: "Samsung Galaxy S25 Ultra", slug: "samsung-galaxy-s25-ultra",
+      brand: "Samsung", category: "smartphones", price: 1199990,
+      images: ["https://images.unsplash.com/photo-1610945264803-c22b62831e4b?w=800&q=80"],
+      description: 'Galaxy S25 Ultra con S Pen integrado, cámara de 200 MP, pantalla Dynamic AMOLED 2X de 6.8" y 12 GB RAM.',
+      specs: { "Pantalla": '6.8" Dynamic AMOLED 2X', "Chip": "Snapdragon 8 Elite", "Cámara": "200 MP + 50 MP + 10 MP", "RAM": "12 GB", "Almacenamiento": "256 GB" },
+      stock: 10, isNew: true, isFeatured: true,
     },
     {
-      name: "Soporte Inferior",
-      slug: "soporte-inferior-hspv0004",
-      brand: "Acero Inox SS304",
-      category: "puertas-vidrio",
-      price: 12300,
-      images: ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500"],
-      description: "Soporte inferior para puertas de vidrio 10–12 mm. Acero Inoxidable satinado.",
-      specs: { "Código": "HSPV0004", "Vidrio": "10 a 12 mm" },
-      stock: 45, isNew: false, isFeatured: false,
+      id: "sm-003", name: "iPhone 15", slug: "iphone-15",
+      brand: "Apple", category: "smartphones", price: 849990, comparePrice: 949990,
+      images: ["https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80"],
+      description: "iPhone 15 con chip A16 Bionic, Dynamic Island, cámara principal de 48 MP y puerto USB-C.",
+      specs: { "Pantalla": '6.1" Super Retina XDR', "Chip": "A16 Bionic", "Cámara": "48 MP + 12 MP", "Batería": "3877 mAh", "Almacenamiento": "128 GB" },
+      stock: 20, isNew: false, isFeatured: true,
     },
     {
-      name: "Bisagra Puerta Interior",
-      slug: "bisagra-puerta-interior-hbpv0001",
-      brand: "Zinc",
-      category: "puertas-vidrio",
-      price: 18700,
-      images: ["https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500"],
-      description: "Bisagra para puerta interior. Vidrio 8–10 mm. Zinc satinado. Requiere perforación.",
-      specs: { "Código": "HBPV0001", "Vidrio": "8 a 10 mm", "Material": "Zinc satinado" },
-      stock: 25, isNew: false, isFeatured: false,
-    },
-    // QUICIOS
-    {
-      name: "Quicio Embutido K65 – 100 Kg",
-      slug: "quicio-embutido-k65-qepu0007",
-      brand: "Acero Inox SS304",
-      category: "quicios",
-      price: 65000,
-      comparePrice: 72000,
-      images: ["https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=500"],
-      description: "Alto tráfico. Peso máx. 100 Kg – Ancho máx. 1000 mm. Retención 90°. Similar Dorma BTS-65 IV.",
-      specs: { "Código": "QEPU0007", "Peso Máx": "100 Kg", "Ancho Máx": "1000 mm", "Retención": "90°" },
-      stock: 15, isNew: false, isFeatured: true,
+      id: "sm-004", name: "Samsung Galaxy A55", slug: "samsung-galaxy-a55",
+      brand: "Samsung", category: "smartphones", price: 449990,
+      images: ["https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800&q=80"],
+      description: 'Galaxy A55 con pantalla Super AMOLED de 6.6", cámara de 50 MP y batería de 5000 mAh.',
+      specs: { "Pantalla": '6.6" Super AMOLED', "Chip": "Exynos 1480", "Cámara": "50 MP + 12 MP + 5 MP", "RAM": "8 GB", "Batería": "5000 mAh" },
+      stock: 30, isNew: false, isFeatured: false,
     },
     {
-      name: "Quicio Embutido K75 – 120 Kg",
-      slug: "quicio-embutido-k75-qepu0006",
-      brand: "Acero Inox SS304",
-      category: "quicios",
-      price: 75000,
-      images: ["https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=500"],
-      description: "Alto tráfico. Peso máx. 120 Kg – Ancho máx. 1100 mm. Retención 90°. Similar Dorma BTS-75V.",
-      specs: { "Código": "QEPU0006", "Peso Máx": "120 Kg", "Ancho Máx": "1100 mm" },
-      stock: 10, isNew: false, isFeatured: true,
+      id: "sm-005", name: "iPhone 16", slug: "iphone-16",
+      brand: "Apple", category: "smartphones", price: 999990,
+      images: ["https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=800&q=80"],
+      description: "iPhone 16 con chip A18, Apple Intelligence, botón de Acción y cámara de 48 MP.",
+      specs: { "Pantalla": '6.1" Super Retina XDR', "Chip": "A18", "Cámara": "48 MP + 12 MP", "RAM": "8 GB", "Almacenamiento": "128 GB" },
+      stock: 18, isNew: true, isFeatured: false,
     },
     {
-      name: "Quicio Sobrepiso K100 – 100 Kg",
-      slug: "quicio-sobrepiso-k100-qspv0001",
-      brand: "Acero Inox SS304",
-      category: "quicios",
-      price: 70000,
-      comparePrice: 78000,
-      images: ["https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=500"],
-      description: "Alto tráfico. Peso máx. 100 Kg – Ancho máx. 950 mm. Retención 90°. Rápida instalación.",
-      specs: { "Código": "QSPV0001", "Peso Máx": "100 Kg", "Instalación": "Rápida" },
+      id: "sm-006", name: "Samsung Galaxy Z Fold 6", slug: "samsung-galaxy-z-fold-6",
+      brand: "Samsung", category: "smartphones", price: 1799990,
+      images: ["https://images.unsplash.com/photo-1591337676887-a217a6970a8a?w=800&q=80"],
+      description: 'El smartphone plegable más avanzado de Samsung con pantalla interior de 7.6" y exterior de 6.3".',
+      specs: { "Pantalla interior": '7.6" Dynamic AMOLED 2X', "Pantalla exterior": '6.3" AMOLED', "Chip": "Snapdragon 8 Gen 3", "RAM": "12 GB", "Almacenamiento": "256 GB" },
+      stock: 5, isNew: true, isFeatured: false,
+    },
+
+    // Laptops / PCs
+    {
+      id: "lap-001", name: "MacBook Air M3", slug: "macbook-air-m3",
+      brand: "Apple", category: "laptops", price: 1499990,
+      images: ["https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80"],
+      description: 'MacBook Air con chip M3, pantalla Liquid Retina de 13.6", 8 GB RAM unificada y hasta 18 horas de batería.',
+      specs: { "Chip": "Apple M3", "RAM": "8 GB unificada", "Almacenamiento": "256 GB SSD", "Pantalla": '13.6" Liquid Retina', "Batería": "hasta 18 h" },
+      stock: 12, isNew: false, isFeatured: true,
+    },
+    {
+      id: "lap-002", name: "ASUS ROG Zephyrus G16", slug: "asus-rog-zephyrus-g16",
+      brand: "ASUS", category: "laptops", price: 1399990,
+      images: ["https://images.unsplash.com/photo-1593640495253-23196b27a87f?w=800&q=80"],
+      description: 'Laptop gaming de 16" con AMD Ryzen 9, RTX 4070 y pantalla ROG Nebula de 165 Hz.',
+      specs: { "Procesador": "AMD Ryzen 9 8945H", "GPU": "NVIDIA RTX 4070", "RAM": "16 GB DDR5", "Almacenamiento": "1 TB NVMe", "Pantalla": '16" 165 Hz QHD+' },
+      stock: 8, isNew: true, isFeatured: true,
+    },
+    {
+      id: "lap-003", name: "MacBook Pro M3 Pro", slug: "macbook-pro-m3-pro",
+      brand: "Apple", category: "laptops", price: 2199990,
+      images: ["https://images.unsplash.com/photo-1542396601-dca920ea2807?w=800&q=80"],
+      description: 'MacBook Pro de 14" con chip M3 Pro, pantalla Liquid Retina XDR y rendimiento profesional.',
+      specs: { "Chip": "Apple M3 Pro", "RAM": "18 GB unificada", "Almacenamiento": "512 GB SSD", "Pantalla": '14.2" Liquid Retina XDR', "Batería": "hasta 22 h" },
+      stock: 6, isNew: false, isFeatured: false,
+    },
+    {
+      id: "lap-004", name: "ASUS VivoBook 16X", slug: "asus-vivobook-16x",
+      brand: "ASUS", category: "laptops", price: 649990, comparePrice: 749990,
+      images: ["https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80"],
+      description: 'Laptop de 16" ideal para estudio y trabajo con Intel Core i5, 16 GB RAM y SSD de 512 GB.',
+      specs: { "Procesador": "Intel Core i5-13500H", "RAM": "16 GB DDR4", "Almacenamiento": "512 GB SSD", "Pantalla": '16" FHD IPS 144 Hz', "Batería": "hasta 12 h" },
+      stock: 20, isNew: false, isFeatured: false,
+    },
+    {
+      id: "lap-005", name: "MSI Titan GT77 HX", slug: "msi-titan-gt77-hx",
+      brand: "MSI", category: "laptops", price: 2499990,
+      images: ["https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800&q=80"],
+      description: "La laptop gaming más potente con Intel Core i9, RTX 4090 y pantalla 4K de 144 Hz.",
+      specs: { "Procesador": "Intel Core i9-13980HX", "GPU": "NVIDIA RTX 4090", "RAM": "64 GB DDR5", "Almacenamiento": "4 TB NVMe RAID", "Pantalla": '17.3" 4K 144 Hz' },
+      stock: 3, isNew: false, isFeatured: false,
+    },
+    {
+      id: "lap-006", name: "Samsung Galaxy Book4 Pro", slug: "samsung-galaxy-book4-pro",
+      brand: "Samsung", category: "laptops", price: 1199990,
+      images: ["https://images.unsplash.com/photo-1504707748692-419802cf939d?w=800&q=80"],
+      description: 'Ultra delgada con Intel Core Ultra 7, pantalla AMOLED 2X de 14" y 26 h de batería.',
+      specs: { "Procesador": "Intel Core Ultra 7", "RAM": "16 GB LPDDR5", "Almacenamiento": "512 GB NVMe", "Pantalla": '14" AMOLED 2X', "Batería": "hasta 26 h" },
+      stock: 10, isNew: true, isFeatured: false,
+    },
+
+    // Audio
+    {
+      id: "aud-001", name: "AirPods Pro 2", slug: "airpods-pro-2",
+      brand: "Apple", category: "audio", price: 349990,
+      images: ["https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=800&q=80"],
+      description: "AirPods Pro con cancelación activa de ruido de siguiente nivel, audio espacial personalizado y hasta 30 h de carga total.",
+      specs: { "Driver": "H2", "ANC": "Hasta 2x más efectiva", "Batería (earbuds)": "6 h", "Batería (total)": "30 h", "Resistencia": "IP54" },
+      stock: 25, isNew: false, isFeatured: true,
+    },
+    {
+      id: "aud-002", name: "Sony WH-1000XM5", slug: "sony-wh-1000xm5",
+      brand: "Sony", category: "audio", price: 299990, comparePrice: 359990,
+      images: ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80"],
+      description: "Los mejores auriculares con cancelación de ruido del mercado. 8 micrófonos, 30 h de batería y audio LDAC de alta resolución.",
+      specs: { "Tipo": "Over-ear", "ANC": "8 micrófonos", "Batería": "30 h", "Codec": "LDAC, AAC, SBC", "Driver": "30 mm" },
+      stock: 18, isNew: false, isFeatured: true,
+    },
+    {
+      id: "aud-003", name: "Sony WF-1000XM5", slug: "sony-wf-1000xm5",
+      brand: "Sony", category: "audio", price: 249990,
+      images: ["https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=80"],
+      description: "True wireless con la mejor cancelación de ruido en formato in-ear. Integración con Alexa y Google Assistant.",
+      specs: { "Tipo": "In-ear TWS", "ANC": "Processor V2", "Batería (earbuds)": "8 h", "Batería (total)": "24 h", "Resistencia": "IPX4" },
+      stock: 14, isNew: false, isFeatured: false,
+    },
+    {
+      id: "aud-004", name: "Samsung Galaxy Buds3 Pro", slug: "samsung-galaxy-buds3-pro",
+      brand: "Samsung", category: "audio", price: 199990,
+      images: ["https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=800&q=80"],
+      description: "Galaxy Buds3 Pro con diseño de varilla, 360 Audio y cancelación de ruido inteligente adaptativa.",
+      specs: { "Tipo": "In-ear TWS", "ANC": "Adaptive ANC", "Batería (earbuds)": "6 h", "Batería (total)": "30 h", "Resistencia": "IP57" },
+      stock: 22, isNew: true, isFeatured: false,
+    },
+    {
+      id: "aud-005", name: "Sony SRS-XB100", slug: "sony-srs-xb100",
+      brand: "Sony", category: "audio", price: 59990,
+      images: ["https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800&q=80"],
+      description: "Parlante Bluetooth compacto con sonido potente, IP67 y 16 h de batería. Ideal para llevar a todas partes.",
+      specs: { "Tipo": "Parlante BT", "Batería": "16 h", "Resistencia": "IP67", "Peso": "162 g", "Carga": "USB-C" },
+      stock: 35, isNew: false, isFeatured: false,
+    },
+
+    // Gaming
+    {
+      id: "gam-001", name: "ASUS ROG Swift OLED PG27AQDP", slug: "asus-rog-swift-oled-pg27",
+      brand: "ASUS", category: "gaming", price: 899990,
+      images: ["https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80"],
+      description: 'Monitor gaming OLED de 27" con resolución QHD, 360 Hz, 0.03 ms de respuesta y DisplayHDR True Black 400.',
+      specs: { "Pantalla": '27" OLED QHD', "Tasa refresco": "360 Hz", "Tiempo respuesta": "0.03 ms", "HDR": "True Black 400", "Conectividad": "HDMI 2.1, DP 1.4" },
+      stock: 7, isNew: true, isFeatured: true,
+    },
+    {
+      id: "gam-002", name: "Logitech G Pro X Superlight 2", slug: "logitech-g-pro-x-superlight-2",
+      brand: "Logitech", category: "gaming", price: 149990,
+      images: ["https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80"],
+      description: "El mouse inalámbrico más ligero del mundo para gaming de competición. Sensor HERO 2 de 32.000 DPI y 95 h de batería.",
+      specs: { "Sensor": "HERO 2 32K", "DPI": "100 – 32.000", "Peso": "60 g", "Batería": "95 h", "Conexión": "LIGHTSPEED" },
+      stock: 20, isNew: false, isFeatured: true,
+    },
+    {
+      id: "gam-003", name: "Logitech G915 TKL", slug: "logitech-g915-tkl",
+      brand: "Logitech", category: "gaming", price: 199990, comparePrice: 229990,
+      images: ["https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=800&q=80"],
+      description: "Teclado gaming inalámbrico TKL con switches táctiles GL de perfil bajo, RGB LIGHTSYNC y 40 h de batería.",
+      specs: { "Tipo": "Teclado mecánico TKL", "Switch": "GL Tactile", "Batería": "40 h", "Conexión": "LIGHTSPEED / BT", "Retroiluminación": "RGB" },
       stock: 12, isNew: false, isFeatured: false,
     },
-    // CERRADURAS
     {
-      name: "Cerradura Arco – Llave",
-      slug: "cerradura-arco-llave-hcpv0004",
-      brand: "Acero Inox SS304",
-      category: "cerraduras",
-      price: 29700,
-      images: ["https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=500"],
-      description: "Para vidrio 10–12 mm, vidrio a vidrio. Cerrojo circular simple. No requiere perforación.",
-      specs: { "Código": "HCPV0004", "Vidrio": "10 a 12 mm", "Tipo": "Vidrio–Vidrio" },
-      stock: 20, isNew: false, isFeatured: true,
+      id: "gam-004", name: "ASUS ROG Strix Fusion 500", slug: "asus-rog-strix-fusion-500",
+      brand: "ASUS", category: "gaming", price: 179990,
+      images: ["https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80"],
+      description: "Auriculares gaming con sonido envolvente 7.1 virtual, driver de 50 mm y RGB Aura Sync.",
+      specs: { "Tipo": "Over-ear gaming", "Driver": "50 mm", "Surround": "7.1 virtual", "RGB": "Aura Sync", "Micrófono": "Unidireccional retráctil" },
+      stock: 15, isNew: false, isFeatured: false,
     },
     {
-      name: "Cerradura Doble Pitón",
-      slug: "cerradura-doble-piton-hcpv0005",
-      brand: "Acero Inox SS304",
-      category: "cerraduras",
-      price: 29900,
-      images: ["https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=500"],
-      description: "Para vidrio 10–12 mm, vidrio a vidrio. No requiere perforación.",
-      specs: { "Código": "HCPV0005", "Vidrio": "10 a 12 mm", "Tipo": "Vidrio–Vidrio" },
+      id: "gam-005", name: "MSI GeForce RTX 4070 GAMING X TRIO", slug: "msi-rtx-4070-gaming-x-trio",
+      brand: "MSI", category: "gaming", price: 699990,
+      images: ["https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800&q=80"],
+      description: "GPU NVIDIA RTX 4070 con triple ventilador TORX 5.0, 12 GB GDDR6X y DLSS 3.",
+      specs: { "GPU": "NVIDIA RTX 4070", "VRAM": "12 GB GDDR6X", "Bus": "192-bit", "TDP": "200 W", "Conectores": "HDMI 2.1, 3x DP 1.4a" },
+      stock: 9, isNew: false, isFeatured: false,
+    },
+
+    // Tablets
+    {
+      id: "tab-001", name: 'iPad Pro M4 11"', slug: "ipad-pro-m4-11",
+      brand: "Apple", category: "tablets", price: 999990,
+      images: ["https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800&q=80"],
+      description: "iPad Pro con el chip M4 más delgado, pantalla Ultra Retina XDR OLED tandem y Apple Pencil Pro.",
+      specs: { "Chip": "Apple M4", "Pantalla": '11" Ultra Retina XDR OLED', "RAM": "8 GB", "Almacenamiento": "256 GB", "Cámara": "12 MP gran angular" },
+      stock: 10, isNew: true, isFeatured: true,
+    },
+    {
+      id: "tab-002", name: "Samsung Galaxy Tab S9 FE", slug: "samsung-galaxy-tab-s9-fe",
+      brand: "Samsung", category: "tablets", price: 499990, comparePrice: 579990,
+      images: ["https://images.unsplash.com/photo-1527698266440-12104e498b76?w=800&q=80"],
+      description: 'Galaxy Tab S9 FE con pantalla TFT de 10.9", S Pen incluido y resistencia IP68.',
+      specs: { "Pantalla": '10.9" TFT', "Chip": "Exynos 1380", "RAM": "6 GB", "Almacenamiento": "128 GB", "Batería": "8000 mAh" },
+      stock: 16, isNew: false, isFeatured: false,
+    },
+    {
+      id: "tab-003", name: "iPad Air M2", slug: "ipad-air-m2",
+      brand: "Apple", category: "tablets", price: 799990,
+      images: ["https://images.unsplash.com/photo-1561154464-82e9adf32764?w=800&q=80"],
+      description: 'iPad Air con chip M2, pantalla Liquid Retina de 11" o 13" y conectividad Wi-Fi 6E.',
+      specs: { "Chip": "Apple M2", "Pantalla": '11" Liquid Retina', "RAM": "8 GB", "Almacenamiento": "128 GB", "Wi-Fi": "6E" },
+      stock: 14, isNew: false, isFeatured: false,
+    },
+    {
+      id: "tab-004", name: "Samsung Galaxy Tab S9 Ultra", slug: "samsung-galaxy-tab-s9-ultra",
+      brand: "Samsung", category: "tablets", price: 1299990,
+      images: ["https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&q=80"],
+      description: 'La tablet más potente de Samsung con pantalla AMOLED de 14.6", Snapdragon 8 Gen 2 y 12 GB RAM.',
+      specs: { "Pantalla": '14.6" Dynamic AMOLED 2X', "Chip": "Snapdragon 8 Gen 2", "RAM": "12 GB", "Almacenamiento": "256 GB", "Batería": "11200 mAh" },
+      stock: 5, isNew: false, isFeatured: false,
+    },
+
+    // Periféricos
+    {
+      id: "acc-001", name: "Logitech MX Master 3S", slug: "logitech-mx-master-3s",
+      brand: "Logitech", category: "perifericos", price: 129990,
+      images: ["https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80"],
+      description: "El mouse de productividad definitivo con scroll MagSpeed, sensor de 8.000 DPI y hasta 70 días de batería.",
+      specs: { "Sensor": "8000 DPI", "Scroll": "MagSpeed electromagnetic", "Batería": "70 días", "Conexión": "Bolt USB / BT", "Botones": "7 programables" },
+      stock: 25, isNew: false, isFeatured: false,
+    },
+    {
+      id: "acc-002", name: "Apple Magic Keyboard Touch ID", slug: "apple-magic-keyboard-touch-id",
+      brand: "Apple", category: "perifericos", price: 149990,
+      images: ["https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&q=80"],
+      description: "Magic Keyboard con Touch ID para autenticación segura, diseño ultra delgado y batería recargable.",
+      specs: { "Layout": "Español Latinoamérica", "Touch ID": "Sí", "Batería": "recargable", "Conexión": "Bluetooth", "Compatible": "macOS / iPad" },
       stock: 18, isNew: false, isFeatured: false,
     },
-    // SHOWER DOOR
     {
-      name: "Bisagra Vidrio–Muro Satinado",
-      slug: "bisagra-vidrio-muro-satinado",
-      brand: "Acero Inox SS304",
-      category: "shower-door",
-      price: 34900,
-      images: ["https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500"],
-      description: "Bisagra vidrio a muro shower door. Para vidrio 8–10 mm. Acero Inoxidable satinado.",
-      specs: { "Vidrio": "8 a 10 mm", "Terminación": "Satinado" },
-      stock: 35, isNew: false, isFeatured: true,
-    },
-    {
-      name: "Bisagra Vidrio–Muro Negro",
-      slug: "bisagra-vidrio-muro-negro-hsdn0001",
-      brand: "Acero Inox SS304",
-      category: "shower-door",
-      price: 24900,
-      images: ["https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500"],
-      description: "Bisagra vidrio a muro shower door. Para vidrio 8–10 mm. Acero Inoxidable negro.",
-      specs: { "Código": "HSDN0001", "Vidrio": "8 a 10 mm", "Terminación": "Negro mate" },
-      stock: 30, isNew: true, isFeatured: true,
-    },
-    {
-      name: "Bisagra Vidrio–Muro Oro Bruñido",
-      slug: "bisagra-vidrio-muro-oro-hsdo0001",
-      brand: "Acero Inox SS304",
-      category: "shower-door",
-      price: 29900,
-      images: ["https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500"],
-      description: "Bisagra vidrio a muro shower door. Para vidrio 8–10 mm. Terminación Oro Bruñido oscuro.",
-      specs: { "Código": "HSDO0001", "Vidrio": "8 a 10 mm", "Terminación": "Oro Bruñido" },
-      stock: 20, isNew: true, isFeatured: true,
-    },
-    {
-      name: "Kit Shower Door Corredera Satinado",
-      slug: "kit-shower-door-corredera-satinado-ksdc0003",
-      brand: "Acero Inox SS304",
-      category: "shower-door",
-      price: 57000,
-      comparePrice: 64000,
-      images: ["https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500"],
-      description: "Kit completo corredera. Incluye ruedas, soportes, cilindros anti-levantamiento, topes, guía, tirador ASA 58mm y riel 2 mts.",
-      specs: { "Código": "KSDC0003", "Vidrio": "8 a 10 mm", "Terminación": "Satinado", "Riel": "2 metros" },
-      stock: 15, isNew: false, isFeatured: true,
-    },
-    {
-      name: "Kit Shower Door Corredera Negro",
-      slug: "kit-shower-door-corredera-negro-ksdn0002",
-      brand: "Acero Inox SS304",
-      category: "shower-door",
-      price: 64000,
-      images: ["https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500"],
-      description: "Kit completo corredera negro. Incluye todos los accesorios y riel 2 mts.",
-      specs: { "Código": "KSDN0002", "Vidrio": "8 a 10 mm", "Terminación": "Negro mate" },
-      stock: 12, isNew: true, isFeatured: false,
-    },
-    // BARANDAS
-    {
-      name: "Soporte Espiga SS304",
-      slug: "soporte-espiga-ss304-hbes0001",
-      brand: "Acero Inox SS304",
-      category: "barandas",
-      price: 31000,
-      images: ["https://images.unsplash.com/photo-1486325212027-8081e485255e?w=500"],
-      description: "Soporte espiga para barandas. Vidrio 10–12 mm. SS304 satinado. No requiere perforación.",
-      specs: { "Código": "HBES0001", "Vidrio": "10 a 12 mm", "Material": "SS304 satinado" },
-      stock: 60, isNew: false, isFeatured: true,
-    },
-    {
-      name: "Soporte Espiga Duplex 2205",
-      slug: "soporte-espiga-duplex-hbes0005",
-      brand: "Duplex 2205",
-      category: "barandas",
-      price: 36000,
-      images: ["https://images.unsplash.com/photo-1486325212027-8081e485255e?w=500"],
-      description: "Soporte espiga Duplex 2205 para barandas. Mayor resistencia a la corrosión. Ideal para entornos costeros.",
-      specs: { "Código": "HBES0005", "Vidrio": "10 a 12 mm", "Material": "Duplex 2205 satinado" },
-      stock: 30, isNew: false, isFeatured: true,
-    },
-    {
-      name: "Cerradura Baranda Piscina SS316",
-      slug: "cerradura-baranda-piscina-hcba0001",
-      brand: "Acero Inox SS316",
-      category: "barandas",
-      price: 44000,
-      images: ["https://images.unsplash.com/photo-1486325212027-8081e485255e?w=500"],
-      description: "Cerradura frontal para barandas de piscina. Vidrio 10–12 mm. SS316 resistente a cloruros.",
-      specs: { "Código": "HCBA0001", "Material": "SS316", "Uso": "Barandas piscina" },
-      stock: 20, isNew: false, isFeatured: true,
-    },
-    // CANALES
-    {
-      name: "Canal Inox Satinado 15×15 mm – 3 mts",
-      slug: "canal-inox-satin-15x15-caui0001",
-      brand: "Acero Inox SS304",
-      category: "canales",
-      price: 26000,
-      images: ["https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500"],
-      description: "Canal de acero inoxidable 1,5 mm. Para vidrio 8–10 mm. Terminación satinado. Largo 3 metros.",
-      specs: { "Código": "CAUI0001", "Medidas": "15×15 mm", "Largo": "3 metros" },
+      id: "acc-003", name: "Samsung 65W USB-C Charger", slug: "samsung-65w-usb-c-charger",
+      brand: "Samsung", category: "perifericos", price: 49990,
+      images: ["https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=80"],
+      description: "Cargador GaN de 65W con puerto USB-C y USB-A, compatible con carga rápida 45W para Galaxy y laptops.",
+      specs: { "Potencia": "65 W", "Puertos": "USB-C + USB-A", "Tecnología": "GaN", "Carga rápida": "45 W PD", "Tamaño": "compacto" },
       stock: 40, isNew: false, isFeatured: false,
     },
     {
-      name: "Canal Inox Negro 15×15 mm – 3 mts",
-      slug: "canal-inox-negro-15x15-caui0002",
-      brand: "Acero Inox SS304",
-      category: "canales",
-      price: 29000,
-      images: ["https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500"],
-      description: "Canal de acero inoxidable negro mate 1,5 mm. Para vidrio 8–10 mm. Largo 3 metros.",
-      specs: { "Código": "CAUI0002", "Medidas": "15×15 mm", "Terminación": "Negro mate" },
-      stock: 35, isNew: true, isFeatured: false,
+      id: "acc-004", name: "ASUS ProArt Display PA278CGV", slug: "asus-proart-pa278cgv",
+      brand: "ASUS", category: "perifericos", price: 399990, comparePrice: 449990,
+      images: ["https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80"],
+      description: 'Monitor profesional de 27" WQHD con 144 Hz, cobertura DCI-P3 95% y certificación Calman Verified.',
+      specs: { "Pantalla": '27" IPS WQHD', "Tasa refresco": "144 Hz", "Color": "DCI-P3 95%", "HDR": "HDR10", "Conectividad": "HDMI, DP, USB-C 90W" },
+      stock: 8, isNew: false, isFeatured: false,
     },
+
+    // Equipos Fiscales
     {
-      name: "Canal Aluminio Plata 19×15 mm – 3 mts",
-      slug: "canal-aluminio-plata-19x15-caua0001",
-      brand: "Aluminio",
-      category: "canales",
-      price: 17500,
-      images: ["https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500"],
-      description: "Canal de aluminio anodizado 2 mm. Para vidrio 8–10 mm. Terminación plata. Largo 3 metros.",
-      specs: { "Código": "CAUA0001", "Medidas": "19×15 mm", "Terminación": "Plata" },
-      stock: 50, isNew: false, isFeatured: true,
-    },
-    // BURLETES
-    {
-      name: "Burlete Vidrio–Muro 8mm",
-      slug: "burlete-vidrio-muro-8mm-bpvc0001",
-      brand: "PVC",
-      category: "burletes",
-      price: 9900,
-      images: ["https://images.unsplash.com/photo-1452784444945-3f422708fe5e?w=500"],
-      description: "PVC azulado traslúcido. 2,2 metros de largo. Aleta blanda 15,5 mm. Para vidrio 8 mm.",
-      specs: { "Código": "BPVC0001", "Vidrio": "8 mm", "Largo": "2,2 metros" },
-      stock: 100, isNew: false, isFeatured: false,
-    },
-    {
-      name: "Burlete Magnético 90°/180° 8mm",
-      slug: "burlete-magnetico-bpvc0009",
-      brand: "PVC",
-      category: "burletes",
-      price: 11900,
-      images: ["https://images.unsplash.com/photo-1452784444945-3f422708fe5e?w=500"],
-      description: "Burlete magnético 90° o 180°. PVC azulado traslúcido. 2,2 metros. Para vidrio 8 mm.",
-      specs: { "Código": "BPVC0009", "Vidrio": "8 mm", "Ángulo": "90° o 180°" },
-      stock: 80, isNew: false, isFeatured: false,
-    },
-    // BALAUSTROS
-    {
-      name: "Balaustro Intermedio 180°",
-      slug: "balaustro-intermedio-180-hbba0001",
-      brand: "Acero Inox SS304",
-      category: "balaustros",
-      price: 89000,
-      images: ["https://images.unsplash.com/photo-1567016526105-22da7c13161a?w=500"],
-      description: "Para vidrio 10–12 mm. Tubo 2\" – Alto 1000 mm. SS304. Incluye 4 pinzas, gomas, tapa y herraje pasamanos.",
-      specs: { "Código": "HBBA0001", "Vidrio": "10 a 12 mm", "Alto": "1000 mm" },
+      id: "ef-001", name: "Impresora Fiscal Bixolon SRP-350III", slug: "bixolon-srp-350iii-fiscal",
+      brand: "Samsung", category: "equipos-fiscales", price: 89900,
+      images: ["https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=800&q=80"],
+      description: "Impresora fiscal térmica de alta velocidad con memoria IGTF integrada. Ideal para puntos de venta en Venezuela.",
+      specs: { "Velocidad": "250 mm/s", "Interfaz": "USB + Serial + Ethernet", "Ancho papel": "80 mm", "Memoria": "IGTF incorporada", "Garantía": "1 año" },
       stock: 20, isNew: false, isFeatured: true,
     },
-    // BRAZOS HIDRÁULICOS
     {
-      name: "Brazo Hidráulico K052 – 65 Kg",
-      slug: "brazo-hidraulico-k052-cacp0005",
-      brand: "Aluminio",
-      category: "brazos-hidraulicos",
-      price: 17500,
-      images: ["https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=500"],
-      description: "Para puertas de hasta 65 Kg. Uso residencial y comercial. Cierre ajustable. Aluminio pintado.",
-      specs: { "Código": "CACP0005", "Capacidad": "Hasta 65 Kg", "Material": "Aluminio pintado" },
-      stock: 20, isNew: false, isFeatured: true,
+      id: "ef-002", name: "Equipo Fiscal The Factory HKA 80", slug: "the-factory-hka-80",
+      brand: "HP", category: "equipos-fiscales", price: 120000,
+      images: ["https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=80"],
+      description: "Sistema fiscal completo HKA 80 homologado por el SENIAT. Incluye impresora térmica, memoria fiscal y software.",
+      specs: { "Resolución": "203 dpi", "Interfaz": "USB + RS-232", "Ancho papel": "58/80 mm", "Homologación": "SENIAT", "Software": "Incluido" },
+      stock: 15, isNew: true, isFeatured: false,
+    },
+    {
+      id: "ef-003", name: "Lector de Código de Barras Honeywell 1950", slug: "honeywell-1950-barcode",
+      brand: "HP", category: "equipos-fiscales", price: 35000,
+      images: ["https://images.unsplash.com/photo-1585664811087-47f65abbad64?w=800&q=80"],
+      description: "Lector omnidireccional de códigos de barras 1D/2D con tecnología de imagen CMOS. Compatible con cualquier sistema POS.",
+      specs: { "Tecnología": "Imager CMOS", "Lectura": "1D + 2D + QR", "Interfaz": "USB HID", "Rango": "hasta 30 cm", "Garantía": "2 años" },
+      stock: 30, isNew: false, isFeatured: false,
+    },
+
+    // Impresoras
+    {
+      id: "imp-001", name: "HP LaserJet Pro M404dn", slug: "hp-laserjet-pro-m404dn",
+      brand: "HP", category: "impresoras", price: 280000, comparePrice: 320000,
+      images: ["https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=80"],
+      description: "Impresora láser monocromática de alta velocidad para oficinas. 40 ppm, dúplex automático y conectividad Ethernet.",
+      specs: { "Velocidad": "40 ppm", "Resolución": "1200 x 1200 dpi", "Dúplex": "Automático", "Conectividad": "USB + Ethernet", "Bandeja": "350 hojas" },
+      stock: 12, isNew: false, isFeatured: true,
+    },
+    {
+      id: "imp-002", name: "Brother DCP-L3550CDW", slug: "brother-dcp-l3550cdw",
+      brand: "Brother", category: "impresoras", price: 195000,
+      images: ["https://images.unsplash.com/photo-1599658880436-c61792e70672?w=800&q=80"],
+      description: "Multifuncional láser color con Wi-Fi, dúplex automático y ADF de 50 páginas. Ideal para pymes.",
+      specs: { "Velocidad": "18 ppm color", "Funciones": "Impresión + Copia + Escáner", "Wi-Fi": "Sí", "ADF": "50 páginas", "Dúplex": "Automático" },
+      stock: 8, isNew: true, isFeatured: false,
+    },
+    {
+      id: "imp-003", name: "HP OfficeJet Pro 9025e", slug: "hp-officejet-pro-9025e",
+      brand: "HP", category: "impresoras", price: 145000,
+      images: ["https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=80"],
+      description: "Multifuncional de inyección de tinta con HP+, impresión a doble cara y conectividad Wi-Fi. Hasta 24 ppm en negro.",
+      specs: { "Velocidad": "24 ppm negro", "Funciones": "Impresión + Copia + Escáner + Fax", "Wi-Fi": "Sí", "ADF": "35 páginas", "Pantalla": '2.7" táctil' },
+      stock: 18, isNew: false, isFeatured: false,
     },
   ]
 
-  for (const product of productsData) {
+  for (const p of productsData) {
     await prisma.product.create({
       data: {
-        name: product.name,
-        slug: product.slug,
-        description: product.description,
-        price: product.price,
-        comparePrice: product.comparePrice,
-        stock: product.stock,
-        images: product.images,
-        specs: product.specs,
-        isNew: product.isNew,
-        isFeatured: product.isFeatured,
-        categoryId: categories[product.category],
-        brandId: brands[product.brand],
+        name: p.name,
+        slug: p.slug,
+        description: p.description,
+        price: p.price,
+        comparePrice: p.comparePrice ?? null,
+        stock: p.stock,
+        images: p.images,
+        specs: p.specs,
+        isNew: p.isNew,
+        isFeatured: p.isFeatured,
+        categoryId: categories[p.category],
+        brandId: brands[p.brand],
       },
     })
   }
   console.log(`Created ${productsData.length} products`)
 
-  // Admin User
-  const adminUser = await prisma.user.create({
+  // ── Admin User ────────────────────────────────────────────────────────────
+  await prisma.user.create({
     data: {
-      email: "admin@energlass.cl",
+      email: "admin@enovacorp.com.ve",
       password: "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu9lK",
-      name: "Admin Energlass",
-      phone: "+56 2 3209 0021",
+      name: "Admin ENOVA CORP",
+      phone: "+58 212 555 0100",
       role: "ADMIN",
       status: "ACTIVE",
     },
   })
-  console.log(`Created admin: ${adminUser.email}`)
+  console.log("Created admin: admin@enovacorp.com.ve")
 
-  // Test Customer
-  const customerUser = await prisma.user.create({
-    data: {
-      email: "cliente@email.com",
-      password: "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu9lK",
-      name: "Carlos Martínez",
-      phone: "+56 9 8765 4321",
-      role: "CUSTOMER",
-      status: "ACTIVE",
-    },
-  })
-
-  await prisma.address.create({
-    data: {
-      label: "Casa",
-      name: "Carlos Martínez",
-      phone: "+56 9 8765 4321",
-      address: "Av. Libertador Bernardo O'Higgins 1234",
-      city: "Santiago",
-      state: "Región Metropolitana",
-      zipCode: "8340457",
-      isDefault: true,
-      userId: customerUser.id,
-    },
-  })
-  console.log(`Created customer: ${customerUser.email}`)
-
-  console.log("Energlass seed completed!")
+  console.log("ENOVA CORP seed completed! 35 products, 8 categories, 9 brands")
 }
 
 main()

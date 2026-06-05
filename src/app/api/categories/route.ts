@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { transformCategory } from "@/lib/transformers"
+import { categories as mockCategories, products as mockProducts } from "@/data/mock-products"
 
 export async function GET() {
+  // Fallback to mock data when DB is not connected
+  if (!prisma) {
+    const withCounts = mockCategories.map((cat) => ({
+      ...cat,
+      productCount: mockProducts.filter((p) => p.category === cat.slug).length,
+    }))
+    return NextResponse.json(withCounts)
+  }
+
   try {
     const categories = await prisma.category.findMany({
       include: {

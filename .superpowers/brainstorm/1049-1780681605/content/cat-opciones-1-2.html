@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CategoryGrid — Opciones 1 & 2</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #060606; color: #e5e7eb; font-family: 'Inter', system-ui, sans-serif; padding-bottom: 80px; }
+
+  .page-header { padding: 36px 40px 32px; border-bottom: 1px solid #1a1a1a; }
+  .page-eyebrow { font-size: 10px; font-family: monospace; text-transform: uppercase; letter-spacing: .14em; color: #4b5563; margin-bottom: 6px; }
+  .page-title { font-size: 22px; font-weight: 300; letter-spacing: -.02em; color: #f9fafb; }
+  .page-sub { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
+  .option-block {
+    border-bottom: 1px solid #1a1a1a; cursor: pointer;
+    transition: background 150ms; position: relative;
+  }
+  .option-block:hover { background: #080808; }
+  .option-block.selected { background: #050d1a; }
+  .option-block.selected::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: #0057B7; z-index: 10;
+  }
+  .option-meta { display: flex; align-items: center; gap: 14px; padding: 20px 40px 14px; }
+  .opt-letter {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #111; border: 1.5px solid #222;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-family: monospace; font-weight: 700; color: #0057B7;
+    flex-shrink: 0; transition: all 150ms;
+  }
+  .option-block.selected .opt-letter { background: #0057B7; border-color: #0057B7; color: #fff; }
+  .opt-name { font-size: 14px; font-weight: 600; color: #f3f4f6; }
+  .opt-tag {
+    margin-left: 8px; font-size: 9px; font-family: monospace; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .1em;
+    background: #1a2744; color: #60a5fa;
+    border: 1px solid #1d3461; border-radius: 3px; padding: 2px 7px;
+  }
+  .opt-desc { font-size: 11.5px; color: #6b7280; margin-left: auto; max-width: 280px; text-align: right; line-height: 1.4; }
+  .mockup-area { padding: 0 40px 28px; }
+
+  /* ══════════════════════════════════
+     A — FILMSTRIP HOVER
+  ══════════════════════════════════ */
+  .filmstrip {
+    display: flex; gap: 3px; height: 300px;
+    overflow: hidden; border: 1px solid #1f2937; border-radius: 6px;
+  }
+  .film-card {
+    position: relative; flex: 1; min-width: 0; overflow: hidden;
+    transition: flex 380ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .filmstrip:hover .film-card { flex: 0.55; }
+  .filmstrip:hover .film-card:hover { flex: 2.8; }
+  .film-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 380ms cubic-bezier(0.16,1,0.3,1), filter 300ms;
+    filter: brightness(0.5);
+  }
+  .film-card:hover img { transform: scale(1.05); filter: brightness(0.78); }
+  .film-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 18px 14px 14px;
+    background: linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 100%);
+  }
+  .film-num { font-size: 9px; font-family: monospace; color: #0057B7; letter-spacing: .12em; margin-bottom: 4px; }
+  .film-name { font-size: 13px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 200ms; }
+  .film-card:hover .film-name { color: #60a5fa; }
+  .film-count { font-size: 9px; font-family: monospace; color: rgba(255,255,255,.4); margin-top: 2px; }
+  .film-arrow {
+    position: absolute; top: 10px; right: 10px; width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(0,87,183,.4); border: 1px solid rgba(0,87,183,.6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: #60a5fa; opacity: 0; transition: opacity 200ms;
+  }
+  .film-card:hover .film-arrow { opacity: 1; }
+  .film-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background: #0057B7;
+    transition: width 300ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .film-card:hover::after { width: 100%; }
+
+  /* ══════════════════════════════════
+     B — SPLIT SCREEN REVEAL (luxury)
+  ══════════════════════════════════ */
+  .split-screen {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    height: 380px;
+    border: 1px solid #1f2937;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  /* LEFT — category list */
+  .split-list {
+    background: #080c10;
+    border-right: 1px solid #1a2535;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .split-list-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid #111d2a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .split-list-header-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #0057B7; flex-shrink: 0;
+  }
+  .split-list-header-label {
+    font-size: 9px; font-family: monospace; text-transform: uppercase;
+    letter-spacing: .14em; color: #4b5563;
+  }
+  .split-row {
+    display: flex; align-items: center; gap: 0;
+    padding: 0 0 0 20px;
+    border-bottom: 1px solid #0d1520;
+    cursor: pointer; flex: 1;
+    transition: background 200ms;
+    position: relative;
+    overflow: hidden;
+  }
+  .split-row::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px; background: #0057B7;
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 250ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .split-row.active { background: #0a1525; }
+  .split-row.active::before { transform: scaleY(1); }
+  .split-row:hover { background: #0c1a2e; }
+  .split-row-num {
+    font-size: 9px; font-family: monospace; color: #374151;
+    width: 24px; flex-shrink: 0;
+    transition: color 200ms;
+  }
+  .split-row.active .split-row-num { color: #0057B7; }
+  .split-row-name {
+    font-size: 13px; font-weight: 500; color: #6b7280;
+    flex: 1; padding-left: 10px;
+    transition: color 200ms;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .split-row.active .split-row-name { color: #f9fafb; }
+  .split-row-count {
+    font-size: 9px; font-family: monospace; color: #1f2937;
+    padding: 0 16px 0 8px;
+    transition: color 200ms;
+    flex-shrink: 0;
+  }
+  .split-row.active .split-row-count { color: #374151; }
+  .split-row-arrow {
+    font-size: 10px; color: transparent; padding-right: 16px;
+    transition: color 200ms, transform 200ms;
+    flex-shrink: 0;
+  }
+  .split-row.active .split-row-arrow { color: #0057B7; transform: translateX(2px); }
+
+  /* RIGHT — image panel */
+  .split-image-panel { position: relative; overflow: hidden; background: #050a12; }
+  .split-img {
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 400ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .split-img.active { opacity: 1; }
+  .split-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.6);
+    transition: transform 6s ease;
+  }
+  .split-img.active img { transform: scale(1.04); }
+
+  /* Image overlay info */
+  .split-img-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 24px 24px 22px;
+    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 100%);
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 350ms 100ms, transform 350ms 100ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .split-img.active .split-img-info { opacity: 1; transform: translateY(0); }
+  .split-img-category { font-size: 9px; font-family: monospace; color: #0057B7; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 6px; }
+  .split-img-name { font-size: 26px; font-weight: 300; color: #fff; letter-spacing: -.02em; line-height: 1.1; }
+  .split-img-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 10px;
+    font-size: 10px; font-family: monospace; text-transform: uppercase; letter-spacing: .12em;
+    color: rgba(255,255,255,.55);
+  }
+
+  /* Blue glow top-right corner tag */
+  .split-tag {
+    position: absolute; top: 14px; right: 14px;
+    background: rgba(0,87,183,.25); border: 1px solid rgba(0,87,183,.5);
+    border-radius: 4px; padding: 4px 10px;
+    font-size: 9px; font-family: monospace; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .1em; color: #60a5fa;
+    opacity: 0; transition: opacity 300ms 150ms;
+  }
+  .split-img.active .split-tag { opacity: 1; }
+
+  /* Footer */
+  .footer-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 52px;
+    background: #0a0a0a; border-top: 1px solid #1f2937;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; font-size: 12px; color: #6b7280;
+  }
+  .footer-sel { color: #60a5fa; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-eyebrow">ENOVA CORP ® — CategoryGrid · Ronda 1 de 3</div>
+  <div class="page-title">Opciones 1 y 2 — hover para ver animaciones</div>
+  <div class="page-sub">Haz clic en la que prefieras. Opciones 3 y 4 en la siguiente ronda.</div>
+</div>
+
+<!-- ══ OPCIÓN A — Filmstrip ══ -->
+<div class="option-block" id="block-a" onclick="pick('a','A — Filmstrip Hover')">
+  <div class="option-meta">
+    <div class="opt-letter">A</div>
+    <div>
+      <span class="opt-name">Filmstrip Hover</span>
+      <span class="opt-tag">Interactivo</span>
+    </div>
+    <div class="opt-desc">6 cards en tira horizontal. Hover expande la activa, comprime las demás. Estilo editorial.</div>
+  </div>
+  <div class="mockup-area">
+    <div class="filmstrip">
+      <div class="film-card"><img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80" alt="Laptops"><div class="film-arrow">→</div><div class="film-info"><div class="film-num">01</div><div class="film-name">Laptops / PCs</div><div class="film-count">6 productos</div></div></div>
+      <div class="film-card"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80" alt="Smartphones"><div class="film-arrow">→</div><div class="film-info"><div class="film-num">02</div><div class="film-name">Smartphones</div><div class="film-count">6 productos</div></div></div>
+      <div class="film-card"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80" alt="Eq. Fiscales"><div class="film-arrow">→</div><div class="film-info"><div class="film-num">03</div><div class="film-name">Eq. Fiscales</div><div class="film-count">3 productos</div></div></div>
+      <div class="film-card"><img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80" alt="Impresoras"><div class="film-arrow">→</div><div class="film-info"><div class="film-num">04</div><div class="film-name">Impresoras</div><div class="film-count">3 productos</div></div></div>
+      <div class="film-card"><img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=600&q=80" alt="Periféricos"><div class="film-arrow">→</div><div class="film-info"><div class="film-num">05</div><div class="film-name">Periféricos</div><div class="film-count">4 productos</div></div></div>
+      <div class="film-card"><img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=80" alt="Gaming"><div class="film-arrow">→</div><div class="film-info"><div class="film-num">06</div><div class="film-name">Gaming</div><div class="film-count">5 productos</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ OPCIÓN B — Split Screen Reveal ══ -->
+<div class="option-block" id="block-b" onclick="pick('b','B — Split Screen Reveal')">
+  <div class="option-meta">
+    <div class="opt-letter">B</div>
+    <div>
+      <span class="opt-name">Split Screen Reveal</span>
+      <span class="opt-tag">Luxury</span>
+    </div>
+    <div class="opt-desc">Lista de categorías a la izquierda — hover revela la imagen a pantalla completa a la derecha. Patrón de sitios luxury/agency premium.</div>
+  </div>
+  <div class="mockup-area">
+    <div class="split-screen">
+
+      <!-- LEFT LIST -->
+      <div class="split-list">
+        <div class="split-list-header">
+          <div class="split-list-header-dot"></div>
+          <span class="split-list-header-label">Categorías</span>
+        </div>
+
+        <div class="split-row active" onmouseenter="reveal(0)" data-idx="0">
+          <span class="split-row-num">01</span>
+          <span class="split-row-name">Laptops / PCs</span>
+          <span class="split-row-count">6 prod.</span>
+          <span class="split-row-arrow">→</span>
+        </div>
+        <div class="split-row" onmouseenter="reveal(1)" data-idx="1">
+          <span class="split-row-num">02</span>
+          <span class="split-row-name">Smartphones</span>
+          <span class="split-row-count">6 prod.</span>
+          <span class="split-row-arrow">→</span>
+        </div>
+        <div class="split-row" onmouseenter="reveal(2)" data-idx="2">
+          <span class="split-row-num">03</span>
+          <span class="split-row-name">Eq. Fiscales</span>
+          <span class="split-row-count">3 prod.</span>
+          <span class="split-row-arrow">→</span>
+        </div>
+        <div class="split-row" onmouseenter="reveal(3)" data-idx="3">
+          <span class="split-row-num">04</span>
+          <span class="split-row-name">Impresoras</span>
+          <span class="split-row-count">3 prod.</span>
+          <span class="split-row-arrow">→</span>
+        </div>
+        <div class="split-row" onmouseenter="reveal(4)" data-idx="4">
+          <span class="split-row-num">05</span>
+          <span class="split-row-name">Periféricos</span>
+          <span class="split-row-count">4 prod.</span>
+          <span class="split-row-arrow">→</span>
+        </div>
+        <div class="split-row" onmouseenter="reveal(5)" data-idx="5">
+          <span class="split-row-num">06</span>
+          <span class="split-row-name">Gaming</span>
+          <span class="split-row-count">5 prod.</span>
+          <span class="split-row-arrow">→</span>
+        </div>
+      </div>
+
+      <!-- RIGHT IMAGE PANEL -->
+      <div class="split-image-panel">
+        <div class="split-img active" id="img-0">
+          <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=900&q=85" alt="Laptops">
+          <div class="split-tag">Laptops / PCs</div>
+          <div class="split-img-info">
+            <div class="split-img-category">Categoría 01</div>
+            <div class="split-img-name">Laptops / PCs</div>
+            <div class="split-img-cta">Ver colección <span>→</span></div>
+          </div>
+        </div>
+        <div class="split-img" id="img-1">
+          <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900&q=85" alt="Smartphones">
+          <div class="split-tag">Smartphones</div>
+          <div class="split-img-info">
+            <div class="split-img-category">Categoría 02</div>
+            <div class="split-img-name">Smartphones</div>
+            <div class="split-img-cta">Ver colección <span>→</span></div>
+          </div>
+        </div>
+        <div class="split-img" id="img-2">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=85" alt="Eq. Fiscales">
+          <div class="split-tag">Eq. Fiscales</div>
+          <div class="split-img-info">
+            <div class="split-img-category">Categoría 03</div>
+            <div class="split-img-name">Equipos Fiscales</div>
+            <div class="split-img-cta">Ver colección <span>→</span></div>
+          </div>
+        </div>
+        <div class="split-img" id="img-3">
+          <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=900&q=85" alt="Impresoras">
+          <div class="split-tag">Impresoras</div>
+          <div class="split-img-info">
+            <div class="split-img-category">Categoría 04</div>
+            <div class="split-img-name">Impresoras</div>
+            <div class="split-img-cta">Ver colección <span>→</span></div>
+          </div>
+        </div>
+        <div class="split-img" id="img-4">
+          <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=900&q=85" alt="Periféricos">
+          <div class="split-tag">Periféricos</div>
+          <div class="split-img-info">
+            <div class="split-img-category">Categoría 05</div>
+            <div class="split-img-name">Periféricos</div>
+            <div class="split-img-cta">Ver colección <span>→</span></div>
+          </div>
+        </div>
+        <div class="split-img" id="img-5">
+          <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=900&q=85" alt="Gaming">
+          <div class="split-tag">Gaming</div>
+          <div class="split-img-info">
+            <div class="split-img-category">Categoría 06</div>
+            <div class="split-img-name">Gaming</div>
+            <div class="split-img-cta">Ver colección <span>→</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="footer-bar">
+  <span id="footer-txt" style="font-size:11px;opacity:.7;">Haz clic en una opción · hover activa las animaciones</span>
+  <span style="font-size:11px;opacity:.7;">Opciones 3 & 4 → en el terminal cuando estés listo</span>
+</div>
+
+<script>
+  let sel = null;
+  function pick(id, label) {
+    ['a','b'].forEach(x => document.getElementById('block-'+x).classList.remove('selected'));
+    sel = id;
+    document.getElementById('block-'+id).classList.add('selected');
+    document.getElementById('footer-txt').innerHTML = '<span class="footer-sel">✓ ' + label + ' seleccionada</span>';
+    if (window.__selectOption) window.__selectOption(id, label);
+  }
+
+  let current = 0;
+  function reveal(idx) {
+    if (idx === current) return;
+    document.getElementById('img-' + current).classList.remove('active');
+    document.querySelectorAll('.split-row').forEach(r => r.classList.remove('active'));
+    current = idx;
+    document.getElementById('img-' + idx).classList.add('active');
+    document.querySelector('[data-idx="' + idx + '"]').classList.add('active');
+  }
+</script>
+</body>
+</html>

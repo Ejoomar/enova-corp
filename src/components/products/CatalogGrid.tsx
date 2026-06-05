@@ -33,18 +33,15 @@ interface CatalogGridProps {
 // Category labels for filter chips
 // ─────────────────────────────────────────────
 const CATEGORY_LABELS: Record<string, string> = {
-  "puertas-vidrio":      "Puertas de Vidrio",
-  "shower-door":         "Shower Door",
-  barandas:              "Barandas",
-  quicios:               "Quicios",
-  cerraduras:            "Cerraduras",
-  "canales-terminacion": "Canales",
-  burletes:              "Burletes",
-  "bisagras-vitrina":    "Bisagras Vitrina",
-  "conectores-union":    "Conectores",
-  distanciadores:        "Distanciadores",
-  "soportes-vitrina":    "Soportes Vitrina",
-  general:               "General",
+  laptops:            "Laptops",
+  smartphones:        "Smartphones",
+  tablets:            "Tablets",
+  gaming:             "Gaming",
+  audio:              "Audio",
+  perifericos:        "Periféricos",
+  "equipos-fiscales": "Equipos Fiscales",
+  impresoras:         "Impresoras",
+  general:            "General",
 }
 
 // ─────────────────────────────────────────────
@@ -53,9 +50,9 @@ const CATEGORY_LABELS: Record<string, string> = {
 function ProductCard({ product }: { product: CatalogProduct }) {
   const [imgError, setImgError] = useState(false)
   const waMessage = encodeURIComponent(
-    `Hola Energlass, quiero cotizar: ${product.name}`
+    `Hola ENOVA CORP, quiero cotizar: ${product.name}`
   )
-  const waUrl = `https://wa.me/56233470670?text=${waMessage}`
+  const waUrl = `https://wa.me/582125550100?text=${waMessage}`
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-xl border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-amber-400/50">
@@ -93,7 +90,7 @@ function ProductCard({ product }: { product: CatalogProduct }) {
 
         {product.price != null && product.price > 0 ? (
           <p className="flex items-baseline gap-1.5 text-base font-bold text-primary">
-            ${product.price.toLocaleString("es-CL")}
+            ${product.price.toLocaleString("en-US")}
             {product.plusIva && (
               <span className="text-[11px] font-medium text-amber-600 dark:text-amber-400">
                 + IVA

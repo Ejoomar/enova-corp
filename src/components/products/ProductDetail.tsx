@@ -8,6 +8,9 @@ import { Separator } from "@/components/ui/separator"
 import { Product } from "@/types"
 import { useCartStore } from "@/stores/cart-store"
 import { useQuoteStore } from "@/stores/quote-store"
+import { useFavoritesStore } from "@/stores/favorites-store"
+import { useDolarRate } from "@/hooks/useDolarRate"
+import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
 
 interface ProductDetailProps {
   product: Product
@@ -19,6 +22,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [quotedAdded, setQuotedAdded] = useState(false)
   const addItem = useCartStore((state) => state.addItem)
   const addQuoteItem = useQuoteStore((state) => state.addItem)
+  const toggleFavorite = useFavoritesStore((state) => state.toggleItem)
+  const isFavorite = useFavoritesStore((state) => state.isFavorite(product.id))
+  const { bcv } = useDolarRate()
 
   const hasDiscount = product.originalPrice && product.originalPrice > product.price
   const discountPercent = hasDiscount
@@ -80,26 +86,34 @@ export function ProductDetail({ product }: ProductDetailProps) {
       </div>
 
       {/* Price */}
-      <div className="flex flex-wrap items-baseline gap-2">
+      <div className="flex flex-col gap-1">
         {product.price > 0 ? (
           <>
-            <span className="text-3xl font-bold text-primary">
-              ${product.price.toLocaleString("es-CL")}
-            </span>
-            {product.plusIva && (
-              <span className="rounded bg-amber-100 px-2 py-0.5 text-sm font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
-                + IVA
+            <div className="flex flex-wrap items-baseline gap-2">
+              <span className="text-3xl font-bold text-primary">
+                {formatUSD(product.price)}
               </span>
-            )}
-            {hasDiscount && (
-              <span className="text-lg text-muted-foreground line-through">
-                ${product.originalPrice!.toLocaleString("es-CL")}
-              </span>
+              {product.plusIva && (
+                <span className="rounded bg-amber-100 px-2 py-0.5 text-sm font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
+                  + IVA
+                </span>
+              )}
+              {hasDiscount && (
+                <span className="text-lg text-muted-foreground line-through">
+                  {formatUSD(product.originalPrice!)}
+                </span>
+              )}
+            </div>
+            {bcv !== null && (
+              <p className="text-sm text-muted-foreground">
+                {formatBsF(usdToBsF(product.price, bcv))}{" "}
+                <span className="text-xs">(Tasa BCV: Bs. {bcv.toFixed(2)} / $)</span>
+              </p>
             )}
           </>
         ) : (
           <a
-            href={`https://wa.me/56233470670?text=${encodeURIComponent("Hola Energlass, quiero cotizar: " + product.name)}`}
+            href={`https://wa.me/582125550100?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xl font-semibold text-green-600 hover:underline"
@@ -178,8 +192,14 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </>
             )}
           </Button>
-          <Button variant="outline" size="lg">
-            <Heart className="h-4 w-4" />
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => toggleFavorite(product)}
+            aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+            className={isFavorite ? "border-[var(--brass)] text-[var(--brass)]" : ""}
+          >
+            <Heart className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
           </Button>
         </div>
 

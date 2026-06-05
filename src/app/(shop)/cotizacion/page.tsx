@@ -78,7 +78,7 @@ export default function CotizacionPage() {
                 </p>
                 <p className="mt-0.5 font-medium leading-tight">{item.product.name}</p>
                 <p className="mt-1 font-mono-ui text-sm font-medium text-[var(--brass)]">
-                  ${item.product.price.toLocaleString("es-CL")}
+                  ${item.product.price.toLocaleString("en-US")}
                 </p>
               </div>
 
@@ -137,7 +137,7 @@ export default function CotizacionPage() {
 
         <div className="flex flex-col gap-3 sm:flex-row">
           <a
-            href={`https://wa.me/56900000000?text=${buildWhatsAppMessage()}`}
+            href={`https://wa.me/582125550100?text=${buildWhatsAppMessage()}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setSent(true)}
@@ -147,7 +147,7 @@ export default function CotizacionPage() {
             Enviar por WhatsApp
           </a>
           <a
-            href={`mailto:ventas@enovacorp.cl?subject=Solicitud de cotización&body=${buildEmailBody()}`}
+            href={`mailto:ventas@enovacorp.com.ve?subject=Solicitud de cotización&body=${buildEmailBody()}`}
             onClick={() => setSent(true)}
             className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-[var(--hairline)] px-4 py-3 text-sm font-medium hover:bg-[var(--background)] transition-colors"
           >

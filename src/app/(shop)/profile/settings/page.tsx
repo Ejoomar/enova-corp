@@ -110,13 +110,12 @@ export default function SettingsPage() {
             </div>
             <div className="space-y-2">
               <Label>Moneda</Label>
-              <Select defaultValue="pen">
+              <Select defaultValue="usd">
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="pen">Soles (S/)</SelectItem>
-                  <SelectItem value="usd">Dolares ($)</SelectItem>
+                  <SelectItem value="usd">Dólares ($)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

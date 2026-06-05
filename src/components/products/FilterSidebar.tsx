@@ -16,13 +16,13 @@ export function FilterSidebar({ filters, onFiltersChange }: FilterSidebarProps) 
     filters.brands.length > 0 ||
     filters.categories.length > 0 ||
     filters.priceRange[0] > 0 ||
-    filters.priceRange[1] < 5000
+    filters.priceRange[1] < 3000000
 
   const handleClearFilters = () => {
     onFiltersChange({
       brands: [],
       categories: [],
-      priceRange: [0, 5000],
+      priceRange: [0, 10000000],
       sortBy: filters.sortBy,
     })
   }
@@ -58,6 +58,7 @@ export function FilterSidebar({ filters, onFiltersChange }: FilterSidebarProps) 
           <p className="eyebrow mb-4">Precio</p>
           <PriceFilter
             priceRange={filters.priceRange}
+            maxPrice={3000000}
             onPriceChange={(priceRange) =>
               onFiltersChange({ ...filters, priceRange })
             }

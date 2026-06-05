@@ -3,18 +3,25 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Heart, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Product } from "@/types"
 import { useCartStore } from "@/stores/cart-store"
+import { useFavoritesStore } from "@/stores/favorites-store"
 import { cn } from "@/lib/utils"
+import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
 
 interface ProductCardProps {
   product: Product
+  bsfRate?: number | null
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, bsfRate }: ProductCardProps) {
+  const router = useRouter()
   const addItem = useCartStore((state) => state.addItem)
+  const toggleFavorite = useFavoritesStore((state) => state.toggleItem)
+  const isFavorite = useFavoritesStore((state) => state.isFavorite(product.id))
   const [imgError, setImgError] = useState(false)
 
   const hasDiscount = product.originalPrice && product.originalPrice > product.price
@@ -56,20 +63,34 @@ export function ProductCard({ product }: ProductCardProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 border border-[var(--hairline)] bg-[var(--background)]/80 hover:border-[var(--brass)] hover:text-[var(--brass)]"
-              onClick={(e) => e.preventDefault()}
+              className={cn(
+                "h-7 w-7 border border-[var(--hairline)] bg-[var(--background)]/80 hover:border-[var(--brass)] hover:text-[var(--brass)]",
+                isFavorite && "border-[var(--brass)] text-[var(--brass)]"
+              )}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                toggleFavorite(product)
+              }}
+              aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
             >
-              <Heart className="h-3 w-3" />
-              <span className="sr-only">Favoritos</span>
+              <Heart className={cn("h-3 w-3", isFavorite && "fill-current")} />
+              <span className="sr-only">{isFavorite ? "Quitar de favoritos" : "Favoritos"}</span>
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-7 w-7 border border-[var(--hairline)] bg-[var(--background)]/80 hover:border-[var(--brass)] hover:text-[var(--brass)]"
+            <Link
+              href={`/products/${product.slug}`}
+              onClick={(e) => e.stopPropagation()}
             >
-              <Eye className="h-3 w-3" />
-              <span className="sr-only">Vista rápida</span>
-            </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 border border-[var(--hairline)] bg-[var(--background)]/80 hover:border-[var(--brass)] hover:text-[var(--brass)]"
+                aria-label="Ver producto"
+              >
+                <Eye className="h-3 w-3" />
+                <span className="sr-only">Ver producto</span>
+              </Button>
+            </Link>
           </div>
 
           {/* Image */}
@@ -98,7 +119,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="mt-4 grid grid-cols-[1fr_auto] gap-x-3 gap-y-0.5">
         <div className="min-w-0">
           <p className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-            {product.sku ? `SKU ${product.sku}` : product.brand} · {product.category}
+            {product.brand} · {product.category}
           </p>
           <Link href={`/products/${product.slug}`}>
             <h3 className="font-display mt-1 text-base font-light leading-tight tracking-[-0.01em] transition-colors group-hover:text-[var(--brass-bright)]">
@@ -110,7 +131,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="shrink-0 text-right">
           {sinPrecio ? (
             <a
-              href={`https://wa.me/56233470670?text=${encodeURIComponent("Hola Energlass, quiero cotizar: " + product.name)}`}
+              href={`https://wa.me/582125550100?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass)] hover:text-[var(--brass-bright)]"
@@ -121,14 +142,16 @@ export function ProductCard({ product }: ProductCardProps) {
           ) : (
             <>
               <p className="font-mono-ui text-sm tabular-nums text-foreground">
-                ${product.price.toLocaleString("es-CL")}
+                {formatUSD(product.price)}
               </p>
-              {product.plusIva && (
-                <p className="font-mono-ui text-[10px] text-[var(--brass-dim)]">+ IVA</p>
+              {bsfRate !== null && bsfRate !== undefined && (
+                <p className="font-mono-ui text-[10px] tabular-nums text-[var(--muted-foreground)]">
+                  {formatBsF(usdToBsF(product.price, bsfRate))}
+                </p>
               )}
               {hasDiscount && (
                 <p className="font-mono-ui text-[10px] tabular-nums text-[var(--muted-foreground)] line-through">
-                  ${product.originalPrice!.toLocaleString("es-CL")}
+                  {formatUSD(product.originalPrice!)}
                 </p>
               )}
             </>

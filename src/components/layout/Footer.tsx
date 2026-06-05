@@ -44,27 +44,27 @@ export function Footer() {
                 className="rounded-lg"
               />
             </Link>
-            <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">
+            <p className="text-sm leading-relaxed text-[var(--steel)]">
               Distribuidor oficial de tecnología en Venezuela. Computación, equipos fiscales,
               smartphones e impresoras de las mejores marcas del mundo.
             </p>
             <address className="not-italic space-y-2">
-              <div className="flex items-start gap-2 text-sm text-[var(--muted-foreground)]">
-                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--brass-dim)]" />
+              <div className="flex items-start gap-2 text-sm text-[var(--steel)]">
+                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--brass)]" />
                 <span>Venezuela</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
-                <Mail className="h-3.5 w-3.5 shrink-0 text-[var(--brass-dim)]" />
+              <div className="flex items-center gap-2 text-sm text-[var(--steel)]">
+                <Mail className="h-3.5 w-3.5 shrink-0 text-[var(--brass)]" />
                 <a
                   href="mailto:ventas@enovacorp.com.ve"
-                  className="transition-colors hover:text-[var(--brass)]"
+                  className="transition-colors hover:text-[var(--brass-bright)]"
                 >
                   ventas@enovacorp.com.ve
                 </a>
               </div>
-              <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
-                <Phone className="h-3.5 w-3.5 shrink-0 text-[var(--brass-dim)]" />
-                <a href="tel:+582125550100" className="transition-colors hover:text-[var(--brass)]">
+              <div className="flex items-center gap-2 text-sm text-[var(--steel)]">
+                <Phone className="h-3.5 w-3.5 shrink-0 text-[var(--brass)]" />
+                <a href="tel:+582125550100" className="transition-colors hover:text-[var(--brass-bright)]">
                   +58 212 555 0100
                 </a>
               </div>
@@ -90,7 +90,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]"
+                    className="text-sm text-[var(--steel)] transition-colors hover:text-[var(--brass)]"
                   >
                     {link.name}
                   </Link>
@@ -105,7 +105,7 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.empresa.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]">
+                  <Link href={link.href} className="text-sm text-[var(--steel)] transition-colors hover:text-[var(--brass)]">
                     {link.name}
                   </Link>
                 </li>
@@ -119,7 +119,7 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.ayuda.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]">
+                  <Link href={link.href} className="text-sm text-[var(--steel)] transition-colors hover:text-[var(--brass)]">
                     {link.name}
                   </Link>
                 </li>

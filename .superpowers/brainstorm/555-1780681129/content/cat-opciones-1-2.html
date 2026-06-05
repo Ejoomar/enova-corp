@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CategoryGrid — Opciones 1 & 2</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #060606; color: #e5e7eb; font-family: 'Inter', system-ui, sans-serif; padding-bottom: 80px; }
+
+  .page-header { padding: 36px 40px 32px; border-bottom: 1px solid #1a1a1a; }
+  .page-eyebrow { font-size: 10px; font-family: monospace; text-transform: uppercase; letter-spacing: .14em; color: #4b5563; margin-bottom: 6px; }
+  .page-title { font-size: 22px; font-weight: 300; letter-spacing: -.02em; color: #f9fafb; }
+  .page-sub { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
+  /* ── Option card wrapper ── */
+  .option-block {
+    border-bottom: 1px solid #1a1a1a;
+    cursor: pointer;
+    transition: background 150ms;
+    position: relative;
+  }
+  .option-block:hover { background: #0a0a0a; }
+  .option-block.selected { background: #050d1a; }
+  .option-block.selected::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: #0057B7;
+    z-index: 10;
+  }
+
+  .option-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 40px 14px;
+  }
+  .opt-letter {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #111;
+    border: 1.5px solid #222;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-family: monospace; font-weight: 700; color: #0057B7;
+    flex-shrink: 0;
+    transition: all 150ms;
+  }
+  .option-block.selected .opt-letter {
+    background: #0057B7; border-color: #0057B7; color: #fff;
+  }
+  .opt-name { font-size: 14px; font-weight: 600; color: #f3f4f6; }
+  .opt-tag {
+    margin-left: 8px;
+    font-size: 9px; font-family: monospace; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .1em;
+    background: #1a2744; color: #60a5fa;
+    border: 1px solid #1d3461; border-radius: 3px;
+    padding: 2px 7px;
+  }
+  .opt-desc { font-size: 11.5px; color: #6b7280; margin-left: auto; max-width: 260px; text-align: right; line-height: 1.4; }
+
+  .mockup-area { padding: 0 40px 28px; }
+
+  /* ══════════════════════════════════════
+     OPCIÓN A — Filmstrip Horizontal
+  ══════════════════════════════════════ */
+  .filmstrip {
+    display: flex;
+    gap: 3px;
+    height: 280px;
+    overflow: hidden;
+    border: 1px solid #1f2937;
+    border-radius: 6px;
+  }
+  .film-card {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    transition: flex 400ms cubic-bezier(0.16,1,0.3,1);
+    cursor: pointer;
+  }
+  .filmstrip:hover .film-card { flex: 0.6; }
+  .filmstrip:hover .film-card:hover { flex: 2.5; }
+
+  .film-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 400ms cubic-bezier(0.16,1,0.3,1);
+    filter: brightness(0.55);
+  }
+  .film-card:hover img { transform: scale(1.06); filter: brightness(0.75); }
+
+  .film-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 16px 14px 14px;
+    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 100%);
+  }
+  .film-num { font-size: 9px; font-family: monospace; color: rgba(255,255,255,.45); letter-spacing: .12em; margin-bottom: 3px; }
+  .film-name {
+    font-size: 13px; font-weight: 600; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: color 200ms;
+  }
+  .film-card:hover .film-name { color: #60a5fa; }
+  .film-count {
+    font-size: 9px; font-family: monospace; color: rgba(255,255,255,.4);
+    margin-top: 2px; white-space: nowrap;
+  }
+  .film-arrow {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #fff;
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+  .film-card:hover .film-arrow { opacity: 1; }
+
+  /* ══════════════════════════════════════
+     OPCIÓN B — Bento Asimétrico Premium
+  ══════════════════════════════════════ */
+  .bento {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr;
+    grid-template-rows: 180px 140px;
+    gap: 3px;
+    border: 1px solid #1f2937;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 323px;
+  }
+
+  .bento-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .bento-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 350ms cubic-bezier(0.16,1,0.3,1), filter 350ms;
+    filter: brightness(0.5);
+  }
+  .bento-card:hover img { transform: scale(1.07); filter: brightness(0.75); }
+
+  .bento-card-feature { grid-row: span 2; }
+
+  .bento-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 14px 14px 12px;
+    background: linear-gradient(to top, rgba(0,0,0,.88) 0%, transparent 100%);
+  }
+  .bento-card-feature .bento-info { padding: 20px 18px 18px; }
+
+  .bento-num { font-size: 9px; font-family: monospace; color: #0057B7; letter-spacing: .12em; margin-bottom: 4px; text-transform: uppercase; }
+  .bento-name {
+    font-weight: 600; color: #fff; line-height: 1.2;
+    transition: color 200ms;
+  }
+  .bento-card-feature .bento-name { font-size: 20px; }
+  .bento-card:not(.bento-card-feature) .bento-name { font-size: 13px; }
+  .bento-card:hover .bento-name { color: #60a5fa; }
+  .bento-count { font-size: 9px; font-family: monospace; color: rgba(255,255,255,.4); margin-top: 2px; }
+
+  /* Blue accent line on hover */
+  .bento-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: #0057B7;
+    transition: width 300ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .bento-card:hover::after { width: 100%; }
+
+  /* ── Footer bar ── */
+  .footer-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 52px;
+    background: #0a0a0a;
+    border-top: 1px solid #1f2937;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px;
+    font-size: 12px; color: #6b7280;
+  }
+  .footer-sel { color: #60a5fa; font-weight: 600; }
+  .footer-hint { font-size: 11px; opacity: .7; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-eyebrow">ENOVA CORP ® — CategoryGrid · Ronda 1 de 3</div>
+  <div class="page-title">Opciones 1 y 2 de 6</div>
+  <div class="page-sub">Haz clic en la que más te guste. Hover activa las animaciones de hover.</div>
+</div>
+
+<!-- ═══ OPCIÓN A ═══ -->
+<div class="option-block" id="block-a" onclick="pick('a','A — Filmstrip Hover')">
+  <div class="option-meta">
+    <div class="opt-letter">A</div>
+    <div>
+      <span class="opt-name">Filmstrip Hover</span>
+      <span class="opt-tag">Interactivo</span>
+    </div>
+    <div class="opt-desc">Cards que se expanden al hacer hover. Todas visibles, la activa se agranda. Estilo editorial de revista.</div>
+  </div>
+  <div class="mockup-area">
+    <div class="filmstrip">
+      <div class="film-card">
+        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80" alt="Laptops">
+        <div class="film-arrow">→</div>
+        <div class="film-info">
+          <div class="film-num">01</div>
+          <div class="film-name">Laptops / PCs</div>
+          <div class="film-count">6 productos</div>
+        </div>
+      </div>
+      <div class="film-card">
+        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80" alt="Smartphones">
+        <div class="film-arrow">→</div>
+        <div class="film-info">
+          <div class="film-num">02</div>
+          <div class="film-name">Smartphones</div>
+          <div class="film-count">6 productos</div>
+        </div>
+      </div>
+      <div class="film-card">
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80" alt="Eq. Fiscales">
+        <div class="film-arrow">→</div>
+        <div class="film-info">
+          <div class="film-num">03</div>
+          <div class="film-name">Eq. Fiscales</div>
+          <div class="film-count">3 productos</div>
+        </div>
+      </div>
+      <div class="film-card">
+        <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80" alt="Impresoras">
+        <div class="film-arrow">→</div>
+        <div class="film-info">
+          <div class="film-num">04</div>
+          <div class="film-name">Impresoras</div>
+          <div class="film-count">3 productos</div>
+        </div>
+      </div>
+      <div class="film-card">
+        <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=600&q=80" alt="Periféricos">
+        <div class="film-arrow">→</div>
+        <div class="film-info">
+          <div class="film-num">05</div>
+          <div class="film-name">Periféricos</div>
+          <div class="film-count">4 productos</div>
+        </div>
+      </div>
+      <div class="film-card">
+        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=80" alt="Gaming">
+        <div class="film-arrow">→</div>
+        <div class="film-info">
+          <div class="film-num">06</div>
+          <div class="film-name">Gaming</div>
+          <div class="film-count">5 productos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ OPCIÓN B ═══ -->
+<div class="option-block" id="block-b" onclick="pick('b','B — Bento Asimétrico')">
+  <div class="option-meta">
+    <div class="opt-letter">B</div>
+    <div>
+      <span class="opt-name">Bento Asimétrico Premium</span>
+      <span class="opt-tag">Editorial</span>
+    </div>
+    <div class="opt-desc">Grid con jerarquía visual: Laptops grande a la izquierda, 4 pequeñas a la derecha. Peso visual claro.</div>
+  </div>
+  <div class="mockup-area">
+    <div class="bento">
+      <!-- Feature: Laptops -->
+      <div class="bento-card bento-card-feature">
+        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80" alt="Laptops">
+        <div class="bento-info">
+          <div class="bento-num">01 — Categoría destacada</div>
+          <div class="bento-name">Laptops / PCs</div>
+          <div class="bento-count">6 productos</div>
+        </div>
+      </div>
+      <!-- Row 1 right -->
+      <div class="bento-card">
+        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80" alt="Smartphones">
+        <div class="bento-info">
+          <div class="bento-num">02</div>
+          <div class="bento-name">Smartphones</div>
+          <div class="bento-count">6 productos</div>
+        </div>
+      </div>
+      <div class="bento-card">
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80" alt="Eq. Fiscales">
+        <div class="bento-info">
+          <div class="bento-num">03</div>
+          <div class="bento-name">Eq. Fiscales</div>
+          <div class="bento-count">3 productos</div>
+        </div>
+      </div>
+      <!-- Row 2 right -->
+      <div class="bento-card">
+        <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80" alt="Impresoras">
+        <div class="bento-info">
+          <div class="bento-num">04</div>
+          <div class="bento-name">Impresoras</div>
+          <div class="bento-count">3 productos</div>
+        </div>
+      </div>
+      <div class="bento-card">
+        <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=600&q=80" alt="Periféricos">
+        <div class="bento-info">
+          <div class="bento-num">05</div>
+          <div class="bento-name">Periféricos</div>
+          <div class="bento-count">4 productos</div>
+        </div>
+      </div>
+    </div>
+    <!-- Gaming: full width banner below -->
+    <div style="margin-top:3px; position:relative; height:54px; overflow:hidden; border:1px solid #1f2937; border-radius:0 0 4px 4px; cursor:pointer;"
+         onmouseenter="this.querySelector('img').style.filter='brightness(0.7)'"
+         onmouseleave="this.querySelector('img').style.filter='brightness(0.45)'">
+      <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&q=80" alt="Gaming"
+           style="width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(0.45);transition:filter 300ms;">
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:linear-gradient(to right,rgba(0,0,0,.6),transparent,rgba(0,0,0,.4));">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span style="font-size:9px;font-family:monospace;color:#0057B7;letter-spacing:.12em;">06</span>
+          <span style="font-size:14px;font-weight:600;color:#fff;">Gaming</span>
+          <span style="font-size:9px;font-family:monospace;color:rgba(255,255,255,.4);">5 productos</span>
+        </div>
+        <span style="font-size:10px;color:rgba(255,255,255,.4);font-family:monospace;letter-spacing:.1em;text-transform:uppercase;">Ver todos →</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-bar">
+  <span id="footer-txt" class="footer-hint">Haz clic en una opción · Hover activa animaciones</span>
+  <span class="footer-hint">Opciones 3 & 4 → siguiente ronda</span>
+</div>
+
+<script>
+  let selected = null;
+  function pick(id, label) {
+    ['a','b'].forEach(x => document.getElementById('block-'+x).classList.remove('selected'));
+    selected = id;
+    document.getElementById('block-'+id).classList.add('selected');
+    document.getElementById('footer-txt').innerHTML = '<span class="footer-sel">✓ Seleccionado: ' + label + '</span>';
+    if (window.__selectOption) window.__selectOption(id, label);
+  }
+</script>
+</body>
+</html>

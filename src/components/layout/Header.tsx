@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Search, ShoppingCart, Heart } from "lucide-react"
+import { Search, ShoppingCart, Heart, ClipboardList } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { MobileNav } from "./MobileNav"
 import { SearchDialog } from "@/components/search/SearchDialog"
 import { useCartStore } from "@/stores/cart-store"
+import { useQuoteStore } from "@/stores/quote-store"
 
 const navLinks = [
   { label: "Laptops",           href: "/products?category=laptops"          },
@@ -22,6 +23,7 @@ export function Header() {
   const [mounted, setMounted] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const itemCount = useCartStore((state) => state.getItemCount())
+  const quoteCount = useQuoteStore((state) => state.getItemCount())
 
   useEffect(() => {
     setMounted(true)
@@ -90,8 +92,20 @@ export function Header() {
               <span className="sr-only">Buscar</span>
             </Button>
 
+            <Link href="/cotizacion">
+              <Button variant="ghost" size="icon" className="relative h-9 w-9" aria-label="Cotización">
+                <ClipboardList className="h-4 w-4" />
+                {mounted && quoteCount > 0 && (
+                  <Badge className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full border-0 bg-[var(--brass)] p-0 font-mono-ui text-[10px] text-[var(--background)]">
+                    {quoteCount > 99 ? "99+" : quoteCount}
+                  </Badge>
+                )}
+                <span className="sr-only">Cotización</span>
+              </Button>
+            </Link>
+
             <Link href="/profile/favorites">
-              <Button variant="ghost" size="icon" className="h-9 w-9">
+              <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Favoritos">
                 <Heart className="h-4 w-4" />
                 <span className="sr-only">Favoritos</span>
               </Button>

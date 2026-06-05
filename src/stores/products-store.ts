@@ -24,10 +24,12 @@ interface ProductsState {
   resetFilters: () => void
 }
 
+const MAX_PRICE = 3_000_000
+
 const defaultFilters: FilterState = {
   categories: [],
   brands: [],
-  priceRange: [0, 10000000],
+  priceRange: [0, MAX_PRICE],
   sortBy: "newest",
 }
 
@@ -53,12 +55,9 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
       if (filters.brands.length > 0) {
         filtered = filtered.filter((p) => filters.brands.includes(p.brand))
       }
-      if (filters.priceRange[0] > 0) {
-        filtered = filtered.filter((p) => p.price >= filters.priceRange[0])
-      }
-      if (filters.priceRange[1] < 10000000) {
-        filtered = filtered.filter((p) => p.price <= filters.priceRange[1])
-      }
+      filtered = filtered.filter(
+        (p) => p.price >= filters.priceRange[0] && p.price <= filters.priceRange[1]
+      )
 
       if (filters.sortBy === "price-asc") {
         filtered.sort((a, b) => a.price - b.price)

@@ -12,8 +12,8 @@ import { useUserStore } from "@/stores/user-store"
 
 // UI-only: mock user while auth is not connected
 const mockUser = {
-  name: "Cliente Energlass",
-  email: "cliente@energlass.cl",
+  name: "Cliente ENOVA CORP",
+  email: "cliente@enovacorp.com.ve",
 }
 
 export default function ProfilePage() {
@@ -87,7 +87,7 @@ export default function ProfilePage() {
           <CardHeader className="pb-2">
             <CardDescription>Total Gastado</CardDescription>
             <CardTitle className="text-2xl">
-              ${stats.totalSpent.toLocaleString("es-CL")}
+              ${stats.totalSpent.toLocaleString("en-US")}
             </CardTitle>
           </CardHeader>
         </Card>
