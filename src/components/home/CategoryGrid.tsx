@@ -9,13 +9,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 
 const categoryImages: Record<string, string> = {
-  "laptops":          "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&q=80",
-  "smartphones":      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&q=80",
-  "equipos-fiscales": "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=400&q=80",
-  "impresoras":       "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400&q=80",
-  "perifericos":      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80",
-  "gaming":           "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&q=80",
-  "audio":            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80",
+  "laptops":          "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=85",
+  "smartphones":      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=85",
+  "equipos-fiscales": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=85",
+  "impresoras":       "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=85",
+  "perifericos":      "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=800&q=85",
+  "gaming":           "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&q=85",
+  "audio":            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=85",
 }
 
 interface CategoryCardProps {
@@ -38,37 +38,42 @@ function CategoryCard({ index, name, slug, productCount, className }: CategoryCa
         className
       )}
     >
+      {/* Dark base so cards always look dark regardless of image */}
+      <div className="absolute inset-0 z-0 bg-[#0a0f1a]" />
+
       {imageSrc && (
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-[1]">
           <Image
             src={imageSrc}
             alt={name}
             fill
-            className="object-contain p-8 grayscale-[15%] opacity-20 transition-all duration-500 group-hover:opacity-35 group-hover:scale-[1.04]"
+            className="object-cover opacity-55 transition-all duration-500 group-hover:opacity-70 group-hover:scale-[1.04]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+          {/* Gradient: strong at bottom for text, lighter at top */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
         </div>
       )}
 
       <div className="relative z-10 flex h-full flex-col justify-between p-6">
         <div className="flex items-start justify-between">
-          <span className="font-mono-ui text-[11px] text-[var(--muted-foreground)]">{num}</span>
-          <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+          <span className="font-mono-ui text-[11px] text-white/70">{num}</span>
+          <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-white/70">
             {productCount} productos
           </span>
         </div>
 
         <div className="mt-8">
-          <h3 className="font-display text-2xl font-light leading-tight tracking-[-0.02em] text-foreground transition-colors group-hover:text-[var(--brass-bright)]">
+          <h3 className="font-display text-2xl font-light leading-tight tracking-[-0.02em] text-white transition-colors group-hover:text-[var(--brass-bright)]">
             {name}
           </h3>
         </div>
 
         <div className="mt-6 flex items-center gap-2">
-          <span className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass)] opacity-0 transition-all group-hover:opacity-100">
+          <span className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass-bright)] opacity-0 transition-all group-hover:opacity-100">
             Ver productos
           </span>
-          <ArrowRight className="h-3.5 w-3.5 text-[var(--brass)] opacity-0 transition-all group-hover:opacity-100" />
+          <ArrowRight className="h-3.5 w-3.5 text-[var(--brass-bright)] opacity-0 transition-all group-hover:opacity-100" />
         </div>
       </div>
 
@@ -118,7 +123,11 @@ export function CategoryGrid() {
                 name={category.name}
                 slug={category.slug}
                 productCount={category.productCount}
-                className={i === 0 ? "lg:col-span-2 lg:row-span-2" : ""}
+                className={
+                  i === 0 ? "lg:col-span-2 lg:row-span-2" :
+                  i === 5 ? "sm:col-span-2 lg:col-span-4" :
+                  ""
+                }
               />
             ))}
           </div>
