@@ -11,8 +11,8 @@ const items = [
 
 const badgeClass: Record<string, string> = {
   new:    "bg-white/20 border-white/32 text-white",
-  sale:   "bg-amber-400/20 border-amber-300/40 text-amber-200",
-  fiscal: "bg-emerald-400/15 border-emerald-300/35 text-emerald-200",
+  sale:   "bg-[var(--color-warning)]/20 border-[var(--color-warning)]/40 text-[var(--color-warning)]",
+  fiscal: "bg-[var(--color-success)]/15 border-[var(--color-success)]/35 text-[var(--color-success)]",
 }
 
 export function MarqueeBar() {

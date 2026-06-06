@@ -110,9 +110,9 @@ export default function CheckoutPage() {
                   <h3 className="font-medium">Direccion de Envio</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
                     Juan Perez<br />
-                    Av. Francisco de Miranda, Urb. Los Palos Grandes<br />
-                    Caracas, Miranda 1060<br />
-                    Venezuela
+                    Av. Principal 123<br />
+                    Lima, Lima 15001<br />
+                    Peru
                   </p>
                 </div>
 
@@ -139,7 +139,7 @@ export default function CheckoutPage() {
               {currentStep < 3 ? (
                 <Button onClick={handleNext}>Continuar</Button>
               ) : (
-                <Button className="bg-green-600 hover:bg-green-700">
+                <Button className="bg-[var(--color-success)] hover:opacity-90">
                   Confirmar y Pagar
                 </Button>
               )}

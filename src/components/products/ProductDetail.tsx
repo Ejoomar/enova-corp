@@ -75,7 +75,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               key={i}
               className={`h-4 w-4 ${
                 i < Math.floor(product.rating)
-                  ? "fill-yellow-400 text-yellow-400"
+                  ? "fill-[var(--color-warning)] text-[var(--color-warning)]"
                   : "text-muted-foreground"
               }`}
             />
@@ -94,7 +94,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 {formatUSD(product.price)}
               </span>
               {product.plusIva && (
-                <span className="rounded bg-amber-100 px-2 py-0.5 text-sm font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
+                <span className="rounded bg-[var(--color-warning-muted)] px-2 py-0.5 text-sm font-semibold text-[var(--color-warning)]">
                   + IVA
                 </span>
               )}
@@ -116,7 +116,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             href={`https://wa.me/582125550100?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xl font-semibold text-green-600 hover:underline"
+            className="text-xl font-semibold text-[var(--color-success)] hover:underline"
           >
             Solicitar cotización por WhatsApp →
           </a>
@@ -126,7 +126,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
       {/* Stock */}
       <p className="text-sm">
         {product.stock > 0 ? (
-          <span className="text-green-600 dark:text-green-400">
+          <span className="text-[var(--color-success)]">
             {product.stock} unidades disponibles
           </span>
         ) : (

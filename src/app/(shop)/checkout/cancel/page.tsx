@@ -8,8 +8,8 @@ export default function CheckoutCancelPage() {
     <div className="container max-w-lg py-12">
       <Card className="text-center">
         <CardHeader className="pb-4">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-            <XCircle className="h-10 w-10 text-red-600" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
+            <XCircle className="h-10 w-10 text-destructive" />
           </div>
           <CardTitle className="text-2xl">Pago cancelado</CardTitle>
           <CardDescription>

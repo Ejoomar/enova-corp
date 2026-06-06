@@ -34,7 +34,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAdminStore } from "@/stores/admin-store"
 
 const statusConfig = {
-  active: { label: "Activo", variant: "default" as const, className: "bg-green-600" },
+  active: { label: "Activo", variant: "default" as const, className: "bg-[var(--color-success)]" },
   inactive: { label: "Inactivo", variant: "secondary" as const, className: "" },
   suspended: { label: "Suspendido", variant: "destructive" as const, className: "" },
 }
@@ -147,7 +147,7 @@ export default function AdminUsersPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-green-600">{activeUsers}</p>
+            <p className="text-2xl font-bold text-[var(--color-success)]">{activeUsers}</p>
           </CardContent>
         </Card>
         <Card>

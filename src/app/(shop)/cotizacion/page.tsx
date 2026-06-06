@@ -141,7 +141,7 @@ export default function CotizacionPage() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setSent(true)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-green-500 px-4 py-3 text-sm font-semibold text-white hover:bg-green-600 transition-colors"
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[var(--color-success)] px-4 py-3 text-sm font-semibold text-[var(--primary-foreground)] hover:opacity-90 transition-colors"
           >
             <MessageCircle className="h-4 w-4" />
             Enviar por WhatsApp
@@ -157,7 +157,7 @@ export default function CotizacionPage() {
         </div>
 
         {sent && (
-          <p className="text-center text-sm text-green-600 dark:text-green-400">
+          <p className="text-center text-sm text-[var(--color-success)]">
             ¡Listo! Tu solicitud fue enviada. Te responderemos pronto.
           </p>
         )}

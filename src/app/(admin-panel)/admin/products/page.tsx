@@ -193,7 +193,7 @@ export default function AdminProductsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-green-600">{inStockCount}</p>
+            <p className="text-2xl font-bold text-[var(--color-success)]">{inStockCount}</p>
           </CardContent>
         </Card>
         <Card>
@@ -203,7 +203,7 @@ export default function AdminProductsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-red-600">{outOfStockCount}</p>
+            <p className="text-2xl font-bold text-destructive">{outOfStockCount}</p>
           </CardContent>
         </Card>
         <Card>
@@ -296,7 +296,7 @@ export default function AdminProductsPage() {
                       <TableCell>{product.stock}</TableCell>
                       <TableCell>
                         {product.stock > 0 ? (
-                          <Badge variant="default" className="bg-green-600">
+                          <Badge variant="default" className="bg-[var(--color-success)]">
                             En stock
                           </Badge>
                         ) : (

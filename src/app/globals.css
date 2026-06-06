@@ -38,6 +38,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-success: var(--color-success);
+  --color-success-muted: var(--color-success-muted);
+  --color-warning: var(--color-warning);
+  --color-warning-muted: var(--color-warning-muted);
+  --color-info: var(--color-info);
+  --color-info-muted: var(--color-info-muted);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -95,6 +101,13 @@
   --border: oklch(0.32 0.007 250);
   --input: oklch(0.30 0.006 250);
   --ring: oklch(0.560 0.215 257);
+
+  --color-success: oklch(0.65 0.15 145);
+  --color-success-muted: oklch(0.22 0.04 145);
+  --color-warning: oklch(0.78 0.17 85);
+  --color-warning-muted: oklch(0.22 0.04 85);
+  --color-info: oklch(0.60 0.18 240);
+  --color-info-muted: oklch(0.22 0.05 240);
 
   --chart-1: oklch(0.560 0.215 257);
   --chart-2: oklch(0.83 0.005 250);

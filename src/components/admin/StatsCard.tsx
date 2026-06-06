@@ -24,11 +24,11 @@ export function StatsCard({ title, value, change, icon: Icon }: StatsCardProps) 
         <div className="text-2xl font-bold">{value}</div>
         <div className="flex items-center text-xs mt-1">
           {isPositive ? (
-            <TrendingUp className="h-3 w-3 text-green-500 mr-1" />
+            <TrendingUp className="h-3 w-3 text-[var(--color-success)] mr-1" />
           ) : (
-            <TrendingDown className="h-3 w-3 text-red-500 mr-1" />
+            <TrendingDown className="h-3 w-3 text-destructive mr-1" />
           )}
-          <span className={cn(isPositive ? "text-green-500" : "text-red-500")}>
+          <span className={cn(isPositive ? "text-[var(--color-success)]" : "text-destructive")}>
             {isPositive ? "+" : ""}{change}%
           </span>
           <span className="text-muted-foreground ml-1">vs mes anterior</span>

@@ -182,7 +182,7 @@ export function Footer() {
                   className="group flex flex-col items-center gap-3 rounded-xl border border-[var(--hairline)] bg-[var(--background)] p-4 transition-all duration-200 hover:border-[var(--brass)]/50 hover:bg-[var(--surface-2)]"
                   style={{ borderTopColor: bank.color, borderTopWidth: "3px" }}
                 >
-                  <div className="flex h-9 w-full items-center justify-center rounded-md bg-white px-2">
+                  <div className="flex h-9 w-full items-center justify-center rounded-md bg-[var(--surface-1)] px-2">
                     <Image
                       src={bank.src}
                       alt={bank.name}
@@ -213,7 +213,7 @@ export function Footer() {
                 {payments.map((p) => (
                   <div
                     key={p.name}
-                    className="flex h-9 items-center justify-center rounded-lg bg-white px-3 transition-all duration-200 hover:opacity-80"
+                    className="flex h-9 items-center justify-center rounded-lg bg-[var(--surface-1)] px-3 transition-all duration-200 hover:opacity-80"
                     style={{ minWidth: p.w }}
                   >
                     <Image src={p.src} alt={p.name} width={p.w} height={28} className="h-5 w-auto object-contain" />
@@ -231,18 +231,18 @@ export function Footer() {
                 <Link
                   href="https://www.instagram.com/enovacorpve/"
                   target="_blank" rel="noopener" aria-label="Instagram"
-                  className="flex h-9 items-center gap-2 rounded-lg bg-white px-3 transition-all duration-200 hover:opacity-80"
+                  className="flex h-9 items-center gap-2 rounded-lg bg-[var(--surface-1)] px-3 transition-all duration-200 hover:opacity-80"
                 >
                   <Image src="/logos/instagram.svg" alt="Instagram" width={18} height={18} className="h-4 w-4 object-contain" />
-                  <span className="font-mono-ui text-[10px] text-gray-600">@enovacorpve</span>
+                  <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">@enovacorpve</span>
                 </Link>
                 <Link
                   href="https://wa.me/584120000000"
                   target="_blank" rel="noopener" aria-label="WhatsApp"
-                  className="flex h-9 items-center gap-2 rounded-lg bg-white px-3 transition-all duration-200 hover:opacity-80"
+                  className="flex h-9 items-center gap-2 rounded-lg bg-[var(--surface-1)] px-3 transition-all duration-200 hover:opacity-80"
                 >
                   <Image src="/logos/whatsapp.svg" alt="WhatsApp" width={18} height={18} className="h-4 w-4 object-contain" />
-                  <span className="font-mono-ui text-[10px] text-gray-600">WhatsApp</span>
+                  <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">WhatsApp</span>
                 </Link>
               </div>
             </div>

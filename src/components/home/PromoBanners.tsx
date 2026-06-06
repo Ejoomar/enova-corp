@@ -10,8 +10,8 @@ const banners = [
     cta: "Ver smartphones",
     href: "/products?category=smartphones",
     bg: "from-zinc-900 to-slate-800",
-    accent: "border-amber-400",
-    tagColor: "bg-amber-400 text-black",
+    accent: "border-[var(--color-warning)]",
+    tagColor: "bg-[var(--color-warning)] text-[var(--foreground)]",
     image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=300&q=80",
   },
   {
@@ -22,8 +22,8 @@ const banners = [
     cta: "Ver audio",
     href: "/products?category=audio",
     bg: "from-blue-950 to-slate-900",
-    accent: "border-blue-400",
-    tagColor: "bg-blue-400 text-white",
+    accent: "border-[var(--color-info)]",
+    tagColor: "bg-[var(--color-info)] text-[var(--primary-foreground)]",
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&q=80",
   },
   {
@@ -61,10 +61,10 @@ export function PromoBanners() {
             <h3 className="whitespace-pre-line text-xl font-bold leading-tight text-white">
               {banner.title}
             </h3>
-            <p className="mt-1 text-xs text-slate-400">{banner.subtitle}</p>
+            <p className="mt-1 text-xs text-[var(--muted-foreground)]">{banner.subtitle}</p>
 
             {/* CTA */}
-            <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-amber-400 group-hover:underline">
+            <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-warning)] group-hover:underline">
               {banner.cta} →
             </span>
 

@@ -146,7 +146,7 @@ export function HeroBanner() {
                       size="lg"
                       className={slide.isBrand
                         ? "bg-[var(--brass)] text-white hover:bg-[var(--brass-bright)] font-semibold"
-                        : "bg-white text-gray-900 hover:bg-white/90 font-semibold"
+                        : "bg-[var(--surface-1)] text-[var(--foreground)] hover:bg-[var(--surface-1)]/90 font-semibold"
                       }
                     >
                       <Link href={slide.cta1.href}>{slide.cta1.label}</Link>

@@ -32,7 +32,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { payments } from "@/data/mock-admin"
 
 const statusConfig = {
-  completed: { label: "Completado", variant: "default" as const, className: "bg-green-600" },
+  completed: { label: "Completado", variant: "default" as const, className: "bg-[var(--color-success)]" },
   pending: { label: "Pendiente", variant: "secondary" as const, className: "" },
   failed: { label: "Fallido", variant: "destructive" as const, className: "" },
   refunded: { label: "Reembolsado", variant: "outline" as const, className: "" },
@@ -94,7 +94,7 @@ export default function AdminPaymentsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-green-600">
+            <p className="text-2xl font-bold text-[var(--color-success)]">
               ${totalRevenue.toLocaleString()}
             </p>
           </CardContent>
@@ -106,7 +106,7 @@ export default function AdminPaymentsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-yellow-600">
+            <p className="text-2xl font-bold text-[var(--color-warning)]">
               ${pendingAmount.toLocaleString()}
             </p>
           </CardContent>
@@ -118,7 +118,7 @@ export default function AdminPaymentsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-red-600">
+            <p className="text-2xl font-bold text-destructive">
               ${refundedAmount.toLocaleString()}
             </p>
           </CardContent>

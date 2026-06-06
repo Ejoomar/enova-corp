@@ -19,7 +19,7 @@ function StarRow({ rating, max = 5 }: { rating: number; max?: number }) {
           key={i}
           className={`h-4 w-4 ${
             i < Math.floor(rating)
-              ? "fill-yellow-400 text-yellow-400"
+              ? "fill-[var(--color-warning)] text-[var(--color-warning)]"
               : "text-muted-foreground"
           }`}
         />
@@ -45,7 +45,7 @@ function ReviewCard({ review }: { review: Review }) {
       </div>
       <p className="text-sm text-muted-foreground leading-relaxed">{review.body}</p>
       {review.verified && (
-        <div className="flex items-center gap-1.5 text-green-600 dark:text-green-400">
+        <div className="flex items-center gap-1.5 text-[var(--color-success)]">
           <CheckCircle className="h-3.5 w-3.5" />
           <span className="font-mono-ui text-[10px] uppercase tracking-[0.12em]">Compra verificada</span>
         </div>

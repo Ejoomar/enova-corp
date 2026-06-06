@@ -55,7 +55,7 @@ function ProductCard({ product }: { product: CatalogProduct }) {
   const waUrl = `https://wa.me/582125550100?text=${waMessage}`
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-amber-400/50">
+    <div className="group relative flex flex-col overflow-hidden rounded-xl border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--color-warning)]/50">
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-muted/40">
         {!imgError ? (
@@ -92,7 +92,7 @@ function ProductCard({ product }: { product: CatalogProduct }) {
           <p className="flex items-baseline gap-1.5 text-base font-bold text-primary">
             ${product.price.toLocaleString("en-US")}
             {product.plusIva && (
-              <span className="text-[11px] font-medium text-amber-600 dark:text-amber-400">
+              <span className="text-[11px] font-medium text-[var(--color-warning)]">
                 + IVA
               </span>
             )}
@@ -107,7 +107,7 @@ function ProductCard({ product }: { product: CatalogProduct }) {
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-green-500 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-green-600"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[var(--color-success)] px-3 py-2 text-xs font-semibold text-[var(--primary-foreground)] transition-colors hover:opacity-90"
           >
             <MessageCircle className="h-3.5 w-3.5" />
             Cotizar
@@ -174,7 +174,7 @@ export function CatalogGrid({ products }: CatalogGridProps) {
             placeholder="Buscar producto..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-lg border bg-background py-2 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-amber-400/50"
+            className="w-full rounded-lg border bg-background py-2 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-[var(--ring)]/50"
           />
         </div>
       </div>
@@ -186,8 +186,8 @@ export function CatalogGrid({ products }: CatalogGridProps) {
           className={cn(
             "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
             activeCategory === null
-              ? "border-amber-500 bg-amber-500 text-white"
-              : "hover:border-amber-400 hover:text-amber-600"
+              ? "border-[var(--color-warning)] bg-[var(--color-warning)] text-[var(--primary-foreground)]"
+              : "hover:border-[var(--color-warning)] hover:text-[var(--color-warning)]"
           )}
         >
           Todos
@@ -201,8 +201,8 @@ export function CatalogGrid({ products }: CatalogGridProps) {
             className={cn(
               "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
               activeCategory === cat
-                ? "border-amber-500 bg-amber-500 text-white"
-                : "hover:border-amber-400 hover:text-amber-600"
+                ? "border-[var(--color-warning)] bg-[var(--color-warning)] text-[var(--primary-foreground)]"
+                : "hover:border-[var(--color-warning)] hover:text-[var(--color-warning)]"
             )}
           >
             {CATEGORY_LABELS[cat] ?? cat}

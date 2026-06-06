@@ -22,8 +22,8 @@ function SuccessContent() {
     <div className="container max-w-lg py-12">
       <Card className="text-center">
         <CardHeader className="pb-4">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-            <CheckCircle className="h-10 w-10 text-green-600" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-success-muted)]">
+            <CheckCircle className="h-10 w-10 text-[var(--color-success)]" />
           </div>
           <CardTitle className="text-2xl">Pago exitoso</CardTitle>
           <CardDescription>
