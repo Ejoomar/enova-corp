@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Search, ShoppingCart, Heart, ClipboardList } from "lucide-react"
+import { Search, ShoppingCart, ClipboardList } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { MobileNav } from "./MobileNav"
@@ -101,13 +101,6 @@ export function Header() {
                   </Badge>
                 )}
                 <span className="sr-only">Cotización</span>
-              </Button>
-            </Link>
-
-            <Link href="/profile/favorites">
-              <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Favoritos">
-                <Heart className="h-4 w-4" />
-                <span className="sr-only">Favoritos</span>
               </Button>
             </Link>
 

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 44" fill="none">
+  <circle cx="22" cy="22" r="16" fill="#1A7A3C"/>
+  <text x="22" y="29" font-family="'Arial Black',sans-serif" font-size="20" font-weight="900" fill="white" text-anchor="middle">$</text>
+  <text x="58" y="20" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#1A7A3C" text-anchor="middle">USD</text>
+  <text x="58" y="32" font-family="Arial,sans-serif" font-size="8" font-weight="400" fill="#1A7A3C" text-anchor="middle">DIVISAS</text>
+</svg>

@@ -4,11 +4,10 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Heart, Eye } from "lucide-react"
+import { Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Product } from "@/types"
 import { useCartStore } from "@/stores/cart-store"
-import { useFavoritesStore } from "@/stores/favorites-store"
 import { cn } from "@/lib/utils"
 import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
 
@@ -20,8 +19,6 @@ interface ProductCardProps {
 export function ProductCard({ product, bsfRate }: ProductCardProps) {
   const router = useRouter()
   const addItem = useCartStore((state) => state.addItem)
-  const toggleFavorite = useFavoritesStore((state) => state.toggleItem)
-  const isFavorite = useFavoritesStore((state) => state.isFavorite(product.id))
   const [imgError, setImgError] = useState(false)
 
   const hasDiscount = product.originalPrice && product.originalPrice > product.price
@@ -60,23 +57,6 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
 
           {/* Quick actions */}
           <div className="absolute right-3 top-3 z-10 flex flex-col gap-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "h-7 w-7 border border-[var(--hairline)] bg-[var(--background)]/80 hover:border-[var(--brass)] hover:text-[var(--brass)]",
-                isFavorite && "border-[var(--brass)] text-[var(--brass)]"
-              )}
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                toggleFavorite(product)
-              }}
-              aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-            >
-              <Heart className={cn("h-3 w-3", isFavorite && "fill-current")} />
-              <span className="sr-only">{isFavorite ? "Quitar de favoritos" : "Favoritos"}</span>
-            </Button>
             <Button
               variant="ghost"
               size="icon"

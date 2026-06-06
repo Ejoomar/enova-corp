@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 70">
+  <!-- Orbit arc: large clockwise arc from upper-left to upper-right through bottom -->
+  <path d="M 28,26 A 24,16 0 1,1 52,26" stroke="#C8102E" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <!-- Green circle (top — covers orbit gap) -->
+  <circle cx="40" cy="14" r="14" fill="#1D6B2F"/>
+  <!-- Red circle (lower left) -->
+  <circle cx="25" cy="50" r="11" fill="#C8102E"/>
+  <!-- Dark navy circle (lower right) -->
+  <circle cx="55" cy="50" r="11" fill="#002060"/>
+  <!-- Wordmark -->
+  <text x="78" y="50" font-family="'Arial Black',Arial,sans-serif" font-size="24" font-weight="900" fill="#002060">Banesco</text>
+</svg>

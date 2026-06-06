@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 72">
+  <!-- Three kite/diamond shapes in Venezuelan flag colours -->
+  <!-- Yellow kite (left) -->
+  <polygon points="14,62 36,8 50,62 28,70" fill="#FFD100"/>
+  <!-- Red kite (centre, slightly higher) -->
+  <polygon points="36,58 56,6 68,58 52,68" fill="#C8102E"/>
+  <!-- Blue kite (right) -->
+  <polygon points="52,62 74,8 88,62 70,70" fill="#003087"/>
+  <!-- Wordmark -->
+  <text x="104" y="32" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#111111">Banco de</text>
+  <text x="104" y="53" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="900" fill="#111111">Venezuela</text>
+</svg>

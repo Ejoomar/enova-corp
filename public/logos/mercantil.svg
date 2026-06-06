@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 68">
+  <!-- Blue main body: stylized swept wing shape -->
+  <path d="M 8,54 L 8,16 Q 8,8 18,8 Q 36,8 48,26 Q 56,40 50,50 Q 42,62 24,60 Q 12,58 8,54 Z" fill="#005BAA"/>
+  <!-- Orange accent swoosh (lower-right of mark) -->
+  <path d="M 32,44 Q 44,36 56,40 Q 62,48 54,58 Q 44,66 32,60 Q 26,54 32,44 Z" fill="#F47920"/>
+  <!-- Wordmark -->
+  <text x="70" y="38" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="700" fill="#005BAA">Mercantil</text>
+  <text x="70" y="54" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="400" fill="#005BAA" letter-spacing="1">Banco Universal</text>
+</svg>

@@ -4,6 +4,7 @@ import { CategoryGrid } from "@/components/home/CategoryGrid"
 import { PromoBanners } from "@/components/home/PromoBanners"
 import { FeaturedProducts } from "@/components/home/FeaturedProducts"
 import { BrandSection } from "@/components/home/BrandSection"
+import { TrustBanner } from "@/components/home/TrustBanner"
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <CategoryGrid />
       <PromoBanners />
       <FeaturedProducts />
+      <TrustBanner />
       <BrandSection />
     </>
   )

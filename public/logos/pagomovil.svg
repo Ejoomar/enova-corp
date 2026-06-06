@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 44" fill="none">
+  <!-- Phone icon -->
+  <rect x="6" y="7" width="18" height="30" rx="3" fill="#0052A5"/>
+  <rect x="9" y="10" width="12" height="20" rx="1" fill="white"/>
+  <circle cx="15" cy="33" r="1.5" fill="white"/>
+  <!-- Signal waves -->
+  <path d="M28 19 Q32 15 36 19" stroke="#E30613" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M28 15 Q34 9 40 15" stroke="#E30613" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Text -->
+  <text x="78" y="21" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#0052A5" text-anchor="middle" letter-spacing="0.5">PAGO</text>
+  <text x="78" y="34" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#E30613" text-anchor="middle" letter-spacing="0.5">MÓVIL</text>
+</svg>

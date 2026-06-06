@@ -23,8 +23,7 @@ const navLinks = [
 ]
 
 const utilLinks = [
-  { label: "Favoritos",  href: "/profile/favorites" },
-  { label: "Cotización", href: "/cotizacion"        },
+  { label: "Cotización", href: "/cotizacion" },
 ]
 
 export function MobileNav() {

@@ -58,7 +58,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="gap-0 overflow-hidden p-0 sm:max-w-[600px]" aria-describedby={undefined}>
+      <DialogContent className="gap-0 overflow-hidden p-0 sm:max-w-[600px]" showCloseButton={false} aria-describedby={undefined}>
         <DialogTitle className="sr-only">Buscar productos</DialogTitle>
         {/* Search input */}
         <div className="flex items-center border-b border-[var(--hairline)] px-4">
