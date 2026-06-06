@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 export default function ShippingPage() {
   return (
     <div className="mx-auto max-w-[1440px] px-6 lg:px-10 py-20">
@@ -23,15 +21,37 @@ export default function ShippingPage() {
         ))}
       </div>
 
-      {/* Banner alianzas de transporte */}
-      <div className="mb-12 overflow-hidden rounded-xl">
-        <Image
-          src="/images/shipping-carriers.png"
-          alt="Enviamos con MRW Venezuela y ZOOM"
-          width={1702}
-          height={630}
-          className="w-full object-cover"
-        />
+      {/* Carriers banner — CSS puro, resolución infinita */}
+      <div className="mb-12 overflow-hidden rounded-xl bg-[#0a0f1e]">
+        <div className="flex flex-col items-center justify-center gap-8 px-8 py-10 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/10">
+
+          {/* Eyebrow */}
+          <div className="hidden w-full text-center sm:block sm:w-auto sm:pr-10">
+            <p className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40">
+              Transportamos<br />con
+            </p>
+          </div>
+
+          {/* MRW */}
+          <div className="flex flex-col items-center gap-3 sm:px-12">
+            <div className="flex h-16 w-28 items-center justify-center rounded-lg bg-white px-4">
+              <div className="text-center">
+                <p className="text-xl font-black tracking-tight text-[#1e2a5e] leading-none">MRW</p>
+                <p className="text-[9px] font-semibold tracking-widest text-[#1e2a5e]">VENEZUELA</p>
+              </div>
+            </div>
+            <p className="font-mono-ui text-[10px] text-white/40">800+ agencias · Nacional</p>
+          </div>
+
+          {/* ZOOM */}
+          <div className="flex flex-col items-center gap-3 sm:px-12">
+            <div className="flex h-16 w-28 items-center justify-center rounded-lg bg-white px-4">
+              <p className="text-2xl font-black italic tracking-tight text-[#0057b8] leading-none">ZOOM</p>
+            </div>
+            <p className="font-mono-ui text-[10px] text-white/40">Express · Día siguiente</p>
+          </div>
+
+        </div>
       </div>
 
       <div className="bg-[var(--surface-1)] rounded-xl p-8">
