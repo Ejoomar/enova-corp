@@ -3,12 +3,12 @@ import Image from "next/image"
 import { Mail, Phone, MapPin } from "lucide-react"
 
 const banks = [
-  { name: "Banesco",   src: "/logos/banesco.svg",   w: 100 },
-  { name: "Mercantil", src: "/logos/mercantil.svg", w: 110 },
-  { name: "BdV",       src: "/logos/bdv.svg",       w: 100 },
-  { name: "BNC",       src: "/logos/bnc.svg",       w: 85  },
-  { name: "Banplus",   src: "/logos/banplus.svg",   w: 95  },
-  { name: "BBVA",      src: "/logos/bbva.svg",      w: 110 },
+  { name: "Banesco",   src: "/logos/banesco.svg",   w: 90,  color: "#E31837" },
+  { name: "Mercantil", src: "/logos/mercantil.svg", w: 100, color: "#003087" },
+  { name: "BdV",       src: "/logos/bdv.svg",       w: 90,  color: "#CC0000" },
+  { name: "BNC",       src: "/logos/bnc.svg",       w: 76,  color: "#1A5C9E" },
+  { name: "Banplus",   src: "/logos/banplus.svg",   w: 86,  color: "#E4002B" },
+  { name: "BBVA",      src: "/logos/bbva.svg",      w: 100, color: "#2164C8" },
 ]
 
 const payments = [
@@ -155,36 +155,57 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Trust bar — logos reales */}
-        <div className="border-b border-[var(--hairline)] py-8">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-0 lg:divide-x lg:divide-[var(--hairline)]">
+        {/* ── Banner bancos ── */}
+        <div className="border-b border-[var(--hairline)] bg-[var(--surface-1)]">
+          <div className="py-8">
 
-            {/* Bancos */}
-            <div className="flex flex-col gap-4 lg:pr-10">
-              <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                Bancos Venezuela
+            {/* Header del banner */}
+            <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--brass)]">
+                  Transferencias bancarias
+                </p>
+                <h3 className="font-display text-lg font-medium tracking-[-0.02em] text-foreground">
+                  Aceptamos todos los bancos venezolanos
+                </h3>
+              </div>
+              <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">
+                Transferencia · Pago Móvil · TDD / TDC
               </span>
-              <div className="flex flex-wrap items-center gap-2">
-                {banks.map((bank) => (
-                  <div
-                    key={bank.name}
-                    className="flex h-10 items-center justify-center rounded-md bg-white px-3 transition-all duration-200 hover:opacity-80 hover:shadow-sm"
-                    style={{ minWidth: bank.w }}
-                  >
+            </div>
+
+            {/* Grid de bancos */}
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+              {banks.map((bank) => (
+                <div
+                  key={bank.name}
+                  className="group flex flex-col items-center gap-3 rounded-xl border border-[var(--hairline)] bg-[var(--background)] p-4 transition-all duration-200 hover:border-[var(--brass)]/50 hover:bg-[var(--surface-2)]"
+                  style={{ borderTopColor: bank.color, borderTopWidth: "3px" }}
+                >
+                  <div className="flex h-9 w-full items-center justify-center rounded-md bg-white px-2">
                     <Image
                       src={bank.src}
                       alt={bank.name}
                       width={bank.w}
-                      height={32}
+                      height={28}
                       className="h-6 w-auto object-contain"
                     />
                   </div>
-                ))}
-              </div>
+                  <span className="font-mono-ui text-[9px] uppercase tracking-[0.1em] text-[var(--muted-foreground)]">
+                    {bank.name}
+                  </span>
+                </div>
+              ))}
             </div>
+          </div>
+        </div>
+
+        {/* ── Métodos de pago + Redes ── */}
+        <div className="border-b border-[var(--hairline)] py-6">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-0 lg:divide-x lg:divide-[var(--hairline)]">
 
             {/* Métodos de pago */}
-            <div className="flex flex-col gap-4 lg:px-10">
+            <div className="flex flex-col gap-3 lg:pr-10">
               <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
                 Métodos de pago
               </span>
@@ -192,45 +213,35 @@ export function Footer() {
                 {payments.map((p) => (
                   <div
                     key={p.name}
-                    className="flex h-10 items-center justify-center rounded-md bg-white px-3 transition-all duration-200 hover:opacity-80 hover:shadow-sm"
+                    className="flex h-9 items-center justify-center rounded-lg bg-white px-3 transition-all duration-200 hover:opacity-80"
                     style={{ minWidth: p.w }}
                   >
-                    <Image
-                      src={p.src}
-                      alt={p.name}
-                      width={p.w}
-                      height={32}
-                      className="h-6 w-auto object-contain"
-                    />
+                    <Image src={p.src} alt={p.name} width={p.w} height={28} className="h-5 w-auto object-contain" />
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Redes sociales */}
-            <div className="flex flex-col gap-4 lg:pl-10">
+            <div className="flex flex-col gap-3 lg:pl-10">
               <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
                 Síguenos
               </span>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Link
                   href="https://www.instagram.com/enovacorpve/"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Instagram"
-                  className="group flex h-10 items-center gap-2 rounded-md bg-white px-3 transition-all duration-200 hover:opacity-80 hover:shadow-sm"
+                  target="_blank" rel="noopener" aria-label="Instagram"
+                  className="flex h-9 items-center gap-2 rounded-lg bg-white px-3 transition-all duration-200 hover:opacity-80"
                 >
-                  <Image src="/logos/instagram.svg" alt="Instagram" width={20} height={20} className="h-5 w-5 object-contain" />
+                  <Image src="/logos/instagram.svg" alt="Instagram" width={18} height={18} className="h-4 w-4 object-contain" />
                   <span className="font-mono-ui text-[10px] text-gray-600">@enovacorpve</span>
                 </Link>
                 <Link
                   href="https://wa.me/584120000000"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="WhatsApp"
-                  className="group flex h-10 items-center gap-2 rounded-md bg-white px-3 transition-all duration-200 hover:opacity-80 hover:shadow-sm"
+                  target="_blank" rel="noopener" aria-label="WhatsApp"
+                  className="flex h-9 items-center gap-2 rounded-lg bg-white px-3 transition-all duration-200 hover:opacity-80"
                 >
-                  <Image src="/logos/whatsapp.svg" alt="WhatsApp" width={20} height={20} className="h-5 w-5 object-contain" />
+                  <Image src="/logos/whatsapp.svg" alt="WhatsApp" width={18} height={18} className="h-4 w-4 object-contain" />
                   <span className="font-mono-ui text-[10px] text-gray-600">WhatsApp</span>
                 </Link>
               </div>
