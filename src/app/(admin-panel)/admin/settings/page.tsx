@@ -58,11 +58,11 @@ export default function AdminSettingsPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="storePhone">Telefono</Label>
-                  <Input id="storePhone" defaultValue="+51 999 888 777" />
+                  <Input id="storePhone" defaultValue="+58 212 555 0100" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="storeAddress">Direccion</Label>
-                  <Input id="storeAddress" defaultValue="Av. Tecnologia 123, Lima" />
+                  <Input id="storeAddress" defaultValue="Av. Libertador, Urb. La Castellana, Caracas" />
                 </div>
               </div>
               <div className="space-y-2">
@@ -86,12 +86,12 @@ export default function AdminSettingsPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Zona horaria</Label>
-                  <Select defaultValue="america-lima">
+                  <Select defaultValue="america-caracas">
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="america-lima">America/Lima (GMT-5)</SelectItem>
+                      <SelectItem value="america-caracas">America/Caracas (GMT-4)</SelectItem>
                       <SelectItem value="america-bogota">America/Bogota (GMT-5)</SelectItem>
                       <SelectItem value="america-mexico">America/Mexico_City (GMT-6)</SelectItem>
                     </SelectContent>
@@ -255,7 +255,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <p className="font-medium">Transferencia bancaria</p>
                   <p className="text-sm text-muted-foreground">
-                    BCP, BBVA, Interbank, Scotiabank
+                    Banesco, Mercantil, BBVA Provincial, BNC
                   </p>
                 </div>
                 <Switch defaultChecked />
@@ -265,7 +265,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <p className="font-medium">Billeteras digitales</p>
                   <p className="text-sm text-muted-foreground">
-                    Yape, Plin, PayPal
+                    Pago Móvil, Zelle, PayPal
                   </p>
                 </div>
                 <Switch defaultChecked />

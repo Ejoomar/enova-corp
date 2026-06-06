@@ -118,7 +118,7 @@ export default function NewUserPage() {
               <Label htmlFor="phone">Telefono (opcional)</Label>
               <Input
                 id="phone"
-                placeholder="+51 999 888 777"
+                placeholder="+58 424 555 1234"
                 {...register("phone")}
               />
             </div>

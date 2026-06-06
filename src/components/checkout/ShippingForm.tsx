@@ -33,7 +33,7 @@ export function ShippingForm() {
 
       <div className="space-y-2">
         <Label htmlFor="phone">Telefono</Label>
-        <Input id="phone" type="tel" placeholder="+51 999 888 777" />
+        <Input id="phone" type="tel" placeholder="+58 412 555 1234" />
       </div>
 
       <div className="space-y-2">
@@ -44,26 +44,29 @@ export function ShippingForm() {
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="space-y-2">
           <Label htmlFor="city">Ciudad</Label>
-          <Input id="city" placeholder="Lima" />
+          <Input id="city" placeholder="Caracas" />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="state">Departamento</Label>
+          <Label htmlFor="state">Estado</Label>
           <Select>
             <SelectTrigger id="state">
               <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="lima">Lima</SelectItem>
-              <SelectItem value="arequipa">Arequipa</SelectItem>
-              <SelectItem value="cusco">Cusco</SelectItem>
-              <SelectItem value="trujillo">La Libertad</SelectItem>
-              <SelectItem value="piura">Piura</SelectItem>
+              <SelectItem value="miranda">Miranda</SelectItem>
+              <SelectItem value="zulia">Zulia</SelectItem>
+              <SelectItem value="carabobo">Carabobo</SelectItem>
+              <SelectItem value="lara">Lara</SelectItem>
+              <SelectItem value="aragua">Aragua</SelectItem>
+              <SelectItem value="merida">Mérida</SelectItem>
+              <SelectItem value="tachira">Táchira</SelectItem>
+              <SelectItem value="anzoategui">Anzoátegui</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
           <Label htmlFor="zip">Codigo Postal</Label>
-          <Input id="zip" placeholder="15001" />
+          <Input id="zip" placeholder="1010" />
         </div>
       </div>
 
