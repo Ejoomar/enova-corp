@@ -10,90 +10,104 @@ export interface Review {
 }
 
 export const reviews: Review[] = [
-  // iPhone 16 Pro Max
+  // Balanza ACLAS LS2 M3
   {
-    id: "r1", productId: "sm-001", author: "Matías F.", rating: 5, date: "2025-05-10",
-    title: "Increíble. El mejor teléfono que he tenido.",
-    body: "La cámara es brutal, las fotos en condiciones de poca luz son impresionantes. El chip A18 Pro se nota en todo lo que haces. Vale cada peso.",
+    id: "r1", productId: "ef-ls2m3", author: "Carlos M.", rating: 5, date: "2025-05-10",
+    title: "Excelente balanza, homologación sin problema",
+    body: "La instalamos en nuestro local y el proceso de homologación con SENIAT fue sencillo. Muy precisa y rápida para emitir tickets. El soporte de ENOVA fue clave.",
     verified: true,
   },
   {
-    id: "r2", productId: "sm-001", author: "Valentina C.", rating: 5, date: "2025-04-22",
-    title: "Pantalla y batería de otro nivel",
-    body: "Venía de un Galaxy S22 y el salto fue enorme. La pantalla Super Retina se ve perfecta tanto en interior como exterior. La batería me dura fácil un día y medio.",
+    id: "r2", productId: "ef-ls2m3", author: "Mariela R.", rating: 4, date: "2025-04-15",
+    title: "Funciona perfecto para supermercado",
+    body: "Llevamos 3 meses usándola sin fallas. La pantalla es clara y el ticket fiscal sale bien formateado. Le quitaría una estrella solo porque el manual viene en inglés.",
+    verified: true,
+  },
+
+  // Impresora Fiscal ACLAS PP9-PLUS
+  {
+    id: "r3", productId: "ef-pp9plus", author: "José A.", rating: 5, date: "2025-03-20",
+    title: "La mejor impresora fiscal del mercado venezolano",
+    body: "Llevamos años buscando una impresora confiable y esta cumple todo. Imprime rápido, el papel de 80mm es estándar y no ha fallado. ENOVA la entregó configurada y lista.",
+    verified: true,
+  },
+
+  // Dell OptiPlex 3080 Mini
+  {
+    id: "r4", productId: "lap-cpu3080", author: "Andreína V.", rating: 5, date: "2025-05-01",
+    title: "Mini PC potente y silencioso para oficina",
+    body: "Lo usamos para trabajo administrativo con Excel, Word y navegación. Es silencioso, ocupa muy poco espacio y el SSD le da mucha velocidad. Excelente relación precio-rendimiento.",
     verified: true,
   },
   {
-    id: "r3", productId: "sm-001", author: "Rodrigo M.", rating: 4, date: "2025-03-15",
-    title: "Excelente, solo le falta USB-C más rápido",
-    body: "Todo en este teléfono es premium. Mi único reparo es que la velocidad USB-C podría ser mayor para transferencias. Por lo demás, perfecto.",
+    id: "r5", productId: "lap-cpu3080", author: "Ricardo T.", rating: 4, date: "2025-04-10",
+    title: "Muy buen equipo para el precio",
+    body: "El OptiPlex Mini cumple perfectamente para tareas de oficina. Viene sin sistema operativo pero ENOVA te orienta con la instalación. 4 estrellas porque preferiría 16GB de RAM.",
     verified: false,
   },
 
-  // MacBook Air M3
+  // Lenovo ThinkCentre M70Q
   {
-    id: "r4", productId: "lap-001", author: "Daniela P.", rating: 5, date: "2025-05-01",
-    title: "La laptop perfecta para trabajo y creatividad",
-    body: "Vengo de una MacBook Intel 2019 y la diferencia es abismal. Sin ventilador, silenciosa, ultra liviana y dura todo el día sin cargar. La mejor compra del año.",
+    id: "r6", productId: "lap-lntkm70q7", author: "Gabriela S.", rating: 5, date: "2025-04-28",
+    title: "El i7 11va generación vuela",
+    body: "Con 16GB RAM y SSD 256GB hace todo fluidísimo. Tengo abiertas 20 pestañas, Zoom y el ERP al mismo tiempo sin que se inmute. El factor MFF es perfecto para el escritorio.",
     verified: true,
   },
   {
-    id: "r5", productId: "lap-001", author: "Sebastián H.", rating: 5, date: "2025-04-18",
-    title: "M3 destruye a todo en su precio",
-    body: "Para diseño y video lo tiene todo. Edito en Premiere, Figma y Lightroom al mismo tiempo sin ningún problema. Y cabe en cualquier mochila.",
-    verified: true,
-  },
-
-  // Sony WH-1000XM5
-  {
-    id: "r6", productId: "aud-002", author: "Camila R.", rating: 5, date: "2025-04-30",
-    title: "La cancelación de ruido es mágica",
-    body: "Trabajo desde casa con mi familia y estos auriculares me salvan la vida. Me aíslan completamente. El sonido es cálido y detallado. Jamás volvería atrás.",
-    verified: true,
-  },
-  {
-    id: "r7", productId: "aud-002", author: "Felipe N.", rating: 4, date: "2025-03-20",
-    title: "Muy buenos, aunque algo caros",
-    body: "Son los mejores que usé en cuanto a cancelación de ruido. El sonido es excelente con LDAC. El precio duele, pero si trabajas en lugares ruidosos se justifica.",
+    id: "r7", productId: "lap-lntkm70q7", author: "Manuel O.", rating: 5, date: "2025-03-30",
+    title: "Rendimiento profesional en un equipo compacto",
+    body: "Lo usamos en contabilidad con software especializado y el rendimiento es impecable. Lenovo construye muy bien estos mini PC. Volvería a comprarlo sin dudar.",
     verified: true,
   },
 
-  // AirPods Pro 2
+  // Epson EcoTank L3250
   {
-    id: "r8", productId: "aud-001", author: "Javiera M.", rating: 5, date: "2025-05-05",
-    title: "Los uso todo el día sin cansancio",
-    body: "Son cómodos, con buena cancelación y el audio espacial en Apple TV es una pasada. La integración con iPhone es impecable. No se los sacaría ni para dormir.",
-    verified: true,
-  },
-
-  // ASUS ROG Zephyrus G16
-  {
-    id: "r9", productId: "lap-002", author: "Ignacio B.", rating: 5, date: "2025-04-25",
-    title: "La mejor laptop gaming del mercado",
-    body: "Diseño premium, teclado excelente y el display a 165 Hz con colores precisos es brutal. Juego a todo a full sin que se trabe. La compraría de nuevo sin dudar.",
+    id: "r8", productId: "imp-epl3250", author: "Patricia L.", rating: 5, date: "2025-05-05",
+    title: "La impresora que toda oficina necesita",
+    body: "Los costos de impresión bajaron muchísimo con los tanques EcoTank. Imprime, copia y escanea sin problemas. La Wi-Fi funciona bien desde cualquier equipo de la oficina.",
     verified: true,
   },
   {
-    id: "r10", productId: "lap-002", author: "Tomás V.", rating: 4, date: "2025-03-10",
-    title: "Potente, aunque calienta bastante en gaming",
-    body: "Rendimiento impresionante para gaming y diseño 3D. Se calienta cuando la exiges al máximo pero con modo performance funciona genial. La batería dura poco en gaming (obvio).",
+    id: "r9", productId: "imp-epl3250", author: "Luisa F.", rating: 4, date: "2025-04-20",
+    title: "Excelente, el ahorro en tinta es real",
+    body: "Venía usando cartuchos y el cambio a EcoTank fue una revolución. Las botellas de tinta duran meses. Alguna vez tarda en inicializar pero en general es confiable.",
     verified: false,
   },
 
-  // iPad Pro M4
+  // Router TP-Link Archer C64
   {
-    id: "r11", productId: "tab-001", author: "Paula S.", rating: 5, date: "2025-05-08",
-    title: "La mejor tablet del mundo, sin discusión",
-    body: "El OLED es impresionante para dibujar y ver contenido. Con el Apple Pencil Pro la experiencia es única. Para ilustración y toma de notas no hay nada igual.",
+    id: "r10", productId: "red-rtc64", author: "Diego C.", rating: 5, date: "2025-04-15",
+    title: "La señal llega a toda la oficina",
+    body: "Cubre perfectamente 150m² de oficina. El dual band va en serio: conectamos los equipos críticos en 5GHz y el resto en 2.4GHz. Estable y sin caídas desde que lo tenemos.",
+    verified: true,
+  },
+  {
+    id: "r11", productId: "red-rtc64", author: "Ana B.", rating: 4, date: "2025-03-10",
+    title: "Buen router para el precio",
+    body: "Para uso doméstico y pequeña oficina es más que suficiente. La configuración es simple desde la app. Descuento una estrella porque el panel web podría ser más intuitivo.",
     verified: true,
   },
 
-  // Logitech G Pro X Superlight 2
+  // Cámara EZVIZ CS-H7C Dual Lens
   {
-    id: "r12", productId: "gam-002", author: "Diego C.", rating: 5, date: "2025-04-15",
-    title: "El mouse definitivo para gaming competitivo",
-    body: "Sensor impecable, peso pluma y 95 horas de batería. Juego en 1600 DPI y los movimientos son precisísimos. Vale cada peso para gaming serio.",
+    id: "r12", productId: "cam-csh7c", author: "Pedro A.", rating: 5, date: "2025-04-25",
+    title: "Dos lentes que lo ven todo",
+    body: "La visión dual es impresionante: un ojo al frente y otro en gran angular. La sirena integrada disuadió a un intruso la primera semana. App EZVIZ funciona muy bien desde el móvil.",
     verified: true,
+  },
+
+  // Cámara EZVIZ CS-H8C 2K Exterior
+  {
+    id: "r13", productId: "cam-csh8c", author: "Laura M.", rating: 5, date: "2025-05-08",
+    title: "La visión nocturna a color es espectacular",
+    body: "De noche graba en color como si fuera de día. Resistente IP67: aguantó lluvia y humedad sin problemas. La imagen en 2K es muy nítida, se ven hasta las placas de los carros.",
+    verified: true,
+  },
+  {
+    id: "r14", productId: "cam-csh8c", author: "Tomás N.", rating: 4, date: "2025-04-05",
+    title: "Muy buena cámara exterior, instalación fácil",
+    body: "La instalé yo mismo en menos de 30 minutos. La app la detectó al instante. Le quitaría una estrella porque la configuración inicial del almacenamiento en la nube es confusa.",
+    verified: false,
   },
 ]
 

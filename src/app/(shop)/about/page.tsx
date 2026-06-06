@@ -10,9 +10,9 @@ export default function AboutPage() {
 
       <div className="grid grid-cols-1 gap-px border border-[var(--hairline)] lg:grid-cols-3">
         {[
-          { num: "01", title: "Quiénes somos", body: "ENOVA CORP ® es un distribuidor oficial de tecnología en Venezuela, especializado en computación, equipos fiscales, smartphones e impresoras. Operamos con las marcas líderes del mercado global." },
+          { num: "01", title: "Quiénes somos", body: "ENOVA CORP ® es un distribuidor oficial de tecnología en Venezuela, especializado en computación, equipos fiscales, redes, impresoras y periféricos. Operamos con las marcas líderes del mercado global." },
           { num: "02", title: "Nuestra misión", body: "Acercar la tecnología de última generación a empresas y consumidores venezolanos, con garantía oficial, soporte técnico y los mejores precios del mercado nacional." },
-          { num: "03", title: "Nuestra garantía", body: "Todos nuestros productos cuentan con garantía oficial de fábrica. Trabajamos directamente con distribuidores autorizados de Apple, Samsung, HP, Lenovo y Brother." },
+          { num: "03", title: "Nuestra garantía", body: "Todos nuestros productos cuentan con garantía oficial de fábrica. Trabajamos directamente con distribuidores autorizados de Dell, HP, Lenovo, Epson, TP-Link e Hikvision." },
         ].map((item) => (
           <div key={item.num} className="border border-[var(--hairline)] bg-[var(--surface-1)] p-8">
             <span className="font-mono-ui text-[11px] text-[var(--muted-foreground)]">{item.num}</span>

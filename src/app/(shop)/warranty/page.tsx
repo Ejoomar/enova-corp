@@ -10,12 +10,12 @@ export default function WarrantyPage() {
 
       <div className="grid grid-cols-1 gap-px border border-[var(--hairline)] sm:grid-cols-2 mb-12">
         {[
-          { brand: "Apple",   period: "1 año",    coverage: "Defectos de fabricación en iPhone, MacBook, iPad y AirPods." },
-          { brand: "Samsung", period: "1 año",    coverage: "Smartphones Galaxy, tablets y periféricos. Incluye pantalla." },
-          { brand: "HP",      period: "1 año",    coverage: "Laptops, impresoras LaserJet y OfficeJet. Soporte técnico incluido." },
-          { brand: "Lenovo",  period: "1 año",    coverage: "ThinkPad, IdeaPad y Legion. Garantía de hardware completa." },
-          { brand: "Brother", period: "1 año",    coverage: "Impresoras y multifuncionales. Cobertura total de componentes." },
-          { brand: "Sony",    period: "1 año",    coverage: "Audífonos WH/WF-1000X y productos de audio. Batería incluida." },
+          { brand: "Dell",       period: "1 año", coverage: "Laptops Vostro, Inspiron y desktops Optiplex. Cobertura total de hardware." },
+          { brand: "HP",         period: "1 año", coverage: "Laptops, impresoras LaserJet y OfficeJet. Soporte técnico incluido." },
+          { brand: "Lenovo",     period: "1 año", coverage: "IdeaPad y ThinkBook. Garantía de hardware completa." },
+          { brand: "Epson",      period: "1 año", coverage: "Impresoras EcoTank y multifuncionales. Cabezal y componentes." },
+          { brand: "TP-Link",    period: "1 año", coverage: "Routers, switches y access points. Reemplazo por defecto de fábrica." },
+          { brand: "Hikvision",  period: "1 año", coverage: "Cámaras IP y DVRs. Defectos de fabricación y componentes electrónicos." },
         ].map((item) => (
           <div key={item.brand} className="border border-[var(--hairline)] bg-[var(--surface-1)] p-7">
             <div className="flex items-baseline justify-between mb-3">

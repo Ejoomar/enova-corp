@@ -33,14 +33,14 @@ interface CatalogGridProps {
 // Category labels for filter chips
 // ─────────────────────────────────────────────
 const CATEGORY_LABELS: Record<string, string> = {
-  laptops:            "Laptops",
-  smartphones:        "Smartphones",
-  tablets:            "Tablets",
-  gaming:             "Gaming",
-  audio:              "Audio",
+  laptops:            "Laptops / PCs",
   perifericos:        "Periféricos",
-  "equipos-fiscales": "Equipos Fiscales",
+  redes:              "Redes",
   impresoras:         "Impresoras",
+  "equipos-fiscales": "Equipos Fiscales",
+  consumibles:        "Consumibles",
+  camaras:            "Cámaras",
+  otros:              "Otros",
   general:            "General",
 }
 

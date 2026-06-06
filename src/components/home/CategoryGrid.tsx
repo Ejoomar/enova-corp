@@ -8,12 +8,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 const categoryImages: Record<string, string> = {
   "laptops":          "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=85",
-  "smartphones":      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=85",
-  "equipos-fiscales": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=85",
-  "impresoras":       "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=85",
   "perifericos":      "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=800&q=85",
-  "gaming":           "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=85",
-  "audio":            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=85",
+  "redes":            "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=85",
+  "impresoras":       "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=85",
+  "equipos-fiscales": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=85",
+  "consumibles":      "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&q=85",
+  "camaras":          "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&q=85",
+  "otros":            "https://images.unsplash.com/photo-1579829366248-204fe8413f31?w=800&q=85",
 }
 
 interface FilmCardProps {

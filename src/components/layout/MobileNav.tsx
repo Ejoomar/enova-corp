@@ -15,7 +15,7 @@ import {
 
 const navLinks = [
   { label: "Laptops / PCs",    href: "/products?category=laptops"          },
-  { label: "Smartphones",      href: "/products?category=smartphones"      },
+  { label: "Redes",            href: "/products?category=redes"            },
   { label: "Equipos Fiscales", href: "/products?category=equipos-fiscales" },
   { label: "Impresoras",       href: "/products?category=impresoras"       },
   { label: "Periféricos",      href: "/products?category=perifericos"      },

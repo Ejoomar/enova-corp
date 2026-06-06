@@ -4,7 +4,7 @@ import productos from "../../../../public/data/productos.json"
 export const metadata = {
   title: "Catálogo de Productos — ENOVA CORP",
   description:
-    "Catálogo completo de equipos tecnológicos: laptops, smartphones, tablets, periféricos y más. Solicita tu cotización.",
+    "Catálogo completo de equipos tecnológicos: laptops, redes, impresoras, cámaras, periféricos y más. Solicita tu cotización.",
 }
 
 export default function CatalogoPage() {

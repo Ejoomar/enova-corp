@@ -13,7 +13,7 @@ import { useQuoteStore } from "@/stores/quote-store"
 
 const navLinks = [
   { label: "Laptops",           href: "/products?category=laptops"          },
-  { label: "Smartphones",       href: "/products?category=smartphones"      },
+  { label: "Redes",             href: "/products?category=redes"            },
   { label: "Equipos Fiscales",  href: "/products?category=equipos-fiscales" },
   { label: "Periféricos",       href: "/products?category=perifericos"      },
   { label: "Catálogo",          href: "/catalogo"                           },

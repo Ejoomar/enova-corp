@@ -22,11 +22,11 @@ const payments = [
 const footerLinks = {
   productos: [
     { name: "Laptops / PCs",     href: "/products?category=laptops"          },
-    { name: "Smartphones",       href: "/products?category=smartphones"      },
+    { name: "Periféricos",       href: "/products?category=perifericos"      },
+    { name: "Redes",             href: "/products?category=redes"            },
     { name: "Equipos Fiscales",  href: "/products?category=equipos-fiscales" },
     { name: "Impresoras",        href: "/products?category=impresoras"       },
-    { name: "Periféricos",       href: "/products?category=perifericos"      },
-    { name: "Gaming",            href: "/products?category=gaming"           },
+    { name: "Cámaras",           href: "/products?category=camaras"          },
   ],
   empresa: [
     { name: "Sobre Nosotros", href: "/about"      },
@@ -63,7 +63,7 @@ export function Footer() {
             </Link>
             <p className="text-sm leading-relaxed text-[var(--steel)]">
               Distribuidor oficial de tecnología en Venezuela. Computación, equipos fiscales,
-              smartphones e impresoras de las mejores marcas del mundo.
+              equipos fiscales e impresoras de las mejores marcas del mundo.
             </p>
             <address className="not-italic space-y-2">
               <div className="flex items-start gap-2 text-sm text-[var(--steel)]">
