@@ -1,30 +1,23 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Instagram, Mail, Phone, MapPin, Smartphone, DollarSign, CreditCard } from "lucide-react"
+import { Mail, Phone, MapPin } from "lucide-react"
 
 const banks = [
-  { name: "Banesco",    color: "#E31837" },
-  { name: "Mercantil",  color: "#003087" },
-  { name: "Bdv",        color: "#CC0000" },
-  { name: "BNC",        color: "#1A5C9E" },
-  { name: "Banplus",    color: "#E4002B" },
-  { name: "Provincial", color: "#2164C8" },
+  { name: "Banesco",   src: "/logos/banesco.svg",   w: 100 },
+  { name: "Mercantil", src: "/logos/mercantil.svg", w: 110 },
+  { name: "BdV",       src: "/logos/bdv.svg",       w: 100 },
+  { name: "BNC",       src: "/logos/bnc.svg",       w: 85  },
+  { name: "Banplus",   src: "/logos/banplus.svg",   w: 95  },
+  { name: "BBVA",      src: "/logos/bbva.svg",      w: 110 },
 ]
 
 const payments = [
-  { label: "Pago Móvil", icon: <Smartphone className="h-3.5 w-3.5" /> },
-  { label: "Zelle",      icon: <span className="text-[13px] font-bold leading-none text-[#6B4FBB]">Z</span> },
-  { label: "USD",        icon: <DollarSign className="h-3.5 w-3.5" /> },
-  { label: "P.O.S.",     icon: <CreditCard className="h-3.5 w-3.5" /> },
+  { name: "Pago Móvil", src: "/logos/pagomovil.svg", w: 110 },
+  { name: "Zelle",      src: "/logos/zelle.svg",     w: 78  },
+  { name: "USD",        src: "/logos/usd.svg",       w: 75  },
+  { name: "Binance",    src: "/logos/binance.svg",   w: 105 },
+  { name: "Cashea",     src: "/logos/cashea.svg",    w: 90  },
 ]
-
-function WhatsAppIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-    </svg>
-  )
-}
 
 const footerLinks = {
   productos: [
@@ -79,10 +72,7 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2 text-sm text-[var(--steel)]">
                 <Mail className="h-3.5 w-3.5 shrink-0 text-[var(--brass)]" />
-                <a
-                  href="mailto:ventas@enovacorp.com.ve"
-                  className="transition-colors hover:text-[var(--brass-bright)]"
-                >
+                <a href="mailto:ventas@enovacorp.com.ve" className="transition-colors hover:text-[var(--brass-bright)]">
                   ventas@enovacorp.com.ve
                 </a>
               </div>
@@ -93,15 +83,31 @@ export function Footer() {
                 </a>
               </div>
             </address>
-            <div className="flex gap-3">
+            <div className="flex items-center gap-3">
               <Link
                 href="https://www.instagram.com/enovacorpve/"
                 target="_blank"
                 rel="noopener"
                 aria-label="Instagram ENOVA CORP"
-                className="text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]"
+                className="group flex items-center gap-2 transition-opacity hover:opacity-80"
               >
-                <Instagram className="h-4 w-4" />
+                <Image src="/logos/instagram.svg" alt="Instagram" width={18} height={18} />
+                <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)] transition-colors group-hover:text-[var(--steel)]">
+                  @enovacorpve
+                </span>
+              </Link>
+              <span className="text-[var(--hairline)]">·</span>
+              <Link
+                href="https://wa.me/584120000000"
+                target="_blank"
+                rel="noopener"
+                aria-label="WhatsApp ENOVA CORP"
+                className="group flex items-center gap-2 transition-opacity hover:opacity-80"
+              >
+                <Image src="/logos/whatsapp.svg" alt="WhatsApp" width={18} height={18} />
+                <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)] transition-colors group-hover:text-[var(--steel)]">
+                  WhatsApp
+                </span>
               </Link>
             </div>
           </div>
@@ -112,10 +118,7 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.productos.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-[var(--steel)] transition-colors hover:text-[var(--brass)]"
-                  >
+                  <Link href={link.href} className="text-sm text-[var(--steel)] transition-colors hover:text-[var(--brass)]">
                     {link.name}
                   </Link>
                 </li>
@@ -152,48 +155,60 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Trust bar */}
+        {/* Trust bar — logos reales */}
         <div className="border-b border-[var(--hairline)] py-8">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-0 lg:divide-x lg:divide-[var(--hairline)]">
 
             {/* Bancos */}
-            <div className="flex flex-col gap-3 lg:pr-10">
+            <div className="flex flex-col gap-4 lg:pr-10">
               <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
                 Bancos Venezuela
               </span>
               <div className="flex flex-wrap items-center gap-2">
                 {banks.map((bank) => (
-                  <span
+                  <div
                     key={bank.name}
-                    className="inline-flex items-center rounded border border-[var(--hairline)] bg-[var(--surface-2)] px-2.5 py-1 font-mono-ui text-[10px] font-semibold uppercase tracking-wider text-[var(--steel)]"
-                    style={{ borderLeftColor: bank.color, borderLeftWidth: 2 }}
+                    className="flex h-10 items-center justify-center rounded-md bg-white px-3 transition-all duration-200 hover:opacity-80 hover:shadow-sm"
+                    style={{ minWidth: bank.w }}
                   >
-                    {bank.name}
-                  </span>
+                    <Image
+                      src={bank.src}
+                      alt={bank.name}
+                      width={bank.w}
+                      height={32}
+                      className="h-6 w-auto object-contain"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* Pagos */}
-            <div className="flex flex-col gap-3 lg:px-10">
+            {/* Métodos de pago */}
+            <div className="flex flex-col gap-4 lg:px-10">
               <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
                 Métodos de pago
               </span>
               <div className="flex flex-wrap items-center gap-2">
                 {payments.map((p) => (
-                  <span
-                    key={p.label}
-                    className="inline-flex items-center gap-1.5 rounded border border-[var(--hairline)] bg-[var(--surface-2)] px-2.5 py-1 font-mono-ui text-[10px] uppercase tracking-wider text-[var(--steel)]"
+                  <div
+                    key={p.name}
+                    className="flex h-10 items-center justify-center rounded-md bg-white px-3 transition-all duration-200 hover:opacity-80 hover:shadow-sm"
+                    style={{ minWidth: p.w }}
                   >
-                    {p.icon}
-                    {p.label}
-                  </span>
+                    <Image
+                      src={p.src}
+                      alt={p.name}
+                      width={p.w}
+                      height={32}
+                      className="h-6 w-auto object-contain"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
 
             {/* Redes sociales */}
-            <div className="flex flex-col gap-3 lg:pl-10">
+            <div className="flex flex-col gap-4 lg:pl-10">
               <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
                 Síguenos
               </span>
@@ -203,20 +218,20 @@ export function Footer() {
                   target="_blank"
                   rel="noopener"
                   aria-label="Instagram"
-                  className="inline-flex items-center gap-2 rounded border border-[var(--hairline)] bg-[var(--surface-2)] px-3 py-1.5 text-[var(--steel)] transition-colors hover:border-[var(--brass)] hover:text-[var(--brass)]"
+                  className="group flex h-10 items-center gap-2 rounded-md bg-white px-3 transition-all duration-200 hover:opacity-80 hover:shadow-sm"
                 >
-                  <Instagram className="h-3.5 w-3.5" />
-                  <span className="font-mono-ui text-[10px] tracking-wide">@enovacorpve</span>
+                  <Image src="/logos/instagram.svg" alt="Instagram" width={20} height={20} className="h-5 w-5 object-contain" />
+                  <span className="font-mono-ui text-[10px] text-gray-600">@enovacorpve</span>
                 </Link>
                 <Link
                   href="https://wa.me/584120000000"
                   target="_blank"
                   rel="noopener"
                   aria-label="WhatsApp"
-                  className="inline-flex items-center gap-2 rounded border border-[var(--hairline)] bg-[var(--surface-2)] px-3 py-1.5 text-[var(--steel)] transition-colors hover:border-[#25D366] hover:text-[#25D366]"
+                  className="group flex h-10 items-center gap-2 rounded-md bg-white px-3 transition-all duration-200 hover:opacity-80 hover:shadow-sm"
                 >
-                  <WhatsAppIcon />
-                  <span className="font-mono-ui text-[10px] tracking-wide">WhatsApp</span>
+                  <Image src="/logos/whatsapp.svg" alt="WhatsApp" width={20} height={20} className="h-5 w-5 object-contain" />
+                  <span className="font-mono-ui text-[10px] text-gray-600">WhatsApp</span>
                 </Link>
               </div>
             </div>
