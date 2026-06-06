@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import { Heart, ShoppingCart, Star, Minus, Plus, Truck, ShieldCheck, Check, ClipboardList } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Product } from "@/types"
 import { useCartStore } from "@/stores/cart-store"
 import { useQuoteStore } from "@/stores/quote-store"
-import { useFavoritesStore } from "@/stores/favorites-store"
 import { useDolarRate } from "@/hooks/useDolarRate"
 import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
 
@@ -20,10 +20,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
   const [quotedAdded, setQuotedAdded] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
   const addItem = useCartStore((state) => state.addItem)
   const addQuoteItem = useQuoteStore((state) => state.addItem)
-  const toggleFavorite = useFavoritesStore((state) => state.toggleItem)
-  const isFavorite = useFavoritesStore((state) => state.isFavorite(product.id))
   const { bcv } = useDolarRate()
 
   const hasDiscount = product.originalPrice && product.originalPrice > product.price
@@ -195,7 +194,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <Button
             variant="outline"
             size="lg"
-            onClick={() => toggleFavorite(product)}
+            onClick={() => setIsFavorite((f) => !f)}
             aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
             className={isFavorite ? "border-[var(--brass)] text-[var(--brass)]" : ""}
           >
