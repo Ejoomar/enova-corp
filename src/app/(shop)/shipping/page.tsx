@@ -23,6 +23,41 @@ export default function ShippingPage() {
         ))}
       </div>
 
+      {/* Alianzas de transporte */}
+      <div className="mb-12">
+        <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)] mb-6">
+          Transportamos con
+        </p>
+        <div className="grid grid-cols-1 gap-px border border-[var(--hairline)] sm:grid-cols-2">
+          {[
+            {
+              name: "MRW",
+              desc: "Cobertura nacional con más de 800 agencias en todo Venezuela. Seguimiento en tiempo real de tu paquete.",
+              coverage: "Nacional · 800+ agencias",
+            },
+            {
+              name: "ZOOM",
+              desc: "Logística express para Caracas y principales ciudades del interior. Entrega al día siguiente disponible.",
+              coverage: "Nacional · Express disponible",
+            },
+          ].map((carrier) => (
+            <div key={carrier.name} className="flex items-start gap-5 bg-[var(--surface-1)] p-8">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded border border-[var(--hairline)] bg-[var(--background)]">
+                <span className="font-mono-ui text-[11px] font-bold tracking-widest text-[var(--foreground)]">
+                  {carrier.name}
+                </span>
+              </div>
+              <div>
+                <p className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--brass)] mb-1">
+                  {carrier.coverage}
+                </p>
+                <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">{carrier.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="border border-[var(--hairline)] bg-[var(--surface-1)] p-8">
         <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)] mb-6">Información importante</p>
         <ul className="space-y-3">

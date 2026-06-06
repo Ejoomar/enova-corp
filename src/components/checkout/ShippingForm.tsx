@@ -53,14 +53,30 @@ export function ShippingForm() {
               <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="miranda">Miranda</SelectItem>
-              <SelectItem value="zulia">Zulia</SelectItem>
-              <SelectItem value="carabobo">Carabobo</SelectItem>
-              <SelectItem value="lara">Lara</SelectItem>
-              <SelectItem value="aragua">Aragua</SelectItem>
-              <SelectItem value="merida">Mérida</SelectItem>
-              <SelectItem value="tachira">Táchira</SelectItem>
+              <SelectItem value="amazonas">Amazonas</SelectItem>
               <SelectItem value="anzoategui">Anzoátegui</SelectItem>
+              <SelectItem value="apure">Apure</SelectItem>
+              <SelectItem value="aragua">Aragua</SelectItem>
+              <SelectItem value="barinas">Barinas</SelectItem>
+              <SelectItem value="bolivar">Bolívar</SelectItem>
+              <SelectItem value="carabobo">Carabobo</SelectItem>
+              <SelectItem value="cojedes">Cojedes</SelectItem>
+              <SelectItem value="delta-amacuro">Delta Amacuro</SelectItem>
+              <SelectItem value="distrito-capital">Distrito Capital</SelectItem>
+              <SelectItem value="falcon">Falcón</SelectItem>
+              <SelectItem value="guarico">Guárico</SelectItem>
+              <SelectItem value="la-guaira">La Guaira</SelectItem>
+              <SelectItem value="lara">Lara</SelectItem>
+              <SelectItem value="merida">Mérida</SelectItem>
+              <SelectItem value="miranda">Miranda</SelectItem>
+              <SelectItem value="monagas">Monagas</SelectItem>
+              <SelectItem value="nueva-esparta">Nueva Esparta</SelectItem>
+              <SelectItem value="portuguesa">Portuguesa</SelectItem>
+              <SelectItem value="sucre">Sucre</SelectItem>
+              <SelectItem value="tachira">Táchira</SelectItem>
+              <SelectItem value="trujillo">Trujillo</SelectItem>
+              <SelectItem value="yaracuy">Yaracuy</SelectItem>
+              <SelectItem value="zulia">Zulia</SelectItem>
             </SelectContent>
           </Select>
         </div>

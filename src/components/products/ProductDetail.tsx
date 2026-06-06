@@ -232,7 +232,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <Truck className="h-5 w-5 text-muted-foreground" />
           <div>
             <p className="font-medium">Despacho nacional</p>
-            <p className="text-xs text-muted-foreground">24–48 h hábiles</p>
+            <p className="text-xs text-muted-foreground">MRW · ZOOM · 24–48 h hábiles</p>
           </div>
         </div>
         <div className="flex items-center gap-3 text-sm">
