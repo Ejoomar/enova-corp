@@ -20,7 +20,7 @@ export default function B2BPage() {
       <div className="grid grid-cols-1 gap-px border border-[var(--hairline)] sm:grid-cols-2 lg:grid-cols-4 mb-16">
         {[
           { icon: Building2,       title: "Precios corporativos", desc: "Descuentos por volumen desde 5 unidades. Cotización personalizada en 24 horas." },
-          { icon: ShieldCheck,     title: "Garantía extendida",   desc: "Planes de garantía empresarial de hasta 3 años con soporte prioritario." },
+          { icon: ShieldCheck,     title: "Garantía incluida",    desc: "Todos los equipos incluyen garantía de 6 meses a 1 año según marca. Soporte técnico post-venta incluido." },
           { icon: Truck,           title: "Entrega empresarial",  desc: "Logística dedicada para instalaciones en oficinas y sucursales de todo Venezuela." },
           { icon: HeadphonesIcon,  title: "Soporte dedicado",     desc: "Asesor de cuenta exclusivo para gestionar tus pedidos y requerimientos técnicos." },
         ].map((item) => (

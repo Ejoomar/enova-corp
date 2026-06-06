@@ -1,11 +1,11 @@
 const items = [
-  { type: "badge", badge: "Nuevo",  badge_variant: "new",    text: "iPhone 16 Pro Max — Disponible ahora" },
-  { type: "text",                                             text: "MacBook Air M3 · Garantía Apple oficial" },
-  { type: "badge", badge: "Fiscal", badge_variant: "fiscal", text: "Equipos SENIAT · Instalación incluida" },
+  { type: "badge", badge: "Nuevo",  badge_variant: "new",    text: "Cámaras EZVIZ — Garantía 6 meses" },
+  { type: "text",                                             text: "Equipos Fiscales SENIAT · Instalación incluida" },
+  { type: "badge", badge: "Fiscal", badge_variant: "fiscal", text: "Impresoras HP & Epson · Mejor precio garantizado" },
   { type: "text",                                             text: "Envíos Express a todo Venezuela" },
-  { type: "badge", badge: "Nuevo",  badge_variant: "new",    text: "Samsung Galaxy S25 Ultra" },
-  { type: "badge", badge: "Oferta", badge_variant: "sale",   text: "HP LaserJet Pro · Mejor precio" },
-  { type: "text",                                             text: "Garantía oficial · Apple · Samsung · HP · Lenovo · Brother" },
+  { type: "badge", badge: "Nuevo",  badge_variant: "new",    text: "Redes TP-Link & Mercusys — Novedades" },
+  { type: "badge", badge: "Oferta", badge_variant: "sale",   text: "Dell OptiPlex · Mejor precio" },
+  { type: "text",                                             text: "Garantía 6 meses a 1 año · Dell · HP · Lenovo · Epson · TP-Link" },
   { type: "text",                                             text: "@enovacorpve · Instagram" },
 ] as const
 

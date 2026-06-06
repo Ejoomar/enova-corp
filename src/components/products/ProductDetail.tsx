@@ -246,7 +246,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <ShieldCheck className="h-5 w-5 text-muted-foreground" />
           <div>
             <p className="font-medium">Garantía oficial</p>
-            <p className="text-xs text-muted-foreground">1 año de fábrica</p>
+            <p className="text-xs text-muted-foreground">6 meses a 1 año</p>
           </div>
         </div>
       </div>

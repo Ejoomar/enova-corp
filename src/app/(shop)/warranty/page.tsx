@@ -4,18 +4,22 @@ export default function WarrantyPage() {
       <div className="grid grid-cols-12 gap-6 mb-16">
         <span className="col-span-12 font-mono-ui text-[11px] text-[var(--muted-foreground)] lg:col-span-2">— Garantía</span>
         <h1 className="col-span-12 font-display text-5xl font-light tracking-[-0.02em] lg:col-span-8">
-          Garantía oficial<br />en todas las marcas
+          Garantía de<br />6 meses a 1 año
         </h1>
       </div>
 
       <div className="grid grid-cols-1 gap-px border border-[var(--hairline)] sm:grid-cols-2 mb-12">
         {[
-          { brand: "Dell",       period: "1 año", coverage: "Laptops Vostro, Inspiron y desktops Optiplex. Cobertura total de hardware." },
-          { brand: "HP",         period: "1 año", coverage: "Laptops, impresoras LaserJet y OfficeJet. Soporte técnico incluido." },
-          { brand: "Lenovo",     period: "1 año", coverage: "IdeaPad y ThinkBook. Garantía de hardware completa." },
-          { brand: "Epson",      period: "1 año", coverage: "Impresoras EcoTank y multifuncionales. Cabezal y componentes." },
-          { brand: "TP-Link",    period: "1 año", coverage: "Routers, switches y access points. Reemplazo por defecto de fábrica." },
-          { brand: "Hikvision",  period: "1 año", coverage: "Cámaras IP y DVRs. Defectos de fabricación y componentes electrónicos." },
+          { brand: "Dell",      period: "1 año",   coverage: "Laptops Vostro, Inspiron y desktops OptiPlex. Cobertura total de hardware." },
+          { brand: "HP",        period: "1 año",   coverage: "Laptops y desktops EliteDesk. Soporte técnico incluido." },
+          { brand: "Lenovo",    period: "1 año",   coverage: "ThinkCentre y IdeaCentre. Garantía de hardware completa." },
+          { brand: "Epson",     period: "1 año",   coverage: "Impresoras EcoTank y multifuncionales. Cabezal y componentes." },
+          { brand: "TP-Link",   period: "6 meses", coverage: "Routers, switches y access points. Reemplazo por defecto de fábrica." },
+          { brand: "Mercusys",  period: "6 meses", coverage: "Routers y repetidores de red. Defectos de fabricación." },
+          { brand: "Hikvision", period: "6 meses", coverage: "Cámaras IP, DVRs y accesorios. Componentes electrónicos." },
+          { brand: "EZVIZ",     period: "6 meses", coverage: "Cámaras inteligentes y cerraduras. Defectos de fábrica." },
+          { brand: "ACLAS",     period: "6 meses", coverage: "Balanzas e impresoras fiscales homologadas SENIAT." },
+          { brand: "Hiksemi",   period: "6 meses", coverage: "SSDs, memorias RAM y almacenamiento flash." },
         ].map((item) => (
           <div key={item.brand} className="border border-[var(--hairline)] bg-[var(--surface-1)] p-7">
             <div className="flex items-baseline justify-between mb-3">

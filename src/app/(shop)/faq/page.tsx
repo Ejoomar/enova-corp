@@ -5,7 +5,7 @@ const faqs = [
   { q: "¿Los equipos fiscales requieren instalación?",  a: "Sí, los equipos fiscales SENIAT requieren configuración. Ofrecemos servicio de instalación y programación incluida." },
   { q: "¿Tienen servicio técnico propio?",              a: "Contamos con técnicos certificados para las marcas que distribuimos. El servicio técnico se coordina previa cita." },
   { q: "¿Hacen descuentos por volumen?",                a: "Sí, ofrecemos precios especiales para compras mayores a 5 unidades. Contáctanos para una cotización B2B personalizada." },
-  { q: "¿Los productos son originales?",                a: "100%. Somos distribuidores autorizados. Todos los productos vienen con factura oficial y garantía de fábrica." },
+  { q: "¿Los productos son originales?",                a: "100%. Somos distribuidores autorizados. Todos los productos vienen con factura oficial y garantía de 6 meses a 1 año según la marca." },
   { q: "¿Cuánto tarda la entrega en el interior?",     a: "El tiempo de entrega al interior del país es de 3 a 5 días hábiles dependiendo de la ciudad." },
 ]
 

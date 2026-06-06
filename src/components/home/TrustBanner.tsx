@@ -16,7 +16,7 @@ const pillars = [
   {
     icon: ShieldCheck,
     title: "Garantía Oficial",
-    sub: "1 año de fábrica",
+    sub: "6 meses a 1 año",
   },
 ]
 
