@@ -19,9 +19,6 @@ export function FeaturedProducts() {
 
         {/* Section header */}
         <div className="mb-12 grid grid-cols-12 items-end gap-6">
-          <span className="col-span-12 font-mono-ui text-[11px] text-[var(--muted-foreground)] lg:col-span-2">
-            — 03 / 04
-          </span>
           <h2 className="col-span-12 font-display text-4xl font-light tracking-[-0.02em] lg:col-span-7">
             Selección del mes.
           </h2>

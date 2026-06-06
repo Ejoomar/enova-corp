@@ -28,9 +28,6 @@ export function BrandSection() {
 
         {/* Header */}
         <div className="mb-16 grid grid-cols-12 items-end gap-6">
-          <span className="col-span-12 font-mono-ui text-[11px] text-[var(--muted-foreground)] lg:col-span-2">
-            — 04 / 04
-          </span>
           <div className="col-span-12 lg:col-span-7">
             <h2 className="font-display text-4xl font-light tracking-[-0.02em]">
               Por qué elegirnos.
