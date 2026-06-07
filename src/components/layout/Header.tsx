@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { MobileNav } from "./MobileNav"
 import { SearchDialog } from "@/components/search/SearchDialog"
+import { ImageSearch } from "@/components/search/ImageSearch"
 import { useCartStore } from "@/stores/cart-store"
 import { useQuoteStore } from "@/stores/quote-store"
 
@@ -91,6 +92,8 @@ export function Header() {
               <Search className="h-4 w-4" />
               <span className="sr-only">Buscar</span>
             </Button>
+
+            <ImageSearch />
 
             <Link href="/cotizacion">
               <Button variant="ghost" size="icon" className="relative h-9 w-9" aria-label="Cotización">

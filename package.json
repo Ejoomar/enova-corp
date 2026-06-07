@@ -13,6 +13,7 @@
     "catalog:all": "node scripts/parse-catalog.mjs && node scripts/download-images.mjs"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.15",
