@@ -1,5 +1,4 @@
 import { auth } from "@/auth"
-import { redirect } from "next/navigation"
 import { AdminSidebar } from "@/components/admin/AdminSidebar"
 import { AdminHeader } from "@/components/admin/AdminHeader"
 
@@ -10,8 +9,9 @@ export default async function AdminLayout({
 }) {
   const session = await auth()
 
+  // Login page: render without sidebar/header (middleware handles auth redirect)
   if (!session) {
-    redirect("/admin/login")
+    return <>{children}</>
   }
 
   return (
