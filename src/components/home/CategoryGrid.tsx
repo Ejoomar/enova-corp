@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight } from "lucide-react"
 import { useProductsStore } from "@/stores/products-store"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -176,14 +175,6 @@ export function CategoryGrid() {
                   />
                 ))}
               </div>
-              {/* CTA móvil */}
-              <Link
-                href="/products"
-                className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-[var(--brass)]/40 bg-[var(--brass)]/10 py-3.5 font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass)] transition-colors active:bg-[var(--brass)]/20"
-              >
-                Ver catálogo completo
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
             </>
           )}
         </div>
@@ -208,15 +199,6 @@ export function CategoryGrid() {
                     productCount={category.productCount}
                   />
                 ))}
-              </div>
-              {/* CTA desktop */}
-              <div className="mt-6 flex justify-end">
-                <Link
-                  href="/products"
-                  className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass)] transition-colors hover:text-[var(--brass-bright)]"
-                >
-                  Ver todas las categorías →
-                </Link>
               </div>
             </>
           )}
