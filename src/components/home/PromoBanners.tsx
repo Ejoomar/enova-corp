@@ -12,7 +12,7 @@ const banners = [
     bg: "from-zinc-900 to-slate-800",
     accent: "border-[var(--color-warning)]",
     tagColor: "bg-[var(--color-warning)] text-[var(--foreground)]",
-    image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=300&q=80",
+    image: "/images/categories/impresoras.jpg",
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ const banners = [
     bg: "from-blue-950 to-slate-900",
     accent: "border-[var(--color-info)]",
     tagColor: "bg-[var(--color-info)] text-[var(--primary-foreground)]",
-    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=300&q=80",
+    image: "/images/categories/redes.jpg",
   },
   {
     id: 3,

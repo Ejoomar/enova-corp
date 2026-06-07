@@ -7,14 +7,14 @@ import { useProductsStore } from "@/stores/products-store"
 import { Skeleton } from "@/components/ui/skeleton"
 
 const categoryImages: Record<string, string> = {
-  "laptops":          "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=85",
-  "perifericos":      "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=800&q=85",
-  "redes":            "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=85",
-  "impresoras":       "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=85",
-  "equipos-fiscales": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=85",
-  "consumibles":      "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&q=85",
-  "camaras":          "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&q=85",
-  "otros":            "https://images.unsplash.com/photo-1579829366248-204fe8413f31?w=800&q=85",
+  "laptops":          "/images/categories/laptops.jpg",
+  "perifericos":      "/images/categories/perifericos.jpg",
+  "redes":            "/images/categories/redes.jpg",
+  "impresoras":       "/images/categories/impresoras.jpg",
+  "equipos-fiscales": "/images/categories/fiscales.jpg",
+  "consumibles":      "/images/categories/consumibles.jpg",
+  "camaras":          "/images/categories/camaras.jpg",
+  "otros":            "/images/categories/otros.jpg",
 }
 
 /* ── Desktop filmstrip card ── */
