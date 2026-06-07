@@ -2,9 +2,9 @@ import { Product, Category, Brand } from "@/types"
 
 // ─── Categorías ───────────────────────────────────────────────────────────────
 export const categories: Category[] = [
-  { id: "1", name: "Laptops / PCs",    slug: "laptops",          icon: "Laptop",      productCount: 14 },
-  { id: "2", name: "Periféricos",      slug: "perifericos",      icon: "Keyboard",    productCount: 38 },
-  { id: "3", name: "Redes",            slug: "redes",            icon: "Network",     productCount: 32 },
+  { id: "1", name: "Laptops / PCs",    slug: "laptops",          icon: "Laptop",      productCount: 11 },
+  { id: "2", name: "Periféricos",      slug: "perifericos",      icon: "Keyboard",    productCount: 37 },
+  { id: "3", name: "Redes",            slug: "redes",            icon: "Network",     productCount: 36 },
   { id: "4", name: "Impresoras",       slug: "impresoras",       icon: "Printer",     productCount: 3  },
   { id: "5", name: "Equipos Fiscales", slug: "equipos-fiscales", icon: "ReceiptText", productCount: 3  },
   { id: "6", name: "Consumibles",      slug: "consumibles",      icon: "Droplets",    productCount: 11 },
@@ -14,20 +14,52 @@ export const categories: Category[] = [
 
 // ─── Marcas ───────────────────────────────────────────────────────────────────
 export const brands: Brand[] = [
-  { id: "1",  name: "Dell",        productCount: 9 },
-  { id: "2",  name: "HP",          productCount: 2 },
-  { id: "3",  name: "Lenovo",      productCount: 3 },
-  { id: "4",  name: "Epson",       productCount: 5 },
-  { id: "5",  name: "TP-Link",     productCount: 7 },
-  { id: "6",  name: "Mercusys",    productCount: 5 },
-  { id: "7",  name: "Hikvision",   productCount: 6 },
-  { id: "8",  name: "Hiksemi",     productCount: 7 },
-  { id: "9",  name: "EZVIZ",       productCount: 6 },
-  { id: "10", name: "Mikrotik",    productCount: 1 },
-  { id: "11", name: "Xtech",       productCount: 6 },
-  { id: "12", name: "ACLAS",       productCount: 2 },
-  { id: "13", name: "Grandstream", productCount: 2 },
-  { id: "14", name: "Marsriva",    productCount: 3 },
+  // Equipos / Cómputo
+  { id: "1",  name: "Dell",        productCount: 8  },
+  { id: "2",  name: "HP",          productCount: 1  },
+  { id: "3",  name: "Lenovo",      productCount: 3  },
+  // Impresión e insumos
+  { id: "4",  name: "Epson",       productCount: 6  },
+  { id: "5",  name: "Color Make",  productCount: 5  },
+  // Redes
+  { id: "6",  name: "TP-Link",     productCount: 7  },
+  { id: "7",  name: "Mercusys",    productCount: 5  },
+  { id: "8",  name: "Mikrotik",    productCount: 1  },
+  { id: "9",  name: "Grandstream", productCount: 2  },
+  { id: "10", name: "Ubiquiti",    productCount: 1  },
+  { id: "11", name: "Huawei",      productCount: 1  },
+  { id: "12", name: "Sonoff",      productCount: 1  },
+  // Seguridad y vigilancia
+  { id: "13", name: "Hikvision",   productCount: 5  },
+  { id: "14", name: "EZVIZ",       productCount: 6  },
+  // Almacenamiento y memoria
+  { id: "15", name: "Hiksemi",     productCount: 7  },
+  { id: "16", name: "Kingston",    productCount: 1  },
+  { id: "17", name: "Ceamere",     productCount: 3  },
+  { id: "18", name: "ADATA",       productCount: 1  },
+  // Periféricos
+  { id: "19", name: "Xtech",       productCount: 6  },
+  { id: "20", name: "Delux",       productCount: 2  },
+  { id: "21", name: "Klip Xtreme", productCount: 1  },
+  { id: "22", name: "Astra",       productCount: 4  },
+  { id: "23", name: "Unno Tekno",  productCount: 1  },
+  { id: "24", name: "JT Primus",   productCount: 1  },
+  // Cableado e infraestructura
+  { id: "25", name: "STC",         productCount: 12 },
+  { id: "26", name: "Cablix",      productCount: 3  },
+  { id: "27", name: "LinkedPro",   productCount: 2  },
+  { id: "28", name: "Siemens",     productCount: 1  },
+  { id: "29", name: "Zoerax",      productCount: 1  },
+  // Energía
+  { id: "30", name: "Marsriva",    productCount: 3  },
+  { id: "31", name: "Explorer",    productCount: 1  },
+  { id: "32", name: "CDP",         productCount: 1  },
+  // Equipos fiscales
+  { id: "33", name: "ACLAS",       productCount: 2  },
+  { id: "34", name: "SX",          productCount: 1  },
+  // Otros / Genérico
+  { id: "35", name: "Genérico",    productCount: 12 },
+  { id: "36", name: "ENOVA",       productCount: 1  },
 ]
 
 // ─── Imágenes por tipo ────────────────────────────────────────────────────────
