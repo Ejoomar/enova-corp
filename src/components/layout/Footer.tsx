@@ -3,12 +3,9 @@ import Image from "next/image"
 import { Mail, Phone, MapPin } from "lucide-react"
 
 const banks = [
-  { name: "Banesco",   src: "/logos/banesco.svg",   w: 90,  color: "#E31837" },
-  { name: "Mercantil", src: "/logos/mercantil.svg", w: 100, color: "#003087" },
-  { name: "BdV",       src: "/logos/bdv.svg",       w: 90,  color: "#CC0000" },
-  { name: "BNC",       src: "/logos/bnc.svg",       w: 76,  color: "#1A5C9E" },
-  { name: "Banplus",   src: "/logos/banplus.svg",   w: 86,  color: "#E4002B" },
-  { name: "BBVA",      src: "/logos/bbva.svg",      w: 100, color: "#2164C8" },
+  { name: "Banco de Venezuela", src: "/logos/bdv.svg",       w: 150, color: "#CF122D" },
+  { name: "Mercantil",          src: "/logos/mercantil.svg", w: 130, color: "#1B5EA6" },
+  { name: "BBVA Provincial",    src: "/logos/bbva.svg",      w: 140, color: "#00539B" },
 ]
 
 const payments = [
@@ -166,7 +163,7 @@ export function Footer() {
                   Transferencias bancarias
                 </p>
                 <h3 className="font-display text-lg font-medium tracking-[-0.02em] text-foreground">
-                  Aceptamos todos los bancos venezolanos
+                  Transferencias a nuestras cuentas bancarias
                 </h3>
               </div>
               <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">
@@ -175,20 +172,20 @@ export function Footer() {
             </div>
 
             {/* Grid de bancos */}
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               {banks.map((bank) => (
                 <div
                   key={bank.name}
                   className="group flex flex-col items-center gap-3 rounded-xl border border-[var(--hairline)] bg-[var(--background)] p-4 transition-all duration-200 hover:border-[var(--brass)]/50 hover:bg-[var(--surface-2)]"
                   style={{ borderTopColor: bank.color, borderTopWidth: "3px" }}
                 >
-                  <div className="flex h-9 w-full items-center justify-center rounded-md bg-[var(--surface-1)] px-2">
+                  <div className="flex h-12 w-full items-center justify-center rounded-md bg-[var(--surface-1)] px-3">
                     <Image
                       src={bank.src}
                       alt={bank.name}
                       width={bank.w}
-                      height={28}
-                      className="h-6 w-auto object-contain"
+                      height={36}
+                      className="h-8 w-auto object-contain"
                     />
                   </div>
                   <span className="font-mono-ui text-[9px] uppercase tracking-[0.1em] text-[var(--muted-foreground)]">
