@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Check, Loader2, Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,22 +20,115 @@ import {
 export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [loadError, setLoadError] = useState(false)
 
-  function handleSave() {
+  // General
+  const [storeName,        setStoreName]        = useState("ENOVA CORP")
+  const [storeEmail,       setStoreEmail]       = useState("Gerencia@enovacorp.co")
+  const [storePhone,       setStorePhone]       = useState("0422-3668201")
+  const [storeAddress,     setStoreAddress]     = useState("Av. Libertador, Urb. La Castellana, Caracas")
+  const [storeDescription, setStoreDescription] = useState("Tu tienda de tecnología de confianza")
+  const [timezone,         setTimezone]         = useState("america-caracas")
+  const [currency,         setCurrency]         = useState("usd")
+
+  // Store
+  const [showOutOfStock,   setShowOutOfStock]   = useState(true)
+  const [showStockCount,   setShowStockCount]   = useState(true)
+  const [allowReviews,     setAllowReviews]     = useState(true)
+  const [shippingCost,     setShippingCost]     = useState("15")
+  const [freeShippingFrom, setFreeShippingFrom] = useState("200")
+
+  // Notifications
+  const [notifyNewOrders,       setNotifyNewOrders]       = useState(true)
+  const [notifyFailedPayments,  setNotifyFailedPayments]  = useState(true)
+  const [notifyLowStock,        setNotifyLowStock]        = useState(true)
+  const [notifyNewUsers,        setNotifyNewUsers]        = useState(false)
+
+  // Payment methods
+  const [acceptCards,    setAcceptCards]    = useState(true)
+  const [acceptTransfer, setAcceptTransfer] = useState(true)
+  const [acceptDigital,  setAcceptDigital]  = useState(true)
+  const [acceptCOD,      setAcceptCOD]      = useState(false)
+
+  // Load persisted settings on mount
+  useEffect(() => {
+    fetch("/api/admin/settings")
+      .then((r) => r.json())
+      .then(({ data }) => {
+        if (!data) return
+        const g = data.general ?? {}
+        const s = data.store ?? {}
+        const n = data.notifications ?? {}
+        const p = data.payments ?? {}
+
+        if (g.storeName)        setStoreName(g.storeName)
+        if (g.storeEmail)       setStoreEmail(g.storeEmail)
+        if (g.storePhone)       setStorePhone(g.storePhone)
+        if (g.storeAddress)     setStoreAddress(g.storeAddress)
+        if (g.storeDescription) setStoreDescription(g.storeDescription)
+        if (g.timezone)         setTimezone(g.timezone)
+        if (g.currency)         setCurrency(g.currency)
+
+        if (s.shippingCost     !== undefined) setShippingCost(String(s.shippingCost))
+        if (s.freeShippingFrom !== undefined) setFreeShippingFrom(String(s.freeShippingFrom))
+        if (s.showOutOfStock   !== undefined) setShowOutOfStock(s.showOutOfStock)
+        if (s.showStockCount   !== undefined) setShowStockCount(s.showStockCount)
+        if (s.allowReviews     !== undefined) setAllowReviews(s.allowReviews)
+
+        if (n.notifyNewOrders      !== undefined) setNotifyNewOrders(n.notifyNewOrders)
+        if (n.notifyFailedPayments !== undefined) setNotifyFailedPayments(n.notifyFailedPayments)
+        if (n.notifyLowStock       !== undefined) setNotifyLowStock(n.notifyLowStock)
+        if (n.notifyNewUsers       !== undefined) setNotifyNewUsers(n.notifyNewUsers)
+
+        if (p.acceptCards    !== undefined) setAcceptCards(p.acceptCards)
+        if (p.acceptTransfer !== undefined) setAcceptTransfer(p.acceptTransfer)
+        if (p.acceptDigital  !== undefined) setAcceptDigital(p.acceptDigital)
+        if (p.acceptCOD      !== undefined) setAcceptCOD(p.acceptCOD)
+      })
+      .catch(() => setLoadError(true))
+  }, [])
+
+  async function handleSave() {
     setSaving(true)
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          general: {
+            storeName, storeEmail, storePhone, storeAddress, storeDescription, timezone, currency,
+          },
+          store: {
+            showOutOfStock, showStockCount, allowReviews,
+            shippingCost: Number(shippingCost),
+            freeShippingFrom: Number(freeShippingFrom),
+          },
+          notifications: {
+            notifyNewOrders, notifyFailedPayments, notifyLowStock, notifyNewUsers,
+          },
+          payments: {
+            acceptCards, acceptTransfer, acceptDigital, acceptCOD,
+          },
+        }),
+      })
+      if (res.ok) {
+        setSaved(true)
+        setTimeout(() => setSaved(false), 3000)
+      }
+    } finally {
       setSaving(false)
-      setSaved(true)
-      setTimeout(() => setSaved(false), 3000)
-    }, 800)
+    }
   }
+
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold">Configuración</h1>
         <p className="text-muted-foreground">
           Administra la configuración de tu tienda
+          {loadError && (
+            <span className="ml-2 text-destructive text-sm">— Error al cargar, usando valores por defecto</span>
+          )}
         </p>
       </div>
 
@@ -47,41 +140,57 @@ export default function AdminSettingsPage() {
           <TabsTrigger value="payments">Pagos</TabsTrigger>
         </TabsList>
 
-        {/* General Settings */}
+        {/* General */}
         <TabsContent value="general" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Información de la Tienda</CardTitle>
-              <CardDescription>
-                Configura la información básica de tu tienda
-              </CardDescription>
+              <CardDescription>Configura la información básica de tu tienda</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="storeName">Nombre de la tienda</Label>
-                  <Input id="storeName" defaultValue="BasicTechShop" />
+                  <Input
+                    id="storeName"
+                    value={storeName}
+                    onChange={(e) => setStoreName(e.target.value)}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="storeEmail">Email de contacto</Label>
-                  <Input id="storeEmail" type="email" defaultValue="Gerencia@enovacorp.co" />
+                  <Input
+                    id="storeEmail"
+                    type="email"
+                    value={storeEmail}
+                    onChange={(e) => setStoreEmail(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="storePhone">Teléfono</Label>
-                  <Input id="storePhone" defaultValue="0422-3668201" />
+                  <Input
+                    id="storePhone"
+                    value={storePhone}
+                    onChange={(e) => setStorePhone(e.target.value)}
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="storeAddress">Direccion</Label>
-                  <Input id="storeAddress" defaultValue="Av. Libertador, Urb. La Castellana, Caracas" />
+                  <Label htmlFor="storeAddress">Dirección</Label>
+                  <Input
+                    id="storeAddress"
+                    value={storeAddress}
+                    onChange={(e) => setStoreAddress(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="storeDescription">Descripcion</Label>
+                <Label htmlFor="storeDescription">Descripción</Label>
                 <Input
                   id="storeDescription"
-                  defaultValue="Tu tienda de tecnologia de confianza"
+                  value={storeDescription}
+                  onChange={(e) => setStoreDescription(e.target.value)}
                 />
               </div>
             </CardContent>
@@ -90,15 +199,13 @@ export default function AdminSettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Zona Horaria y Moneda</CardTitle>
-              <CardDescription>
-                Configura la zona horaria y moneda de la tienda
-              </CardDescription>
+              <CardDescription>Configura la zona horaria y moneda de la tienda</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Zona horaria</Label>
-                  <Select defaultValue="america-caracas">
+                  <Select value={timezone} onValueChange={setTimezone}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -111,7 +218,7 @@ export default function AdminSettingsPage() {
                 </div>
                 <div className="space-y-2">
                   <Label>Moneda</Label>
-                  <Select defaultValue="usd">
+                  <Select value={currency} onValueChange={setCurrency}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -126,34 +233,32 @@ export default function AdminSettingsPage() {
           </Card>
         </TabsContent>
 
-        {/* Store Settings */}
+        {/* Store */}
         <TabsContent value="store" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Configuración de Productos</CardTitle>
-              <CardDescription>
-                Configura cómo se muestran los productos
-              </CardDescription>
+              <CardDescription>Configura cómo se muestran los productos</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">Mostrar productos agotados</p>
                   <p className="text-sm text-muted-foreground">
-                    Los productos sin stock se mostraran como "Agotado"
+                    Los productos sin stock se mostrarán como "Agotado"
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={showOutOfStock} onCheckedChange={setShowOutOfStock} />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">Mostrar cantidad en stock</p>
                   <p className="text-sm text-muted-foreground">
-                    Muestra cuantas unidades quedan disponibles
+                    Muestra cuántas unidades quedan disponibles
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={showStockCount} onCheckedChange={setShowStockCount} />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
@@ -163,7 +268,7 @@ export default function AdminSettingsPage() {
                     Los clientes pueden dejar reseñas en los productos
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={allowReviews} onCheckedChange={setAllowReviews} />
               </div>
             </CardContent>
           </Card>
@@ -171,19 +276,29 @@ export default function AdminSettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Envío</CardTitle>
-              <CardDescription>
-                Configura las opciones de envío
-              </CardDescription>
+              <CardDescription>Configura las opciones de envío</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label>Costo de envío estándar</Label>
-                  <Input type="number" defaultValue="15" />
+                  <Label htmlFor="shippingCost">Costo de envío estándar ($)</Label>
+                  <Input
+                    id="shippingCost"
+                    type="number"
+                    min="0"
+                    value={shippingCost}
+                    onChange={(e) => setShippingCost(e.target.value)}
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label>Envío gratis desde ($)</Label>
-                  <Input type="number" defaultValue="200" />
+                  <Label htmlFor="freeShippingFrom">Envío gratis desde ($)</Label>
+                  <Input
+                    id="freeShippingFrom"
+                    type="number"
+                    min="0"
+                    value={freeShippingFrom}
+                    onChange={(e) => setFreeShippingFrom(e.target.value)}
+                  />
                 </div>
               </div>
             </CardContent>
@@ -195,9 +310,7 @@ export default function AdminSettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Notificaciones por Email</CardTitle>
-              <CardDescription>
-                Configura qué notificaciones recibir
-              </CardDescription>
+              <CardDescription>Configura qué notificaciones recibir</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
@@ -207,7 +320,7 @@ export default function AdminSettingsPage() {
                     Recibe un email cuando hay un nuevo pedido
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={notifyNewOrders} onCheckedChange={setNotifyNewOrders} />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
@@ -217,7 +330,7 @@ export default function AdminSettingsPage() {
                     Notificación cuando un pago falla
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={notifyFailedPayments} onCheckedChange={setNotifyFailedPayments} />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
@@ -227,7 +340,7 @@ export default function AdminSettingsPage() {
                     Alerta cuando un producto tiene poco stock
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={notifyLowStock} onCheckedChange={setNotifyLowStock} />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
@@ -237,7 +350,7 @@ export default function AdminSettingsPage() {
                     Notificación cuando se registra un nuevo usuario
                   </p>
                 </div>
-                <Switch />
+                <Switch checked={notifyNewUsers} onCheckedChange={setNotifyNewUsers} />
               </div>
             </CardContent>
           </Card>
@@ -248,19 +361,15 @@ export default function AdminSettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Métodos de Pago</CardTitle>
-              <CardDescription>
-                Habilita o deshabilita métodos de pago
-              </CardDescription>
+              <CardDescription>Habilita o deshabilita métodos de pago</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">Tarjetas de crédito/débito</p>
-                  <p className="text-sm text-muted-foreground">
-                    Visa, Mastercard, American Express
-                  </p>
+                  <p className="text-sm text-muted-foreground">Visa, Mastercard, American Express</p>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={acceptCards} onCheckedChange={setAcceptCards} />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
@@ -270,17 +379,15 @@ export default function AdminSettingsPage() {
                     Banco de Venezuela, Mercantil, BBVA Provincial
                   </p>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={acceptTransfer} onCheckedChange={setAcceptTransfer} />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">Billeteras digitales</p>
-                  <p className="text-sm text-muted-foreground">
-                    Pago Móvil, Zelle, PayPal
-                  </p>
+                  <p className="text-sm text-muted-foreground">Pago Móvil, Zelle, PayPal</p>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={acceptDigital} onCheckedChange={setAcceptDigital} />
               </div>
               <Separator />
               <div className="flex items-center justify-between">
@@ -290,14 +397,14 @@ export default function AdminSettingsPage() {
                     El cliente paga al recibir el producto
                   </p>
                 </div>
-                <Switch />
+                <Switch checked={acceptCOD} onCheckedChange={setAcceptCOD} />
               </div>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
 
-      {/* Save Button */}
+      {/* Save */}
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={saving}>
           {saving ? (

@@ -7,6 +7,7 @@ import {
   Menu,
   LayoutDashboard,
   Package,
+  ShoppingCart,
   CreditCard,
   Users,
   Settings,
@@ -23,11 +24,12 @@ import {
 } from "@/components/ui/sheet"
 
 const navigation = [
-  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { name: "Productos", href: "/admin/products", icon: Package },
-  { name: "Pagos", href: "/admin/payments", icon: CreditCard },
-  { name: "Usuarios", href: "/admin/users", icon: Users },
-  { name: "Configuracion", href: "/admin/settings", icon: Settings },
+  { name: "Dashboard",      href: "/admin",           icon: LayoutDashboard },
+  { name: "Productos",      href: "/admin/products",  icon: Package },
+  { name: "Pedidos",        href: "/admin/orders",    icon: ShoppingCart },
+  { name: "Pagos",          href: "/admin/payments",  icon: CreditCard },
+  { name: "Usuarios",       href: "/admin/users",     icon: Users },
+  { name: "Configuración",  href: "/admin/settings",  icon: Settings },
 ]
 
 export function AdminMobileNav() {
@@ -46,14 +48,16 @@ export function AdminMobileNav() {
         <SheetHeader className="border-b px-6 py-4">
           <SheetTitle className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <span className="text-sm font-bold text-primary-foreground">BT</span>
+              <span className="text-sm font-bold text-primary-foreground">EN</span>
             </div>
             Admin Panel
           </SheetTitle>
         </SheetHeader>
         <nav className="flex-1 space-y-1 p-4">
           {navigation.map((item) => {
-            const isActive = pathname === item.href
+            const isActive = item.href === "/admin"
+              ? pathname === "/admin"
+              : pathname.startsWith(item.href)
             return (
               <Link
                 key={item.name}

@@ -158,8 +158,8 @@ export const useAdminStore = create<AdminState>((set, get) => ({
   updateOrderStatus: async (id, status) => {
     set({ loading: true, error: null })
     try {
-      const response = await fetch(`/api/orders/${id}`, {
-        method: "PUT",
+      const response = await fetch(`/api/admin/orders/${id}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
       })

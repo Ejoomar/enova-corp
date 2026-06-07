@@ -1,9 +1,9 @@
 "use client"
 
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { signOut } from "next-auth/react"
-import { Bell, LogOut, Search, Settings, User } from "lucide-react"
+import { Bell, LogOut, Search, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -23,11 +23,13 @@ interface AdminHeaderProps {
     name?: string | null
     email?: string | null
   }
+  pendingPayments?: number
 }
 
-export function AdminHeader({ user }: AdminHeaderProps) {
+export function AdminHeader({ user, pendingPayments = 0 }: AdminHeaderProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  const [searchQuery, setSearchQuery] = useState("")
 
   const initials = user?.name
     ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
@@ -40,19 +42,34 @@ export function AdminHeader({ user }: AdminHeaderProps) {
     })
   }
 
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault()
+    const q = searchQuery.trim()
+    if (!q) return
+    // Route order-like queries to orders, everything else to products
+    if (/^ord/i.test(q) || /^\d{4,}/.test(q)) {
+      router.push(`/admin/orders?q=${encodeURIComponent(q)}`)
+    } else {
+      router.push(`/admin/products?q=${encodeURIComponent(q)}`)
+    }
+    setSearchQuery("")
+  }
+
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 lg:px-6">
       <AdminMobileNav />
 
       <div className="hidden flex-1 md:flex md:max-w-sm">
-        <div className="relative w-full">
+        <form onSubmit={handleSearch} className="relative w-full">
           <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Buscar productos, pedidos..."
             className="w-full pl-8"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </div>
+        </form>
       </div>
 
       <div className="flex-1 md:flex-none" />
@@ -60,8 +77,17 @@ export function AdminHeader({ user }: AdminHeaderProps) {
       <div className="flex items-center gap-2">
         <ThemeToggle />
 
-        <Button variant="ghost" size="icon" className="relative">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative"
+          onClick={() => router.push("/admin/payments")}
+          title="Comprobantes de pago pendientes"
+        >
           <Bell className="h-4 w-4" />
+          {pendingPayments > 0 && (
+            <span className="absolute right-1.5 top-1.5 flex h-2 w-2 items-center justify-center rounded-full bg-destructive" />
+          )}
         </Button>
 
         <DropdownMenu>
@@ -79,16 +105,12 @@ export function AdminHeader({ user }: AdminHeaderProps) {
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium">{user?.name ?? "Admin"}</p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {user?.email ?? "admin@enovacorp.com"}
+                  {user?.email ?? "Gerencia@enovacorp.co"}
                 </p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              Perfil
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/admin/settings")}>
               <Settings className="mr-2 h-4 w-4" />
               Configuración
             </DropdownMenuItem>
