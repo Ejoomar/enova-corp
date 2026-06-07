@@ -3,10 +3,11 @@
 import { useState, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ExternalLink, MessageCircle, SlidersHorizontal, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { SlidersHorizontal, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { useDolarRate } from "@/hooks/useDolarRate"
+import { formatBsF, usdToBsF } from "@/lib/currency"
 
 // ─────────────────────────────────────────────
 // Types
@@ -47,15 +48,17 @@ const CATEGORY_LABELS: Record<string, string> = {
 // ─────────────────────────────────────────────
 // Product Card
 // ─────────────────────────────────────────────
-function ProductCard({ product }: { product: CatalogProduct }) {
+function ProductCard({ product, bcvRate }: { product: CatalogProduct; bcvRate: number | null }) {
   const [imgError, setImgError] = useState(false)
-  const waMessage = encodeURIComponent(
-    `Hola ENOVA CORP, quiero cotizar: ${product.name}`
-  )
-  const waUrl = `https://wa.me/584223668201?text=${waMessage}`
+  const hasPrice = product.price != null && product.price > 0
+  const bsValue = (bcvRate && hasPrice) ? usdToBsF(product.price!, bcvRate) : null
+  const waUrl = `https://wa.me/584223668201?text=${encodeURIComponent(`Hola ENOVA CORP, quiero cotizar: ${product.name}`)}`
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--color-warning)]/50">
+    <Link
+      href={`/products/${product.slug}`}
+      className="group relative flex flex-col overflow-hidden rounded-xl border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--color-warning)]/50"
+    >
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-muted/40">
         {!imgError ? (
@@ -83,49 +86,42 @@ function ProductCard({ product }: { product: CatalogProduct }) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col gap-3 p-3">
+      <div className="flex flex-1 flex-col gap-2 p-3">
         <h3 className="line-clamp-2 text-sm font-medium leading-snug">
           {product.name}
         </h3>
 
-        {product.price != null && product.price > 0 ? (
-          <p className="flex items-baseline gap-1.5 text-base font-bold text-primary">
-            ${product.price.toLocaleString("en-US")}
-            {product.plusIva && (
-              <span className="text-[11px] font-medium text-[var(--color-warning)]">
-                + IVA
-              </span>
-            )}
-          </p>
-        ) : (
-          <p className="text-xs text-muted-foreground italic">Precio a cotizar</p>
-        )}
-
-        {/* Actions */}
-        <div className="mt-auto flex gap-2">
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[var(--color-success)] px-3 py-2 text-xs font-semibold text-[var(--primary-foreground)] transition-colors hover:opacity-90"
-          >
-            <MessageCircle className="h-3.5 w-3.5" />
-            Cotizar
-          </a>
-          {product.url && (
+        <div className="mt-auto pt-1">
+          {hasPrice ? (
+            <div className="flex flex-col gap-0.5">
+              <p className="flex items-baseline gap-1.5 text-base font-bold text-primary">
+                ${product.price!.toLocaleString("en-US")}
+                {product.plusIva && (
+                  <span className="text-[11px] font-medium text-[var(--color-warning)]">
+                    + IVA
+                  </span>
+                )}
+              </p>
+              {bsValue != null && (
+                <p className="font-mono-ui text-[10px] tabular-nums text-muted-foreground">
+                  {formatBsF(bsValue)}
+                </p>
+              )}
+            </div>
+          ) : (
             <a
-              href={product.url}
+              href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center rounded-lg border px-2.5 py-2 text-muted-foreground transition-colors hover:text-foreground"
-              title="Ver en sitio oficial"
+              onClick={(e) => e.stopPropagation()}
+              className="font-mono-ui text-[11px] uppercase tracking-[0.1em] text-[var(--brass)] transition-colors hover:text-[var(--brass-bright)]"
             >
-              <ExternalLink className="h-3.5 w-3.5" />
+              Consultar →
             </a>
           )}
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
@@ -135,6 +131,7 @@ function ProductCard({ product }: { product: CatalogProduct }) {
 export function CatalogGrid({ products }: CatalogGridProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [search, setSearch] = useState("")
+  const { bcv } = useDolarRate()
 
   // Unique categories present in the data
   const categories = useMemo(() => {
@@ -231,7 +228,7 @@ export function CatalogGrid({ products }: CatalogGridProps) {
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {filtered.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} bcvRate={bcv} />
           ))}
         </div>
       )}
