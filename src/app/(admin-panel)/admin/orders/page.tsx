@@ -12,11 +12,12 @@ import {
   type ColumnFiltersState,
   type SortingState,
 } from "@tanstack/react-table"
-import { Eye } from "lucide-react"
+import { Eye, Search } from "lucide-react"
 import Link from "next/link"
 import { SortableHeader } from "@/components/admin/SortableHeader"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -40,6 +41,7 @@ export default function AdminOrdersPage() {
   const [data, setData] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("")
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [, startTransition] = useTransition()
@@ -162,10 +164,24 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Pedidos</h1>
-          <p className="text-sm text-muted-foreground">{data.length} pedidos encontrados</p>
+      <div>
+        <h1 className="text-2xl font-bold">Pedidos</h1>
+        <p className="text-sm text-muted-foreground">{data.length} pedidos encontrados</p>
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative flex-1 max-w-xs">
+          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Buscar por N° de pedido..."
+            className="pl-8"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value)
+              table.getColumn("id")?.setFilterValue(e.target.value)
+            }}
+          />
         </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-44">

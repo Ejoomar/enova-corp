@@ -13,6 +13,7 @@ import {
   type SortingState,
 } from "@tanstack/react-table"
 import { ZoomIn } from "lucide-react"
+import Link from "next/link"
 import { SortableHeader } from "@/components/admin/SortableHeader"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -135,9 +136,19 @@ export default function AdminPaymentsPage() {
     {
       accessorKey: "orderNumber",
       header: "Pedido",
-      cell: ({ getValue }) => (
-        <span className="font-mono text-sm">{String(getValue() ?? "—")}</span>
-      ),
+      cell: ({ getValue }) => {
+        const val = getValue() as string | null
+        return val ? (
+          <Link
+            href={`/admin/orders/${val}`}
+            className="font-mono text-sm text-primary hover:underline"
+          >
+            {val}
+          </Link>
+        ) : (
+          <span className="font-mono text-sm text-muted-foreground">—</span>
+        )
+      },
     },
     {
       accessorKey: "amount",
@@ -297,23 +308,37 @@ export default function AdminPaymentsPage() {
           </Table>
         </div>
 
-        <div className="flex items-center justify-end gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Anterior
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Siguiente
-          </Button>
+        <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <span>
+            Mostrando{" "}
+            {table.getFilteredRowModel().rows.length === 0
+              ? 0
+              : table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
+            –
+            {Math.min(
+              (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+              table.getFilteredRowModel().rows.length
+            )}{" "}
+            de {table.getFilteredRowModel().rows.length}
+          </span>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Anterior
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Siguiente
+            </Button>
+          </div>
         </div>
       </div>
 

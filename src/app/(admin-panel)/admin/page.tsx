@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import Link from "next/link"
-import { DollarSign, ShoppingCart, Users, Package, ArrowUpRight } from "lucide-react"
+import { DollarSign, ShoppingCart, Users, Package, ArrowUpRight, AlertCircle, RefreshCw } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -83,7 +83,7 @@ const statusLabels: Record<string, string> = {
 }
 
 export default function AdminDashboard() {
-  const { stats, statChanges, recentOrders, ordersByStatus, loading, fetchDashboard } = useAdminStore()
+  const { stats, statChanges, recentOrders, ordersByStatus, loading, error, fetchDashboard } = useAdminStore()
 
   useEffect(() => {
     fetchDashboard()
@@ -91,6 +91,29 @@ export default function AdminDashboard() {
 
   if (loading && !stats) {
     return <DashboardSkeleton />
+  }
+
+  if (!loading && !stats && error) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10">
+          <AlertCircle className="h-7 w-7 text-destructive" />
+        </div>
+        <div>
+          <p className="text-lg font-semibold">Error al cargar el dashboard</p>
+          <p className="mt-1 text-sm text-muted-foreground max-w-sm">
+            No se pudo conectar con la base de datos. Verifica que el servidor esté activo e inténtalo de nuevo.
+          </p>
+        </div>
+        <button
+          onClick={() => fetchDashboard()}
+          className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
+        >
+          <RefreshCw className="h-4 w-4" />
+          Reintentar
+        </button>
+      </div>
+    )
   }
 
   return (
