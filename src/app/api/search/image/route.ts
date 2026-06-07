@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     const base64 = Buffer.from(buffer).toString("base64")
     const mimeType = file.type || "image/jpeg"
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
 
     const prompt = `Analiza esta imagen de un producto tecnológico y responde SOLO con un JSON válido, sin texto adicional, con este formato exacto:
 {
@@ -132,7 +132,8 @@ export async function POST(request: NextRequest) {
       total: matches.length,
     })
   } catch (error) {
-    console.error("Image search error:", error)
-    return NextResponse.json({ error: "Error procesando la imagen" }, { status: 500 })
+    const msg = error instanceof Error ? error.message : String(error)
+    console.error("Image search error:", msg)
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }
