@@ -7,6 +7,13 @@ interface DashboardStats {
   totalRevenue: number
 }
 
+interface StatChanges {
+  revenue:   number | null
+  orders:    number | null
+  customers: number | null
+  products:  number | null
+}
+
 interface OrdersByStatus {
   pending: number
   processing: number
@@ -71,6 +78,7 @@ interface AdminUser {
 interface AdminState {
   // Dashboard
   stats: DashboardStats | null
+  statChanges: StatChanges | null
   ordersByStatus: OrdersByStatus | null
   recentOrders: RecentOrder[]
 
@@ -93,6 +101,7 @@ interface AdminState {
 
 export const useAdminStore = create<AdminState>((set, get) => ({
   stats: null,
+  statChanges: null,
   ordersByStatus: null,
   recentOrders: [],
   orders: [],
@@ -109,6 +118,7 @@ export const useAdminStore = create<AdminState>((set, get) => ({
       const data = await response.json()
       set({
         stats: data.stats,
+        statChanges: data.statChanges ?? null,
         ordersByStatus: data.ordersByStatus,
         recentOrders: data.recentOrders,
         loading: false,

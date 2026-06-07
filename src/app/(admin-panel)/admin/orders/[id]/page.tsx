@@ -14,22 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import type { Order } from "@/data/mock-orders"
-
-const STATUS_LABELS: Record<string, string> = {
-  pending: "Pendiente",
-  processing: "En proceso",
-  shipped: "Enviado",
-  delivered: "Entregado",
-  cancelled: "Cancelado",
-}
-
-const STATUS_VARIANTS: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-  pending: "outline",
-  processing: "secondary",
-  shipped: "default",
-  delivered: "default",
-  cancelled: "destructive",
-}
+import { ORDER_STATUS_LABELS as STATUS_LABELS, ORDER_STATUS_VARIANTS as STATUS_VARIANTS } from "@/lib/order-status"
 
 export default function AdminOrderDetailPage() {
   const { id } = useParams<{ id: string }>()

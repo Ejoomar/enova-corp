@@ -12,7 +12,8 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
-import { ChevronDown, ChevronUp, ChevronsUpDown, ZoomIn } from "lucide-react"
+import { ZoomIn } from "lucide-react"
+import { SortableHeader } from "@/components/admin/SortableHeader"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -60,30 +61,6 @@ const STATUS_VARIANTS: Record<string, "default" | "secondary" | "destructive" | 
   rejected: "destructive",
 }
 
-function SortableHeader({
-  column,
-  label,
-}: {
-  column: { getIsSorted: () => false | "asc" | "desc"; toggleSorting: (v: boolean) => void }
-  label: string
-}) {
-  const sorted = column.getIsSorted()
-  return (
-    <button
-      className="flex items-center gap-1 hover:text-foreground"
-      onClick={() => column.toggleSorting(sorted === "asc")}
-    >
-      {label}
-      {sorted === "asc" ? (
-        <ChevronUp className="h-3.5 w-3.5" />
-      ) : sorted === "desc" ? (
-        <ChevronDown className="h-3.5 w-3.5" />
-      ) : (
-        <ChevronsUpDown className="h-3.5 w-3.5 opacity-40" />
-      )}
-    </button>
-  )
-}
 
 export default function AdminPaymentsPage() {
   const [data, setData] = useState<PaymentProofMock[]>([])

@@ -12,8 +12,9 @@ import {
   type ColumnFiltersState,
   type SortingState,
 } from "@tanstack/react-table"
-import { ChevronDown, ChevronUp, ChevronsUpDown, Eye } from "lucide-react"
+import { Eye } from "lucide-react"
 import Link from "next/link"
+import { SortableHeader } from "@/components/admin/SortableHeader"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -33,46 +34,7 @@ import {
 } from "@/components/ui/select"
 import type { Order } from "@/data/mock-orders"
 
-const STATUS_LABELS: Record<string, string> = {
-  pending: "Pendiente",
-  processing: "En proceso",
-  shipped: "Enviado",
-  delivered: "Entregado",
-  cancelled: "Cancelado",
-}
-
-const STATUS_VARIANTS: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-  pending: "outline",
-  processing: "secondary",
-  shipped: "default",
-  delivered: "default",
-  cancelled: "destructive",
-}
-
-function SortableHeader({
-  column,
-  label,
-}: {
-  column: { getIsSorted: () => false | "asc" | "desc"; toggleSorting: (v: boolean) => void }
-  label: string
-}) {
-  const sorted = column.getIsSorted()
-  return (
-    <button
-      className="flex items-center gap-1 hover:text-foreground"
-      onClick={() => column.toggleSorting(sorted === "asc")}
-    >
-      {label}
-      {sorted === "asc" ? (
-        <ChevronUp className="h-3.5 w-3.5" />
-      ) : sorted === "desc" ? (
-        <ChevronDown className="h-3.5 w-3.5" />
-      ) : (
-        <ChevronsUpDown className="h-3.5 w-3.5 opacity-40" />
-      )}
-    </button>
-  )
-}
+import { ORDER_STATUS_LABELS as STATUS_LABELS, ORDER_STATUS_VARIANTS as STATUS_VARIANTS } from "@/lib/order-status"
 
 export default function AdminOrdersPage() {
   const [data, setData] = useState<Order[]>([])

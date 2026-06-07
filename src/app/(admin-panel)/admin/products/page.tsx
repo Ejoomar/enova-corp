@@ -14,15 +14,8 @@ import {
   type SortingState,
   type ColumnFiltersState,
 } from "@tanstack/react-table"
-import {
-  ChevronDown,
-  ChevronUp,
-  ChevronsUpDown,
-  Pencil,
-  Plus,
-  Search,
-  Trash2,
-} from "lucide-react"
+import { Pencil, Plus, Search, Trash2 } from "lucide-react"
+import { SortableHeader } from "@/components/admin/SortableHeader"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -65,30 +58,6 @@ interface AdminProduct {
   isNew: boolean
 }
 
-function SortableHeader({
-  column,
-  label,
-}: {
-  column: { getIsSorted: () => false | "asc" | "desc"; toggleSorting: (v: boolean) => void }
-  label: string
-}) {
-  const sorted = column.getIsSorted()
-  return (
-    <button
-      className="flex items-center gap-1 hover:text-foreground"
-      onClick={() => column.toggleSorting(sorted === "asc")}
-    >
-      {label}
-      {sorted === "asc" ? (
-        <ChevronUp className="h-3.5 w-3.5" />
-      ) : sorted === "desc" ? (
-        <ChevronDown className="h-3.5 w-3.5" />
-      ) : (
-        <ChevronsUpDown className="h-3.5 w-3.5 opacity-40" />
-      )}
-    </button>
-  )
-}
 
 export default function AdminProductsPage() {
   const [data, setData] = useState<AdminProduct[]>([])

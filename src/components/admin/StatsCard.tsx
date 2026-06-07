@@ -5,13 +5,12 @@ import { cn } from "@/lib/utils"
 interface StatsCardProps {
   title: string
   value: string
-  change: number
+  /** Pass null to hide the trend row entirely (e.g. no prior-period data). */
+  change?: number | null
   icon: LucideIcon
 }
 
-export function StatsCard({ title, value, change, icon: Icon }: StatsCardProps) {
-  const isPositive = change >= 0
-
+export function StatsCard({ title, value, change = null, icon: Icon }: StatsCardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -22,17 +21,28 @@ export function StatsCard({ title, value, change, icon: Icon }: StatsCardProps) 
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
-        <div className="flex items-center text-xs mt-1">
-          {isPositive ? (
-            <TrendingUp className="h-3 w-3 text-[var(--color-success)] mr-1" />
-          ) : (
-            <TrendingDown className="h-3 w-3 text-destructive mr-1" />
-          )}
-          <span className={cn(isPositive ? "text-[var(--color-success)]" : "text-destructive")}>
-            {isPositive ? "+" : ""}{change}%
-          </span>
-          <span className="text-muted-foreground ml-1">vs mes anterior</span>
-        </div>
+
+        {change != null && (
+          <div className="flex items-center gap-1 text-xs mt-1">
+            {change === 0 ? (
+              <span className="text-muted-foreground">Sin cambio vs mes anterior</span>
+            ) : change > 0 ? (
+              <>
+                <TrendingUp className="h-3 w-3 text-[var(--color-success)]" />
+                <span className={cn("text-[var(--color-success)]")}>
+                  +{change}%
+                </span>
+                <span className="text-muted-foreground">vs mes anterior</span>
+              </>
+            ) : (
+              <>
+                <TrendingDown className="h-3 w-3 text-destructive" />
+                <span className="text-destructive">{change}%</span>
+                <span className="text-muted-foreground">vs mes anterior</span>
+              </>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   )

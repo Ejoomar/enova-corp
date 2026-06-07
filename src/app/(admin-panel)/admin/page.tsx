@@ -83,7 +83,7 @@ const statusLabels: Record<string, string> = {
 }
 
 export default function AdminDashboard() {
-  const { stats, recentOrders, ordersByStatus, loading, fetchDashboard } = useAdminStore()
+  const { stats, statChanges, recentOrders, ordersByStatus, loading, fetchDashboard } = useAdminStore()
 
   useEffect(() => {
     fetchDashboard()
@@ -108,25 +108,25 @@ export default function AdminDashboard() {
         <StatsCard
           title="Ingresos Totales"
           value={`$${(stats?.totalRevenue || 0).toLocaleString("en-US")}`}
-          change={0}
+          change={statChanges?.revenue ?? null}
           icon={DollarSign}
         />
         <StatsCard
           title="Pedidos"
           value={(stats?.totalOrders || 0).toLocaleString()}
-          change={0}
+          change={statChanges?.orders ?? null}
           icon={ShoppingCart}
         />
         <StatsCard
           title="Clientes"
           value={(stats?.totalCustomers || 0).toLocaleString()}
-          change={0}
+          change={statChanges?.customers ?? null}
           icon={Users}
         />
         <StatsCard
           title="Productos"
           value={(stats?.totalProducts || 0).toString()}
-          change={0}
+          change={statChanges?.products ?? null}
           icon={Package}
         />
       </div>
