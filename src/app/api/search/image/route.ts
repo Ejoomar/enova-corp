@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { products } from "@/data/mock-products"
 
-const GEMINI_MODEL = "gemini-pro-vision"
-
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.GEMINI_API_KEY
+  const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) {
     return NextResponse.json({ error: "Servicio no configurado" }, { status: 503 })
   }
@@ -34,36 +32,41 @@ export async function POST(request: NextRequest) {
   "descripcion": "descripción breve del producto en 1 línea"
 }`
 
-    // Use REST API directly — compatible with all key formats
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                { text: prompt },
-                { inline_data: { mime_type: mimeType, data: base64 } },
-              ],
-            },
-          ],
-          generationConfig: { temperature: 0.1, maxOutputTokens: 512 },
-        }),
-      }
-    )
+    const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "meta-llama/llama-4-scout-17b-16e-instruct",
+        messages: [
+          {
+            role: "user",
+            content: [
+              { type: "text", text: prompt },
+              {
+                type: "image_url",
+                image_url: { url: `data:${mimeType};base64,${base64}` },
+              },
+            ],
+          },
+        ],
+        temperature: 0.1,
+        max_tokens: 512,
+      }),
+    })
 
-    const geminiJson = await geminiRes.json()
+    const groqJson = await groqRes.json()
 
-    if (!geminiRes.ok) {
-      const errMsg = geminiJson?.error?.message ?? `Gemini error ${geminiRes.status}`
-      console.error("Gemini API error:", errMsg)
+    if (!groqRes.ok) {
+      const errMsg = groqJson?.error?.message ?? `Groq error ${groqRes.status}`
+      console.error("Groq API error:", errMsg)
       return NextResponse.json({ error: errMsg }, { status: 502 })
     }
 
     const text: string =
-      geminiJson?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? ""
+      groqJson?.choices?.[0]?.message?.content?.trim() ?? ""
 
     let analysis: {
       categoria: string
