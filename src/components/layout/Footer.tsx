@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Mail, Phone, MapPin } from "lucide-react"
 
 const banks = [
-  { name: "Banco de Venezuela", src: "/logos/bdv.avif",      w: 200, color: "#CF122D" },
+  { name: "Banco de Venezuela", src: "/logos/bdv.avif",      w: 240, color: "#CF122D" },
   { name: "Mercantil",          src: "/logos/mercantil.svg", w: 130, color: "#1B5EA6" },
   { name: "BBVA Provincial",    src: "/logos/bbva.svg",      w: 140, color: "#00539B" },
 ]
@@ -184,13 +184,13 @@ export function Footer() {
                     style={{ background: `linear-gradient(90deg, ${bank.color}, transparent)` }}
                   />
                   {/* Logo */}
-                  <div className="flex h-10 items-center justify-start">
+                  <div className="flex h-14 items-center justify-start">
                     <Image
                       src={bank.src}
                       alt={bank.name}
                       width={bank.w}
-                      height={40}
-                      className="h-full w-auto object-contain object-left"
+                      height={56}
+                      className="h-full w-auto max-w-full object-contain object-left"
                     />
                   </div>
                   {/* Sub-label */}
