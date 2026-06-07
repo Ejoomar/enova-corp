@@ -153,17 +153,17 @@ export function Footer() {
         </div>
 
         {/* ── Banner bancos ── */}
-        <div className="border-b border-[var(--hairline)] bg-[var(--surface-1)]">
-          <div className="py-8">
+        <div className="border-b border-[var(--hairline)]">
+          <div className="py-10">
 
-            {/* Header del banner */}
-            <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            {/* Header */}
+            <div className="mb-8 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--brass)]">
                   Transferencias bancarias
                 </p>
-                <h3 className="font-display text-lg font-medium tracking-[-0.02em] text-foreground">
-                  Transferencias a nuestras cuentas bancarias
+                <h3 className="mt-1 font-display text-base font-medium tracking-[-0.02em] text-[var(--foreground)]">
+                  Transferencias a nuestras cuentas
                 </h3>
               </div>
               <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">
@@ -171,26 +171,32 @@ export function Footer() {
               </span>
             </div>
 
-            {/* Grid de bancos */}
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {/* Cards de bancos */}
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               {banks.map((bank) => (
                 <div
                   key={bank.name}
-                  className="group flex flex-col items-center gap-3 rounded-xl border border-[var(--hairline)] bg-[var(--background)] p-4 transition-all duration-200 hover:border-[var(--brass)]/50 hover:bg-[var(--surface-2)]"
-                  style={{ borderTopColor: bank.color, borderTopWidth: "3px" }}
+                  className="group relative overflow-hidden rounded-xl border border-[var(--hairline)] bg-[var(--surface-1)] px-6 py-5 transition-all duration-200 hover:border-[var(--brass)]/40"
                 >
-                  <div className="flex h-12 w-full items-center justify-center rounded-md bg-[var(--surface-1)] px-3">
+                  {/* Accent line top */}
+                  <div
+                    className="absolute inset-x-0 top-0 h-[2px] opacity-70 transition-opacity duration-200 group-hover:opacity-100"
+                    style={{ background: `linear-gradient(90deg, ${bank.color}, transparent)` }}
+                  />
+                  {/* Logo */}
+                  <div className="flex h-10 items-center justify-start">
                     <Image
                       src={bank.src}
                       alt={bank.name}
                       width={bank.w}
-                      height={36}
-                      className="h-8 w-auto object-contain"
+                      height={40}
+                      className="h-full w-auto object-contain object-left"
                     />
                   </div>
-                  <span className="font-mono-ui text-[9px] uppercase tracking-[0.1em] text-[var(--muted-foreground)]">
-                    {bank.name}
-                  </span>
+                  {/* Sub-label */}
+                  <p className="mt-3 font-mono-ui text-[9px] uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
+                    Transferencia · Pago Móvil
+                  </p>
                 </div>
               ))}
             </div>
