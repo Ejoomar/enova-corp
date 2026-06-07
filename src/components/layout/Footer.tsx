@@ -3,9 +3,9 @@ import Image from "next/image"
 import { Mail, Phone, MapPin } from "lucide-react"
 
 const banks = [
-  { name: "Banco de Venezuela", src: "/logos/bdv.avif",      w: 240, color: "#CF122D" },
-  { name: "Mercantil",          src: "/logos/mercantil.svg", w: 130, color: "#1B5EA6" },
-  { name: "BBVA Provincial",    src: "/logos/bbva.svg",      w: 140, color: "#00539B" },
+  { name: "Banco de Venezuela", src: "/logos/bdv.avif",      w: 260, color: "#CF122D", imgH: 72 },
+  { name: "Mercantil",          src: "/logos/mercantil.svg", w: 150, color: "#1B5EA6", imgH: 40 },
+  { name: "BBVA Provincial",    src: "/logos/bbva.svg",      w: 150, color: "#00539B", imgH: 40 },
 ]
 
 const payments = [
@@ -184,13 +184,14 @@ export function Footer() {
                     style={{ background: `linear-gradient(90deg, ${bank.color}, transparent)` }}
                   />
                   {/* Logo */}
-                  <div className="flex h-14 items-center justify-start">
+                  <div className="flex items-center justify-start" style={{ height: bank.imgH }}>
                     <Image
                       src={bank.src}
                       alt={bank.name}
                       width={bank.w}
-                      height={56}
-                      className="h-full w-auto max-w-full object-contain object-left"
+                      height={bank.imgH}
+                      className="max-w-full object-contain object-left"
+                      style={{ height: bank.imgH, width: "auto" }}
                     />
                   </div>
                   {/* Sub-label */}
