@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { products } from "@/data/mock-products"
 
-const GEMINI_MODEL = "gemini-1.5-flash"
+const GEMINI_MODEL = "gemini-pro-vision"
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.GEMINI_API_KEY
