@@ -39,10 +39,8 @@ export default function AdminSettingsPage() {
   const [freeShippingFrom, setFreeShippingFrom] = useState("200")
 
   // Notifications
-  const [notifyNewOrders,       setNotifyNewOrders]       = useState(true)
-  const [notifyFailedPayments,  setNotifyFailedPayments]  = useState(true)
-  const [notifyLowStock,        setNotifyLowStock]        = useState(true)
-  const [notifyNewUsers,        setNotifyNewUsers]        = useState(false)
+  const [notifyNewOrders,  setNotifyNewOrders]  = useState(true)
+  const [notifyLowStock,   setNotifyLowStock]   = useState(true)
 
   // Payment methods
   const [acceptCards,    setAcceptCards]    = useState(true)
@@ -75,10 +73,8 @@ export default function AdminSettingsPage() {
         if (s.showStockCount   !== undefined) setShowStockCount(s.showStockCount)
         if (s.allowReviews     !== undefined) setAllowReviews(s.allowReviews)
 
-        if (n.notifyNewOrders      !== undefined) setNotifyNewOrders(n.notifyNewOrders)
-        if (n.notifyFailedPayments !== undefined) setNotifyFailedPayments(n.notifyFailedPayments)
-        if (n.notifyLowStock       !== undefined) setNotifyLowStock(n.notifyLowStock)
-        if (n.notifyNewUsers       !== undefined) setNotifyNewUsers(n.notifyNewUsers)
+        if (n.notifyNewOrders !== undefined) setNotifyNewOrders(n.notifyNewOrders)
+        if (n.notifyLowStock  !== undefined) setNotifyLowStock(n.notifyLowStock)
 
         if (p.acceptCards    !== undefined) setAcceptCards(p.acceptCards)
         if (p.acceptTransfer !== undefined) setAcceptTransfer(p.acceptTransfer)
@@ -104,7 +100,7 @@ export default function AdminSettingsPage() {
             freeShippingFrom: Number(freeShippingFrom),
           },
           notifications: {
-            notifyNewOrders, notifyFailedPayments, notifyLowStock, notifyNewUsers,
+            notifyNewOrders, notifyLowStock,
           },
           payments: {
             acceptCards, acceptTransfer, acceptDigital, acceptCOD,
@@ -325,32 +321,12 @@ export default function AdminSettingsPage() {
               <Separator />
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Pagos fallidos</p>
-                  <p className="text-sm text-muted-foreground">
-                    Notificación cuando un pago falla
-                  </p>
-                </div>
-                <Switch checked={notifyFailedPayments} onCheckedChange={setNotifyFailedPayments} />
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div>
                   <p className="font-medium">Stock bajo</p>
                   <p className="text-sm text-muted-foreground">
                     Alerta cuando un producto tiene poco stock
                   </p>
                 </div>
                 <Switch checked={notifyLowStock} onCheckedChange={setNotifyLowStock} />
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">Nuevos usuarios</p>
-                  <p className="text-sm text-muted-foreground">
-                    Notificación cuando se registra un nuevo usuario
-                  </p>
-                </div>
-                <Switch checked={notifyNewUsers} onCheckedChange={setNotifyNewUsers} />
               </div>
             </CardContent>
           </Card>

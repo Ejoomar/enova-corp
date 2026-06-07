@@ -23,9 +23,7 @@ let settingsStore = {
   },
   notifications: {
     notifyNewOrders: true,
-    notifyFailedPayments: true,
     notifyLowStock: true,
-    notifyNewUsers: false,
   },
   payments: {
     acceptCards: true,
