@@ -29,7 +29,6 @@ let settingsStore = {
     acceptCards: true,
     acceptTransfer: true,
     acceptDigital: true,
-    acceptCOD: false,
   },
 }
 

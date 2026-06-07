@@ -46,7 +46,6 @@ export default function AdminSettingsPage() {
   const [acceptCards,    setAcceptCards]    = useState(true)
   const [acceptTransfer, setAcceptTransfer] = useState(true)
   const [acceptDigital,  setAcceptDigital]  = useState(true)
-  const [acceptCOD,      setAcceptCOD]      = useState(false)
 
   // Load persisted settings on mount
   useEffect(() => {
@@ -79,7 +78,6 @@ export default function AdminSettingsPage() {
         if (p.acceptCards    !== undefined) setAcceptCards(p.acceptCards)
         if (p.acceptTransfer !== undefined) setAcceptTransfer(p.acceptTransfer)
         if (p.acceptDigital  !== undefined) setAcceptDigital(p.acceptDigital)
-        if (p.acceptCOD      !== undefined) setAcceptCOD(p.acceptCOD)
       })
       .catch(() => setLoadError(true))
   }, [])
@@ -103,7 +101,7 @@ export default function AdminSettingsPage() {
             notifyNewOrders, notifyLowStock,
           },
           payments: {
-            acceptCards, acceptTransfer, acceptDigital, acceptCOD,
+            acceptCards, acceptTransfer, acceptDigital,
           },
         }),
       })
@@ -364,16 +362,6 @@ export default function AdminSettingsPage() {
                   <p className="text-sm text-muted-foreground">Pago Móvil, Zelle, PayPal</p>
                 </div>
                 <Switch checked={acceptDigital} onCheckedChange={setAcceptDigital} />
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium">Pago contra entrega</p>
-                  <p className="text-sm text-muted-foreground">
-                    El cliente paga al recibir el producto
-                  </p>
-                </div>
-                <Switch checked={acceptCOD} onCheckedChange={setAcceptCOD} />
               </div>
             </CardContent>
           </Card>
