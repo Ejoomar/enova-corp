@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useTransition } from "react"
 import Link from "next/link"
-import { Search, UserPlus, MoreHorizontal, Mail, Ban, Eye, Shield } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Search, UserPlus, MoreHorizontal, Mail, Ban, Eye, Shield, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -89,6 +90,9 @@ function UsersSkeleton() {
 
 export default function AdminUsersPage() {
   const { users, loading, fetchUsers } = useAdminStore()
+  const router = useRouter()
+  const [, startTransition] = useTransition()
+  const [localUsers, setLocalUsers] = useState(users)
   const [searchQuery, setSearchQuery] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [roleFilter, setRoleFilter] = useState("all")
@@ -97,7 +101,42 @@ export default function AdminUsersPage() {
     fetchUsers()
   }, [fetchUsers])
 
-  const filteredUsers = users.filter((user) => {
+  useEffect(() => {
+    setLocalUsers(users)
+  }, [users])
+
+  function handleSendEmail(email: string) {
+    window.open(`mailto:${email}`, "_blank")
+  }
+
+  function handleMakeAdmin(id: string) {
+    startTransition(async () => {
+      await fetch(`/api/users/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role: "admin" }),
+      }).catch(() => null)
+      setLocalUsers((prev) =>
+        prev.map((u) => (u.id === id ? { ...u, role: "admin" } : u))
+      )
+    })
+  }
+
+  function handleToggleSuspend(id: string, currentStatus: string) {
+    const newStatus = currentStatus === "suspended" ? "active" : "suspended"
+    startTransition(async () => {
+      await fetch(`/api/users/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      }).catch(() => null)
+      setLocalUsers((prev) =>
+        prev.map((u) => (u.id === id ? { ...u, status: newStatus } : u))
+      )
+    })
+  }
+
+  const filteredUsers = localUsers.filter((user) => {
     const matchesSearch =
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase())
@@ -106,9 +145,9 @@ export default function AdminUsersPage() {
     return matchesSearch && matchesStatus && matchesRole
   })
 
-  const activeUsers = users.filter((u) => u.status === "active").length
-  const adminUsers = users.filter((u) => u.role === "admin").length
-  const totalSpent = users.reduce((sum, u) => sum + u.totalSpent, 0)
+  const activeUsers = localUsers.filter((u) => u.status === "active").length
+  const adminUsers = localUsers.filter((u) => u.role === "admin").length
+  const totalSpent = localUsers.reduce((sum, u) => sum + u.totalSpent, 0)
 
   return (
     <div className="space-y-6">
@@ -273,28 +312,32 @@ export default function AdminUsersPage() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => router.push(`/admin/users/${user.id}`)}>
                                 <Eye className="mr-2 h-4 w-4" />
                                 Ver perfil
                               </DropdownMenuItem>
-                              <DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleSendEmail(user.email)}>
                                 <Mail className="mr-2 h-4 w-4" />
                                 Enviar email
                               </DropdownMenuItem>
                               {user.role !== "admin" && (
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleMakeAdmin(user.id)}>
                                   <Shield className="mr-2 h-4 w-4" />
                                   Hacer admin
                                 </DropdownMenuItem>
                               )}
                               <DropdownMenuSeparator />
                               {user.status !== "suspended" ? (
-                                <DropdownMenuItem className="text-destructive">
+                                <DropdownMenuItem
+                                  className="text-destructive"
+                                  onClick={() => handleToggleSuspend(user.id, user.status)}
+                                >
                                   <Ban className="mr-2 h-4 w-4" />
                                   Suspender
                                 </DropdownMenuItem>
                               ) : (
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleToggleSuspend(user.id, user.status)}>
+                                  <RotateCcw className="mr-2 h-4 w-4" />
                                   Reactivar cuenta
                                 </DropdownMenuItem>
                               )}

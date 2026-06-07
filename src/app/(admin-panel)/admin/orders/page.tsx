@@ -31,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import type { Order } from "@/data/mock-user"
+import type { Order } from "@/data/mock-orders"
 
 const STATUS_LABELS: Record<string, string> = {
   pending: "Pendiente",

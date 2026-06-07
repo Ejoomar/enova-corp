@@ -1,6 +1,6 @@
 import { auth } from "@/auth"
 import { NextRequest, NextResponse } from "next/server"
-import { orders } from "@/data/mock-user"
+import { orders } from "@/data/mock-orders"
 
 export async function GET(
   _request: NextRequest,

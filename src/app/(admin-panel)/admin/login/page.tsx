@@ -89,7 +89,7 @@ export default function AdminLoginPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="admin@enovacorp.com"
+                    placeholder="Gerencia@enovacorp.co"
                     className="pl-9"
                     autoComplete="email"
                     {...form.register("email")}

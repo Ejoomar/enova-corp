@@ -83,7 +83,7 @@ const statusLabels: Record<string, string> = {
 }
 
 export default function AdminDashboard() {
-  const { stats, recentOrders, loading, fetchDashboard } = useAdminStore()
+  const { stats, recentOrders, ordersByStatus, loading, fetchDashboard } = useAdminStore()
 
   useEffect(() => {
     fetchDashboard()
@@ -99,7 +99,7 @@ export default function AdminDashboard() {
       <div>
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <p className="text-muted-foreground">
-          Bienvenido al panel de administracion de BasicTechShop
+          Bienvenido al panel de administración de ENOVA CORP
         </p>
       </div>
 
@@ -205,23 +205,23 @@ export default function AdminDashboard() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Pendientes</span>
-                <Badge variant="outline">{useAdminStore.getState().ordersByStatus?.pending || 0}</Badge>
+                <Badge variant="outline">{ordersByStatus?.pending ?? 0}</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Procesando</span>
-                <Badge variant="secondary">{useAdminStore.getState().ordersByStatus?.processing || 0}</Badge>
+                <Badge variant="secondary">{ordersByStatus?.processing ?? 0}</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Enviados</span>
-                <Badge variant="secondary">{useAdminStore.getState().ordersByStatus?.shipped || 0}</Badge>
+                <Badge variant="secondary">{ordersByStatus?.shipped ?? 0}</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Entregados</span>
-                <Badge variant="default">{useAdminStore.getState().ordersByStatus?.delivered || 0}</Badge>
+                <Badge variant="default">{ordersByStatus?.delivered ?? 0}</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Cancelados</span>
-                <Badge variant="destructive">{useAdminStore.getState().ordersByStatus?.cancelled || 0}</Badge>
+                <Badge variant="destructive">{ordersByStatus?.cancelled ?? 0}</Badge>
               </div>
             </div>
           </CardContent>

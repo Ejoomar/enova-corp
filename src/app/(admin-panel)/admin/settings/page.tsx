@@ -1,6 +1,7 @@
 "use client"
 
-import { Save } from "lucide-react"
+import { useState } from "react"
+import { Check, Loader2, Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,13 +18,24 @@ import {
 } from "@/components/ui/select"
 
 export default function AdminSettingsPage() {
+  const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
+
+  function handleSave() {
+    setSaving(true)
+    setTimeout(() => {
+      setSaving(false)
+      setSaved(true)
+      setTimeout(() => setSaved(false), 3000)
+    }, 800)
+  }
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold">Configuracion</h1>
+        <h1 className="text-2xl font-bold">Configuración</h1>
         <p className="text-muted-foreground">
-          Administra la configuracion de tu tienda
+          Administra la configuración de tu tienda
         </p>
       </div>
 
@@ -39,9 +51,9 @@ export default function AdminSettingsPage() {
         <TabsContent value="general" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Informacion de la Tienda</CardTitle>
+              <CardTitle>Información de la Tienda</CardTitle>
               <CardDescription>
-                Configura la informacion basica de tu tienda
+                Configura la información básica de tu tienda
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -52,12 +64,12 @@ export default function AdminSettingsPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="storeEmail">Email de contacto</Label>
-                  <Input id="storeEmail" type="email" defaultValue="info@enovacorp.com.ve" />
+                  <Input id="storeEmail" type="email" defaultValue="Gerencia@enovacorp.co" />
                 </div>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="storePhone">Telefono</Label>
+                  <Label htmlFor="storePhone">Teléfono</Label>
                   <Input id="storePhone" defaultValue="0422-3668201" />
                 </div>
                 <div className="space-y-2">
@@ -79,7 +91,7 @@ export default function AdminSettingsPage() {
             <CardHeader>
               <CardTitle>Zona Horaria y Moneda</CardTitle>
               <CardDescription>
-                Configura la zona horaria y moneda de tu tienda
+                Configura la zona horaria y moneda de la tienda
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -118,9 +130,9 @@ export default function AdminSettingsPage() {
         <TabsContent value="store" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Configuracion de Productos</CardTitle>
+              <CardTitle>Configuración de Productos</CardTitle>
               <CardDescription>
-                Configura como se muestran los productos
+                Configura cómo se muestran los productos
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -146,9 +158,9 @@ export default function AdminSettingsPage() {
               <Separator />
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Permitir resenas de productos</p>
+                  <p className="font-medium">Permitir reseñas de productos</p>
                   <p className="text-sm text-muted-foreground">
-                    Los clientes pueden dejar resenas en productos
+                    Los clientes pueden dejar reseñas en los productos
                   </p>
                 </div>
                 <Switch defaultChecked />
@@ -158,15 +170,15 @@ export default function AdminSettingsPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Envio</CardTitle>
+              <CardTitle>Envío</CardTitle>
               <CardDescription>
-                Configura las opciones de envio
+                Configura las opciones de envío
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label>Costo de envio estandar</Label>
+                  <Label>Costo de envío estándar</Label>
                   <Input type="number" defaultValue="15" />
                 </div>
                 <div className="space-y-2">
@@ -184,7 +196,7 @@ export default function AdminSettingsPage() {
             <CardHeader>
               <CardTitle>Notificaciones por Email</CardTitle>
               <CardDescription>
-                Configura que notificaciones recibir
+                Configura qué notificaciones recibir
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -202,7 +214,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <p className="font-medium">Pagos fallidos</p>
                   <p className="text-sm text-muted-foreground">
-                    Notificacion cuando un pago falla
+                    Notificación cuando un pago falla
                   </p>
                 </div>
                 <Switch defaultChecked />
@@ -222,7 +234,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <p className="font-medium">Nuevos usuarios</p>
                   <p className="text-sm text-muted-foreground">
-                    Notificacion cuando se registra un nuevo usuario
+                    Notificación cuando se registra un nuevo usuario
                   </p>
                 </div>
                 <Switch />
@@ -243,7 +255,7 @@ export default function AdminSettingsPage() {
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium">Tarjetas de credito/debito</p>
+                  <p className="font-medium">Tarjetas de crédito/débito</p>
                   <p className="text-sm text-muted-foreground">
                     Visa, Mastercard, American Express
                   </p>
@@ -255,7 +267,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <p className="font-medium">Transferencia bancaria</p>
                   <p className="text-sm text-muted-foreground">
-                    Banesco, Mercantil, BBVA Provincial, BNC
+                    Banco de Venezuela, Mercantil, BBVA Provincial
                   </p>
                 </div>
                 <Switch defaultChecked />
@@ -287,9 +299,14 @@ export default function AdminSettingsPage() {
 
       {/* Save Button */}
       <div className="flex justify-end">
-        <Button>
-          <Save className="mr-2 h-4 w-4" />
-          Guardar Cambios
+        <Button onClick={handleSave} disabled={saving}>
+          {saving ? (
+            <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Guardando...</>
+          ) : saved ? (
+            <><Check className="mr-2 h-4 w-4" />Guardado</>
+          ) : (
+            <><Save className="mr-2 h-4 w-4" />Guardar Cambios</>
+          )}
         </Button>
       </div>
     </div>

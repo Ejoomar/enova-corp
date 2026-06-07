@@ -1,0 +1,249 @@
+"use client"
+
+import { useEffect, useState, useTransition } from "react"
+import { useParams, useRouter } from "next/navigation"
+import Link from "next/link"
+import { ArrowLeft, Package, MapPin, CreditCard, Calendar, Hash } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import type { Order } from "@/data/mock-orders"
+
+const STATUS_LABELS: Record<string, string> = {
+  pending: "Pendiente",
+  processing: "En proceso",
+  shipped: "Enviado",
+  delivered: "Entregado",
+  cancelled: "Cancelado",
+}
+
+const STATUS_VARIANTS: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+  pending: "outline",
+  processing: "secondary",
+  shipped: "default",
+  delivered: "default",
+  cancelled: "destructive",
+}
+
+export default function AdminOrderDetailPage() {
+  const { id } = useParams<{ id: string }>()
+  const router = useRouter()
+  const [order, setOrder] = useState<Order | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
+  const [, startTransition] = useTransition()
+
+  useEffect(() => {
+    setLoading(true)
+    fetch(`/api/admin/orders/${id}`)
+      .then((r) => {
+        if (r.status === 404) { setNotFound(true); setLoading(false); return null }
+        return r.json()
+      })
+      .then((json) => {
+        if (json) { setOrder(json.data); setLoading(false) }
+      })
+      .catch(() => setLoading(false))
+  }, [id])
+
+  function changeStatus(status: string) {
+    if (!order) return
+    startTransition(async () => {
+      await fetch(`/api/admin/orders/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      })
+      setOrder((prev) => prev ? { ...prev, status: status as Order["status"] } : prev)
+    })
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="h-8 w-48 animate-pulse rounded bg-muted" />
+        <div className="grid gap-6 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-40 animate-pulse rounded-lg bg-muted" />
+          ))}
+        </div>
+        <div className="h-64 animate-pulse rounded-lg bg-muted" />
+      </div>
+    )
+  }
+
+  if (notFound || !order) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
+        <Package className="h-12 w-12 text-muted-foreground/40" />
+        <p className="text-lg font-semibold">Pedido no encontrado</p>
+        <p className="text-sm text-muted-foreground">El pedido <span className="font-mono">{id}</span> no existe.</p>
+        <Button asChild variant="outline" size="sm">
+          <Link href="/admin/orders"><ArrowLeft className="mr-2 h-4 w-4" />Volver a pedidos</Link>
+        </Button>
+      </div>
+    )
+  }
+
+  const subtotal = order.subtotal ?? order.items.reduce((s, i) => s + i.price * i.quantity, 0)
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => router.back()}
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold font-mono">{order.id}</h1>
+              <Badge variant={STATUS_VARIANTS[order.status] ?? "outline"}>
+                {STATUS_LABELS[order.status] ?? order.status}
+              </Badge>
+            </div>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              {new Date(order.createdAt).toLocaleString("es-VE", {
+                dateStyle: "long",
+                timeStyle: "short",
+              })}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground hidden sm:block">Cambiar estado:</span>
+          <Select value={order.status} onValueChange={changeStatus}>
+            <SelectTrigger className="w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(STATUS_LABELS).map(([value, label]) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Info cards */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Shipping address */}
+        <div className="rounded-lg border bg-background p-4 space-y-2">
+          <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            <MapPin className="h-4 w-4" />
+            Dirección de envío
+          </div>
+          <div className="text-sm space-y-0.5">
+            <p className="font-medium">{order.shippingAddress.name}</p>
+            <p className="text-muted-foreground">{order.shippingAddress.phone}</p>
+            <p className="text-muted-foreground">{order.shippingAddress.address}</p>
+            <p className="text-muted-foreground">
+              {order.shippingAddress.city}, {order.shippingAddress.state}
+            </p>
+          </div>
+        </div>
+
+        {/* Payment */}
+        <div className="rounded-lg border bg-background p-4 space-y-2">
+          <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            <CreditCard className="h-4 w-4" />
+            Método de pago
+          </div>
+          <p className="text-sm font-medium">{order.paymentMethod}</p>
+          {order.notes && (
+            <p className="text-sm text-muted-foreground border-t pt-2 mt-2">{order.notes}</p>
+          )}
+        </div>
+
+        {/* Dates */}
+        <div className="rounded-lg border bg-background p-4 space-y-2">
+          <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+            <Calendar className="h-4 w-4" />
+            Fechas
+          </div>
+          <div className="text-sm space-y-1.5">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Creado</span>
+              <span>{new Date(order.createdAt).toLocaleDateString("es-VE")}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Actualizado</span>
+              <span>{new Date(order.updatedAt).toLocaleDateString("es-VE")}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Items table */}
+      <div className="rounded-lg border bg-background overflow-hidden">
+        <div className="flex items-center gap-2 px-4 py-3 border-b bg-muted/30">
+          <Hash className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm font-semibold">
+            {order.items.length} {order.items.length === 1 ? "producto" : "productos"}
+          </span>
+        </div>
+
+        <div className="divide-y">
+          {order.items.map((item, i) => (
+            <div key={i} className="flex items-center gap-4 px-4 py-3">
+              {item.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="h-12 w-12 rounded object-cover border flex-shrink-0"
+                />
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium truncate">{item.name}</p>
+                <p className="text-xs text-muted-foreground">{item.brand}</p>
+              </div>
+              <div className="text-right flex-shrink-0">
+                <p className="text-sm font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                <p className="text-xs text-muted-foreground">
+                  {item.quantity} × ${item.price.toFixed(2)}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Totals */}
+        <div className="border-t bg-muted/20 px-4 py-3 space-y-1.5">
+          <div className="flex justify-between text-sm text-muted-foreground">
+            <span>Subtotal</span>
+            <span>${subtotal.toFixed(2)}</span>
+          </div>
+          {order.shipping > 0 && (
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>Envío</span>
+              <span>${order.shipping.toFixed(2)}</span>
+            </div>
+          )}
+          {order.shipping === 0 && (
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>Envío</span>
+              <span className="text-emerald-600 dark:text-emerald-400">Gratis</span>
+            </div>
+          )}
+          <div className="flex justify-between text-base font-bold border-t pt-1.5 mt-1.5">
+            <span>Total</span>
+            <span>${order.total.toFixed(2)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -44,6 +44,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface AdminProduct {
   id: string
@@ -107,6 +114,12 @@ export default function AdminProductsPage() {
   }
 
   const columns: ColumnDef<AdminProduct>[] = [
+    {
+      accessorKey: "brand",
+      enableHiding: true,
+      header: () => null,
+      cell: () => null,
+    },
     {
       accessorKey: "images",
       header: "Imagen",
@@ -194,7 +207,10 @@ export default function AdminProductsPage() {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState: { pagination: { pageSize: 20 } },
+    initialState: {
+      pagination: { pageSize: 20 },
+      columnVisibility: { brand: false },
+    },
   })
 
   return (
@@ -215,14 +231,56 @@ export default function AdminProductsPage() {
           </Button>
         </div>
 
-        <div className="relative max-w-xs">
-          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Buscar productos..."
-            className="pl-8"
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(e) => table.getColumn("name")?.setFilterValue(e.target.value)}
-          />
+        <div className="flex flex-wrap gap-3">
+          <div className="relative max-w-xs flex-1 min-w-[200px]">
+            <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Buscar productos..."
+              className="pl-8"
+              value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+              onChange={(e) => table.getColumn("name")?.setFilterValue(e.target.value)}
+            />
+          </div>
+          <Select
+            value={(table.getColumn("category")?.getFilterValue() as string) ?? "all"}
+            onValueChange={(v) =>
+              table.getColumn("category")?.setFilterValue(v === "all" ? undefined : v)
+            }
+          >
+            <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="Categoría" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todas las categorías</SelectItem>
+              {Array.from(new Set(data.map((p) => p.category)))
+                .sort()
+                .map((cat) => (
+                  <SelectItem key={cat} value={cat} className="capitalize">
+                    {cat}
+                  </SelectItem>
+                ))}
+            </SelectContent>
+          </Select>
+          <Select
+            value={(table.getColumn("brand")?.getFilterValue() as string) ?? "all"}
+            onValueChange={(v) =>
+              table.getColumn("brand")?.setFilterValue(v === "all" ? undefined : v)
+            }
+          >
+            <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="Marca" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todas las marcas</SelectItem>
+              {Array.from(new Set(data.map((p) => p.brand)))
+                .sort()
+                .map((brand) => (
+                  <SelectItem key={brand} value={brand}>
+                    {brand}
+                  </SelectItem>
+                ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="rounded-md border bg-background">
