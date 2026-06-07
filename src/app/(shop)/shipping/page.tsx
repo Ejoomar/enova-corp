@@ -40,8 +40,9 @@ export default function ShippingPage() {
               src="/logos/mrw.svg"
               alt="MRW Venezuela"
               width={110}
-              height={46}
-              className="object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-100"
+              height={44}
+              className="object-contain transition-opacity hover:opacity-100"
+              style={{ filter: "brightness(0) invert(1)", opacity: 0.65 }}
             />
             <p className="font-mono-ui text-[10px] text-white/30">800+ agencias · Nacional</p>
           </div>
@@ -49,11 +50,12 @@ export default function ShippingPage() {
           {/* ZOOM */}
           <div className="flex flex-col items-center gap-3 sm:px-14">
             <Image
-              src="/logos/zoom.png"
+              src="/logos/zoom.svg"
               alt="ZOOM"
-              width={100}
-              height={46}
-              className="object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-100"
+              width={110}
+              height={44}
+              className="object-contain transition-opacity hover:opacity-100"
+              style={{ filter: "brightness(0) invert(1)", opacity: 0.65 }}
             />
             <p className="font-mono-ui text-[10px] text-white/30">Express · Día siguiente</p>
           </div>
