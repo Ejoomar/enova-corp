@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Package,
   CreditCard,
+  ShoppingCart,
   Users,
   Settings,
   ChevronLeft,
@@ -18,7 +19,8 @@ import { Button } from "@/components/ui/button"
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Productos", href: "/admin/products", icon: Package },
-  { name: "Pagos", href: "/admin/payments", icon: CreditCard },
+  { name: "Pedidos", href: "/admin/orders", icon: ShoppingCart },
+  { name: "Comprobantes", href: "/admin/payments", icon: CreditCard },
   { name: "Usuarios", href: "/admin/users", icon: Users },
   { name: "Configuracion", href: "/admin/settings", icon: Settings },
 ]

@@ -1,7 +1,9 @@
 "use client"
 
-import Link from "next/link"
-import { Menu, Bell, Search } from "lucide-react"
+import { useTransition } from "react"
+import { useRouter } from "next/navigation"
+import { signOut } from "next-auth/react"
+import { Bell, LogOut, Search, Settings, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -13,29 +15,41 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/layout/ThemeToggle"
 import { AdminMobileNav } from "./AdminMobileNav"
 
-export function AdminHeader() {
+interface AdminHeaderProps {
+  user?: {
+    name?: string | null
+    email?: string | null
+  }
+}
+
+export function AdminHeader({ user }: AdminHeaderProps) {
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+
+  const initials = user?.name
+    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+    : "AD"
+
+  function handleSignOut() {
+    startTransition(async () => {
+      await signOut({ redirect: false })
+      router.replace("/admin/login")
+    })
+  }
+
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 lg:px-6">
-      {/* Mobile Menu */}
       <AdminMobileNav />
 
-      {/* Search */}
       <div className="hidden flex-1 md:flex md:max-w-sm">
         <div className="relative w-full">
           <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Buscar..."
+            placeholder="Buscar productos, pedidos..."
             className="w-full pl-8"
           />
         </div>
@@ -43,35 +57,50 @@ export function AdminHeader() {
 
       <div className="flex-1 md:flex-none" />
 
-      {/* Actions */}
       <div className="flex items-center gap-2">
         <ThemeToggle />
 
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-4 w-4" />
-          <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-destructive-foreground">
-            3
-          </span>
         </Button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-9 w-9 rounded-full">
               <Avatar className="h-9 w-9">
-                <AvatarFallback>AD</AvatarFallback>
+                <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                  {initials}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="w-52">
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium">Admin</p>
-                <p className="text-xs text-muted-foreground">admin@enovacorp.com</p>
+                <p className="text-sm font-medium">{user?.name ?? "Admin"}</p>
+                <p className="text-xs text-muted-foreground truncate">
+                  {user?.email ?? "admin@enovacorp.com"}
+                </p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Perfil</DropdownMenuItem>
-            <DropdownMenuItem>Configuracion</DropdownMenuItem>
+            <DropdownMenuItem>
+              <User className="mr-2 h-4 w-4" />
+              Perfil
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings className="mr-2 h-4 w-4" />
+              Configuración
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={handleSignOut}
+              disabled={isPending}
+              className="text-destructive focus:text-destructive"
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              {isPending ? "Cerrando sesión..." : "Cerrar sesión"}
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -1,9 +1,19 @@
 "use client"
 
-import { useState } from "react"
-import { Search, Download, Eye, MoreHorizontal, RefreshCcw } from "lucide-react"
+import { useEffect, useState, useTransition } from "react"
+import Image from "next/image"
+import {
+  useReactTable,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  flexRender,
+  type ColumnDef,
+  type SortingState,
+} from "@tanstack/react-table"
+import { ChevronDown, ChevronUp, ChevronsUpDown, ZoomIn } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import {
   Table,
@@ -14,384 +24,369 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { payments } from "@/data/mock-admin"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import type { PaymentProofMock } from "@/app/api/admin/payments/route"
 
-const statusConfig = {
-  completed: { label: "Completado", variant: "default" as const, className: "bg-[var(--color-success)]" },
-  pending: { label: "Pendiente", variant: "secondary" as const, className: "" },
-  failed: { label: "Fallido", variant: "destructive" as const, className: "" },
-  refunded: { label: "Reembolsado", variant: "outline" as const, className: "" },
+const STATUS_LABELS: Record<string, string> = {
+  pending: "Pendiente",
+  approved: "Aprobado",
+  rejected: "Rechazado",
 }
 
-const methodLabels = {
-  card: "Tarjeta",
-  transfer: "Transferencia",
-  wallet: "Billetera",
+const STATUS_VARIANTS: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+  pending: "outline",
+  approved: "default",
+  rejected: "destructive",
+}
+
+function SortableHeader({
+  column,
+  label,
+}: {
+  column: { getIsSorted: () => false | "asc" | "desc"; toggleSorting: (v: boolean) => void }
+  label: string
+}) {
+  const sorted = column.getIsSorted()
+  return (
+    <button
+      className="flex items-center gap-1 hover:text-foreground"
+      onClick={() => column.toggleSorting(sorted === "asc")}
+    >
+      {label}
+      {sorted === "asc" ? (
+        <ChevronUp className="h-3.5 w-3.5" />
+      ) : sorted === "desc" ? (
+        <ChevronDown className="h-3.5 w-3.5" />
+      ) : (
+        <ChevronsUpDown className="h-3.5 w-3.5 opacity-40" />
+      )}
+    </button>
+  )
 }
 
 export default function AdminPaymentsPage() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [data, setData] = useState<PaymentProofMock[]>([])
+  const [loading, setLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState("all")
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [confirmAction, setConfirmAction] = useState<{ id: string; status: "approved" | "rejected" } | null>(null)
+  const [isPending, startTransition] = useTransition()
 
-  const filteredPayments = payments.filter((payment) => {
-    const matchesSearch =
-      payment.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      payment.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      payment.orderId.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesStatus = statusFilter === "all" || payment.status === statusFilter
-    return matchesSearch && matchesStatus
+  useEffect(() => {
+    setLoading(true)
+    const url = statusFilter === "all" ? "/api/admin/payments" : `/api/admin/payments?status=${statusFilter}`
+    fetch(url)
+      .then((r) => r.json())
+      .then((json) => { setData(json.data ?? []); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [statusFilter])
+
+  function handleAction(id: string, status: "approved" | "rejected") {
+    setConfirmAction({ id, status })
+  }
+
+  function confirmPaymentAction() {
+    if (!confirmAction) return
+    startTransition(async () => {
+      await fetch(`/api/admin/payments/${confirmAction.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: confirmAction.status }),
+      })
+      setData((prev) =>
+        prev.map((p) =>
+          p.id === confirmAction.id ? { ...p, status: confirmAction.status } : p
+        )
+      )
+      setConfirmAction(null)
+    })
+  }
+
+  const columns: ColumnDef<PaymentProofMock>[] = [
+    {
+      accessorKey: "imageUrl",
+      header: "Comprobante",
+      enableSorting: false,
+      cell: ({ row }) => (
+        <button
+          onClick={() => setPreviewUrl(row.original.imageUrl)}
+          className="group relative h-12 w-16 overflow-hidden rounded-md border hover:opacity-80"
+        >
+          <Image
+            src={row.original.imageUrl}
+            alt="Comprobante"
+            fill
+            className="object-cover"
+            sizes="64px"
+          />
+          <ZoomIn className="absolute inset-0 m-auto h-4 w-4 text-white opacity-0 drop-shadow group-hover:opacity-100" />
+        </button>
+      ),
+    },
+    {
+      id: "customer",
+      header: "Cliente",
+      cell: ({ row }) => (
+        <div>
+          <p className="font-medium text-sm">{row.original.userName}</p>
+          <p className="text-xs text-muted-foreground">{row.original.userEmail}</p>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "orderNumber",
+      header: "Pedido",
+      cell: ({ getValue }) => (
+        <span className="font-mono text-sm">{String(getValue() ?? "—")}</span>
+      ),
+    },
+    {
+      accessorKey: "amount",
+      header: ({ column }) => <SortableHeader column={column} label="Monto" />,
+      cell: ({ getValue }) => (
+        <span className="font-medium">${Number(getValue()).toFixed(2)}</span>
+      ),
+    },
+    {
+      accessorKey: "method",
+      header: "Método",
+      cell: ({ getValue }) => (
+        <span className="text-sm text-muted-foreground">{String(getValue())}</span>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Estado",
+      cell: ({ getValue }) => {
+        const s = String(getValue())
+        return (
+          <Badge variant={STATUS_VARIANTS[s] ?? "outline"}>
+            {STATUS_LABELS[s] ?? s}
+          </Badge>
+        )
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: ({ column }) => <SortableHeader column={column} label="Fecha" />,
+      cell: ({ getValue }) => (
+        <span className="text-sm text-muted-foreground">
+          {new Date(String(getValue())).toLocaleDateString("es-VE")}
+        </span>
+      ),
+    },
+    {
+      id: "actions",
+      header: "",
+      enableSorting: false,
+      cell: ({ row }) => {
+        if (row.original.status !== "pending") return null
+        return (
+          <div className="flex items-center justify-end gap-1">
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-7 text-xs text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700"
+              onClick={() => handleAction(row.original.id, "approved")}
+            >
+              Aprobar
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-7 text-xs text-destructive border-destructive/20 hover:bg-destructive/5"
+              onClick={() => handleAction(row.original.id, "rejected")}
+            >
+              Rechazar
+            </Button>
+          </div>
+        )
+      },
+    },
+  ]
+
+  const table = useReactTable({
+    data,
+    columns,
+    state: { sorting },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: { pagination: { pageSize: 20 } },
   })
 
-  const totalRevenue = payments
-    .filter((p) => p.status === "completed")
-    .reduce((sum, p) => sum + p.amount, 0)
-
-  const pendingAmount = payments
-    .filter((p) => p.status === "pending")
-    .reduce((sum, p) => sum + p.amount, 0)
-
-  const refundedAmount = payments
-    .filter((p) => p.status === "refunded")
-    .reduce((sum, p) => sum + p.amount, 0)
+  const pendingCount = data.filter((p) => p.status === "pending").length
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Pagos</h1>
-          <p className="text-muted-foreground">
-            Administra los pagos y transacciones
-          </p>
-        </div>
-        <Button variant="outline">
-          <Download className="mr-2 h-4 w-4" />
-          Exportar
-        </Button>
-      </div>
-
-      {/* Stats */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Recibido
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-[var(--color-success)]">
-              ${totalRevenue.toLocaleString()}
+    <>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Comprobantes de pago</h1>
+            <p className="text-sm text-muted-foreground">
+              {pendingCount > 0 ? (
+                <span className="text-amber-600 font-medium">
+                  {pendingCount} pendiente{pendingCount !== 1 ? "s" : ""} de revisión
+                </span>
+              ) : (
+                `${data.length} comprobantes`
+              )}
             </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Pendiente
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-[var(--color-warning)]">
-              ${pendingAmount.toLocaleString()}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Reembolsado
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-destructive">
-              ${refundedAmount.toLocaleString()}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Transacciones
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{payments.length}</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Tabs */}
-      <Tabs defaultValue="all" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="all">Todos</TabsTrigger>
-          <TabsTrigger value="completed">Completados</TabsTrigger>
-          <TabsTrigger value="pending">Pendientes</TabsTrigger>
-          <TabsTrigger value="failed">Fallidos</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="all" className="space-y-4">
-          {/* Filters */}
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="relative flex-1 max-w-sm">
-              <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Buscar por ID, cliente..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-8"
-              />
-            </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Estado" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Todos</SelectItem>
-                <SelectItem value="completed">Completado</SelectItem>
-                <SelectItem value="pending">Pendiente</SelectItem>
-                <SelectItem value="failed">Fallido</SelectItem>
-                <SelectItem value="refunded">Reembolsado</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-44">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos</SelectItem>
+              <SelectItem value="pending">Pendientes</SelectItem>
+              <SelectItem value="approved">Aprobados</SelectItem>
+              <SelectItem value="rejected">Rechazados</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
-          {/* Table */}
-          <Card>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>ID Pago</TableHead>
-                    <TableHead>Cliente</TableHead>
-                    <TableHead>Pedido</TableHead>
-                    <TableHead>Metodo</TableHead>
-                    <TableHead>Monto</TableHead>
-                    <TableHead>Estado</TableHead>
-                    <TableHead>Fecha</TableHead>
-                    <TableHead className="w-[70px]"></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredPayments.map((payment) => {
-                    const status = statusConfig[payment.status]
-                    return (
-                      <TableRow key={payment.id}>
-                        <TableCell className="font-mono text-sm">
-                          {payment.id}
-                        </TableCell>
-                        <TableCell>{payment.userName}</TableCell>
-                        <TableCell className="font-mono text-sm">
-                          {payment.orderId}
-                        </TableCell>
-                        <TableCell>{methodLabels[payment.method]}</TableCell>
-                        <TableCell className="font-medium">
-                          ${payment.amount.toFixed(2)}
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={status.variant} className={status.className}>
-                            {status.label}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-muted-foreground">
-                          {payment.createdAt}
-                        </TableCell>
-                        <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
-                                <MoreHorizontal className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
-                                <Eye className="mr-2 h-4 w-4" />
-                                Ver detalles
-                              </DropdownMenuItem>
-                              {payment.status === "completed" && (
-                                <DropdownMenuItem>
-                                  <RefreshCcw className="mr-2 h-4 w-4" />
-                                  Reembolsar
-                                </DropdownMenuItem>
-                              )}
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
-                    )
-                  })}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="completed">
-          <Card>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>ID Pago</TableHead>
-                    <TableHead>Cliente</TableHead>
-                    <TableHead>Pedido</TableHead>
-                    <TableHead>Metodo</TableHead>
-                    <TableHead>Monto</TableHead>
-                    <TableHead>Fecha</TableHead>
-                    <TableHead className="w-[70px]"></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {payments
-                    .filter((p) => p.status === "completed")
-                    .map((payment) => (
-                      <TableRow key={payment.id}>
-                        <TableCell className="font-mono text-sm">{payment.id}</TableCell>
-                        <TableCell>{payment.userName}</TableCell>
-                        <TableCell className="font-mono text-sm">{payment.orderId}</TableCell>
-                        <TableCell>{methodLabels[payment.method]}</TableCell>
-                        <TableCell className="font-medium">${payment.amount.toFixed(2)}</TableCell>
-                        <TableCell className="text-muted-foreground">{payment.createdAt}</TableCell>
-                        <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
-                                <MoreHorizontal className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
-                                <Eye className="mr-2 h-4 w-4" />
-                                Ver detalles
-                              </DropdownMenuItem>
-                              <DropdownMenuItem>
-                                <RefreshCcw className="mr-2 h-4 w-4" />
-                                Reembolsar
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
+        <div className="rounded-md border bg-background">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((hg) => (
+                <TableRow key={hg.id}>
+                  {hg.headers.map((header) => (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.header, header.getContext())}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {loading ? (
+                Array.from({ length: 4 }).map((_, i) => (
+                  <TableRow key={i}>
+                    {columns.map((_, j) => (
+                      <TableCell key={j}>
+                        <div className="h-4 animate-pulse rounded bg-muted" />
+                      </TableCell>
                     ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="pending">
-          <Card>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>ID Pago</TableHead>
-                    <TableHead>Cliente</TableHead>
-                    <TableHead>Pedido</TableHead>
-                    <TableHead>Metodo</TableHead>
-                    <TableHead>Monto</TableHead>
-                    <TableHead>Fecha</TableHead>
-                    <TableHead className="w-[70px]"></TableHead>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {payments
-                    .filter((p) => p.status === "pending")
-                    .map((payment) => (
-                      <TableRow key={payment.id}>
-                        <TableCell className="font-mono text-sm">{payment.id}</TableCell>
-                        <TableCell>{payment.userName}</TableCell>
-                        <TableCell className="font-mono text-sm">{payment.orderId}</TableCell>
-                        <TableCell>{methodLabels[payment.method]}</TableCell>
-                        <TableCell className="font-medium">${payment.amount.toFixed(2)}</TableCell>
-                        <TableCell className="text-muted-foreground">{payment.createdAt}</TableCell>
-                        <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
-                                <MoreHorizontal className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
-                                <Eye className="mr-2 h-4 w-4" />
-                                Ver detalles
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
+                ))
+              ) : table.getRowModel().rows.length === 0 ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center text-muted-foreground"
+                  >
+                    No hay comprobantes.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
                     ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="failed">
-          <Card>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>ID Pago</TableHead>
-                    <TableHead>Cliente</TableHead>
-                    <TableHead>Pedido</TableHead>
-                    <TableHead>Metodo</TableHead>
-                    <TableHead>Monto</TableHead>
-                    <TableHead>Fecha</TableHead>
-                    <TableHead className="w-[70px]"></TableHead>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {payments
-                    .filter((p) => p.status === "failed")
-                    .map((payment) => (
-                      <TableRow key={payment.id}>
-                        <TableCell className="font-mono text-sm">{payment.id}</TableCell>
-                        <TableCell>{payment.userName}</TableCell>
-                        <TableCell className="font-mono text-sm">{payment.orderId}</TableCell>
-                        <TableCell>{methodLabels[payment.method]}</TableCell>
-                        <TableCell className="font-medium">${payment.amount.toFixed(2)}</TableCell>
-                        <TableCell className="text-muted-foreground">{payment.createdAt}</TableCell>
-                        <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
-                                <MoreHorizontal className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
-                                <Eye className="mr-2 h-4 w-4" />
-                                Ver detalles
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
+        <div className="flex items-center justify-end gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Anterior
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Siguiente
+          </Button>
+        </div>
+      </div>
+
+      {/* Image preview dialog */}
+      <Dialog open={!!previewUrl} onOpenChange={(open) => !open && setPreviewUrl(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Comprobante de pago</DialogTitle>
+          </DialogHeader>
+          {previewUrl && (
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md">
+              <Image src={previewUrl} alt="Comprobante" fill className="object-contain" sizes="600px" />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Confirm action dialog */}
+      <AlertDialog open={!!confirmAction} onOpenChange={(open) => !open && setConfirmAction(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {confirmAction?.status === "approved" ? "Aprobar comprobante" : "Rechazar comprobante"}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {confirmAction?.status === "approved"
+                ? "¿Confirmas que el pago es válido y deseas aprobar este comprobante?"
+                : "¿Confirmas que deseas rechazar este comprobante? El cliente será notificado."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmPaymentAction}
+              disabled={isPending}
+              className={
+                confirmAction?.status === "rejected"
+                  ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  : ""
+              }
+            >
+              {isPending
+                ? "Procesando..."
+                : confirmAction?.status === "approved"
+                ? "Aprobar"
+                : "Rechazar"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   )
 }

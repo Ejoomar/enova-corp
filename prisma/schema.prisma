@@ -178,3 +178,23 @@ model OrderItem {
   @@index([orderId])
   @@map("order_items")
 }
+
+model PaymentProof {
+  id          String   @id @default(cuid())
+  orderId     String?
+  orderNumber String?
+  userName    String
+  userEmail   String
+  amount      Decimal  @db.Decimal(10, 2)
+  method      String
+  imageUrl    String
+  notes       String?
+  status      String   @default("pending") // pending | approved | rejected
+  reviewedBy  String?
+  reviewedAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+  @@map("payment_proofs")
+}

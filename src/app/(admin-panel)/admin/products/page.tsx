@@ -1,13 +1,31 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useTransition } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Plus, Search, MoreHorizontal, Pencil, Trash2, Eye, Loader2 } from "lucide-react"
+import {
+  useReactTable,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  flexRender,
+  type ColumnDef,
+  type SortingState,
+  type ColumnFiltersState,
+} from "@tanstack/react-table"
+import {
+  ChevronDown,
+  ChevronUp,
+  ChevronsUpDown,
+  Pencil,
+  Plus,
+  Search,
+  Trash2,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Skeleton } from "@/components/ui/skeleton"
 import {
   Table,
   TableBody,
@@ -16,20 +34,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,333 +44,285 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-interface Product {
+interface AdminProduct {
   id: string
   name: string
-  slug: string
-  brand: string
-  category: string
   price: number
   originalPrice?: number
   stock: number
+  category: string
+  brand: string
   images: string[]
-  isNew: boolean
   isFeatured: boolean
+  isNew: boolean
 }
 
-interface Category {
-  id: string
-  name: string
-  slug: string
-}
-
-function ProductsSkeleton() {
+function SortableHeader({
+  column,
+  label,
+}: {
+  column: { getIsSorted: () => false | "asc" | "desc"; toggleSorting: (v: boolean) => void }
+  label: string
+}) {
+  const sorted = column.getIsSorted()
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[80px]">Imagen</TableHead>
-          <TableHead>Producto</TableHead>
-          <TableHead>Categoria</TableHead>
-          <TableHead>Precio</TableHead>
-          <TableHead>Stock</TableHead>
-          <TableHead>Estado</TableHead>
-          <TableHead className="w-[70px]"></TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {[1, 2, 3, 4, 5].map((i) => (
-          <TableRow key={i}>
-            <TableCell><Skeleton className="h-12 w-12 rounded-md" /></TableCell>
-            <TableCell>
-              <Skeleton className="h-4 w-32" />
-              <Skeleton className="mt-1 h-3 w-20" />
-            </TableCell>
-            <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-            <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-            <TableCell><Skeleton className="h-4 w-8" /></TableCell>
-            <TableCell><Skeleton className="h-6 w-16" /></TableCell>
-            <TableCell><Skeleton className="h-8 w-8" /></TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <button
+      className="flex items-center gap-1 hover:text-foreground"
+      onClick={() => column.toggleSorting(sorted === "asc")}
+    >
+      {label}
+      {sorted === "asc" ? (
+        <ChevronUp className="h-3.5 w-3.5" />
+      ) : sorted === "desc" ? (
+        <ChevronDown className="h-3.5 w-3.5" />
+      ) : (
+        <ChevronsUpDown className="h-3.5 w-3.5 opacity-40" />
+      )}
+    </button>
   )
 }
 
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState<Product[]>([])
-  const [categories, setCategories] = useState<Category[]>([])
+  const [data, setData] = useState<AdminProduct[]>([])
   const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [categoryFilter, setCategoryFilter] = useState("all")
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [deleteId, setDeleteId] = useState<string | null>(null)
-  const [deleting, setDeleting] = useState(false)
+  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [productsRes, categoriesRes] = await Promise.all([
-          fetch("/api/products"),
-          fetch("/api/categories"),
-        ])
-
-        const productsData = await productsRes.json()
-        const categoriesData = await categoriesRes.json()
-
-        setProducts(productsData.products || [])
-        setCategories(categoriesData || [])
-      } catch (error) {
-        console.error("Error fetching data:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
+    fetch("/api/admin/products")
+      .then((r) => r.json())
+      .then((json) => { setData(json.data ?? []); setLoading(false) })
+      .catch(() => setLoading(false))
   }, [])
 
-  const handleDelete = async () => {
-    if (!deleteId) return
-    setDeleting(true)
-    try {
-      const response = await fetch(`/api/products/${deleteId}`, {
-        method: "DELETE",
-      })
-      if (response.ok) {
-        setProducts(products.filter((p) => p.id !== deleteId))
-      }
-    } catch (error) {
-      console.error("Error deleting product:", error)
-    } finally {
-      setDeleting(false)
+  function handleDelete(id: string) {
+    startTransition(async () => {
+      await fetch(`/api/admin/products/${id}`, { method: "DELETE" })
+      setData((prev) => prev.filter((p) => p.id !== id))
       setDeleteId(null)
-    }
+    })
   }
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = categoryFilter === "all" || product.category === categoryFilter
-    return matchesSearch && matchesCategory
+  const columns: ColumnDef<AdminProduct>[] = [
+    {
+      accessorKey: "images",
+      header: "Imagen",
+      enableSorting: false,
+      cell: ({ row }) => {
+        const img = row.original.images[0]
+        return img ? (
+          <div className="relative h-10 w-10 overflow-hidden rounded-md border">
+            <Image src={img} alt={row.original.name} fill className="object-cover" sizes="40px" />
+          </div>
+        ) : (
+          <div className="h-10 w-10 rounded-md border bg-muted" />
+        )
+      },
+    },
+    {
+      accessorKey: "name",
+      header: ({ column }) => <SortableHeader column={column} label="Producto" />,
+      cell: ({ row }) => (
+        <div>
+          <p className="font-medium leading-tight">{row.original.name}</p>
+          <p className="text-xs text-muted-foreground">{row.original.brand}</p>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "category",
+      header: "Categoría",
+      cell: ({ getValue }) => (
+        <Badge variant="outline" className="text-xs capitalize">
+          {String(getValue())}
+        </Badge>
+      ),
+    },
+    {
+      accessorKey: "price",
+      header: ({ column }) => <SortableHeader column={column} label="Precio" />,
+      cell: ({ getValue }) => (
+        <span className="font-medium">${Number(getValue()).toFixed(2)}</span>
+      ),
+    },
+    {
+      accessorKey: "stock",
+      header: ({ column }) => <SortableHeader column={column} label="Stock" />,
+      cell: ({ getValue }) => {
+        const stock = Number(getValue())
+        return (
+          <Badge variant={stock === 0 ? "destructive" : stock < 5 ? "secondary" : "default"}>
+            {stock === 0 ? "Agotado" : `${stock} uds`}
+          </Badge>
+        )
+      },
+    },
+    {
+      id: "actions",
+      header: "",
+      enableSorting: false,
+      cell: ({ row }) => (
+        <div className="flex items-center justify-end gap-1">
+          <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
+            <Link href={`/admin/products/${row.original.id}`}>
+              <Pencil className="h-3.5 w-3.5" />
+            </Link>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-destructive hover:text-destructive"
+            onClick={() => setDeleteId(row.original.id)}
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </Button>
+        </div>
+      ),
+    },
+  ]
+
+  const table = useReactTable({
+    data,
+    columns,
+    state: { sorting, columnFilters },
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: { pagination: { pageSize: 20 } },
   })
 
-  const inStockCount = products.filter((p) => p.stock > 0).length
-  const outOfStockCount = products.filter((p) => p.stock === 0).length
-
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Productos</h1>
-          <p className="text-muted-foreground">
-            Administra el catalogo de productos de tu tienda
-          </p>
+    <>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Productos</h1>
+            <p className="text-sm text-muted-foreground">
+              {data.length} productos en el catálogo
+            </p>
+          </div>
+          <Button asChild>
+            <Link href="/admin/products/new">
+              <Plus className="mr-2 h-4 w-4" />
+              Nuevo producto
+            </Link>
+          </Button>
         </div>
-        <Button asChild>
-          <Link href="/admin/products/new">
-            <Plus className="mr-2 h-4 w-4" />
-            Nuevo Producto
-          </Link>
-        </Button>
-      </div>
 
-      {/* Stats */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Productos
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{products.length}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              En Stock
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-[var(--color-success)]">{inStockCount}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Agotados
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-destructive">{outOfStockCount}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Categorias
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{categories.length}</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-col gap-4 sm:flex-row">
-        <div className="relative flex-1 max-w-sm">
+        <div className="relative max-w-xs">
           <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            type="search"
             placeholder="Buscar productos..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-8"
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(e) => table.getColumn("name")?.setFilterValue(e.target.value)}
           />
         </div>
-        <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Categoria" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todas</SelectItem>
-            {categories.map((cat) => (
-              <SelectItem key={cat.id} value={cat.slug}>
-                {cat.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+
+        <div className="rounded-md border bg-background">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((hg) => (
+                <TableRow key={hg.id}>
+                  {hg.headers.map((header) => (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.header, header.getContext())}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {loading ? (
+                Array.from({ length: 8 }).map((_, i) => (
+                  <TableRow key={i}>
+                    {columns.map((_, j) => (
+                      <TableCell key={j}>
+                        <div className="h-4 animate-pulse rounded bg-muted" />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : table.getRowModel().rows.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
+                    No se encontraron productos.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
+        <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <span>
+            Mostrando{" "}
+            {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}–
+            {Math.min(
+              (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+              table.getFilteredRowModel().rows.length
+            )}{" "}
+            de {table.getFilteredRowModel().rows.length}
+          </span>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Anterior
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Siguiente
+            </Button>
+          </div>
+        </div>
       </div>
 
-      {/* Table */}
-      <Card>
-        <CardContent className="p-0">
-          {loading ? (
-            <ProductsSkeleton />
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[80px]">Imagen</TableHead>
-                  <TableHead>Producto</TableHead>
-                  <TableHead>Categoria</TableHead>
-                  <TableHead>Precio</TableHead>
-                  <TableHead>Stock</TableHead>
-                  <TableHead>Estado</TableHead>
-                  <TableHead className="w-[70px]"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredProducts.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                      No se encontraron productos
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredProducts.map((product) => (
-                    <TableRow key={product.id}>
-                      <TableCell>
-                        <div className="relative h-12 w-12 overflow-hidden rounded-md bg-muted">
-                          {product.images[0] && (
-                            <Image
-                              src={product.images[0]}
-                              alt={product.name}
-                              fill
-                              className="object-cover"
-                            />
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div>
-                          <p className="font-medium">{product.name}</p>
-                          <p className="text-xs text-muted-foreground">{product.brand}</p>
-                        </div>
-                      </TableCell>
-                      <TableCell className="capitalize">{product.category}</TableCell>
-                      <TableCell>${product.price.toLocaleString("en-US", { minimumFractionDigits: 2 })}</TableCell>
-                      <TableCell>{product.stock}</TableCell>
-                      <TableCell>
-                        {product.stock > 0 ? (
-                          <Badge variant="default" className="bg-[var(--color-success)]">
-                            En stock
-                          </Badge>
-                        ) : (
-                          <Badge variant="destructive">Agotado</Badge>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem asChild>
-                              <Link href={`/products/${product.slug}`}>
-                                <Eye className="mr-2 h-4 w-4" />
-                                Ver
-                              </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                              <Link href={`/admin/products/${product.id}/edit`}>
-                                <Pencil className="mr-2 h-4 w-4" />
-                                Editar
-                              </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              className="text-destructive"
-                              onClick={() => setDeleteId(product.id)}
-                            >
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Eliminar
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Delete Confirmation */}
-      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+      <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Eliminar producto</AlertDialogTitle>
+            <AlertDialogTitle>¿Eliminar producto?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta accion no se puede deshacer. El producto sera eliminado permanentemente.
+              Esta acción no se puede deshacer. El producto será eliminado permanentemente.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={deleting}>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} disabled={deleting}>
-              {deleting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Eliminando...
-                </>
-              ) : (
-                "Eliminar"
-              )}
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deleteId && handleDelete(deleteId)}
+              disabled={isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isPending ? "Eliminando..." : "Eliminar"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   )
 }
