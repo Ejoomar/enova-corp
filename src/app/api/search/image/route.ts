@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
-import { GoogleGenerativeAI } from "@google/generative-ai"
 import { products } from "@/data/mock-products"
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const GEMINI_MODEL = "gemini-1.5-flash"
 
 export async function POST(request: NextRequest) {
-  if (!process.env.GEMINI_API_KEY) {
+  const apiKey = process.env.GEMINI_API_KEY
+  if (!apiKey) {
     return NextResponse.json({ error: "Servicio no configurado" }, { status: 503 })
   }
 
@@ -25,8 +25,6 @@ export async function POST(request: NextRequest) {
     const base64 = Buffer.from(buffer).toString("base64")
     const mimeType = file.type || "image/jpeg"
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
-
     const prompt = `Analiza esta imagen de un producto tecnológico y responde SOLO con un JSON válido, sin texto adicional, con este formato exacto:
 {
   "categoria": "categoría principal del producto en español (ej: laptop, router, impresora, camara, monitor, disco duro, memoria ram, teclado, mouse, audifono, ups, balanza, servidor, switch, access point, cable, computadora de escritorio)",
@@ -36,17 +34,36 @@ export async function POST(request: NextRequest) {
   "descripcion": "descripción breve del producto en 1 línea"
 }`
 
-    const result = await model.generateContent([
-      prompt,
+    // Use REST API directly — compatible with all key formats
+    const geminiRes = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
       {
-        inlineData: {
-          mimeType,
-          data: base64,
-        },
-      },
-    ])
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                { text: prompt },
+                { inline_data: { mime_type: mimeType, data: base64 } },
+              ],
+            },
+          ],
+          generationConfig: { temperature: 0.1, maxOutputTokens: 512 },
+        }),
+      }
+    )
 
-    const text = result.response.text().trim()
+    const geminiJson = await geminiRes.json()
+
+    if (!geminiRes.ok) {
+      const errMsg = geminiJson?.error?.message ?? `Gemini error ${geminiRes.status}`
+      console.error("Gemini API error:", errMsg)
+      return NextResponse.json({ error: errMsg }, { status: 502 })
+    }
+
+    const text: string =
+      geminiJson?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? ""
 
     let analysis: {
       categoria: string
@@ -60,7 +77,8 @@ export async function POST(request: NextRequest) {
       const jsonMatch = text.match(/\{[\s\S]*\}/)
       analysis = JSON.parse(jsonMatch ? jsonMatch[0] : text)
     } catch {
-      return NextResponse.json({ error: "No se pudo analizar la imagen" }, { status: 422 })
+      console.error("JSON parse failed. Gemini returned:", text)
+      return NextResponse.json({ error: "No se pudo interpretar la imagen" }, { status: 422 })
     }
 
     // Score each product for relevance
@@ -75,27 +93,24 @@ export async function POST(request: NextRequest) {
         .join(" ")
         .toLowerCase()
 
-      // Category match
       if (analysis.categoria) {
         const cat = analysis.categoria.toLowerCase()
-        if (product.category.toLowerCase().includes(cat) || cat.includes(product.category.toLowerCase())) {
+        if (
+          product.category.toLowerCase().includes(cat) ||
+          cat.includes(product.category.toLowerCase())
+        ) {
           score += 40
         }
       }
 
-      // Brand match
       if (analysis.marca) {
-        const brand = analysis.marca.toLowerCase()
-        if (searchText.includes(brand)) score += 30
+        if (searchText.includes(analysis.marca.toLowerCase())) score += 30
       }
 
-      // Model match
       if (analysis.modelo) {
-        const modelo = analysis.modelo.toLowerCase()
-        if (searchText.includes(modelo)) score += 25
+        if (searchText.includes(analysis.modelo.toLowerCase())) score += 25
       }
 
-      // Keyword matches
       for (const kw of analysis.palabras_clave ?? []) {
         if (searchText.includes(kw.toLowerCase())) score += 5
       }
