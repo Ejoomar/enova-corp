@@ -109,18 +109,17 @@ export function HeroBanner() {
               style={{ minHeight: 380 }}
             >
               {/* ── Imagen de fondo — solo móvil ── */}
-              <div className="absolute inset-0 lg:hidden">
-                <Image
-                  src={slide.image}
-                  alt=""
-                  fill
-                  className="object-cover object-center"
-                  sizes="100vw"
-                  priority={slide.id === 0}
-                />
-                {/* Overlay oscuro para legibilidad del texto */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/65 to-black/80" />
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={slide.image}
+                alt=""
+                aria-hidden="true"
+                loading={slide.id === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover object-center lg:hidden"
+              />
+              {/* Overlay oscuro para legibilidad del texto — solo móvil */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/65 to-black/80 lg:hidden" />
 
               {/* Noise overlay */}
               <div
