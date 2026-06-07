@@ -108,6 +108,20 @@ export function HeroBanner() {
               className={`relative min-w-full bg-gradient-to-r ${slide.bg}`}
               style={{ minHeight: 380 }}
             >
+              {/* ── Imagen de fondo — solo móvil ── */}
+              <div className="absolute inset-0 lg:hidden">
+                <Image
+                  src={slide.image}
+                  alt=""
+                  fill
+                  className="object-cover object-center"
+                  sizes="100vw"
+                  priority={slide.id === 0}
+                />
+                {/* Overlay oscuro para legibilidad del texto */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/65 to-black/80" />
+              </div>
+
               {/* Noise overlay */}
               <div
                 className="pointer-events-none absolute inset-0 opacity-[0.04] mix-blend-overlay"
@@ -119,7 +133,7 @@ export function HeroBanner() {
                 <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-[var(--brass)] via-[var(--brass-bright)] to-transparent" />
               )}
 
-              <div className="mx-auto grid max-w-[1440px] grid-cols-12 items-center gap-6 px-8 py-14 lg:px-14 lg:py-20">
+              <div className="relative mx-auto grid max-w-[1440px] grid-cols-12 items-center gap-6 px-8 py-14 lg:px-14 lg:py-20">
 
                 {/* Text column */}
                 <div className="col-span-12 flex flex-col gap-5 lg:col-span-6">
@@ -162,16 +176,16 @@ export function HeroBanner() {
                   </div>
                 </div>
 
-                {/* Image column */}
-                <div className="col-span-12 flex items-center justify-center lg:col-span-6 lg:justify-end">
-                  <div className="relative h-[220px] w-[340px] sm:h-[260px] sm:w-[420px] lg:h-[300px] lg:w-[500px]">
+                {/* Image column — solo desktop */}
+                <div className="hidden lg:flex lg:col-span-6 lg:items-center lg:justify-end">
+                  <div className="relative h-[300px] w-[500px]">
                     <div className="absolute inset-0 rounded-2xl bg-black/20 backdrop-blur-sm" />
                     <Image
                       src={slide.image}
                       alt={slide.imageAlt}
                       fill
                       className="rounded-2xl object-cover object-center drop-shadow-2xl"
-                      sizes="(max-width: 768px) 340px, 500px"
+                      sizes="500px"
                       priority={slide.id === 0}
                     />
                   </div>
