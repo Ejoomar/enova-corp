@@ -16,8 +16,8 @@ import { Separator } from "@/components/ui/separator"
 import { ProductGallery } from "@/components/products/ProductGallery"
 import { ProductDetail } from "@/components/products/ProductDetail"
 import { ProductReviews } from "@/components/products/ProductReviews"
-import { ProductCard } from "@/components/products/ProductCard"
-import { products } from "@/data/mock-products"
+import { RelatedProducts } from "@/components/products/RelatedProducts"
+import { products, categories } from "@/data/mock-products"
 
 interface ProductPageProps {
   params: Promise<{ id: string }>
@@ -48,7 +48,10 @@ export default function ProductPage({ params }: ProductPageProps) {
   // Productos relacionados: misma categoría, excluyendo el actual
   const related = products
     .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 4)
+    .slice(0, 8)
+
+  const categoryData = categories.find((c) => c.slug === product.category)
+  const categoryName = categoryData?.name ?? product.category
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -98,16 +101,11 @@ export default function ProductPage({ params }: ProductPageProps) {
       </div>
 
       {/* Related Products */}
-      {related.length > 0 && (
-        <section className="mt-16">
-          <h2 className="mb-6 text-2xl font-bold">Productos Relacionados</h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {related.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        </section>
-      )}
+      <RelatedProducts
+        products={related}
+        categorySlug={product.category}
+        categoryName={categoryName}
+      />
     </div>
   )
 }

@@ -72,14 +72,14 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2 text-sm text-[var(--steel)]">
                 <Mail className="h-3.5 w-3.5 shrink-0 text-[var(--brass)]" />
-                <a href="mailto:ventas@enovacorp.com.ve" className="transition-colors hover:text-[var(--brass-bright)]">
-                  ventas@enovacorp.com.ve
+                <a href="mailto:Gerencia@enovacorp.co" className="transition-colors hover:text-[var(--brass-bright)]">
+                  Gerencia@enovacorp.co
                 </a>
               </div>
               <div className="flex items-center gap-2 text-sm text-[var(--steel)]">
                 <Phone className="h-3.5 w-3.5 shrink-0 text-[var(--brass)]" />
-                <a href="tel:+582125550100" className="transition-colors hover:text-[var(--brass-bright)]">
-                  +58 212 555 0100
+                <a href="tel:+584223668201" className="transition-colors hover:text-[var(--brass-bright)]">
+                  0422-3668201
                 </a>
               </div>
             </address>
@@ -98,7 +98,7 @@ export function Footer() {
               </Link>
               <span className="text-[var(--hairline)]">·</span>
               <Link
-                href="https://wa.me/584120000000"
+                href="https://wa.me/584223668201"
                 target="_blank"
                 rel="noopener"
                 aria-label="WhatsApp ENOVA CORP"
@@ -237,7 +237,7 @@ export function Footer() {
                   <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">@enovacorpve</span>
                 </Link>
                 <Link
-                  href="https://wa.me/584120000000"
+                  href="https://wa.me/584223668201"
                   target="_blank" rel="noopener" aria-label="WhatsApp"
                   className="flex h-9 items-center gap-2 rounded-lg bg-[var(--surface-1)] px-3 transition-all duration-200 hover:opacity-80"
                 >

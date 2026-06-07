@@ -58,7 +58,7 @@ export default function AdminSettingsPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="storePhone">Telefono</Label>
-                  <Input id="storePhone" defaultValue="+58 212 555 0100" />
+                  <Input id="storePhone" defaultValue="0422-3668201" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="storeAddress">Direccion</Label>

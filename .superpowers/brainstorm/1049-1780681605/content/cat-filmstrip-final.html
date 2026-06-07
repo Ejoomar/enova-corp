@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filmstrip — Diseño Final</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #060606; color: #e5e7eb; font-family: 'Inter', system-ui, sans-serif; padding: 0 0 80px; }
+
+  .page-header { padding: 32px 40px 28px; border-bottom: 1px solid #1a1a1a; }
+  .eyebrow { font-size: 10px; font-family: monospace; text-transform: uppercase; letter-spacing: .14em; color: #4b5563; margin-bottom: 6px; }
+  .title { font-size: 22px; font-weight: 300; letter-spacing: -.02em; color: #f9fafb; margin-bottom: 4px; }
+  .sub { font-size: 12px; color: #6b7280; line-height: 1.5; }
+
+  /* ── Spec chips ── */
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 10px; font-family: monospace; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    border: 1px solid;
+  }
+  .chip-green { background: rgba(52,211,153,.1); border-color: rgba(52,211,153,.3); color: #6ee7b7; }
+  .chip-blue  { background: rgba(0,87,183,.15); border-color: rgba(0,87,183,.4); color: #60a5fa; }
+  .chip-amber { background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.3); color: #fde68a; }
+
+  /* ── Mockup wrapper ── */
+  .mockup-wrap { padding: 28px 40px; }
+  .mockup-label { font-size: 10px; font-family: monospace; text-transform: uppercase; letter-spacing: .12em; color: #374151; margin-bottom: 10px; }
+
+  /* ════════════════════════════════════
+     FILMSTRIP — DISEÑO FINAL
+  ════════════════════════════════════ */
+  .filmstrip {
+    display: flex;
+    gap: 2px;
+    height: 380px;
+    border: 1px solid #1f2937;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: crosshair;
+  }
+
+  .fc {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    transition: flex 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ── Parallax image (no zoom) ── */
+  .fc-img-wrap {
+    position: absolute;
+    inset: -8px; /* extra space for parallax movement */
+    will-change: transform;
+    transition: transform 80ms linear;
+  }
+  .fc-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: filter 350ms;
+    filter: brightness(0.55);
+    /* NO scale — parallax only */
+  }
+  .fc:hover .fc-img-wrap img { filter: brightness(0.8); }
+
+  /* ── Gradient overlay ── */
+  .fc-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,.92) 0%,
+      rgba(0,0,0,.3) 40%,
+      rgba(0,0,0,.05) 100%
+    );
+  }
+
+  /* ── Number top-left ── */
+  .fc-num {
+    position: absolute;
+    top: 14px; left: 14px;
+    font-size: 9px; font-family: monospace;
+    color: rgba(255,255,255,.35);
+    letter-spacing: .14em;
+    transition: color 300ms;
+  }
+  .fc:hover .fc-num { color: #0057B7; }
+
+  /* ── Blue accent line bottom ── */
+  .fc-line {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 2px; width: 0;
+    background: #0057B7;
+    transition: width 380ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .fc:hover .fc-line { width: 100%; }
+
+  /* ── Split text container ── */
+  .fc-info {
+    position: absolute;
+    bottom: 18px; left: 14px; right: 14px;
+    overflow: hidden;
+  }
+
+  /* ── Split text name ── */
+  .split-name {
+    position: relative;
+    height: 1.3em;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+  .split-half {
+    position: absolute;
+    top: 0;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    transition:
+      transform 380ms cubic-bezier(0.16,1,0.3,1),
+      opacity 300ms;
+  }
+  /* Left half: clips left portion, starts from left */
+  .split-left {
+    left: 0;
+    clip-path: inset(0 50% 0 0);
+    transform: translateX(-110%);
+    opacity: 0;
+  }
+  /* Right half: clips right portion, starts from right */
+  .split-right {
+    left: 0;
+    clip-path: inset(0 0 0 50%);
+    transform: translateX(110%);
+    opacity: 0;
+  }
+  .fc:hover .split-left {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .fc:hover .split-right {
+    transform: translateX(0);
+    opacity: 1;
+    transition-delay: 30ms;
+  }
+
+  /* ── Product count ── */
+  .fc-count {
+    font-size: 9px; font-family: monospace;
+    color: rgba(255,255,255,.0);
+    letter-spacing: .1em; text-transform: uppercase;
+    transform: translateY(6px);
+    transition: color 280ms 80ms, transform 280ms 80ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .fc:hover .fc-count {
+    color: rgba(255,255,255,.45);
+    transform: translateY(0);
+  }
+
+  /* ── Arrow ── */
+  .fc-arrow {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(0,87,183,.3);
+    border: 1px solid rgba(0,87,183,.6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #60a5fa;
+    opacity: 0;
+    transform: scale(0.7) rotate(-45deg);
+    transition: opacity 250ms, transform 300ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .fc:hover .fc-arrow {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .section-eyebrow {
+    font-size: 10px; font-family: monospace;
+    text-transform: uppercase; letter-spacing: .14em; color: #4b5563;
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-size: 28px; font-weight: 300; letter-spacing: -.025em; color: #f9fafb;
+  }
+  .section-link {
+    font-size: 10px; font-family: monospace; text-transform: uppercase;
+    letter-spacing: .12em; color: #0057B7;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,87,183,.4);
+    padding-bottom: 1px;
+  }
+
+  /* ── Notes ── */
+  .notes { padding: 20px 40px 0; }
+  .note-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+  .note-card {
+    background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 6px;
+    padding: 14px 14px 12px;
+  }
+  .note-label { font-size: 9px; font-family: monospace; text-transform: uppercase; letter-spacing: .1em; color: #0057B7; margin-bottom: 6px; }
+  .note-text { font-size: 11.5px; color: #6b7280; line-height: 1.45; }
+
+  /* Footer */
+  .footer-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 52px;
+    background: #0a0a0a; border-top: 1px solid #1f2937;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; font-size: 12px; color: #6b7280;
+  }
+  .approve { color: #6ee7b7; font-weight: 600; }
+  .reject  { color: #f87171; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">ENOVA CORP ® — CategoryGrid · Diseño Final</div>
+  <div class="title">Filmstrip mejorado — 4 decisiones aplicadas</div>
+  <div class="sub">Hover sobre cada card para ver todos los efectos juntos. Cursor crosshair = modo parallax activo.</div>
+  <div class="chips">
+    <span class="chip chip-green">✓ Expand/compress</span>
+    <span class="chip chip-blue">✓ Parallax sin zoom</span>
+    <span class="chip chip-amber">✓ Inactivas intactas</span>
+    <span class="chip chip-blue">✓ Split text reveal</span>
+  </div>
+</div>
+
+<div class="mockup-wrap">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">— 02 / 04</div>
+      <div class="section-title">Todo en tecnología.<br>Un solo lugar.</div>
+    </div>
+    <a href="#" class="section-link">Ver todas las categorías →</a>
+  </div>
+
+  <div class="mockup-label">Mockup interactivo — hover para ver efectos</div>
+
+  <div class="filmstrip" id="strip">
+
+    <!-- Card 1 -->
+    <div class="fc" data-idx="0">
+      <div class="fc-img-wrap" id="iw0">
+        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=85" alt="Laptops">
+      </div>
+      <div class="fc-overlay"></div>
+      <div class="fc-num">01</div>
+      <div class="fc-arrow">→</div>
+      <div class="fc-line"></div>
+      <div class="fc-info">
+        <div class="split-name">
+          <span class="split-half split-left">Laptops / PCs</span>
+          <span class="split-half split-right">Laptops / PCs</span>
+        </div>
+        <div class="fc-count">6 productos</div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="fc" data-idx="1">
+      <div class="fc-img-wrap" id="iw1">
+        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=85" alt="Smartphones">
+      </div>
+      <div class="fc-overlay"></div>
+      <div class="fc-num">02</div>
+      <div class="fc-arrow">→</div>
+      <div class="fc-line"></div>
+      <div class="fc-info">
+        <div class="split-name">
+          <span class="split-half split-left">Smartphones</span>
+          <span class="split-half split-right">Smartphones</span>
+        </div>
+        <div class="fc-count">6 productos</div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="fc" data-idx="2">
+      <div class="fc-img-wrap" id="iw2">
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=85" alt="Eq. Fiscales">
+      </div>
+      <div class="fc-overlay"></div>
+      <div class="fc-num">03</div>
+      <div class="fc-arrow">→</div>
+      <div class="fc-line"></div>
+      <div class="fc-info">
+        <div class="split-name">
+          <span class="split-half split-left">Eq. Fiscales</span>
+          <span class="split-half split-right">Eq. Fiscales</span>
+        </div>
+        <div class="fc-count">3 productos</div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="fc" data-idx="3">
+      <div class="fc-img-wrap" id="iw3">
+        <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=85" alt="Impresoras">
+      </div>
+      <div class="fc-overlay"></div>
+      <div class="fc-num">04</div>
+      <div class="fc-arrow">→</div>
+      <div class="fc-line"></div>
+      <div class="fc-info">
+        <div class="split-name">
+          <span class="split-half split-left">Impresoras</span>
+          <span class="split-half split-right">Impresoras</span>
+        </div>
+        <div class="fc-count">3 productos</div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="fc" data-idx="4">
+      <div class="fc-img-wrap" id="iw4">
+        <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=800&q=85" alt="Periféricos">
+      </div>
+      <div class="fc-overlay"></div>
+      <div class="fc-num">05</div>
+      <div class="fc-arrow">→</div>
+      <div class="fc-line"></div>
+      <div class="fc-info">
+        <div class="split-name">
+          <span class="split-half split-left">Periféricos</span>
+          <span class="split-half split-right">Periféricos</span>
+        </div>
+        <div class="fc-count">4 productos</div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="fc" data-idx="5">
+      <div class="fc-img-wrap" id="iw5">
+        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=85" alt="Gaming">
+      </div>
+      <div class="fc-overlay"></div>
+      <div class="fc-num">06</div>
+      <div class="fc-arrow">→</div>
+      <div class="fc-line"></div>
+      <div class="fc-info">
+        <div class="split-name">
+          <span class="split-half split-left">Gaming</span>
+          <span class="split-half split-right">Gaming</span>
+        </div>
+        <div class="fc-count">5 productos</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Notes -->
+<div class="notes">
+  <div class="note-grid">
+    <div class="note-card">
+      <div class="note-label">Expand/Compress</div>
+      <div class="note-text">420ms cubic-bezier(0.16,1,0.3,1) — suave y elástico, no lineal.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-label">Parallax</div>
+      <div class="note-text">±8px en X e Y siguiendo el cursor. 80ms linear — sin retraso perceptible.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-label">Split Text</div>
+      <div class="note-text">Cada mitad entra desde su lado con clip-path. 380ms, delay 30ms entre halves.</div>
+    </div>
+    <div class="note-card">
+      <div class="note-label">Inactivas</div>
+      <div class="note-text">Solo se comprimen. Brillo y color sin cambio — foco en la activa por contraste de tamaño.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-bar">
+  <span id="footer-txt" style="font-size:11px;opacity:.7;">Prueba todos los cards — hover para ver split text y parallax</span>
+  <div style="display:flex;gap:20px;">
+    <span class="approve" style="cursor:pointer;" onclick="approve()">✓ Aprobado — implementar</span>
+    <span class="reject" style="cursor:pointer;" onclick="reject()">✗ Ajustar</span>
+  </div>
+</div>
+
+<script>
+  /* ── Parallax ── */
+  document.querySelectorAll('.fc').forEach((card, idx) => {
+    const wrap = document.getElementById('iw' + idx);
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width  - 0.5) * 16; // ±8px
+      const y = ((e.clientY - r.top)  / r.height - 0.5) * 12; // ±6px
+      wrap.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      wrap.style.transition = 'transform 600ms cubic-bezier(0.16,1,0.3,1)';
+      wrap.style.transform = 'translate(0px, 0px)';
+      setTimeout(() => { wrap.style.transition = 'transform 80ms linear'; }, 620);
+    });
+    card.addEventListener('mouseenter', () => {
+      wrap.style.transition = 'transform 80ms linear';
+    });
+  });
+
+  function approve() {
+    document.getElementById('footer-txt').innerHTML = '<span style="color:#6ee7b7;font-weight:600;">✓ Aprobado — escribe "sí" en el terminal para implementar</span>';
+    if (window.__selectOption) window.__selectOption('approve', 'Filmstrip Final — Aprobado');
+  }
+  function reject() {
+    document.getElementById('footer-txt').innerHTML = '<span style="color:#f87171;font-weight:600;">✗ Dime qué ajustar en el terminal</span>';
+    if (window.__selectOption) window.__selectOption('reject', 'Filmstrip Final — Ajustar');
+  }
+</script>
+</body>
+</html>

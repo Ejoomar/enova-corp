@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filmstrip v3</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #060606; color: #e5e7eb; font-family: 'Inter', system-ui, sans-serif; padding-bottom: 72px; }
+
+  .page-header { padding: 28px 40px 24px; border-bottom: 1px solid #1a1a1a; }
+  .eyebrow { font-size: 10px; font-family: monospace; text-transform: uppercase; letter-spacing: .14em; color: #4b5563; margin-bottom: 5px; }
+  .title { font-size: 20px; font-weight: 300; letter-spacing: -.02em; color: #f9fafb; }
+  .sub { font-size: 11.5px; color: #6b7280; margin-top: 3px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 20px; font-size: 9px; font-family: monospace; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; border: 1px solid; }
+  .chip-green { background: rgba(52,211,153,.1); border-color: rgba(52,211,153,.3); color: #6ee7b7; }
+  .chip-blue  { background: rgba(0,87,183,.15);  border-color: rgba(0,87,183,.4);   color: #60a5fa; }
+  .chip-amber { background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.3); color: #fde68a; }
+
+  .mockup-wrap { padding: 28px 40px; }
+  .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 16px; }
+  .s-eyebrow { font-size: 10px; font-family: monospace; text-transform: uppercase; letter-spacing: .14em; color: #4b5563; margin-bottom: 5px; }
+  .s-title { font-size: 26px; font-weight: 300; letter-spacing: -.025em; color: #f9fafb; line-height: 1.2; }
+  .s-link { font-size: 10px; font-family: monospace; text-transform: uppercase; letter-spacing: .12em; color: #0057B7; text-decoration: none; border-bottom: 1px solid rgba(0,87,183,.35); padding-bottom: 1px; }
+
+  /* ══════════════════════════════════════════════════════
+     CURSOR — flecha estándar del sistema, color azul ENOVA
+     SVG inline como data-URL · hotspot en (0,0) = punta
+  ══════════════════════════════════════════════════════ */
+  .filmstrip,
+  .filmstrip * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24'%3E%3Cpath d='M0 0 L0 20 L5 15 L8 23 L11 22 L8 14 L14 14 Z' fill='%230057B7' stroke='white' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 0 0, auto;
+  }
+
+  /* ════════════════════════ FILMSTRIP ════════════════════════ */
+  .filmstrip {
+    display: flex; gap: 2px; height: 380px;
+    border: 1px solid #1f2937; border-radius: 8px; overflow: hidden;
+  }
+
+  .fc {
+    position: relative; flex: 1; min-width: 0; overflow: hidden;
+    transition: flex 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .filmstrip:hover .fc       { flex: 0.45; }
+  .filmstrip:hover .fc:hover { flex: 3.0;  }
+
+  /* Imagen — parallax sin zoom agresivo */
+  .fc-img-wrap {
+    position: absolute; inset: -10px;
+    will-change: transform;
+    transition: transform 80ms linear;
+  }
+  .fc-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.0);
+    transition: transform 1200ms cubic-bezier(0.25,0.46,0.45,0.94), filter 400ms;
+    filter: brightness(0.52);
+  }
+  .filmstrip:hover .fc:hover .fc-img-wrap img {
+    transform: scale(1.03);
+    filter: brightness(0.78);
+  }
+
+  .fc-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.25) 45%, rgba(0,0,0,.05) 100%);
+  }
+
+  .fc-num {
+    position: absolute; top: 14px; left: 14px;
+    font-size: 9px; font-family: monospace;
+    color: rgba(255,255,255,.3); letter-spacing: .14em;
+    transition: color 300ms; pointer-events: none;
+  }
+  .filmstrip:hover .fc:hover .fc-num { color: #0057B7; }
+
+  .fc-line {
+    position: absolute; bottom: 0; left: 0;
+    height: 2px; width: 0; background: #0057B7;
+    transition: width 380ms cubic-bezier(0.16,1,0.3,1); pointer-events: none;
+  }
+  .filmstrip:hover .fc:hover .fc-line { width: 100%; }
+
+  .fc-arrow {
+    position: absolute; top: 14px; right: 14px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(0,87,183,.25); border: 1px solid rgba(0,87,183,.5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #60a5fa;
+    opacity: 0; transform: scale(0.6) rotate(-45deg);
+    transition: opacity 250ms 60ms, transform 320ms 60ms cubic-bezier(0.16,1,0.3,1);
+    pointer-events: none;
+  }
+  .filmstrip:hover .fc:hover .fc-arrow { opacity: 1; transform: scale(1) rotate(0deg); }
+
+  .fc-info {
+    position: absolute; bottom: 18px; left: 14px; right: 14px;
+    overflow: hidden; pointer-events: none;
+  }
+
+  /* Split text — 600ms, delay 80ms entre mitades */
+  .split-name { position: relative; height: 1.35em; overflow: hidden; margin-bottom: 4px; }
+  .split-half {
+    position: absolute; top: 0; left: 0;
+    display: inline-block;
+    font-size: 15px; font-weight: 600; color: #fff;
+    white-space: nowrap; overflow: hidden;
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 480ms;
+  }
+  .split-left  { clip-path: inset(0 50% 0 0); transform: translateX(-115%); opacity: 0; }
+  .split-right { clip-path: inset(0 0 0 50%);  transform: translateX(115%);  opacity: 0; }
+  .filmstrip:hover .fc:hover .split-left  { transform: translateX(0); opacity: 1; }
+  .filmstrip:hover .fc:hover .split-right { transform: translateX(0); opacity: 1; transition-delay: 80ms; }
+
+  .fc-count {
+    font-size: 9px; font-family: monospace;
+    color: transparent; letter-spacing: .1em; text-transform: uppercase;
+    transform: translateY(5px);
+    transition: color 280ms 120ms, transform 300ms 120ms cubic-bezier(0.16,1,0.3,1);
+  }
+  .filmstrip:hover .fc:hover .fc-count { color: rgba(255,255,255,.42); transform: translateY(0); }
+
+  /* Footer */
+  .footer-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 50px;
+    background: #0a0a0a; border-top: 1px solid #1f2937;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 40px;
+  }
+  .hint    { font-size: 11px; color: #374151; }
+  .approve { font-size: 12px; color: #6ee7b7; font-weight: 600; cursor: pointer; font-family: monospace; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">ENOVA CORP ® — Filmstrip v3 · Cursor flecha azul</div>
+  <div class="title">Cursor flecha azul #0057B7 · Split 600ms · Acordeón · Parallax</div>
+  <div class="sub">Entra al filmstrip — el cursor cambia a flecha azul ENOVA.</div>
+  <div class="chips">
+    <span class="chip chip-blue">✓ Cursor flecha azul SVG</span>
+    <span class="chip chip-green">✓ Split text 600ms</span>
+    <span class="chip chip-amber">✓ Acordeón activo</span>
+    <span class="chip chip-blue">✓ Parallax · Zoom 1.03</span>
+  </div>
+</div>
+
+<div class="mockup-wrap">
+  <div class="section-header">
+    <div>
+      <div class="s-eyebrow">— 02 / 04</div>
+      <div class="s-title">Todo en tecnología.<br>Un solo lugar.</div>
+    </div>
+    <a href="#" class="s-link">Ver todas las categorías →</a>
+  </div>
+
+  <div class="filmstrip" id="strip">
+
+    <div class="fc" data-idx="0">
+      <div class="fc-img-wrap" id="iw0"><img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=85" alt="Laptops"></div>
+      <div class="fc-overlay"></div><div class="fc-num">01</div><div class="fc-arrow">→</div><div class="fc-line"></div>
+      <div class="fc-info"><div class="split-name"><span class="split-half split-left">Laptops / PCs</span><span class="split-half split-right">Laptops / PCs</span></div><div class="fc-count">6 productos</div></div>
+    </div>
+
+    <div class="fc" data-idx="1">
+      <div class="fc-img-wrap" id="iw1"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=85" alt="Smartphones"></div>
+      <div class="fc-overlay"></div><div class="fc-num">02</div><div class="fc-arrow">→</div><div class="fc-line"></div>
+      <div class="fc-info"><div class="split-name"><span class="split-half split-left">Smartphones</span><span class="split-half split-right">Smartphones</span></div><div class="fc-count">6 productos</div></div>
+    </div>
+
+    <div class="fc" data-idx="2">
+      <div class="fc-img-wrap" id="iw2"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=85" alt="Eq. Fiscales"></div>
+      <div class="fc-overlay"></div><div class="fc-num">03</div><div class="fc-arrow">→</div><div class="fc-line"></div>
+      <div class="fc-info"><div class="split-name"><span class="split-half split-left">Eq. Fiscales</span><span class="split-half split-right">Eq. Fiscales</span></div><div class="fc-count">3 productos</div></div>
+    </div>
+
+    <div class="fc" data-idx="3">
+      <div class="fc-img-wrap" id="iw3"><img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=85" alt="Impresoras"></div>
+      <div class="fc-overlay"></div><div class="fc-num">04</div><div class="fc-arrow">→</div><div class="fc-line"></div>
+      <div class="fc-info"><div class="split-name"><span class="split-half split-left">Impresoras</span><span class="split-half split-right">Impresoras</span></div><div class="fc-count">3 productos</div></div>
+    </div>
+
+    <div class="fc" data-idx="4">
+      <div class="fc-img-wrap" id="iw4"><img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=800&q=85" alt="Periféricos"></div>
+      <div class="fc-overlay"></div><div class="fc-num">05</div><div class="fc-arrow">→</div><div class="fc-line"></div>
+      <div class="fc-info"><div class="split-name"><span class="split-half split-left">Periféricos</span><span class="split-half split-right">Periféricos</span></div><div class="fc-count">4 productos</div></div>
+    </div>
+
+    <div class="fc" data-idx="5">
+      <div class="fc-img-wrap" id="iw5"><img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=85" alt="Gaming"></div>
+      <div class="fc-overlay"></div><div class="fc-num">06</div><div class="fc-arrow">→</div><div class="fc-line"></div>
+      <div class="fc-info"><div class="split-name"><span class="split-half split-left">Gaming</span><span class="split-half split-right">Gaming</span></div><div class="fc-count">5 productos</div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer-bar">
+  <span class="hint">Entra al filmstrip — cursor flecha azul ENOVA activo</span>
+  <span class="approve" onclick="approve()">✓ Aprobar e implementar →</span>
+</div>
+
+<script>
+  /* Parallax — movimiento XY suave, sin scale en JS */
+  document.querySelectorAll('.fc').forEach((card, idx) => {
+    const wrap = document.getElementById('iw' + idx);
+    card.addEventListener('mouseenter', () => { wrap.style.transition = 'transform 80ms linear'; });
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width  - 0.5) * 14;
+      const y = ((e.clientY - r.top)  / r.height - 0.5) * 10;
+      wrap.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      wrap.style.transition = 'transform 700ms cubic-bezier(0.16,1,0.3,1)';
+      wrap.style.transform = 'translate(0,0)';
+      setTimeout(() => { wrap.style.transition = 'transform 80ms linear'; }, 720);
+    });
+  });
+
+  function approve() {
+    document.querySelector('.footer-bar').innerHTML =
+      '<span style="font-size:12px;color:#6ee7b7;font-weight:600;font-family:monospace;margin:auto;">✓ Aprobado — escribe "implementa" en el terminal</span>';
+    if (window.__selectOption) window.__selectOption('approve', 'Filmstrip v3 Aprobado');
+  }
+</script>
+</body>
+</html>

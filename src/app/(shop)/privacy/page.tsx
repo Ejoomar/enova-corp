@@ -14,7 +14,7 @@ export default function PrivacyPage() {
           { title: "2. Uso de la información",   body: "Utilizamos sus datos exclusivamente para procesar pedidos, coordinar envíos, enviar confirmaciones de compra y brindar soporte técnico. No vendemos ni compartimos su información personal con terceros." },
           { title: "3. Seguridad de los datos",  body: "ENOVA CORP ® implementa medidas de seguridad técnicas y organizativas para proteger su información personal contra acceso no autorizado, pérdida o divulgación." },
           { title: "4. Cookies",                 body: "Utilizamos cookies esenciales para el funcionamiento del carrito de compras y cookies analíticas anónimas. Puede desactivarlas desde la configuración de su navegador." },
-          { title: "5. Sus derechos",            body: "Usted tiene derecho a acceder, corregir o solicitar la eliminación de sus datos personales. Para ejercer estos derechos, contáctenos a ventas@enovacorp.com.ve." },
+          { title: "5. Sus derechos",            body: "Usted tiene derecho a acceder, corregir o solicitar la eliminación de sus datos personales. Para ejercer estos derechos, contáctenos a Gerencia@enovacorp.co." },
           { title: "6. Cambios a esta política", body: "ENOVA CORP ® puede actualizar esta política de privacidad periódicamente. Le notificaremos cambios significativos mediante aviso en el sitio web." },
         ].map((section) => (
           <div key={section.title} className="border-b border-[var(--hairline)] pb-10 last:border-0">

@@ -7,7 +7,7 @@ const topics = [
   { title: "¿Cómo rastrear mi pedido?",         desc: "Una vez despachado, recibirás un número de seguimiento al correo registrado." },
   { title: "¿Cuál es la política de garantía?", desc: "Ofrecemos garantía de 6 meses a 1 año según marca y categoría. Ver sección Garantía para el detalle por marca." },
   { title: "¿Hacen envíos a todo Venezuela?",   desc: "Sí, realizamos envíos a todas las ciudades y estados de Venezuela." },
-  { title: "¿Cómo solicitar soporte técnico?",  desc: "Contáctanos por Instagram @enovacorpve o al email ventas@enovacorp.com.ve." },
+  { title: "¿Cómo solicitar soporte técnico?",  desc: "Contáctanos por Instagram @enovacorpve, WhatsApp 0422-3668201 o al email Gerencia@enovacorp.co." },
 ]
 
 export default function HelpPage() {

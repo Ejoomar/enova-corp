@@ -52,7 +52,7 @@ function ProductCard({ product }: { product: CatalogProduct }) {
   const waMessage = encodeURIComponent(
     `Hola ENOVA CORP, quiero cotizar: ${product.name}`
   )
-  const waUrl = `https://wa.me/582125550100?text=${waMessage}`
+  const waUrl = `https://wa.me/584223668201?text=${waMessage}`
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-xl border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--color-warning)]/50">

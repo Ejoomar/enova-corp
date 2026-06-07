@@ -112,7 +112,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           </>
         ) : (
           <a
-            href={`https://wa.me/582125550100?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
+            href={`https://wa.me/584223668201?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xl font-semibold text-[var(--color-success)] hover:underline"

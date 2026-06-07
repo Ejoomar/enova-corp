@@ -137,7 +137,7 @@ export default function CotizacionPage() {
 
         <div className="flex flex-col gap-3 sm:flex-row">
           <a
-            href={`https://wa.me/582125550100?text=${buildWhatsAppMessage()}`}
+            href={`https://wa.me/584223668201?text=${buildWhatsAppMessage()}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setSent(true)}
@@ -147,7 +147,7 @@ export default function CotizacionPage() {
             Enviar por WhatsApp
           </a>
           <a
-            href={`mailto:ventas@enovacorp.com.ve?subject=Solicitud de cotización&body=${buildEmailBody()}`}
+            href={`mailto:Gerencia@enovacorp.co?subject=Solicitud de cotización&body=${buildEmailBody()}`}
             onClick={() => setSent(true)}
             className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-[var(--hairline)] px-4 py-3 text-sm font-medium hover:bg-[var(--background)] transition-colors"
           >

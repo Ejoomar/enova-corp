@@ -12,7 +12,7 @@ export function TopBar() {
           </div>
           <div className="flex items-center gap-4 sm:gap-6">
             <a
-              href="tel:+582125550100"
+              href="tel:+584223668201"
               className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
               aria-label="Llamar a Contacto"
             >
