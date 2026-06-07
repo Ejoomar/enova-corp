@@ -23,43 +23,39 @@ export default function ShippingPage() {
         ))}
       </div>
 
-      {/* Carriers banner — CSS puro, resolución infinita */}
-      <div className="mb-12 overflow-hidden rounded-xl bg-[#0a0f1e]">
-        <div className="flex flex-col items-center justify-center gap-8 px-8 py-10 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/10">
+      {/* Carriers banner */}
+      <div className="mb-12 overflow-hidden rounded-xl border border-white/5 bg-[#0a0f1e]">
+        <div className="flex flex-col items-center justify-center gap-10 px-10 py-10 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/8">
 
           {/* Eyebrow */}
-          <div className="hidden w-full text-center sm:block sm:w-auto sm:pr-10">
-            <p className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-white/40">
-              Transportamos<br />con
+          <div className="hidden sm:flex sm:flex-col sm:items-end sm:pr-12">
+            <p className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-white/30 leading-loose">
+              Enviamos<br />con
             </p>
           </div>
 
           {/* MRW */}
-          <div className="flex flex-col items-center gap-3 sm:px-12">
-            <div className="flex h-16 w-28 items-center justify-center rounded-lg bg-white px-3">
-              <Image
-                src="/logos/mrw.svg"
-                alt="MRW Venezuela"
-                width={82}
-                height={40}
-                className="object-contain"
-              />
-            </div>
-            <p className="font-mono-ui text-[10px] text-white/40">800+ agencias · Nacional</p>
+          <div className="flex flex-col items-center gap-3 sm:px-14">
+            <Image
+              src="/logos/mrw.svg"
+              alt="MRW Venezuela"
+              width={110}
+              height={46}
+              className="object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-100"
+            />
+            <p className="font-mono-ui text-[10px] text-white/30">800+ agencias · Nacional</p>
           </div>
 
           {/* ZOOM */}
-          <div className="flex flex-col items-center gap-3 sm:px-12">
-            <div className="flex h-16 w-28 items-center justify-center rounded-lg bg-white px-3">
-              <Image
-                src="/logos/zoom.png"
-                alt="ZOOM"
-                width={82}
-                height={40}
-                className="object-contain"
-              />
-            </div>
-            <p className="font-mono-ui text-[10px] text-white/40">Express · Día siguiente</p>
+          <div className="flex flex-col items-center gap-3 sm:px-14">
+            <Image
+              src="/logos/zoom.png"
+              alt="ZOOM"
+              width={100}
+              height={46}
+              className="object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-100"
+            />
+            <p className="font-mono-ui text-[10px] text-white/30">Express · Día siguiente</p>
           </div>
 
         </div>
