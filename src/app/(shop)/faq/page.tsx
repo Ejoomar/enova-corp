@@ -1,6 +1,6 @@
 const faqs = [
   { q: "¿Los precios incluyen IVA?",                   a: "Los equipos fiscales están sujetos a IVA según la legislación venezolana. Los demás productos se indican con o sin IVA en su ficha." },
-  { q: "¿Aceptan divisas?",                            a: "Sí, aceptamos pagos en USD y Bolívares. Consúltanos el tipo de cambio vigente al momento de tu compra." },
+  { q: "¿Cuáles son los métodos de pago aceptados?",   a: "Aceptamos USD, Bolívares, Zelle, Pago Móvil, Binance, Cashea y transferencias a todos los bancos venezolanos." },
   { q: "¿Puedo devolver un producto?",                  a: "Aceptamos devoluciones dentro de los primeros 7 días si el producto presenta defectos de fábrica, con su empaque original." },
   { q: "¿Los equipos fiscales requieren instalación?",  a: "Sí, los equipos fiscales SENIAT requieren configuración. Ofrecemos servicio de instalación y programación incluida." },
   { q: "¿Tienen servicio técnico propio?",              a: "Contamos con técnicos certificados para las marcas que distribuimos. El servicio técnico se coordina previa cita." },

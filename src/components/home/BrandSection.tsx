@@ -16,8 +16,8 @@ const pillars = [
   },
   {
     num: "04",
-    title: "Pago en divisas",
-    desc: "Aceptamos USD, transferencias y múltiples métodos de pago adaptados al mercado venezolano.",
+    title: "Múltiples métodos de pago",
+    desc: "Aceptamos USD, Bs., Zelle, Pago Móvil, Binance y transferencias a todos los bancos venezolanos.",
   },
 ]
 

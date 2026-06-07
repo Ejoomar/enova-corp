@@ -235,9 +235,9 @@ export default function AdminSettingsPage() {
         <TabsContent value="payments" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Metodos de Pago</CardTitle>
+              <CardTitle>Métodos de Pago</CardTitle>
               <CardDescription>
-                Habilita o deshabilita metodos de pago
+                Habilita o deshabilita métodos de pago
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
