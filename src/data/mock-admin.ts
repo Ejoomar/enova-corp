@@ -246,14 +246,14 @@ export const orders: Order[] = [
 ]
 
 export const dashboardStats = {
-  totalRevenue: 45231.89,
-  revenueChange: 20.1,
-  totalOrders: 2350,
-  ordersChange: 15.2,
-  totalCustomers: 1247,
-  customersChange: 8.5,
-  totalProducts: 184,
-  productsChange: 12.3,
+  totalRevenue: 18540.50,
+  revenueChange: 14.3,
+  totalOrders: 312,
+  ordersChange: 9.8,
+  totalCustomers: 187,
+  customersChange: 6.2,
+  totalProducts: 119,
+  productsChange: 4.5,
 }
 
 export const recentSales = [
