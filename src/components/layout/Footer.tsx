@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Mail, Phone, MapPin } from "lucide-react"
 
 const banks = [
-  { name: "Banco de Venezuela", src: "/logos/bdv.svg",       w: 150, color: "#CF122D" },
+  { name: "Banco de Venezuela", src: "/logos/bdv.avif",      w: 200, color: "#CF122D" },
   { name: "Mercantil",          src: "/logos/mercantil.svg", w: 130, color: "#1B5EA6" },
   { name: "BBVA Provincial",    src: "/logos/bbva.svg",      w: 140, color: "#00539B" },
 ]
