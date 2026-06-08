@@ -5,13 +5,13 @@ const pillars = [
     Icon: Truck,
     title: "Despacho Nacional",
     sub: "MRW · ZOOM · 24–48 h hábiles",
-    tag: "Todo el país",
+    tag: "Enviamos a todo el país",
   },
   {
     Icon: ClipboardList,
     title: "Cotización Rápida",
     sub: "Respuesta en menos de 24 h",
-    tag: "Empresas · B2B",
+    tag: "Empresas · Personas · B2B",
   },
   {
     Icon: ShieldCheck,
@@ -23,7 +23,7 @@ const pillars = [
     Icon: Headphones,
     title: "Atención Inmediata",
     sub: "WhatsApp · Instagram · Web",
-    tag: "Lun – Sáb",
+    tag: "Lunes a sábado",
   },
 ]
 
@@ -36,7 +36,7 @@ export function TrustBanner() {
             <div
               key={title}
               className={[
-                "flex items-start gap-4 px-6 py-8 lg:px-8 lg:py-9",
+                "flex items-start gap-5 px-7 py-9 lg:px-8 lg:py-10",
                 "transition-colors duration-200 hover:bg-white/[0.07]",
                 i > 0 ? "border-l border-white/20" : "",
                 i >= 2 ? "border-t border-white/20 lg:border-t-0" : "",
@@ -44,18 +44,20 @@ export function TrustBanner() {
                 .filter(Boolean)
                 .join(" ")}
             >
-              {/* Icon */}
-              <Icon className="mt-0.5 h-[22px] w-[22px] shrink-0 text-white/75" strokeWidth={1.5} />
+              {/* Icon container — glass pill */}
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/20">
+                <Icon className="h-6 w-6 text-white" strokeWidth={1.5} />
+              </div>
 
               {/* Text */}
-              <div className="min-w-0">
-                <p className="font-display text-[14px] font-semibold leading-snug tracking-[-0.01em] text-white">
+              <div className="min-w-0 pt-0.5">
+                <p className="font-display text-[15px] font-bold leading-tight tracking-[-0.01em] text-white">
                   {title}
                 </p>
-                <p className="mt-0.5 text-[12px] leading-snug text-white/60">
+                <p className="mt-1 text-[12px] leading-snug text-white/75">
                   {sub}
                 </p>
-                <p className="mt-2 font-mono-ui text-[10px] uppercase tracking-[0.12em] text-white/45">
+                <p className="mt-2.5 font-mono-ui text-[10px] uppercase tracking-[0.12em] text-white/60">
                   {tag}
                 </p>
               </div>
