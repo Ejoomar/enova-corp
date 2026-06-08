@@ -313,7 +313,7 @@ body::before {
   background-image: url("/noise.svg");
   opacity: 0.035;
   mix-blend-mode: overlay;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* Typography utilities */
@@ -365,9 +365,12 @@ body::before {
 /* ─── Filmstrip CategoryGrid ─── */
 
 /* Cursor: flecha estándar pintada en azul ENOVA #0057B7 */
-.filmstrip-grid,
-.filmstrip-grid * {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24'%3E%3Cpath d='M0 0 L0 20 L5 15 L8 23 L11 22 L8 14 L14 14 Z' fill='%230057B7' stroke='white' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 0 0, auto;
+/* Custom filmstrip cursor — only on real pointer devices (mouse/trackpad), not touch */
+@media (pointer: fine) {
+  .filmstrip-grid,
+  .filmstrip-grid * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24'%3E%3Cpath d='M0 0 L0 20 L5 15 L8 23 L11 22 L8 14 L14 14 Z' fill='%230057B7' stroke='white' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 0 0, auto;
+  }
 }
 
 /* Estado base de los elementos */

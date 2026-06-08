@@ -39,7 +39,7 @@ export function Header() {
   }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[var(--hairline)] bg-[var(--background)]/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 isolate w-full border-b border-[var(--hairline)] bg-[var(--background)]/90 backdrop-blur-md">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
         <div className="flex h-16 items-center justify-between gap-8">
 

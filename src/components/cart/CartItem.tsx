@@ -38,7 +38,7 @@ export function CartItem({ item, bsfRate, onUpdateQuantity, onRemove }: CartItem
           <div>
             <p className="text-xs text-muted-foreground">{product.brand}</p>
             <Link
-              href={`/products/${product.id}`}
+              href={`/products/${product.slug}`}
               className="font-medium hover:text-primary transition-colors line-clamp-2"
             >
               {product.name}
