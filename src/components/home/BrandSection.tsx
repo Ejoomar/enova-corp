@@ -36,7 +36,7 @@ const pillars = [
   {
     num: "04",
     title: "Múltiples métodos de pago",
-    desc: "Aceptamos USD, Bs., Zelle, Pago Móvil, Binance y transferencias a todos los bancos venezolanos.",
+    desc: "USD, Bs., Zelle, Pago Móvil, Binance y transferencias a todos los bancos venezolanos.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
         <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
@@ -50,56 +50,68 @@ export function BrandSection() {
   return (
     <section className="border-b border-[var(--hairline)] py-20">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-20">
 
-        {/* Header */}
-        <div className="mb-12 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <h2 className="font-display text-4xl font-light tracking-[-0.02em]">
-            Por qué elegirnos.
-          </h2>
-          <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-            4 razones para confiar en nosotros
-          </p>
-        </div>
+          {/* ── Columna izquierda: ancla editorial ── */}
+          <div className="flex flex-col gap-7">
+            <span className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-[var(--brass)]">
+              ENOVA CORP · Mérida, Venezuela
+            </span>
 
-        {/* Pillars grid — gap-px + bg-hairline crea los divisores */}
-        <div className="grid grid-cols-1 gap-px bg-[var(--hairline)] sm:grid-cols-2 lg:grid-cols-4">
-          {pillars.map((p) => (
-            <div
-              key={p.num}
-              className="group relative flex flex-col gap-8 overflow-hidden bg-[var(--background)] px-8 py-10 transition-colors duration-300 hover:bg-[var(--surface-1)]"
+            <h2 className="font-display text-4xl font-light leading-[1.1] tracking-[-0.02em] sm:text-5xl">
+              Por qué<br />elegirnos.
+            </h2>
+
+            <p className="max-w-xs text-sm leading-relaxed text-[var(--muted-foreground)]">
+              Más de 5 años siendo el distribuidor tecnológico de confianza en Venezuela. Equipos certificados, garantía real y atención personalizada.
+            </p>
+
+            {/* CTA WhatsApp */}
+            <a
+              href="https://wa.me/584223668201?text=Hola%20ENOVA%20CORP%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group/cta self-start inline-flex items-center gap-2.5 border border-[var(--brass)]/40 px-5 py-2.5 font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass)] transition-all duration-200 hover:border-[var(--brass)] hover:bg-[var(--brass)]/8"
             >
-              {/* Número fantasma — marca de agua decorativa */}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute right-5 top-3 select-none font-mono-ui text-[80px] font-bold leading-none text-[var(--foreground)] opacity-[0.04]"
-              >
-                {p.num}
+              Contáctanos
+              <span aria-hidden="true" className="transition-transform duration-200 group-hover/cta:translate-x-0.5">
+                →
               </span>
+            </a>
+          </div>
 
-              {/* Línea brass izquierda — se desliza hacia abajo al hacer hover */}
-              <div className="absolute left-0 top-0 h-0 w-[2px] bg-[var(--brass)] transition-all duration-500 group-hover:h-full" />
+          {/* ── Columna derecha: grid 2×2 ── */}
+          <div className="grid grid-cols-2 gap-3">
+            {pillars.map((p) => (
+              <div
+                key={p.num}
+                className="group flex flex-col gap-5 border border-[var(--hairline)] bg-[var(--surface-1)] p-5 transition-all duration-300 hover:border-[var(--brass)]/30 hover:shadow-[0_4px_24px_-4px_rgba(0,87,183,0.10)] sm:p-6"
+                style={{ borderTop: "2px solid var(--brass)" }}
+              >
+                {/* Icono + número */}
+                <div className="flex items-center justify-between">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center bg-[var(--brass)]/10 text-[var(--brass)] transition-transform duration-300 group-hover:scale-105">
+                    {p.icon}
+                  </div>
+                  <span className="font-mono-ui text-[10px] tracking-[0.12em] text-[var(--muted-foreground)]">
+                    {p.num}
+                  </span>
+                </div>
 
-              {/* Icono */}
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--brass)]/10 text-[var(--brass)] transition-transform duration-300 group-hover:scale-105">
-                {p.icon}
+                {/* Contenido */}
+                <div>
+                  <h3 className="font-display text-[15px] font-medium leading-snug tracking-[-0.01em] text-foreground sm:text-base">
+                    {p.title}
+                  </h3>
+                  <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)] sm:text-[13px]">
+                    {p.desc}
+                  </p>
+                </div>
               </div>
+            ))}
+          </div>
 
-              {/* Contenido */}
-              <div className="flex flex-col gap-3">
-                <span className="font-mono-ui text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--brass)]">
-                  {p.num}
-                </span>
-                <h3 className="font-display text-[1.2rem] font-medium leading-snug tracking-[-0.02em] text-foreground">
-                  {p.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">
-                  {p.desc}
-                </p>
-              </div>
-            </div>
-          ))}
         </div>
-
       </div>
     </section>
   )
