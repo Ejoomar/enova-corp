@@ -83,9 +83,6 @@ export function Header() {
             >
               <Search className="h-3.5 w-3.5" />
               <span className="font-mono-ui text-[11px] uppercase tracking-[0.14em]">Buscar</span>
-              <kbd className="ml-1 rounded border border-[var(--hairline)] px-1 py-0.5 font-mono-ui text-[10px] text-[var(--muted-foreground)]">
-                ⌘K
-              </kbd>
             </Button>
 
             <Button variant="ghost" size="icon" className="h-9 w-9 md:hidden" onClick={() => setSearchOpen(true)}>
