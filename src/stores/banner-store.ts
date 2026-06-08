@@ -177,6 +177,10 @@ export const useBannerStore = create<BannerStore>()(
         set({ slides: updated })
       },
     }),
-    { name: 'enova-banners' }
+    {
+      name: 'enova-banners',
+      version: 3,
+      migrate: () => ({ slides: DEFAULT_SLIDES }),
+    }
   )
 )
