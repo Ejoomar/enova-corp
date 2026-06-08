@@ -4,10 +4,12 @@ import { useEffect } from "react"
 import Link from "next/link"
 import { ProductCard } from "@/components/products/ProductCard"
 import { useProductsStore } from "@/stores/products-store"
+import { useDolarRate } from "@/hooks/useDolarRate"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export function FeaturedProducts() {
   const { featuredProducts, fetchFeaturedProducts } = useProductsStore()
+  const { bcv } = useDolarRate()
 
   useEffect(() => {
     fetchFeaturedProducts()
@@ -44,7 +46,7 @@ export function FeaturedProducts() {
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
             {featuredProducts.slice(0, 8).map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} bsfRate={bcv} />
             ))}
           </div>
         )}

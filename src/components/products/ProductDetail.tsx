@@ -98,11 +98,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   + IVA
                 </span>
               )}
-              {hasDiscount && (
-                <span className="text-lg text-muted-foreground line-through">
-                  {formatUSD(product.originalPrice!)}
-                </span>
-              )}
+              {/* originalPrice shown only in admin — hidden on storefront */}
             </div>
             {bcv !== null && (
               <div className="flex flex-col gap-0.5">

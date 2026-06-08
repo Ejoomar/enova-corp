@@ -138,11 +138,6 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
                   {formatBsF(usdToBsF(product.price, bsfRate))}
                 </p>
               )}
-              {hasDiscount && (
-                <p className="font-mono-ui text-[10px] tabular-nums text-[var(--muted-foreground)] line-through">
-                  {formatUSD(product.originalPrice!)}
-                </p>
-              )}
             </>
           )}
         </div>
