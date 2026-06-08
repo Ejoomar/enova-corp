@@ -7,14 +7,22 @@ import { useProductsStore } from "@/stores/products-store"
 import { Skeleton } from "@/components/ui/skeleton"
 
 const categoryImages: Record<string, string> = {
-  "laptops":          "/images/categories/laptops.svg",
-  "perifericos":      "/images/categories/perifericos.svg",
-  "redes":            "/images/categories/redes.svg",
-  "impresoras":       "/images/categories/impresoras.svg",
-  "equipos-fiscales": "/images/categories/fiscales.svg",
-  "consumibles":      "/images/categories/consumibles.svg",
-  "camaras":          "/images/categories/camaras.svg",
-  "otros":            "/images/categories/otros.svg",
+  // Laptop abierta sobre escritorio oscuro — Tianyi Ma / Unsplash
+  "laptops":          "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&h=600&fit=crop&auto=format&q=80",
+  // Teclado mecánico RGB retroiluminado — Florian Krumm / Unsplash
+  "perifericos":      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&h=600&fit=crop&auto=format&q=80",
+  // Cables ethernet conectados a switch — Jordan Harrison / Unsplash
+  "redes":            "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop&auto=format&q=80",
+  // Impresora de oficina — Markus Spiske / Unsplash
+  "impresoras":       "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&h=600&fit=crop&auto=format&q=80",
+  // Terminal de pago / POS — Clay Banks / Unsplash
+  "equipos-fiscales": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&auto=format&q=80",
+  // Cartuchos de tinta sobre superficie — Unsplash
+  "consumibles":      "https://images.unsplash.com/photo-1481487196290-c152efe083f5?w=800&h=600&fit=crop&auto=format&q=80",
+  // Cámara domo de seguridad montada — Lianhao Song / Unsplash
+  "camaras":          "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&h=600&fit=crop&auto=format&q=80",
+  // Placa de circuito / electrónica — Alexandre Debiève / Unsplash
+  "otros":            "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop&auto=format&q=80",
 }
 
 /* ── Desktop filmstrip card ── */
