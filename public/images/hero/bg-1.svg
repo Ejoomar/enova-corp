@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#020817"/>
+      <stop offset="50%" style="stop-color:#0a1628"/>
+      <stop offset="100%" style="stop-color:#0c1e3d"/>
+    </linearGradient>
+    <linearGradient id="gold1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#C9A84C;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#E8C96B;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#C9A84C;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="glow1">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="glowCenter" cx="70%" cy="50%" r="40%">
+      <stop offset="0%" style="stop-color:#1a3a7a;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#020817;stop-opacity:0"/>
+    </radialGradient>
+    <radialGradient id="goldGlow" cx="75%" cy="40%" r="25%">
+      <stop offset="0%" style="stop-color:#C9A84C;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#C9A84C;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Base background -->
+  <rect width="1440" height="420" fill="url(#bg1)"/>
+  <rect width="1440" height="420" fill="url(#glowCenter)"/>
+  <rect width="1440" height="420" fill="url(#goldGlow)"/>
+
+  <!-- Circuit grid lines horizontal -->
+  <g stroke="#1e3a6e" stroke-width="0.5" opacity="0.4">
+    <line x1="0" y1="60" x2="1440" y2="60"/>
+    <line x1="0" y1="120" x2="1440" y2="120"/>
+    <line x1="0" y1="180" x2="1440" y2="180"/>
+    <line x1="0" y1="240" x2="1440" y2="240"/>
+    <line x1="0" y1="300" x2="1440" y2="300"/>
+    <line x1="0" y1="360" x2="1440" y2="360"/>
+  </g>
+  <!-- Circuit grid lines vertical -->
+  <g stroke="#1e3a6e" stroke-width="0.5" opacity="0.4">
+    <line x1="120" y1="0" x2="120" y2="420"/>
+    <line x1="240" y1="0" x2="240" y2="420"/>
+    <line x1="360" y1="0" x2="360" y2="420"/>
+    <line x1="480" y1="0" x2="480" y2="420"/>
+    <line x1="600" y1="0" x2="600" y2="420"/>
+    <line x1="720" y1="0" x2="720" y2="420"/>
+    <line x1="840" y1="0" x2="840" y2="420"/>
+    <line x1="960" y1="0" x2="960" y2="420"/>
+    <line x1="1080" y1="0" x2="1080" y2="420"/>
+    <line x1="1200" y1="0" x2="1200" y2="420"/>
+    <line x1="1320" y1="0" x2="1320" y2="420"/>
+  </g>
+
+  <!-- Circuit board traces (gold) -->
+  <g stroke="#C9A84C" stroke-width="1.5" fill="none" opacity="0.5" filter="url(#glow1)">
+    <polyline points="800,60 900,60 900,120 1020,120 1020,180 1140,180"/>
+    <polyline points="960,180 960,240 1080,240 1080,300 1200,300"/>
+    <polyline points="840,300 840,240 720,240 720,180 840,180 840,120"/>
+    <polyline points="1080,60 1080,120 1200,120 1200,180 1320,180 1320,240 1440,240"/>
+    <polyline points="1200,300 1200,360 1080,360"/>
+    <polyline points="720,300 600,300 600,360 480,360"/>
+  </g>
+
+  <!-- Circuit nodes (gold dots) -->
+  <g fill="#C9A84C" opacity="0.8" filter="url(#glow1)">
+    <circle cx="900" cy="60" r="3"/>
+    <circle cx="900" cy="120" r="3"/>
+    <circle cx="1020" cy="120" r="3"/>
+    <circle cx="1020" cy="180" r="3"/>
+    <circle cx="1140" cy="180" r="3"/>
+    <circle cx="960" cy="180" r="3"/>
+    <circle cx="960" cy="240" r="3"/>
+    <circle cx="1080" cy="240" r="3"/>
+    <circle cx="1080" cy="300" r="3"/>
+    <circle cx="1200" cy="300" r="3"/>
+    <circle cx="840" cy="240" r="3"/>
+    <circle cx="720" cy="240" r="3"/>
+    <circle cx="720" cy="180" r="3"/>
+    <circle cx="840" cy="120" r="3"/>
+    <circle cx="1080" cy="60" r="3"/>
+    <circle cx="1080" cy="120" r="3"/>
+    <circle cx="1200" cy="120" r="3"/>
+    <circle cx="1200" cy="180" r="3"/>
+    <circle cx="1320" cy="180" r="3"/>
+    <circle cx="1320" cy="240" r="3"/>
+    <circle cx="1200" cy="360" r="3"/>
+    <circle cx="600" cy="300" r="3"/>
+    <circle cx="600" cy="360" r="3"/>
+    <circle cx="480" cy="360" r="3"/>
+  </g>
+
+  <!-- Large glowing nodes -->
+  <g filter="url(#glow2)">
+    <circle cx="1020" cy="180" r="5" fill="#E8C96B" opacity="0.9"/>
+    <circle cx="1200" cy="300" r="5" fill="#E8C96B" opacity="0.9"/>
+    <circle cx="960" cy="240" r="4" fill="#C9A84C" opacity="0.7"/>
+    <circle cx="1320" cy="180" r="4" fill="#C9A84C" opacity="0.7"/>
+  </g>
+
+  <!-- Diagonal accent lines -->
+  <line x1="700" y1="0" x2="900" y2="420" stroke="#1a3a8a" stroke-width="1" opacity="0.3"/>
+  <line x1="750" y1="0" x2="950" y2="420" stroke="#1a3a8a" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Gold top accent bar -->
+  <rect x="0" y="0" width="1440" height="2" fill="url(#gold1)" opacity="0.8"/>
+
+  <!-- Floating rectangles (tech chip shapes) -->
+  <rect x="950" y="150" width="60" height="40" rx="4" fill="none" stroke="#2a5a9e" stroke-width="1" opacity="0.4"/>
+  <rect x="1100" y="250" width="80" height="30" rx="4" fill="none" stroke="#2a5a9e" stroke-width="1" opacity="0.4"/>
+  <rect x="820" y="200" width="50" height="50" rx="4" fill="none" stroke="#C9A84C" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- ENOVA text watermark (subtle) -->
+  <text x="720" y="330" font-family="monospace" font-size="120" fill="#0d2a5e" opacity="0.12" font-weight="bold" letter-spacing="20">ENOVA</text>
+</svg>

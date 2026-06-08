@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#050505"/>
+      <stop offset="50%" style="stop-color:#0d1520"/>
+      <stop offset="100%" style="stop-color:#1a2744"/>
+    </linearGradient>
+    <linearGradient id="line2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0"/>
+    </linearGradient>
+    <radialGradient id="glow2r" cx="65%" cy="45%" r="35%">
+      <stop offset="0%" style="stop-color:#1d4ed8;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#050505;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="blur2">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="blur2s">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+
+  <rect width="1440" height="420" fill="url(#bg2)"/>
+  <rect width="1440" height="420" fill="url(#glow2r)"/>
+
+  <!-- Diagonal geometric lines -->
+  <g stroke="#1e40af" stroke-width="1" opacity="0.25">
+    <line x1="-100" y1="100" x2="600" y2="600"/>
+    <line x1="0" y1="0" x2="700" y2="700"/>
+    <line x1="100" y1="-50" x2="800" y2="700"/>
+    <line x1="200" y1="-100" x2="900" y2="700"/>
+    <line x1="600" y1="-100" x2="1300" y2="700"/>
+    <line x1="700" y1="-100" x2="1400" y2="700"/>
+    <line x1="800" y1="-100" x2="1500" y2="700"/>
+    <line x1="900" y1="-100" x2="1600" y2="700"/>
+  </g>
+
+  <!-- Horizontal scan lines -->
+  <g stroke="#1e3a8a" stroke-width="0.5" opacity="0.3">
+    <line x1="0" y1="70" x2="1440" y2="70"/>
+    <line x1="0" y1="140" x2="1440" y2="140"/>
+    <line x1="0" y1="210" x2="1440" y2="210"/>
+    <line x1="0" y1="280" x2="1440" y2="280"/>
+    <line x1="0" y1="350" x2="1440" y2="350"/>
+  </g>
+
+  <!-- Laptop outline shape (abstract) -->
+  <g fill="none" stroke="#2563eb" stroke-width="1.5" opacity="0.35">
+    <!-- Screen -->
+    <rect x="820" y="60" width="420" height="260" rx="12" stroke-width="2"/>
+    <!-- Keyboard base -->
+    <rect x="800" y="330" width="460" height="30" rx="6"/>
+    <!-- Screen inner -->
+    <rect x="840" y="80" width="380" height="220" rx="6" stroke-width="1" opacity="0.5"/>
+    <!-- Hinge line -->
+    <line x1="800" y1="325" x2="1260" y2="325" stroke-width="1"/>
+  </g>
+
+  <!-- Screen content lines (code-like) -->
+  <g stroke="#3b82f6" stroke-width="1.5" opacity="0.4" stroke-linecap="round">
+    <line x1="860" y1="110" x2="960" y2="110"/>
+    <line x1="860" y1="130" x2="1050" y2="130"/>
+    <line x1="875" y1="150" x2="980" y2="150"/>
+    <line x1="875" y1="170" x2="1100" y2="170"/>
+    <line x1="860" y1="190" x2="1020" y2="190"/>
+    <line x1="875" y1="210" x2="1080" y2="210"/>
+    <line x1="875" y1="230" x2="940" y2="230"/>
+    <line x1="860" y1="250" x2="1060" y2="250"/>
+    <line x1="875" y1="270" x2="990" y2="270"/>
+  </g>
+
+  <!-- Glowing accent dots -->
+  <g filter="url(#blur2)">
+    <circle cx="820" cy="60" r="4" fill="#60a5fa" opacity="0.9"/>
+    <circle cx="1240" cy="60" r="4" fill="#60a5fa" opacity="0.9"/>
+    <circle cx="820" cy="320" r="4" fill="#60a5fa" opacity="0.9"/>
+    <circle cx="1240" cy="320" r="4" fill="#60a5fa" opacity="0.9"/>
+    <circle cx="1030" cy="190" r="6" fill="#93c5fd" opacity="0.7"/>
+  </g>
+
+  <!-- Blue glowing line accent -->
+  <rect x="0" y="0" width="1440" height="2" fill="url(#line2)"/>
+
+  <!-- Floating particles -->
+  <g fill="#3b82f6" opacity="0.5">
+    <circle cx="650" cy="80" r="2"/>
+    <circle cx="620" cy="200" r="1.5"/>
+    <circle cx="700" cy="300" r="2"/>
+    <circle cx="550" cy="150" r="1"/>
+    <circle cx="730" cy="360" r="1.5"/>
+    <circle cx="600" cy="280" r="2"/>
+    <circle cx="680" cy="120" r="1"/>
+  </g>
+
+  <!-- DELL · LENOVO watermark -->
+  <text x="30" y="380" font-family="monospace" font-size="90" fill="#0d2040" opacity="0.15" font-weight="bold" letter-spacing="10">LAPTOPS</text>
+</svg>

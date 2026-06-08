@@ -42,18 +42,18 @@ export function HeroBanner() {
               className={`relative min-w-full bg-gradient-to-r ${slide.bg}`}
               style={{ minHeight: 380 }}
             >
-              {/* ── Imagen de fondo — solo móvil ── */}
+              {/* ── Fondo SVG — todas las pantallas ── */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={slide.image}
+                src={slide.bgImage}
                 alt=""
                 aria-hidden="true"
                 loading={slide.order === 0 ? "eager" : "lazy"}
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-cover object-center lg:hidden"
+                className="absolute inset-0 h-full w-full object-cover object-center"
               />
-              {/* Overlay oscuro para legibilidad del texto — solo móvil */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/65 to-black/80 lg:hidden" />
+              {/* Overlay oscuro para legibilidad del texto en móvil */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60 lg:from-transparent lg:via-transparent lg:to-transparent" />
 
               {/* Noise overlay */}
               <div
