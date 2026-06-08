@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useTransition } from "react"
+import { useState, useMemo } from "react"
 import Image from "next/image"
 import {
   useReactTable,
@@ -49,6 +49,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import type { PaymentProofMock } from "@/app/api/admin/payments/route"
+import { usePaymentsStore } from "@/stores/payments-store"
 
 const STATUS_LABELS: Record<string, string> = {
   pending: "Pendiente",
@@ -62,24 +63,20 @@ const STATUS_VARIANTS: Record<string, "default" | "secondary" | "destructive" | 
   rejected: "destructive",
 }
 
-
 export default function AdminPaymentsPage() {
-  const [data, setData] = useState<PaymentProofMock[]>([])
-  const [loading, setLoading] = useState(true)
+  const { allPayments, updatePaymentStatus } = usePaymentsStore()
   const [statusFilter, setStatusFilter] = useState("all")
   const [sorting, setSorting] = useState<SortingState>([])
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [confirmAction, setConfirmAction] = useState<{ id: string; status: "approved" | "rejected" } | null>(null)
-  const [isPending, startTransition] = useTransition()
 
-  useEffect(() => {
-    setLoading(true)
-    const url = statusFilter === "all" ? "/api/admin/payments" : `/api/admin/payments?status=${statusFilter}`
-    fetch(url)
-      .then((r) => r.json())
-      .then((json) => { setData(json.data ?? []); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [statusFilter])
+  const data = useMemo(
+    () =>
+      statusFilter === "all"
+        ? allPayments
+        : allPayments.filter((p) => p.status === statusFilter),
+    [allPayments, statusFilter]
+  )
 
   function handleAction(id: string, status: "approved" | "rejected") {
     setConfirmAction({ id, status })
@@ -87,19 +84,8 @@ export default function AdminPaymentsPage() {
 
   function confirmPaymentAction() {
     if (!confirmAction) return
-    startTransition(async () => {
-      await fetch(`/api/admin/payments/${confirmAction.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: confirmAction.status }),
-      })
-      setData((prev) =>
-        prev.map((p) =>
-          p.id === confirmAction.id ? { ...p, status: confirmAction.status } : p
-        )
-      )
-      setConfirmAction(null)
-    })
+    updatePaymentStatus(confirmAction.id, confirmAction.status)
+    setConfirmAction(null)
   }
 
   const columns: ColumnDef<PaymentProofMock>[] = [
@@ -274,17 +260,7 @@ export default function AdminPaymentsPage() {
               ))}
             </TableHeader>
             <TableBody>
-              {loading ? (
-                Array.from({ length: 4 }).map((_, i) => (
-                  <TableRow key={i}>
-                    {columns.map((_, j) => (
-                      <TableCell key={j}>
-                        <div className="h-4 animate-pulse rounded bg-muted" />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : table.getRowModel().rows.length === 0 ? (
+              {table.getRowModel().rows.length === 0 ? (
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
@@ -373,18 +349,13 @@ export default function AdminPaymentsPage() {
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmPaymentAction}
-              disabled={isPending}
               className={
                 confirmAction?.status === "rejected"
                   ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
                   : ""
               }
             >
-              {isPending
-                ? "Procesando..."
-                : confirmAction?.status === "approved"
-                ? "Aprobar"
-                : "Rechazar"}
+              {confirmAction?.status === "approved" ? "Aprobar" : "Rechazar"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

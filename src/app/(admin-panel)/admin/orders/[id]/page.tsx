@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useState, useTransition } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Package, MapPin, CreditCard, Calendar, Hash } from "lucide-react"
@@ -14,56 +13,20 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import type { Order } from "@/data/mock-orders"
+import { useOrdersStore } from "@/stores/orders-store"
 import { ORDER_STATUS_LABELS as STATUS_LABELS, ORDER_STATUS_VARIANTS as STATUS_VARIANTS } from "@/lib/order-status"
 
 export default function AdminOrderDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
-  const [order, setOrder] = useState<Order | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [notFound, setNotFound] = useState(false)
-  const [, startTransition] = useTransition()
-
-  useEffect(() => {
-    setLoading(true)
-    fetch(`/api/admin/orders/${id}`)
-      .then((r) => {
-        if (r.status === 404) { setNotFound(true); setLoading(false); return null }
-        return r.json()
-      })
-      .then((json) => {
-        if (json) { setOrder(json.data); setLoading(false) }
-      })
-      .catch(() => setLoading(false))
-  }, [id])
+  const { allOrders, updateOrderStatus } = useOrdersStore()
+  const order = allOrders.find((o) => o.id === id) ?? null
 
   function changeStatus(status: string) {
-    if (!order) return
-    startTransition(async () => {
-      await fetch(`/api/admin/orders/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
-      })
-      setOrder((prev) => prev ? { ...prev, status: status as Order["status"] } : prev)
-    })
+    updateOrderStatus(id, status as Order["status"])
   }
 
-  if (loading) {
-    return (
-      <div className="space-y-6">
-        <div className="h-8 w-48 animate-pulse rounded bg-muted" />
-        <div className="grid gap-6 lg:grid-cols-3">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-40 animate-pulse rounded-lg bg-muted" />
-          ))}
-        </div>
-        <div className="h-64 animate-pulse rounded-lg bg-muted" />
-      </div>
-    )
-  }
-
-  if (notFound || !order) {
+  if (!order) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
         <Package className="h-12 w-12 text-muted-foreground/40" />

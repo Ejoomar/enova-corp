@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useTransition } from "react"
+import { useState, useMemo } from "react"
 import {
   useReactTable,
   getCoreRowModel,
@@ -34,38 +34,26 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import type { Order } from "@/data/mock-orders"
-
+import { useOrdersStore } from "@/stores/orders-store"
 import { ORDER_STATUS_LABELS as STATUS_LABELS, ORDER_STATUS_VARIANTS as STATUS_VARIANTS } from "@/lib/order-status"
 
 export default function AdminOrdersPage() {
-  const [data, setData] = useState<Order[]>([])
-  const [loading, setLoading] = useState(true)
+  const { allOrders, updateOrderStatus } = useOrdersStore()
   const [statusFilter, setStatusFilter] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [, startTransition] = useTransition()
 
-  useEffect(() => {
-    setLoading(true)
-    const url = statusFilter === "all" ? "/api/admin/orders" : `/api/admin/orders?status=${statusFilter}`
-    fetch(url)
-      .then((r) => r.json())
-      .then((json) => { setData(json.data ?? []); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [statusFilter])
+  const data = useMemo(
+    () =>
+      statusFilter === "all"
+        ? allOrders
+        : allOrders.filter((o) => o.status === statusFilter),
+    [allOrders, statusFilter]
+  )
 
   function changeOrderStatus(id: string, status: string) {
-    startTransition(async () => {
-      await fetch(`/api/admin/orders/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
-      })
-      setData((prev) =>
-        prev.map((o) => (o.id === id ? { ...o, status: status as Order["status"] } : o))
-      )
-    })
+    updateOrderStatus(id, status as Order["status"])
   }
 
   const columns: ColumnDef<Order>[] = [
@@ -212,17 +200,7 @@ export default function AdminOrdersPage() {
             ))}
           </TableHeader>
           <TableBody>
-            {loading ? (
-              Array.from({ length: 5 }).map((_, i) => (
-                <TableRow key={i}>
-                  {columns.map((_, j) => (
-                    <TableCell key={j}>
-                      <div className="h-4 animate-pulse rounded bg-muted" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : table.getRowModel().rows.length === 0 ? (
+            {table.getRowModel().rows.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
