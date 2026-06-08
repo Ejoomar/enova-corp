@@ -31,9 +31,10 @@ interface FilmCardProps {
   name: string
   slug: string
   productCount: number
+  priority?: boolean
 }
 
-function FilmCard({ index, name, slug, productCount }: FilmCardProps) {
+function FilmCard({ index, name, slug, productCount, priority = false }: FilmCardProps) {
   const imgWrapRef = useRef<HTMLDivElement>(null)
   const num = String(index + 1).padStart(2, "0")
   const imageSrc = categoryImages[slug]
@@ -77,6 +78,7 @@ function FilmCard({ index, name, slug, productCount }: FilmCardProps) {
             src={imageSrc}
             alt={name}
             fill
+            priority={priority}
             className="film-img object-cover"
             sizes="20vw"
           />
@@ -112,9 +114,10 @@ interface MobileCardProps {
   name: string
   slug: string
   productCount: number
+  priority?: boolean
 }
 
-function MobileCard({ name, slug, productCount }: MobileCardProps) {
+function MobileCard({ name, slug, productCount, priority = false }: MobileCardProps) {
   const imageSrc = categoryImages[slug]
   return (
     <Link
@@ -127,6 +130,7 @@ function MobileCard({ name, slug, productCount }: MobileCardProps) {
           src={imageSrc}
           alt={name}
           fill
+          priority={priority}
           className="object-cover brightness-[0.55] transition-transform duration-500 group-active:scale-105"
           sizes="(max-width: 640px) 50vw, 33vw"
         />
@@ -174,12 +178,13 @@ export function CategoryGrid() {
           ) : (
             <>
               <div className="grid grid-cols-2 gap-2">
-                {categories.slice(0, 6).map((category) => (
+                {categories.map((category, i) => (
                   <MobileCard
                     key={category.id}
                     name={category.name}
                     slug={category.slug}
                     productCount={category.productCount}
+                    priority={i < 2}
                   />
                 ))}
               </div>
@@ -198,13 +203,14 @@ export function CategoryGrid() {
           ) : (
             <>
               <div className="filmstrip-grid flex h-[380px] gap-0.5 overflow-hidden rounded-lg border border-[var(--hairline)]">
-                {categories.slice(0, 6).map((category, i) => (
+                {categories.map((category, i) => (
                   <FilmCard
                     key={category.id}
                     index={i}
                     name={category.name}
                     slug={category.slug}
                     productCount={category.productCount}
+                    priority={i < 2}
                   />
                 ))}
               </div>

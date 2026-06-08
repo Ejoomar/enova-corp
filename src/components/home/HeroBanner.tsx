@@ -31,6 +31,17 @@ export function HeroBanner() {
     return () => { emblaApi.off("select", onSelect) }
   }, [emblaApi])
 
+  // Skeleton mientras Zustand hidrata desde localStorage
+  if (slides.length === 0) {
+    return (
+      <section
+        className="relative w-full border-b border-[var(--hairline)] animate-pulse bg-[var(--surface-1)]"
+        style={{ minHeight: 380 }}
+        aria-hidden="true"
+      />
+    )
+  }
+
   return (
     <section className="relative w-full overflow-hidden border-b border-[var(--hairline)]">
       <div ref={emblaRef} className="overflow-hidden">
@@ -48,6 +59,7 @@ export function HeroBanner() {
                 alt=""
                 aria-hidden="true"
                 loading={slide.order === 0 ? "eager" : "lazy"}
+                fetchPriority={slide.order === 0 ? "high" : "auto"}
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"
                 style={{ objectPosition: slide.imagePosition ?? "center center" }}
@@ -116,39 +128,44 @@ export function HeroBanner() {
         </div>
       </div>
 
-      {/* Arrow — Prev */}
-      <button
-        onClick={scrollPrev}
-        className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition hover:bg-black/50 lg:left-5"
-        aria-label="Anterior"
-      >
-        <ChevronLeft className="h-5 w-5" />
-      </button>
-
-      {/* Arrow — Next */}
-      <button
-        onClick={scrollNext}
-        className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition hover:bg-black/50 lg:right-5"
-        aria-label="Siguiente"
-      >
-        <ChevronRight className="h-5 w-5" />
-      </button>
-
-      {/* Dot indicators */}
-      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-        {slides.map((_, i) => (
+      {/* Arrows and dots — only when there is more than one slide */}
+      {slides.length > 1 && (
+        <>
+          {/* Arrow — Prev */}
           <button
-            key={i}
-            onClick={() => scrollTo(i)}
-            aria-label={`Ir a slide ${i + 1}`}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === selectedIndex
-                ? "w-6 bg-[var(--brass-bright)]"
-                : "w-1.5 bg-white/40 hover:bg-white/70"
-            }`}
-          />
-        ))}
-      </div>
+            onClick={scrollPrev}
+            className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition hover:bg-black/50 lg:left-5"
+            aria-label="Anterior"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+
+          {/* Arrow — Next */}
+          <button
+            onClick={scrollNext}
+            className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition hover:bg-black/50 lg:right-5"
+            aria-label="Siguiente"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          {/* Dot indicators */}
+          <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => scrollTo(i)}
+                aria-label={`Ir a slide ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === selectedIndex
+                    ? "w-6 bg-[var(--brass-bright)]"
+                    : "w-1.5 bg-white/40 hover:bg-white/70"
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </section>
   )
 }
