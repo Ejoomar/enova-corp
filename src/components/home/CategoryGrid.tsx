@@ -15,10 +15,10 @@ const categoryImages: Record<string, string> = {
   "redes":            "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop&auto=format&q=80",
   // Impresora de oficina — Markus Spiske / Unsplash
   "impresoras":       "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&h=600&fit=crop&auto=format&q=80",
-  // Terminal de pago / POS — Clay Banks / Unsplash
-  "equipos-fiscales": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&auto=format&q=80",
-  // Cartuchos de tinta sobre superficie — Unsplash
-  "consumibles":      "https://images.unsplash.com/photo-1481487196290-c152efe083f5?w=800&h=600&fit=crop&auto=format&q=80",
+  // Impresora blanca/gris sobre mesa — Mufid Majnun / Unsplash
+  "equipos-fiscales": "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=800&h=600&fit=crop&auto=format&q=80",
+  // Tanque de tinta HP de cerca — Mahen Rin / Unsplash
+  "consumibles":      "https://images.unsplash.com/photo-1740884730591-8f4878e2cc64?w=800&h=600&fit=crop&auto=format&q=80",
   // Cámara domo de seguridad montada — Lianhao Song / Unsplash
   "camaras":          "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&h=600&fit=crop&auto=format&q=80",
   // Placa de circuito / electrónica — Alexandre Debiève / Unsplash
