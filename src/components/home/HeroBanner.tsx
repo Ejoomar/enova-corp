@@ -50,7 +50,8 @@ export function HeroBanner() {
                 aria-hidden="true"
                 loading={slide.order === 0 ? "eager" : "lazy"}
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-cover object-center"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ objectPosition: slide.imagePosition ?? "center center" }}
               />
               {/* Overlay oscuro para legibilidad del texto en móvil */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60 lg:from-transparent lg:via-transparent lg:to-transparent" />
@@ -117,7 +118,8 @@ export function HeroBanner() {
                       src={slide.image}
                       alt={slide.imageAlt}
                       fill
-                      className="rounded-2xl object-cover object-center drop-shadow-2xl"
+                      className="rounded-2xl object-cover drop-shadow-2xl"
+                      style={{ objectPosition: slide.imagePosition ?? "center center" }}
                       sizes="500px"
                       priority={slide.order === 0}
                     />

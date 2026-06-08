@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -49,11 +49,18 @@ export function BannerForm({ slide }: BannerFormProps) {
   const { addSlide, updateSlide } = useBannerStore()
 
   const [imageUrl, setImageUrl] = useState(slide?.image ?? "")
-  const [selectedBg, setSelectedBg] = useState(
-    slide?.bg ?? BG_PRESETS[0].value
-  )
+  const [imagePosition, setImagePosition] = useState(slide?.imagePosition ?? "center center")
+  const [selectedBg, setSelectedBg] = useState(slide?.bg ?? BG_PRESETS[0].value)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState("")
+  const previewRef = useRef<HTMLDivElement>(null)
+
+  const handleFocalClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100)
+    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100)
+    setImagePosition(`${x}% ${y}%`)
+  }, [])
 
   const isEdit = Boolean(slide)
 
@@ -107,9 +114,10 @@ export function BannerForm({ slide }: BannerFormProps) {
   const onSubmit = (values: BannerFormValues) => {
     const payload = {
       ...values,
-      image:    imageUrl || "/images/hero/slide-1.jpg",
-      bgImage:  imageUrl || slide?.bgImage || "/images/hero/bg-1.svg",
-      bg:       selectedBg,
+      image:         imageUrl || "/images/hero/slide-1.jpg",
+      bgImage:       imageUrl || slide?.bgImage || "/images/hero/bg-1.svg",
+      imagePosition: imagePosition,
+      bg:            selectedBg,
       tagColor: values.isBrand
         ? "bg-[var(--brass)]/20 text-[var(--brass-bright)] border border-[var(--brass)]/40"
         : "bg-white/15 text-white border border-white/25",
@@ -146,24 +154,68 @@ export function BannerForm({ slide }: BannerFormProps) {
           Imagen del Banner
         </h2>
 
-        {/* Preview */}
-        <div className={cn(
-          "relative h-40 w-full overflow-hidden rounded-xl bg-gradient-to-r",
-          selectedBg
-        )}>
+        {/* Preview + Focal point picker */}
+        <div
+          ref={previewRef}
+          onClick={imageUrl ? handleFocalClick : undefined}
+          className={cn(
+            "relative h-44 w-full overflow-hidden rounded-xl bg-gradient-to-r select-none",
+            selectedBg,
+            imageUrl ? "cursor-crosshair" : "cursor-default"
+          )}
+        >
           {imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={imageUrl}
-              alt="Preview"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageUrl}
+                alt="Preview"
+                className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+                style={{ objectPosition: imagePosition }}
+                draggable={false}
+              />
+              {/* Focal point marker */}
+              {(() => {
+                const [px, py] = imagePosition.split(" ").map((v) => parseFloat(v))
+                return (
+                  <div
+                    className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-1/2"
+                    style={{ left: `${px}%`, top: `${py}%` }}
+                  >
+                    <div className="relative flex items-center justify-center">
+                      <div className="h-5 w-5 rounded-full border-2 border-white shadow-lg shadow-black/50 bg-white/20" />
+                      <div className="absolute h-0.5 w-8 bg-white/70" />
+                      <div className="absolute h-8 w-0.5 bg-white/70" />
+                    </div>
+                  </div>
+                )
+              })()}
+              {/* Instruction overlay */}
+              <div className="absolute bottom-2 right-2 rounded-md bg-black/60 px-2 py-1 text-[10px] text-white/80 pointer-events-none">
+                Clic para elegir el punto focal
+              </div>
+            </>
           ) : (
             <div className="flex h-full items-center justify-center text-white/30 text-sm">
               Sin imagen — sube una o ingresa una URL
             </div>
           )}
         </div>
+
+        {/* Position label */}
+        {imageUrl && (
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="font-medium">Posición:</span>
+            <code className="rounded bg-muted px-1.5 py-0.5">{imagePosition}</code>
+            <button
+              type="button"
+              onClick={() => setImagePosition("center center")}
+              className="ml-auto text-xs text-primary hover:underline"
+            >
+              Centrar
+            </button>
+          </div>
+        )}
 
         {/* Upload */}
         <div className="flex items-center gap-3">

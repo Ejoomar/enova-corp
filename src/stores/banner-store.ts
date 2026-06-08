@@ -14,6 +14,7 @@ export interface BannerSlide {
   image: string
   imageAlt: string
   bgImage: string
+  imagePosition: string
   bg: string
   tagColor: string
   isBrand: boolean
@@ -35,6 +36,7 @@ const DEFAULT_SLIDES: BannerSlide[] = [
     image: '/images/hero/slide-1.jpg',
     imageAlt: 'ENOVA CORP — Tecnología Venezuela',
     bgImage: '/images/hero/bg-1.svg',
+    imagePosition: 'center center',
     bg: 'from-[#020817] via-[#0a1628] to-[#0c1e3d]',
     tagColor: 'bg-[var(--brass)]/20 text-[var(--brass-bright)] border border-[var(--brass)]/40',
     isBrand: true,
@@ -54,6 +56,7 @@ const DEFAULT_SLIDES: BannerSlide[] = [
     image: '/images/hero/slide-2.jpg',
     imageAlt: 'Dell Vostro laptop',
     bgImage: '/images/hero/bg-2.svg',
+    imagePosition: 'center center',
     bg: 'from-[#0a0a0a] via-[#111827] to-[#1a2744]',
     tagColor: 'bg-white/15 text-white border border-white/25',
     isBrand: false,
@@ -73,6 +76,7 @@ const DEFAULT_SLIDES: BannerSlide[] = [
     image: '/images/hero/slide-3.jpg',
     imageAlt: 'Cámaras de seguridad EZVIZ',
     bgImage: '/images/hero/bg-3.svg',
+    imagePosition: 'center center',
     bg: 'from-[#0c1445] via-[#0f1f5c] to-[#0a2a6e]',
     tagColor: 'bg-white/15 text-white border border-white/25',
     isBrand: false,
@@ -92,6 +96,7 @@ const DEFAULT_SLIDES: BannerSlide[] = [
     image: '/images/hero/slide-4.jpg',
     imageAlt: 'Equipos de red TP-Link',
     bgImage: '/images/hero/bg-4.svg',
+    imagePosition: 'center center',
     bg: 'from-[#0a0a0a] via-[#141414] to-[#1c1c2e]',
     tagColor: 'bg-white/15 text-white border border-white/25',
     isBrand: false,
