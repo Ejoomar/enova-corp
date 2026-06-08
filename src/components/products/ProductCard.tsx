@@ -26,6 +26,10 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
     ? Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100)
     : 0
 
+  // Only show the discount badge on featured or new products — avoid cluttering
+  // every card with a badge when nearly all products have an originalPrice.
+  const showDiscountBadge = hasDiscount && (product.isFeatured || product.isNew)
+
   const productImage = (!imgError && product.images?.[0]) ? product.images[0] : null
   const sinPrecio = !product.price || product.price === 0
 
@@ -39,28 +43,33 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
     <article className="group flex flex-col">
       {/* Media */}
       <Link href={`/products/${product.slug}`} className="relative block">
+        {/*
+          The outer div provides the white background frame.
+          The image lives in an inset inner div so the white
+          border is always visible regardless of image content.
+        */}
         <div className="relative aspect-square overflow-hidden border border-[var(--hairline)] bg-white transition-colors group-hover:border-[var(--brass)]/40">
 
-          {/* Tags */}
-          <div className="absolute left-3 top-3 z-10 flex flex-col gap-1.5">
+          {/* Badges — top-left */}
+          <div className="absolute left-3 top-3 z-10 flex flex-col gap-1">
             {product.isNew && (
-              <span className="font-mono-ui border border-[var(--brass)]/40 px-1.5 py-0.5 text-[10px] uppercase tracking-[0.14em] text-[var(--brass)]">
+              <span className="inline-block bg-[var(--brass)] px-2 py-[3px] text-[10px] font-bold uppercase tracking-[0.1em] text-black">
                 Nuevo
               </span>
             )}
-            {hasDiscount && (
-              <span className="font-mono-ui border border-[var(--muted-foreground)]/30 px-1.5 py-0.5 text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+            {showDiscountBadge && (
+              <span className="inline-block bg-red-600 px-2 py-[3px] text-[10px] font-bold uppercase tracking-[0.1em] text-white">
                 -{discountPercent}%
               </span>
             )}
           </div>
 
-          {/* Quick actions */}
+          {/* Quick actions — top-right */}
           <div className="absolute right-3 top-3 z-10 flex flex-col gap-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 border border-[var(--hairline)] bg-[var(--background)]/80 hover:border-[var(--brass)] hover:text-[var(--brass)]"
+              className="h-7 w-7 border border-[var(--hairline)] bg-white/90 hover:border-[var(--brass)] hover:text-[var(--brass)]"
               aria-label="Ver producto"
               onClick={(e) => {
                 e.preventDefault()
@@ -73,19 +82,19 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
             </Button>
           </div>
 
-          {/* Image */}
-          <div className="relative h-full w-full">
+          {/* Image — inset wrapper creates the white border frame */}
+          <div className="absolute inset-[14px]">
             {productImage ? (
               <Image
                 src={productImage}
                 alt={product.name}
                 fill
-                className="object-contain p-4 grayscale-[8%] contrast-[1.05] transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"
+                className="object-contain mix-blend-multiply contrast-[1.04] transition-transform duration-500 motion-safe:group-hover:scale-[1.04]"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 onError={() => setImgError(true)}
               />
             ) : (
-              <div className="flex h-full items-center justify-center p-4 text-center">
+              <div className="flex h-full items-center justify-center text-center">
                 <span className="font-mono-ui text-[11px] text-[var(--muted-foreground)]">
                   {product.name}
                 </span>

@@ -55,15 +55,30 @@ export function BannerManagerClient() {
             )}
           >
             {/* Thumbnail */}
-            <div className="relative h-16 w-28 shrink-0 overflow-hidden rounded-lg bg-muted">
-              <Image
-                src={slide.image}
-                alt={slide.imageAlt}
-                fill
-                className="object-cover"
-                sizes="112px"
-                onError={() => {}}
-              />
+            <div
+              className="relative h-16 w-28 shrink-0 overflow-hidden rounded-lg"
+              style={{ background: "linear-gradient(to right, #020817, #0a1628, #0c1e3d)" }}
+            >
+              {slide.image ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={slide.image}
+                  alt={slide.imageAlt}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : slide.bgImage ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={slide.bgImage}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 h-full w-full object-cover opacity-60"
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center">
+                  <LayoutTemplate className="h-5 w-5 text-white/40" />
+                </div>
+              )}
               {!slide.active && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50">
                   <EyeOff className="h-4 w-4 text-white" />

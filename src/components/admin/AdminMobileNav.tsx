@@ -11,6 +11,7 @@ import {
   CreditCard,
   Settings,
   Store,
+  LayoutTemplate,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -27,6 +28,7 @@ const navigation = [
   { name: "Productos",      href: "/admin/products",  icon: Package },
   { name: "Pedidos",        href: "/admin/orders",    icon: ShoppingCart },
   { name: "Pagos",          href: "/admin/payments",  icon: CreditCard },
+  { name: "Banners",        href: "/admin/banners",   icon: LayoutTemplate },
   { name: "Configuración",  href: "/admin/settings",  icon: Settings },
 ]
 

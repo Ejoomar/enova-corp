@@ -38,6 +38,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
+      <head>
+        {/* Preload first hero slide so the browser fetches it before React hydrates */}
+        <link rel="preload" href="/images/hero/bg-1.svg" as="image" type="image/svg+xml" />
+      </head>
       <body className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <SessionProvider>
           <ThemeProvider
