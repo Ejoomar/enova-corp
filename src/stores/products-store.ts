@@ -27,6 +27,7 @@ interface ProductsState {
 const MAX_PRICE = 3_000_000
 
 const defaultFilters: FilterState = {
+  search: "",
   categories: [],
   brands: [],
   priceRange: [0, MAX_PRICE],
@@ -48,6 +49,18 @@ export const useProductsStore = create<ProductsState>((set, get) => ({
       const filters = { ...get().filters, ...filterOverrides }
 
       let filtered = [...mockProducts]
+
+      // Text search — name, brand, category, description
+      if (filters.search.trim().length >= 2) {
+        const q = filters.search.trim().toLowerCase()
+        filtered = filtered.filter(
+          (p) =>
+            p.name.toLowerCase().includes(q) ||
+            p.brand.toLowerCase().includes(q) ||
+            p.category.toLowerCase().includes(q) ||
+            (p.description ?? "").toLowerCase().includes(q)
+        )
+      }
 
       if (filters.categories.length > 0) {
         filtered = filtered.filter((p) => filters.categories.includes(p.category))

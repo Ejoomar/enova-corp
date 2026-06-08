@@ -17,59 +17,56 @@ import { SortSelect } from "@/components/products/SortSelect"
 import { useProductsStore } from "@/stores/products-store"
 import { FilterState } from "@/types"
 
-// Inner component that uses useSearchParams
 function ProductsContent() {
   const searchParams = useSearchParams()
-  const { products, loading, filters, setFilters, fetchProducts, fetchCategories, fetchBrands } = useProductsStore()
+  const {
+    products, loading, filters,
+    setFilters, fetchProducts, fetchCategories, fetchBrands,
+  } = useProductsStore()
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
-  // Init categories and brands once
+  // Init categories and brands once on mount
   useEffect(() => {
     fetchCategories()
     fetchBrands()
   }, [fetchCategories, fetchBrands])
 
-  // Re-read URL params every time they change (handles repeat searches)
+  // Every time the URL params change → update filters and fetch
   useEffect(() => {
     const category = searchParams.get("category")
-    const q = searchParams.get("q")
-    setFilters({
-      categories: category ? [category] : [],
-      search: q ?? "",
-    })
-  }, [searchParams, setFilters])
+    const q        = searchParams.get("q")
 
-  // Fetch products whenever filters change
-  useEffect(() => {
-    fetchProducts()
-  }, [filters, fetchProducts])
+    const next: Partial<FilterState> = {
+      search:     q        ?? "",
+      categories: category ? [category] : [],
+    }
+
+    setFilters(next)
+    fetchProducts(next)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams])
 
   const handleFiltersChange = useCallback((newFilters: FilterState) => {
     setFilters(newFilters)
-  }, [setFilters])
+    fetchProducts(newFilters)
+  }, [setFilters, fetchProducts])
 
   const activeFilterCount =
     filters.brands.length +
     filters.categories.length +
-    (filters.priceRange[0] > 0 || filters.priceRange[1] < 3000000 ? 1 : 0) +
+    (filters.priceRange[0] > 0 || filters.priceRange[1] < 3_000_000 ? 1 : 0) +
     (filters.search.trim().length >= 2 ? 1 : 0)
 
   return (
     <div className="container mx-auto px-4 py-6">
-      {/* Breadcrumb */}
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Inicio</BreadcrumbLink>
-          </BreadcrumbItem>
+          <BreadcrumbItem><BreadcrumbLink href="/">Inicio</BreadcrumbLink></BreadcrumbItem>
           <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Productos</BreadcrumbPage>
-          </BreadcrumbItem>
+          <BreadcrumbItem><BreadcrumbPage>Productos</BreadcrumbPage></BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Results count and controls */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">
@@ -90,21 +87,17 @@ function ProductsContent() {
           />
           <SortSelect
             value={filters.sortBy}
-            onChange={(sortBy) => setFilters({ sortBy: sortBy as FilterState["sortBy"] })}
+            onChange={(sortBy) => handleFiltersChange({ ...filters, sortBy: sortBy as FilterState["sortBy"] })}
           />
         </div>
       </div>
 
-      {/* Main content */}
       <div className="flex gap-8">
-        {/* Sidebar - Desktop */}
         <aside className="hidden w-64 shrink-0 lg:block">
           <div className="sticky top-24">
             <FilterSidebar filters={filters} onFiltersChange={handleFiltersChange} />
           </div>
         </aside>
-
-        {/* Products */}
         <div className="flex-1">
           <ProductGrid
             products={products}
@@ -118,14 +111,11 @@ function ProductsContent() {
   )
 }
 
-// Suspense wrapper required for useSearchParams
 export default function ProductsPage() {
   return (
     <Suspense fallback={
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex items-center justify-center py-20">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
+      <div className="flex items-center justify-center py-32">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
       </div>
     }>
       <ProductsContent />
