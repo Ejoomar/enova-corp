@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import Image from "next/image"
 import { ImagePlus, Link as LinkIcon, Loader2, Save, X } from "lucide-react"
+import { useProductsStore } from "@/stores/products-store"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -48,6 +49,7 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const [images, setImages] = useState<string[]>(initialData?.images ?? [])
+  const { updateProduct, addProduct } = useProductsStore()
   const [imageUrl, setImageUrl] = useState("")
   const [uploading, setUploading] = useState(false)
   const [imageError, setImageError] = useState<string | null>(null)
@@ -76,7 +78,7 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
       const slug = e.target.value
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "")
+        .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^a-z0-9\s-]/g, "")
         .replace(/\s+/g, "-")
         .trim()
@@ -100,7 +102,7 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
       const formData = new FormData()
       formData.append("file", file)
 
-      const res = await fetch("/api/admin/upload", { method: "POST", body: formData })
+      const res = await fetch("/api/upload", { method: "POST", body: formData })
       const json = await res.json()
 
       if (!res.ok) throw new Error(json.error ?? "Error subiendo imagen")
@@ -135,21 +137,35 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
     }
 
     startTransition(async () => {
-      const url =
-        mode === "create"
-          ? "/api/admin/products"
-          : `/api/admin/products/${initialData?.id}`
+      const payload = { ...values, images }
 
-      const res = await fetch(url, {
-        method: mode === "create" ? "POST" : "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, images }),
-      })
-
-      if (res.ok) {
-        router.push("/admin/products")
-        router.refresh()
+      if (mode === "edit" && initialData?.id) {
+        // Update the persisted store directly — changes survive navigation
+        updateProduct(initialData.id, payload)
+      } else {
+        // Create: generate a temp id and add to store
+        const newProduct = {
+          id: `prod-${Date.now()}`,
+          slug: values.slug,
+          name: values.name,
+          description: values.description ?? "",
+          price: values.price,
+          originalPrice: values.originalPrice ?? values.price,
+          stock: values.stock,
+          category: values.category,
+          brand: values.brand,
+          images,
+          isNew: values.isNew,
+          isFeatured: values.isFeatured,
+          plusIva: values.plusIva,
+          specs: {},
+          rating: 0,
+          reviews: 0,
+        }
+        addProduct(newProduct)
       }
+
+      router.push("/admin/products")
     })
   }
 

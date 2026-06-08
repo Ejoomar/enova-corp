@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Search, X, ArrowRight } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import { products } from "@/data/mock-products"
+import { useProductsStore } from "@/stores/products-store"
 import { Product } from "@/types"
 
 interface SearchDialogProps {
@@ -17,6 +17,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const [results, setResults] = useState<Product[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
+  const { allProducts } = useProductsStore()
 
   // Reset every time dialog opens
   useEffect(() => {
@@ -34,7 +35,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       setResults([])
       return
     }
-    const matched = products
+    const matched = allProducts
       .filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
@@ -44,7 +45,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       )
       .slice(0, 8)
     setResults(matched)
-  }, [query])
+  }, [query, allProducts])
 
   const close = useCallback(() => {
     onOpenChange(false)

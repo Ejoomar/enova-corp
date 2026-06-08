@@ -114,6 +114,8 @@ export function BannerForm({ slide }: BannerFormProps) {
   const onSubmit = (values: BannerFormValues) => {
     const payload = {
       ...values,
+      cta2Label:     values.cta2Label ?? "",
+      cta2Href:      values.cta2Href  ?? "",
       image:         imageUrl || "/images/hero/slide-1.jpg",
       bgImage:       imageUrl || slide?.bgImage || "/images/hero/bg-1.svg",
       imagePosition: imagePosition,

@@ -20,6 +20,7 @@ export function FilterSidebar({ filters, onFiltersChange }: FilterSidebarProps) 
 
   const handleClearFilters = () => {
     onFiltersChange({
+      search: "",
       brands: [],
       categories: [],
       priceRange: [0, 10000000],

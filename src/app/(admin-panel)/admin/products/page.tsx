@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useTransition } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import {
@@ -44,45 +44,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
-interface AdminProduct {
-  id: string
-  name: string
-  price: number
-  originalPrice?: number
-  stock: number
-  category: string
-  brand: string
-  images: string[]
-  isFeatured: boolean
-  isNew: boolean
-}
-
+import { useProductsStore } from "@/stores/products-store"
+import type { Product } from "@/types"
 
 export default function AdminProductsPage() {
-  const [data, setData] = useState<AdminProduct[]>([])
-  const [loading, setLoading] = useState(true)
+  const { allProducts, deleteProduct } = useProductsStore()
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [deleteId, setDeleteId] = useState<string | null>(null)
-  const [isPending, startTransition] = useTransition()
-
-  useEffect(() => {
-    fetch("/api/admin/products")
-      .then((r) => r.json())
-      .then((json) => { setData(json.data ?? []); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [])
 
   function handleDelete(id: string) {
-    startTransition(async () => {
-      await fetch(`/api/admin/products/${id}`, { method: "DELETE" })
-      setData((prev) => prev.filter((p) => p.id !== id))
-      setDeleteId(null)
-    })
+    deleteProduct(id)
+    setDeleteId(null)
   }
 
-  const columns: ColumnDef<AdminProduct>[] = [
+  const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "brand",
       enableHiding: true,
@@ -167,7 +143,7 @@ export default function AdminProductsPage() {
   ]
 
   const table = useReactTable({
-    data,
+    data: allProducts,
     columns,
     state: { sorting, columnFilters },
     onSortingChange: setSorting,
@@ -189,7 +165,7 @@ export default function AdminProductsPage() {
           <div>
             <h1 className="text-2xl font-bold">Productos</h1>
             <p className="text-sm text-muted-foreground">
-              {data.length} productos en el catálogo
+              {allProducts.length} productos en el catálogo
             </p>
           </div>
           <Button asChild>
@@ -221,7 +197,7 @@ export default function AdminProductsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todas las categorías</SelectItem>
-              {Array.from(new Set(data.map((p) => p.category)))
+              {Array.from(new Set(allProducts.map((p) => p.category)))
                 .sort()
                 .map((cat) => (
                   <SelectItem key={cat} value={cat} className="capitalize">
@@ -241,7 +217,7 @@ export default function AdminProductsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todas las marcas</SelectItem>
-              {Array.from(new Set(data.map((p) => p.brand)))
+              {Array.from(new Set(allProducts.map((p) => p.brand)))
                 .sort()
                 .map((brand) => (
                   <SelectItem key={brand} value={brand}>
@@ -268,17 +244,7 @@ export default function AdminProductsPage() {
               ))}
             </TableHeader>
             <TableBody>
-              {loading ? (
-                Array.from({ length: 8 }).map((_, i) => (
-                  <TableRow key={i}>
-                    {columns.map((_, j) => (
-                      <TableCell key={j}>
-                        <div className="h-4 animate-pulse rounded bg-muted" />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : table.getRowModel().rows.length === 0 ? (
+              {table.getRowModel().rows.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
                     No se encontraron productos.
@@ -342,10 +308,9 @@ export default function AdminProductsPage() {
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => deleteId && handleDelete(deleteId)}
-              disabled={isPending}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isPending ? "Eliminando..." : "Eliminar"}
+              Eliminar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
