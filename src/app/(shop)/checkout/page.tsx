@@ -19,7 +19,7 @@ const cartItems: CartItem[] = [
 ]
 
 const steps = [
-  { id: 1, name: "Envio" },
+  { id: 1, name: "Envío" },
   { id: 2, name: "Pago" },
   { id: 3, name: "Confirmar" },
 ]
@@ -107,19 +107,19 @@ export default function CheckoutPage() {
                 </p>
 
                 <div className="rounded-lg bg-muted/50 p-4">
-                  <h3 className="font-medium">Direccion de Envio</h3>
+                  <h3 className="font-medium">Dirección de Envío</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Juan Perez<br />
-                    Av. Principal 123<br />
-                    Lima, Lima 15001<br />
-                    Peru
+                    Carlos Mendoza<br />
+                    Av. Andrés Bello, Edificio Centro Empresarial, Piso 3<br />
+                    Caracas, Distrito Capital 1060<br />
+                    Venezuela
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-muted/50 p-4">
-                  <h3 className="font-medium">Metodo de Pago</h3>
+                  <h3 className="font-medium">Método de Pago</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Tarjeta terminada en •••• 3456
+                    Pago Móvil — Banco de Venezuela
                   </p>
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function CheckoutPage() {
                 onClick={handleBack}
                 disabled={currentStep === 1}
               >
-                Atras
+                Atrás
               </Button>
               {currentStep < 3 ? (
                 <Button onClick={handleNext}>Continuar</Button>

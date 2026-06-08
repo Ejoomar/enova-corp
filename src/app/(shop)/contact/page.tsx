@@ -19,7 +19,7 @@ export default function ContactPage() {
             { icon: Phone,     label: "Teléfono / WhatsApp", value: "0422-3668201",         href: "tel:+584223668201" },
             { icon: Mail,      label: "Email",               value: "Gerencia@enovacorp.co", href: "mailto:Gerencia@enovacorp.co" },
             { icon: Instagram, label: "Instagram",  value: "@enovacorpve",            href: "https://www.instagram.com/enovacorpve/" },
-            { icon: MapPin,    label: "Ubicación",  value: "Venezuela",               href: undefined },
+            { icon: MapPin,    label: "Ubicación",  value: "C.C. Alto Chama, Local 105-A · Mérida, Venezuela",  href: undefined },
           ].map((item) => (
             <div key={item.label} className="flex items-start gap-4">
               <item.icon className="h-4 w-4 text-[var(--brass)] mt-0.5 shrink-0" />
@@ -43,8 +43,8 @@ export default function ContactPage() {
           <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)] mb-8">Horario de atención</p>
           <div className="space-y-4">
             {[
-              { day: "Lunes — Viernes", hours: "8:00 AM — 6:00 PM" },
-              { day: "Sábado",          hours: "9:00 AM — 2:00 PM" },
+              { day: "Lunes — Viernes", hours: "9:00 AM — 6:00 PM" },
+              { day: "Sábado",          hours: "9:00 AM — 4:00 PM" },
               { day: "Domingo",         hours: "Cerrado" },
             ].map((item) => (
               <div key={item.day} className="flex items-center justify-between border-b border-[var(--hairline)] pb-4 last:border-0">

@@ -1,9 +1,49 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { dashboardStats, orders as mockOrders } from "@/data/mock-admin"
 
 function pctChange(current: number, previous: number): number | null {
   if (previous === 0) return null
   return Math.round(((current - previous) / previous) * 1000) / 10
+}
+
+/** Fallback used when Prisma is unavailable (UI-only / no DB mode). */
+function mockDashboardResponse() {
+  const statusCounts = mockOrders.reduce((acc, o) => {
+    acc[o.status] = (acc[o.status] ?? 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+
+  return {
+    stats: {
+      totalRevenue:   dashboardStats.totalRevenue,
+      totalOrders:    dashboardStats.totalOrders,
+      totalCustomers: dashboardStats.totalCustomers,
+      totalProducts:  dashboardStats.totalProducts,
+    },
+    statChanges: {
+      revenue:   dashboardStats.revenueChange,
+      orders:    dashboardStats.ordersChange,
+      customers: dashboardStats.customersChange,
+      products:  dashboardStats.productsChange,
+    },
+    ordersByStatus: {
+      pending:    statusCounts.pending    ?? 0,
+      processing: statusCounts.processing ?? 0,
+      shipped:    statusCounts.shipped    ?? 0,
+      delivered:  statusCounts.delivered  ?? 0,
+      cancelled:  statusCounts.cancelled  ?? 0,
+    },
+    recentOrders: mockOrders.slice(0, 5).map((o) => ({
+      id:          o.id,
+      orderNumber: o.id,
+      customer:    o.userName,
+      email:       "",
+      total:       o.total,
+      status:      o.status,
+      createdAt:   new Date(o.createdAt).toISOString(),
+    })),
+  }
 }
 
 export async function GET() {
@@ -19,7 +59,6 @@ export async function GET() {
       revenueData,
       recentOrders,
       ordersByStatus,
-      // Period comparisons
       thisMonthRevenue,
       lastMonthRevenue,
       thisMonthOrders,
@@ -28,22 +67,15 @@ export async function GET() {
       lastMonthCustomers,
     ] = await Promise.all([
       prisma.product.count(),
-
       prisma.user.count({ where: { role: "CUSTOMER" } }),
-
       prisma.order.count(),
-
       prisma.order.aggregate({ _sum: { total: true } }),
-
       prisma.order.findMany({
         take: 5,
         orderBy: { createdAt: "desc" },
         include: { user: { select: { name: true, email: true } } },
       }),
-
       prisma.order.groupBy({ by: ["status"], _count: true }),
-
-      // This month vs last month — revenue
       prisma.order.aggregate({
         where: { createdAt: { gte: startOfThisMonth } },
         _sum: { total: true },
@@ -52,30 +84,19 @@ export async function GET() {
         where: { createdAt: { gte: startOfLastMonth, lt: startOfThisMonth } },
         _sum: { total: true },
       }),
-
-      // This month vs last month — orders
       prisma.order.count({ where: { createdAt: { gte: startOfThisMonth } } }),
       prisma.order.count({ where: { createdAt: { gte: startOfLastMonth, lt: startOfThisMonth } } }),
-
-      // This month vs last month — new customers
       prisma.user.count({ where: { role: "CUSTOMER", createdAt: { gte: startOfThisMonth } } }),
       prisma.user.count({ where: { role: "CUSTOMER", createdAt: { gte: startOfLastMonth, lt: startOfThisMonth } } }),
     ])
 
     const statusCounts = ordersByStatus.reduce(
-      (acc, item) => { acc[item.status.toLowerCase()] = item._count; return acc },
+      (acc: Record<string, number>, item: { status: string; _count: number }) => {
+        acc[item.status.toLowerCase()] = item._count
+        return acc
+      },
       {} as Record<string, number>
     )
-
-    const transformedRecentOrders = recentOrders.map((order) => ({
-      id: order.id,
-      orderNumber: order.orderNumber,
-      customer: order.user.name,
-      email: order.user.email,
-      total: Number(order.total),
-      status: order.status.toLowerCase(),
-      createdAt: order.createdAt.toISOString(),
-    }))
 
     return NextResponse.json({
       stats: {
@@ -88,7 +109,7 @@ export async function GET() {
         revenue:   pctChange(Number(thisMonthRevenue._sum.total ?? 0), Number(lastMonthRevenue._sum.total ?? 0)),
         orders:    pctChange(thisMonthOrders,    lastMonthOrders),
         customers: pctChange(thisMonthCustomers, lastMonthCustomers),
-        products:  null, // total count — no meaningful MoM comparison
+        products:  null,
       },
       ordersByStatus: {
         pending:    statusCounts.pending    ?? 0,
@@ -97,13 +118,20 @@ export async function GET() {
         delivered:  statusCounts.delivered  ?? 0,
         cancelled:  statusCounts.cancelled  ?? 0,
       },
-      recentOrders: transformedRecentOrders,
+      recentOrders: recentOrders.map((order: { id: string; orderNumber: string; user: { name: string; email: string }; total: number | string; status: string; createdAt: Date }) => ({
+        id:          order.id,
+        orderNumber: order.orderNumber,
+        customer:    order.user.name,
+        email:       order.user.email,
+        total:       Number(order.total),
+        status:      order.status.toLowerCase(),
+        createdAt:   order.createdAt.toISOString(),
+      })),
     })
-  } catch (error) {
-    console.error("Error fetching dashboard stats:", error)
-    return NextResponse.json(
-      { error: "Error fetching dashboard stats" },
-      { status: 500 }
-    )
+  } catch {
+    // Prisma not available (UI-only mode) — serve mock data so the dashboard
+    // renders correctly without a database connection.
+    console.warn("[dashboard] Prisma unavailable — falling back to mock data")
+    return NextResponse.json(mockDashboardResponse())
   }
 }

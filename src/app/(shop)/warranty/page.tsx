@@ -3,12 +3,18 @@ export default function WarrantyPage() {
     <div className="mx-auto max-w-[1440px] px-6 lg:px-10 py-20">
       <div className="grid grid-cols-12 gap-6 mb-16">
         <span className="col-span-12 font-mono-ui text-[11px] text-[var(--muted-foreground)] lg:col-span-2">— Garantía</span>
-        <h1 className="col-span-12 font-display text-5xl font-light tracking-[-0.02em] lg:col-span-8">
-          Garantía de<br />6 meses a 1 año
-        </h1>
+        <div className="col-span-12 lg:col-span-8">
+          <h1 className="font-display text-5xl font-light tracking-[-0.02em] mb-4">
+            Garantía de<br />fábrica en todos<br />los productos
+          </h1>
+          <p className="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-xl">
+            El servicio técnico de garantía es atendido directamente por ENOVA CORP, sin necesidad de enviar el equipo al fabricante.
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-px border border-[var(--hairline)] sm:grid-cols-2 mb-12">
+      {/* Brand warranty table */}
+      <div className="grid grid-cols-1 gap-px border border-[var(--hairline)] sm:grid-cols-2 mb-8">
         {[
           { brand: "Dell",      period: "1 año",   coverage: "Laptops Vostro, Inspiron y desktops OptiPlex. Cobertura total de hardware." },
           { brand: "HP",        period: "1 año",   coverage: "Laptops y desktops EliteDesk. Soporte técnico incluido." },
@@ -31,11 +37,28 @@ export default function WarrantyPage() {
         ))}
       </div>
 
+      {/* UPS special notice */}
+      <div className="mb-8 border border-amber-500/20 bg-amber-500/5 rounded-xl p-8">
+        <div className="flex items-start gap-4">
+          <div className="mt-0.5 h-2 w-2 rounded-full bg-amber-500 shrink-0" />
+          <div>
+            <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-amber-500/80 mb-3">
+              Nota especial — UPS y reguladores
+            </p>
+            <p className="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-2xl">
+              Los UPS y reguladores tienen <strong className="text-foreground">garantía limitada</strong>. En condiciones eléctricas normales, la vida útil estimada es de aproximadamente 18 meses. En Venezuela, debido a las fluctuaciones e interrupciones del servicio eléctrico, la durabilidad real puede reducirse a entre 8 y 12 meses según la zona y la frecuencia de los cortes. Esta variación está fuera del control del fabricante y de ENOVA CORP, y no aplica como defecto de garantía.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* How to claim */}
       <div className="border border-[var(--hairline)] bg-[var(--surface-1)] p-8">
-        <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)] mb-4">Para hacer válida tu garantía</p>
+        <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)] mb-4">
+          Para hacer válida tu garantía
+        </p>
         <p className="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-2xl">
-          Contacta a nuestro equipo de soporte con tu número de pedido y descripción del problema.
-          Responderemos en menos de 24 horas hábiles para coordinar la revisión o reemplazo del equipo.
+          Contáctanos por WhatsApp o email con tu número de pedido y una descripción del problema. Responderemos en menos de 24 horas hábiles para coordinar la revisión. El servicio técnico se realiza directamente en nuestras instalaciones: Av. Andrés Bello, C.C. Alto Chama, Local 105-A, Mérida.
         </p>
       </div>
     </div>

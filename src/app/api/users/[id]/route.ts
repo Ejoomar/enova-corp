@@ -35,7 +35,7 @@ export async function GET(
       status: user.status.toLowerCase(),
       createdAt: user.createdAt.toISOString(),
       orders: user._count.orders,
-      totalSpent: user.orders.reduce((sum, o) => sum + Number(o.total), 0),
+      totalSpent: user.orders.reduce((sum: number, o: { total: unknown }) => sum + Number(o.total), 0),
     })
   } catch (error) {
     console.error("Error fetching user:", error)

@@ -19,10 +19,10 @@ export default function B2BPage() {
 
       <div className="grid grid-cols-1 gap-px border border-[var(--hairline)] sm:grid-cols-2 lg:grid-cols-4 mb-16">
         {[
-          { icon: Building2,       title: "Precios corporativos", desc: "Descuentos por volumen desde 5 unidades. Cotización personalizada en 24 horas." },
+          { icon: Building2,       title: "Precios corporativos", desc: "Precios especiales por proyecto corporativo. Una empresa puede adquirir múltiples equipos distintos para un proyecto y recibe precio preferencial. Cotización en 24 horas." },
           { icon: ShieldCheck,     title: "Garantía incluida",    desc: "Todos los equipos incluyen garantía de 6 meses a 1 año según marca. Soporte técnico post-venta incluido." },
-          { icon: Truck,           title: "Entrega empresarial",  desc: "Logística dedicada para instalaciones en oficinas y sucursales de todo Venezuela." },
-          { icon: HeadphonesIcon,  title: "Soporte dedicado",     desc: "Asesor de cuenta exclusivo para gestionar tus pedidos y requerimientos técnicos." },
+          { icon: Truck,           title: "Entrega a tu empresa",  desc: "Despachamos por MRW a cualquier ciudad de Venezuela. El envío se realiza al día hábil siguiente de confirmado el pago." },
+          { icon: HeadphonesIcon,  title: "Soporte dedicado",      desc: "Atención directa para gestionar tu proyecto, cotización y seguimiento de pedido. Horario L–V 9am–6pm, Sáb 9am–4pm." },
         ].map((item) => (
           <div key={item.title} className="border border-[var(--hairline)] bg-[var(--surface-1)] p-8">
             <item.icon className="h-6 w-6 text-[var(--brass)] mb-4" />

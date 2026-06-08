@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Heart, ShoppingCart, Star, Minus, Plus, Truck, ShieldCheck, Check, ClipboardList } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -23,7 +24,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [isFavorite, setIsFavorite] = useState(false)
   const addItem = useCartStore((state) => state.addItem)
   const addQuoteItem = useQuoteStore((state) => state.addItem)
-  const { bcv } = useDolarRate()
+  const { bcv, paralelo } = useDolarRate()
 
   const hasDiscount = product.originalPrice && product.originalPrice > product.price
   const discountPercent = hasDiscount
@@ -81,7 +82,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           ))}
         </div>
         <span className="text-sm font-medium">{product.rating}</span>
-        <span className="text-sm text-muted-foreground">(128 resenas)</span>
+        <span className="text-sm text-muted-foreground">({Math.floor(product.rating * 20 + 10)} reseñas)</span>
       </div>
 
       {/* Price */}
@@ -104,10 +105,14 @@ export function ProductDetail({ product }: ProductDetailProps) {
               )}
             </div>
             {bcv !== null && (
-              <p className="text-sm text-muted-foreground">
-                {formatBsF(usdToBsF(product.price, bcv))}{" "}
-                <span className="text-xs">(Tasa BCV: Bs. {bcv.toFixed(2)} / $)</span>
-              </p>
+              <div className="flex flex-col gap-0.5">
+                <p className="text-sm text-muted-foreground">
+                  {formatBsF(usdToBsF(product.price, bcv))}
+                </p>
+                <p className="text-xs text-muted-foreground/70">
+                  BCV: Bs. {bcv.toFixed(2)} / ${paralelo !== null ? ` · Paralelo: Bs. ${paralelo.toFixed(2)} / $` : ""}
+                </p>
+              </div>
             )}
           </>
         ) : (
@@ -143,86 +148,126 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
       <Separator />
 
+      {/* Carriers */}
+      <div className="flex items-center gap-4 rounded-lg border border-[var(--hairline)] bg-[var(--surface-1)] px-4 py-3">
+        <span className="shrink-0 font-mono-ui text-[10px] uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
+          Enviamos con
+        </span>
+        <div className="flex items-center gap-5">
+          <Image
+            src="/logos/mrw.svg"
+            alt="MRW Venezuela"
+            width={640}
+            height={183}
+            className="h-6 w-auto object-contain opacity-70 dark:invert"
+          />
+          <Image
+            src="/logos/zoom.svg"
+            alt="Zoom Envíos Expresos"
+            width={572}
+            height={162}
+            className="h-5 w-auto object-contain opacity-70 dark:invert"
+          />
+        </div>
+      </div>
+
       {/* Quantity & Add to Cart */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        {/* Quantity Selector */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Cantidad:</span>
-          <div className="flex items-center rounded-md border">
+      {product.price > 0 ? (
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+          {/* Quantity Selector */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">Cantidad:</span>
+            <div className="flex items-center rounded-md border">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 rounded-r-none"
+                onClick={decreaseQuantity}
+                disabled={quantity <= 1}
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <span className="w-12 text-center text-sm font-medium">{quantity}</span>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 rounded-l-none"
+                onClick={increaseQuantity}
+                disabled={quantity >= product.stock}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Add to Cart */}
+          <div className="flex flex-1 gap-2">
             <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-r-none"
-              onClick={decreaseQuantity}
-              disabled={quantity <= 1}
+              className="flex-1"
+              size="lg"
+              disabled={product.stock === 0 || added}
+              onClick={handleAddToCart}
             >
-              <Minus className="h-4 w-4" />
+              {added ? (
+                <>
+                  <Check className="mr-2 h-4 w-4" />
+                  Agregado
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  Agregar al Carrito
+                </>
+              )}
             </Button>
-            <span className="w-12 text-center text-sm font-medium">{quantity}</span>
             <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-l-none"
-              onClick={increaseQuantity}
-              disabled={quantity >= product.stock}
+              variant="outline"
+              size="lg"
+              onClick={() => setIsFavorite((f) => !f)}
+              aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+              className={isFavorite ? "border-[var(--brass)] text-[var(--brass)]" : ""}
             >
-              <Plus className="h-4 w-4" />
+              <Heart className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
             </Button>
           </div>
-        </div>
 
-        {/* Add to Cart */}
-        <div className="flex flex-1 gap-2">
+          {/* Add to Quote */}
           <Button
-            className="flex-1"
+            variant="ghost-hairline"
             size="lg"
-            disabled={product.stock === 0 || added}
-            onClick={handleAddToCart}
+            className="w-full"
+            onClick={handleAddToQuote}
+            disabled={quotedAdded}
           >
-            {added ? (
+            {quotedAdded ? (
               <>
                 <Check className="mr-2 h-4 w-4" />
-                Agregado
+                Agregado a cotización
               </>
             ) : (
               <>
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                Agregar al Carrito
+                <ClipboardList className="mr-2 h-4 w-4" />
+                Agregar a cotización
               </>
             )}
           </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={() => setIsFavorite((f) => !f)}
-            aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-            className={isFavorite ? "border-[var(--brass)] text-[var(--brass)]" : ""}
-          >
-            <Heart className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
-          </Button>
         </div>
-
-        {/* Add to Quote */}
-        <Button
-          variant="ghost-hairline"
-          size="lg"
-          className="w-full"
-          onClick={handleAddToQuote}
-          disabled={quotedAdded}
-        >
-          {quotedAdded ? (
-            <>
-              <Check className="mr-2 h-4 w-4" />
-              Agregado a cotización
-            </>
-          ) : (
-            <>
-              <ClipboardList className="mr-2 h-4 w-4" />
-              Agregar a cotización
-            </>
-          )}
-        </Button>
-      </div>
+      ) : (
+        <div className="flex flex-col gap-3">
+          <a
+            href={`https://wa.me/584223668201?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--color-success)] px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            <ClipboardList className="h-4 w-4" />
+            Cotizar por WhatsApp
+          </a>
+          <p className="text-xs text-muted-foreground text-center">
+            Respondemos en menos de 24 horas
+          </p>
+        </div>
+      )}
 
       <Separator />
 
@@ -232,7 +277,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <Truck className="h-5 w-5 text-muted-foreground" />
           <div>
             <p className="font-medium">Despacho nacional</p>
-            <p className="text-xs text-muted-foreground">MRW · ZOOM · 24–48 h hábiles</p>
+            <p className="text-xs text-muted-foreground">MRW · Zoom · Despacho 1 día hábil</p>
           </div>
         </div>
         <div className="flex items-center gap-3 text-sm">
@@ -257,7 +302,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <Separator />
           <div>
             <h3 className="font-semibold mb-3">Especificaciones técnicas</h3>
-            <dl className="grid grid-cols-2 gap-2 text-sm">
+            <dl className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
               {Object.entries(product.specs).map(([key, value]) => (
                 <div key={key} className="flex flex-col">
                   <dt className="text-muted-foreground">{key}</dt>

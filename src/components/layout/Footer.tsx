@@ -3,17 +3,17 @@ import Image from "next/image"
 import { Mail, Phone, MapPin } from "lucide-react"
 
 const banks = [
-  { name: "Banco de Venezuela", src: "/logos/bdv.avif",      w: 260, color: "#CF122D", imgH: 72 },
-  { name: "Mercantil",          src: "/logos/mercantil.svg", w: 150, color: "#1B5EA6", imgH: 40 },
-  { name: "BBVA Provincial",    src: "/logos/bbva.svg",      w: 150, color: "#00539B", imgH: 40 },
+  { name: "Mercantil",             src: "/logos/mercantil.svg", w: 229,  h: 54,  color: "#1B5EA6", maxWClass: "max-w-[160px] sm:max-w-[185px]", imgBg: ""                                },
+  { name: "BBVA Provincial",       src: "/logos/bbva.svg",      w: 676,  h: 344, color: "#00539B", maxWClass: "max-w-[160px] sm:max-w-[185px]", imgBg: ""                                },
+  { name: "Banco de Venezuela",    src: "/logos/bdv.svg",       w: 1460, h: 260, color: "#0067b1", maxWClass: "max-w-[160px] sm:max-w-[185px]", imgBg: "dark:bg-white dark:rounded dark:px-2" },
 ]
 
 const payments = [
-  { name: "Pago Móvil", src: "/logos/pagomovil.svg", w: 110 },
-  { name: "Zelle",      src: "/logos/zelle.svg",     w: 78  },
-  { name: "USD",        src: "/logos/usd.svg",       w: 75  },
-  { name: "Binance",    src: "/logos/binance.svg",   w: 105 },
-  { name: "Cashea",     src: "/logos/cashea.svg",    w: 90  },
+  { name: "Pago Móvil", label: "Todos los bancos",  src: "/logos/pagomovil.svg", w: 120, h: 44,  color: "#0057B7", maxWClass: "max-w-[100px] sm:max-w-[110px]" },
+  { name: "Zelle",      label: "USD · Instantáneo", src: "/logos/zelle.svg",     w: 220, h: 90,  color: "#6C1CD1", maxWClass: "max-w-[100px] sm:max-w-[150px]" },
+  { name: "Binance",    label: "USDT · Cripto",     src: "/logos/binance.svg",   w: 520, h: 112, color: "#F3BA2F", maxWClass: "max-w-[100px] sm:max-w-[210px]" },
+  { name: "USD",        label: "Efectivo · Divisa", src: "/logos/usd.svg",       w: 120, h: 48,  color: "#1A7A3C", maxWClass: "max-w-[100px] sm:max-w-[120px]" },
+  { name: "Cashea",     label: "Pago en cuotas",    src: "/logos/cashea.svg",    w: 465, h: 135, color: "#FFF212", maxWClass: "max-w-[100px] sm:max-w-[190px]" },
 ]
 
 const footerLinks = {
@@ -37,7 +37,6 @@ const footerLinks = {
     { name: "Garantía",             href: "/warranty" },
     { name: "Preguntas Frecuentes", href: "/faq"      },
     { name: "Términos y Cond.",     href: "/terms"    },
-    { name: "Privacidad",           href: "/privacy"  },
   ],
 }
 
@@ -59,13 +58,13 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm leading-relaxed text-[var(--steel)]">
-              Distribuidor oficial de tecnología en Venezuela. Computación, equipos fiscales,
+              Distribuidor oficial de tecnología en Venezuela. Computación, redes,
               equipos fiscales e impresoras de las mejores marcas del mundo.
             </p>
             <address className="not-italic space-y-2">
               <div className="flex items-start gap-2 text-sm text-[var(--steel)]">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--brass)]" />
-                <span>Venezuela</span>
+                <span>Av. Andrés Bello, C.C. Alto Chama, Local 105-A · Mérida</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-[var(--steel)]">
                 <Mail className="h-3.5 w-3.5 shrink-0 text-[var(--brass)]" />
@@ -157,18 +156,16 @@ export function Footer() {
           <div className="py-10">
 
             {/* Header */}
-            <div className="mb-8 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--brass)]">
-                  Transferencias bancarias
-                </p>
-                <h3 className="mt-1 font-display text-base font-medium tracking-[-0.02em] text-[var(--foreground)]">
-                  Transferencias a nuestras cuentas
-                </h3>
-              </div>
-              <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">
-                Transferencia · Pago Móvil · TDD / TDC
-              </span>
+            <div className="mb-8">
+              <p className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-[var(--brass)] mb-3">
+                — Transferencias bancarias
+              </p>
+              <h3 className="font-display text-3xl font-light tracking-[-0.03em] text-[var(--foreground)]">
+                Paga directo a<br className="hidden sm:block" /> nuestras cuentas
+              </h3>
+              <p className="mt-2 font-mono-ui text-[11px] text-[var(--muted-foreground)]">
+                Transferencia · Pago Móvil disponibles en los tres bancos
+              </p>
             </div>
 
             {/* Cards de bancos */}
@@ -176,26 +173,25 @@ export function Footer() {
               {banks.map((bank) => (
                 <div
                   key={bank.name}
-                  className="group relative overflow-hidden rounded-xl border border-[var(--hairline)] bg-[var(--surface-1)] px-6 py-5 transition-all duration-200 hover:border-[var(--brass)]/40"
+                  className="group relative overflow-hidden rounded-xl border border-[var(--hairline)] bg-[var(--surface-1)] px-6 py-6 transition-all duration-200 hover:border-[var(--brass)]/40"
                 >
                   {/* Accent line top */}
                   <div
                     className="absolute inset-x-0 top-0 h-[2px] opacity-70 transition-opacity duration-200 group-hover:opacity-100"
                     style={{ background: `linear-gradient(90deg, ${bank.color}, transparent)` }}
                   />
-                  {/* Logo */}
-                  <div className="flex items-center justify-start" style={{ height: bank.imgH }}>
+                  {/* Logo — centrado y contenido */}
+                  <div className={`flex h-11 items-center justify-center ${bank.imgBg}`}>
                     <Image
                       src={bank.src}
                       alt={bank.name}
                       width={bank.w}
-                      height={bank.imgH}
-                      className="max-w-full object-contain object-left"
-                      style={{ height: bank.imgH, width: "auto" }}
+                      height={bank.h}
+                      className={`h-full w-auto object-contain ${bank.maxWClass}`}
                     />
                   </div>
                   {/* Sub-label */}
-                  <p className="mt-3 font-mono-ui text-[9px] uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
+                  <p className="mt-3 text-center font-mono-ui text-[10px] font-semibold uppercase tracking-[0.10em] text-[var(--foreground)]/70">
                     Transferencia · Pago Móvil
                   </p>
                 </div>
@@ -204,53 +200,47 @@ export function Footer() {
           </div>
         </div>
 
-        {/* ── Métodos de pago + Redes ── */}
-        <div className="border-b border-[var(--hairline)] py-6">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-0 lg:divide-x lg:divide-[var(--hairline)]">
+        {/* ── Métodos de pago ── */}
+        <div className="border-b border-[var(--hairline)] py-10">
+          <div className="mb-8">
+            <p className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-[var(--brass)] mb-3">
+              — Métodos de pago
+            </p>
+            <h3 className="font-display text-3xl font-light tracking-[-0.03em] text-[var(--foreground)]">
+              Tú eliges cómo pagar
+            </h3>
+            <p className="mt-2 font-mono-ui text-[11px] text-[var(--muted-foreground)]">
+              USD · Bolívares · Cripto
+            </p>
+          </div>
 
-            {/* Métodos de pago */}
-            <div className="flex flex-col gap-3 lg:pr-10">
-              <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                Métodos de pago
-              </span>
-              <div className="flex flex-wrap items-center gap-2">
-                {payments.map((p) => (
-                  <div
-                    key={p.name}
-                    className="flex h-9 items-center justify-center rounded-lg bg-[var(--surface-1)] px-3 transition-all duration-200 hover:opacity-80"
-                    style={{ minWidth: p.w }}
-                  >
-                    <Image src={p.src} alt={p.name} width={p.w} height={28} className="h-5 w-auto object-contain" />
-                  </div>
-                ))}
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+            {payments.map((p) => (
+              <div
+                key={p.name}
+                className="group relative overflow-hidden rounded-xl border border-[var(--hairline)] bg-[var(--surface-1)] px-5 py-6 transition-all duration-200 hover:border-[var(--brass)]/40"
+              >
+                {/* Accent line top */}
+                <div
+                  className="absolute inset-x-0 top-0 h-[2px] opacity-60 transition-opacity duration-200 group-hover:opacity-100"
+                  style={{ background: `linear-gradient(90deg, ${p.color}, transparent)` }}
+                />
+                {/* Logo — centrado, max-w responsive */}
+                <div className="flex h-16 items-center justify-center">
+                  <Image
+                    src={p.src}
+                    alt={p.name}
+                    width={p.w}
+                    height={p.h}
+                    className={`h-full w-auto object-contain ${p.maxWClass}`}
+                  />
+                </div>
+                {/* Sub-label */}
+                <p className="mt-3 text-center font-mono-ui text-[10px] font-semibold uppercase tracking-[0.10em] text-[var(--foreground)]/70">
+                  {p.label}
+                </p>
               </div>
-            </div>
-
-            {/* Redes sociales */}
-            <div className="flex flex-col gap-3 lg:pl-10">
-              <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                Síguenos
-              </span>
-              <div className="flex items-center gap-2">
-                <Link
-                  href="https://www.instagram.com/enovacorpve/"
-                  target="_blank" rel="noopener" aria-label="Instagram"
-                  className="flex h-9 items-center gap-2 rounded-lg bg-[var(--surface-1)] px-3 transition-all duration-200 hover:opacity-80"
-                >
-                  <Image src="/logos/instagram.svg" alt="Instagram" width={18} height={18} className="h-4 w-4 object-contain" />
-                  <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">@enovacorpve</span>
-                </Link>
-                <Link
-                  href="https://wa.me/584223668201"
-                  target="_blank" rel="noopener" aria-label="WhatsApp"
-                  className="flex h-9 items-center gap-2 rounded-lg bg-[var(--surface-1)] px-3 transition-all duration-200 hover:opacity-80"
-                >
-                  <Image src="/logos/whatsapp.svg" alt="WhatsApp" width={18} height={18} className="h-4 w-4 object-contain" />
-                  <span className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">WhatsApp</span>
-                </Link>
-              </div>
-            </div>
-
+            ))}
           </div>
         </div>
 

@@ -26,7 +26,7 @@ export default function AdminSettingsPage() {
   const [storeName,        setStoreName]        = useState("ENOVA CORP")
   const [storeEmail,       setStoreEmail]       = useState("Gerencia@enovacorp.co")
   const [storePhone,       setStorePhone]       = useState("0422-3668201")
-  const [storeAddress,     setStoreAddress]     = useState("Av. Libertador, Urb. La Castellana, Caracas")
+  const [storeAddress,     setStoreAddress]     = useState("Av. Andrés Bello, C.C. Alto Chama, Local 105-A, Mérida")
   const [storeDescription, setStoreDescription] = useState("Tu tienda de tecnología de confianza")
   const [timezone,         setTimezone]         = useState("america-caracas")
   const [currency,         setCurrency]         = useState("usd")
@@ -41,6 +41,9 @@ export default function AdminSettingsPage() {
   // Notifications
   const [notifyNewOrders,  setNotifyNewOrders]  = useState(true)
   const [notifyLowStock,   setNotifyLowStock]   = useState(true)
+
+  // Exchange rate
+  const [bcvRate, setBcvRate] = useState("")
 
   // Payment methods
   const [acceptCards,    setAcceptCards]    = useState(true)
@@ -71,6 +74,7 @@ export default function AdminSettingsPage() {
         if (s.showOutOfStock   !== undefined) setShowOutOfStock(s.showOutOfStock)
         if (s.showStockCount   !== undefined) setShowStockCount(s.showStockCount)
         if (s.allowReviews     !== undefined) setAllowReviews(s.allowReviews)
+        if (s.bcvRate          != null)       setBcvRate(String(s.bcvRate))
 
         if (n.notifyNewOrders !== undefined) setNotifyNewOrders(n.notifyNewOrders)
         if (n.notifyLowStock  !== undefined) setNotifyLowStock(n.notifyLowStock)
@@ -94,8 +98,9 @@ export default function AdminSettingsPage() {
           },
           store: {
             showOutOfStock, showStockCount, allowReviews,
-            shippingCost: Number(shippingCost),
+            shippingCost:     Number(shippingCost),
             freeShippingFrom: Number(freeShippingFrom),
+            bcvRate:          bcvRate !== "" ? Number(bcvRate) : null,
           },
           notifications: {
             notifyNewOrders, notifyLowStock,
@@ -263,6 +268,35 @@ export default function AdminSettingsPage() {
                   </p>
                 </div>
                 <Switch checked={allowReviews} onCheckedChange={setAllowReviews} />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Tasa de Cambio BCV</CardTitle>
+              <CardDescription>
+                Tasa manual de respaldo (Bs por $). Se usa cuando la API externa de tasas no está disponible.
+                Déjalo vacío para no mostrar precios en Bs cuando la API falle.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="bcvRate">Tasa BCV (Bs / $)</Label>
+                  <Input
+                    id="bcvRate"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="Ej: 46.50"
+                    value={bcvRate}
+                    onChange={(e) => setBcvRate(e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    La tienda primero obtiene la tasa en tiempo real desde BCV. Este valor solo se usa si esa consulta falla.
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>

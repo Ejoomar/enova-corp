@@ -17,7 +17,7 @@ export interface PaymentProofMock {
 const mockPayments: PaymentProofMock[] = [
   {
     id: "pay-001",
-    orderNumber: "ORD-2024-001",
+    orderNumber: "ORD-2025-001",
     userName: "Juan Pérez",
     userEmail: "juan.perez@email.com",
     amount: 760,
@@ -29,7 +29,7 @@ const mockPayments: PaymentProofMock[] = [
   },
   {
     id: "pay-002",
-    orderNumber: "ORD-2024-002",
+    orderNumber: "ORD-2025-002",
     userName: "María García",
     userEmail: "maria.garcia@email.com",
     amount: 290,
@@ -41,7 +41,7 @@ const mockPayments: PaymentProofMock[] = [
   },
   {
     id: "pay-003",
-    orderNumber: "ORD-2024-003",
+    orderNumber: "ORD-2025-003",
     userName: "Carlos López",
     userEmail: "carlos.lopez@email.com",
     amount: 230,

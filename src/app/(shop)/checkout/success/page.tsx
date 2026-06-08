@@ -34,27 +34,27 @@ function SuccessContent() {
           <div className="rounded-lg bg-muted p-4">
             <div className="flex items-center justify-center gap-2 text-sm">
               <Package className="h-4 w-4" />
-              <span>Recibiras un email con los detalles de tu pedido</span>
+              <span>Recibirás un email con los detalles de tu pedido</span>
             </div>
           </div>
 
           <div className="space-y-3">
             <Button asChild className="w-full">
-              <Link href="/profile/orders">
-                Ver mis pedidos
+              <Link href="/products">
+                Seguir comprando
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button variant="outline" asChild className="w-full">
-              <Link href="/products">
-                Seguir comprando
+              <Link href="/">
+                Ir al inicio
               </Link>
             </Button>
           </div>
 
           {sessionId && (
             <p className="text-xs text-muted-foreground">
-              ID de transaccion: {sessionId.slice(0, 20)}...
+              ID de transacción: {sessionId.slice(0, 20)}...
             </p>
           )}
         </CardContent>

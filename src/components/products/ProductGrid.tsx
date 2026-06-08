@@ -12,6 +12,7 @@ interface ProductGridProps {
   viewMode?: "grid" | "list"
   onViewModeChange?: (mode: "grid" | "list") => void
   loading?: boolean
+  onClearFilters?: () => void
 }
 
 export function ProductGrid({
@@ -19,6 +20,7 @@ export function ProductGrid({
   viewMode = "grid",
   onViewModeChange,
   loading = false,
+  onClearFilters,
 }: ProductGridProps) {
   const { bcv } = useDolarRate()
 
@@ -70,6 +72,14 @@ export function ProductGrid({
           <p className="font-mono-ui mt-3 text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
             Ajusta los filtros de búsqueda
           </p>
+          {onClearFilters && (
+            <button
+              onClick={onClearFilters}
+              className="mt-6 font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--brass)] transition-colors hover:text-[var(--brass-bright)] border border-[var(--brass)]/40 px-4 py-2"
+            >
+              Limpiar filtros
+            </button>
+          )}
         </div>
       ) : (
         <div

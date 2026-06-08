@@ -34,7 +34,7 @@ interface ProductsState {
   resetFilters: () => void
 }
 
-const MAX_PRICE = 3_000_000
+const MAX_PRICE = 1_500
 
 const defaultFilters: FilterState = {
   search: "",

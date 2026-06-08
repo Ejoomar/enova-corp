@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
             stripeSessionId: session.id,
             items: {
               create: items.map((item: { id: string; qty: number }) => {
-                const product = products.find((p) => p.id === item.id)
+                const product = products.find((p: { id: string }) => p.id === item.id)
                 return {
                   productId: item.id,
                   name: product?.name || "Producto",
@@ -122,7 +122,6 @@ export async function POST(request: NextRequest) {
           })
         }
 
-        console.log("Order created:", order.orderNumber)
       } catch (error) {
         console.error("Error processing order:", error)
       }
@@ -131,13 +130,11 @@ export async function POST(request: NextRequest) {
     }
 
     case "payment_intent.payment_failed": {
-      const paymentIntent = event.data.object as Stripe.PaymentIntent
-      console.log("Payment failed:", paymentIntent.id)
       break
     }
 
     default:
-      console.log(`Unhandled event type: ${event.type}`)
+      break
   }
 
   return NextResponse.json({ received: true })

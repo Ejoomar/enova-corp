@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useState, useEffect, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { signOut } from "next-auth/react"
 import { Bell, LogOut, Search, Settings } from "lucide-react"
@@ -23,13 +23,20 @@ interface AdminHeaderProps {
     name?: string | null
     email?: string | null
   }
-  pendingPayments?: number
 }
 
-export function AdminHeader({ user, pendingPayments = 0 }: AdminHeaderProps) {
+export function AdminHeader({ user }: AdminHeaderProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const [searchQuery, setSearchQuery] = useState("")
+  const [pendingPayments, setPendingPayments] = useState(0)
+
+  useEffect(() => {
+    fetch("/api/admin/payments?status=pending")
+      .then((r) => r.json())
+      .then((data) => setPendingPayments(data.meta?.total ?? 0))
+      .catch(() => {})
+  }, [])
 
   const initials = user?.name
     ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)

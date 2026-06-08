@@ -38,6 +38,7 @@ export interface CartItem {
 }
 
 export interface FilterState {
+  search: string
   categories: string[]
   brands: string[]
   priceRange: [number, number]

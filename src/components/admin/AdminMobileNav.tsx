@@ -9,7 +9,6 @@ import {
   Package,
   ShoppingCart,
   CreditCard,
-  Users,
   Settings,
   Store,
 } from "lucide-react"
@@ -28,7 +27,6 @@ const navigation = [
   { name: "Productos",      href: "/admin/products",  icon: Package },
   { name: "Pedidos",        href: "/admin/orders",    icon: ShoppingCart },
   { name: "Pagos",          href: "/admin/payments",  icon: CreditCard },
-  { name: "Usuarios",       href: "/admin/users",     icon: Users },
   { name: "Configuración",  href: "/admin/settings",  icon: Settings },
 ]
 

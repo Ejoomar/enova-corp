@@ -89,7 +89,11 @@ interface AdminState {
   // Users
   users: AdminUser[]
 
-  loading: boolean
+  // Granular loading flags — each section spins independently
+  dashboardLoading: boolean
+  ordersLoading: boolean
+  usersLoading: boolean
+
   error: string | null
 
   // Actions
@@ -107,11 +111,13 @@ export const useAdminStore = create<AdminState>((set, get) => ({
   orders: [],
   ordersTotal: 0,
   users: [],
-  loading: false,
+  dashboardLoading: false,
+  ordersLoading: false,
+  usersLoading: false,
   error: null,
 
   fetchDashboard: async () => {
-    set({ loading: true, error: null })
+    set({ dashboardLoading: true, error: null })
     try {
       const response = await fetch("/api/admin/dashboard")
       if (!response.ok) throw new Error("Error fetching dashboard")
@@ -121,15 +127,15 @@ export const useAdminStore = create<AdminState>((set, get) => ({
         statChanges: data.statChanges ?? null,
         ordersByStatus: data.ordersByStatus,
         recentOrders: data.recentOrders,
-        loading: false,
+        dashboardLoading: false,
       })
     } catch (error) {
-      set({ error: (error as Error).message, loading: false })
+      set({ error: (error as Error).message, dashboardLoading: false })
     }
   },
 
   fetchOrders: async (params = {}) => {
-    set({ loading: true, error: null })
+    set({ ordersLoading: true, error: null })
     try {
       const searchParams = new URLSearchParams()
       if (params.status) searchParams.set("status", params.status)
@@ -142,15 +148,15 @@ export const useAdminStore = create<AdminState>((set, get) => ({
       set({
         orders: data.orders,
         ordersTotal: data.total,
-        loading: false,
+        ordersLoading: false,
       })
     } catch (error) {
-      set({ error: (error as Error).message, loading: false })
+      set({ error: (error as Error).message, ordersLoading: false })
     }
   },
 
   fetchUsers: async (params = {}) => {
-    set({ loading: true, error: null })
+    set({ usersLoading: true, error: null })
     try {
       const searchParams = new URLSearchParams()
       if (params.role) searchParams.set("role", params.role)
@@ -159,14 +165,14 @@ export const useAdminStore = create<AdminState>((set, get) => ({
       const response = await fetch(`/api/users?${searchParams}`)
       if (!response.ok) throw new Error("Error fetching users")
       const users = await response.json()
-      set({ users, loading: false })
+      set({ users, usersLoading: false })
     } catch (error) {
-      set({ error: (error as Error).message, loading: false })
+      set({ error: (error as Error).message, usersLoading: false })
     }
   },
 
   updateOrderStatus: async (id, status) => {
-    set({ loading: true, error: null })
+    set({ ordersLoading: true, error: null })
     try {
       const response = await fetch(`/api/admin/orders/${id}`, {
         method: "PATCH",
@@ -174,11 +180,9 @@ export const useAdminStore = create<AdminState>((set, get) => ({
         body: JSON.stringify({ status }),
       })
       if (!response.ok) throw new Error("Error updating order")
-
-      // Refresh orders after update
       await get().fetchOrders()
     } catch (error) {
-      set({ error: (error as Error).message, loading: false })
+      set({ error: (error as Error).message, ordersLoading: false })
       throw error
     }
   },

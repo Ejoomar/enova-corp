@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { StatsCard } from "@/components/admin/StatsCard"
 import { useAdminStore } from "@/stores/admin-store"
+import { useProductsStore } from "@/stores/products-store"
+import { ORDER_STATUS_LABELS, ORDER_STATUS_VARIANTS } from "@/lib/order-status"
 
 function DashboardSkeleton() {
   return (
@@ -74,26 +76,20 @@ function DashboardSkeleton() {
   )
 }
 
-const statusLabels: Record<string, string> = {
-  delivered: "Entregado",
-  shipped: "Enviado",
-  processing: "Procesando",
-  cancelled: "Cancelado",
-  pending: "Pendiente",
-}
-
 export default function AdminDashboard() {
-  const { stats, statChanges, recentOrders, ordersByStatus, loading, error, fetchDashboard } = useAdminStore()
+  const { stats, statChanges, recentOrders, ordersByStatus, dashboardLoading, error, fetchDashboard } = useAdminStore()
+  // Use the live catalog count so new/deleted products are reflected immediately
+  const totalProducts = useProductsStore((state) => state.allProducts.length)
 
   useEffect(() => {
     fetchDashboard()
   }, [fetchDashboard])
 
-  if (loading && !stats) {
+  if (dashboardLoading && !stats) {
     return <DashboardSkeleton />
   }
 
-  if (!loading && !stats && error) {
+  if (!dashboardLoading && !stats && error) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10">
@@ -148,7 +144,7 @@ export default function AdminDashboard() {
         />
         <StatsCard
           title="Productos"
-          value={(stats?.totalProducts || 0).toString()}
+          value={totalProducts.toString()}
           change={statChanges?.products ?? null}
           icon={Package}
         />
@@ -194,18 +190,8 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <Badge
-                        variant={
-                          order.status === "delivered"
-                            ? "default"
-                            : order.status === "shipped"
-                            ? "secondary"
-                            : order.status === "cancelled"
-                            ? "destructive"
-                            : "outline"
-                        }
-                      >
-                        {statusLabels[order.status] || order.status}
+                      <Badge variant={ORDER_STATUS_VARIANTS[order.status] ?? "outline"}>
+                        {ORDER_STATUS_LABELS[order.status] ?? order.status}
                       </Badge>
                       <span className="text-sm font-medium">
                         ${order.total.toFixed(2)}

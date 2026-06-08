@@ -23,9 +23,14 @@ export default function CartPage() {
           <p className="mt-2 text-muted-foreground">
             Parece que aún no has agregado productos a tu carrito.
           </p>
-          <Button asChild className="mt-6">
-            <Link href="/products">Explorar Productos</Link>
-          </Button>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button asChild>
+              <Link href="/products">Explorar Productos</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/products">Ver categorías</Link>
+            </Button>
+          </div>
         </div>
       </div>
     )

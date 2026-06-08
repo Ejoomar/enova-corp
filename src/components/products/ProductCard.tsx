@@ -39,7 +39,7 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
     <article className="group flex flex-col">
       {/* Media */}
       <Link href={`/products/${product.slug}`} className="relative block">
-        <div className="relative aspect-square overflow-hidden border border-[var(--hairline)] bg-[var(--surface-1)] transition-colors group-hover:border-[var(--brass)]/40">
+        <div className="relative aspect-square overflow-hidden border border-[var(--hairline)] bg-white transition-colors group-hover:border-[var(--brass)]/40">
 
           {/* Tags */}
           <div className="absolute left-3 top-3 z-10 flex flex-col gap-1.5">
@@ -143,13 +143,25 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
       <div className="mt-3 border-t border-[var(--hairline)] pt-3">
         <div className="grid grid-cols-2 gap-x-3">
           <p className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">
-            {product.stock > 0 ? (
-              <span className="text-[var(--brass-dim)]">{product.stock} disp.</span>
+            {sinPrecio ? (
+              <span className="text-[var(--muted-foreground)]">Bajo cotización</span>
+            ) : product.stock > 0 ? (
+              <span className="text-[var(--color-success)]">En stock</span>
             ) : (
               <span className="text-destructive">Agotado</span>
             )}
           </p>
-          {!sinPrecio && (
+          {sinPrecio ? (
+            <a
+              href={`https://wa.me/584223668201?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="font-mono-ui text-right text-[10px] uppercase tracking-[0.14em] text-[var(--color-success)] transition-colors hover:opacity-80"
+            >
+              Cotizar →
+            </a>
+          ) : (
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}

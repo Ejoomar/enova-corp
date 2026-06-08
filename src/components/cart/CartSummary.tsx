@@ -90,9 +90,14 @@ export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSu
         <StripeCheckoutButton />
       </div>
 
-      <p className="mt-4 text-center text-xs text-muted-foreground">
-        Pago seguro con Stripe. Impuestos incluidos.
-      </p>
+      <div className="mt-4 space-y-2 text-center">
+        <p className="text-xs text-muted-foreground">
+          Pago 100% seguro · Múltiples métodos disponibles
+        </p>
+        <p className="text-xs text-muted-foreground/60">
+          Pago Móvil · Zelle · Binance · USD Efectivo
+        </p>
+      </div>
     </div>
   )
 }

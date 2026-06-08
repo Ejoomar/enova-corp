@@ -104,6 +104,7 @@ function ProductsContent() {
             viewMode={viewMode}
             onViewModeChange={setViewMode}
             loading={loading}
+            onClearFilters={() => handleFiltersChange({ search: "", brands: [], categories: [], priceRange: [0, 1500], sortBy: filters.sortBy })}
           />
         </div>
       </div>

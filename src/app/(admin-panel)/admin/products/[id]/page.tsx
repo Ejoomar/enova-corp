@@ -1,23 +1,22 @@
+"use client"
+
+import { useParams } from "next/navigation"
 import { notFound } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ProductForm } from "@/components/admin/ProductForm"
-import { auth } from "@/auth"
-import { products as mockProducts } from "@/data/mock-products"
+import { useProductsStore } from "@/stores/products-store"
 
-interface EditProductPageProps {
-  params: Promise<{ id: string }>
-}
+export default function EditProductPage() {
+  const { id } = useParams<{ id: string }>()
+  // Read from the persisted Zustand store so edits made via the admin panel
+  // are reflected immediately — mock-products.ts is only the initial seed.
+  const product = useProductsStore((state) =>
+    state.allProducts.find((p) => p.id === id)
+  )
 
-export default async function EditProductPage({ params }: EditProductPageProps) {
-  const session = await auth()
-  if (!session) notFound()
-
-  const { id } = await params
-  const product = mockProducts.find((p) => p.id === id)
-
-  if (!product) notFound()
+  if (!product) return notFound()
 
   return (
     <div className="space-y-6">

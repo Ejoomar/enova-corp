@@ -1,9 +1,8 @@
 "use client"
 
 import { useEffect, useState, useTransition } from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Search, UserPlus, MoreHorizontal, Mail, Ban, Eye, Shield, RotateCcw } from "lucide-react"
+import { Search, MoreHorizontal, Mail, Ban, Eye, Shield, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -89,7 +88,7 @@ function UsersSkeleton() {
 }
 
 export default function AdminUsersPage() {
-  const { users, loading, fetchUsers } = useAdminStore()
+  const { users, usersLoading: loading, fetchUsers } = useAdminStore()
   const router = useRouter()
   const [, startTransition] = useTransition()
   const [localUsers, setLocalUsers] = useState(users)
@@ -152,19 +151,11 @@ export default function AdminUsersPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Usuarios</h1>
-          <p className="text-muted-foreground">
-            Administra los usuarios y clientes de tu tienda
-          </p>
-        </div>
-        <Button asChild>
-          <Link href="/admin/users/new">
-            <UserPlus className="mr-2 h-4 w-4" />
-            Nuevo Usuario
-          </Link>
-        </Button>
+      <div>
+        <h1 className="text-2xl font-bold">Usuarios</h1>
+        <p className="text-muted-foreground">
+          Administra los usuarios y clientes de tu tienda
+        </p>
       </div>
 
       {/* Stats */}
