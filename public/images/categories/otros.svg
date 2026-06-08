@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#040810"/><stop offset="100%" stop-color="#08101e"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="48%" r="50%"><stop offset="0%" stop-color="#14b8a6" stop-opacity="0.3"/><stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#glow)"/>
+  <g fill="#14b8a6" opacity="0.1">
+    <circle cx="50" cy="50" r="1.5"/><circle cx="100" cy="50" r="1.5"/><circle cx="650" cy="50" r="1.5"/><circle cx="750" cy="50" r="1.5"/>
+    <circle cx="50" cy="450" r="1.5"/><circle cx="750" cy="450" r="1.5"/>
+  </g>
+
+  <!-- ── Circuit board traces (background atmosphere) ── -->
+  <g stroke="#0d3d36" stroke-width="1.2" fill="none" opacity="0.55">
+    <path d="M80 180 h60 v-40 h80"/><path d="M80 300 h40 v60 h100"/>
+    <path d="M720 180 h-60 v-40 h-80"/><path d="M720 300 h-40 v60 h-100"/>
+    <path d="M220 140 v-60 h80"/><path d="M580 140 v-60 h-80"/>
+    <path d="M220 360 v60 h80"/><path d="M580 360 v60 h-80"/>
+    <!-- Via dots -->
+  </g>
+  <g fill="#14b8a6" opacity="0.35">
+    <circle cx="140" cy="140" r="3"/><circle cx="220" cy="80" r="3"/>
+    <circle cx="580" cy="80" r="3"/><circle cx="660" cy="140" r="3"/>
+    <circle cx="140" cy="360" r="3"/><circle cx="220" cy="420" r="3"/>
+    <circle cx="580" cy="420" r="3"/><circle cx="660" cy="360" r="3"/>
+  </g>
+
+  <!-- ── CPU/Chip body ── -->
+  <rect x="255" y="155" width="290" height="190" rx="10" fill="#040c18" stroke="#0f766e" stroke-width="2.5"/>
+  <rect x="255" y="155" width="290" height="4" rx="2" fill="#14b8a6" opacity="0.7"/>
+  <!-- Inner die area -->
+  <rect x="275" y="175" width="250" height="150" rx="6" fill="#030a14" stroke="#0f766e" stroke-width="1.2"/>
+  <!-- Die grid cells -->
+  <g stroke="#0d3d36" stroke-width="0.8" opacity="0.7">
+    <line x1="325" y1="175" x2="325" y2="325"/><line x1="375" y1="175" x2="375" y2="325"/>
+    <line x1="425" y1="175" x2="425" y2="325"/><line x1="475" y1="175" x2="475" y2="325"/>
+    <line x1="275" y1="225" x2="525" y2="225"/><line x1="275" y1="275" x2="525" y2="275"/>
+  </g>
+  <!-- Core blocks -->
+  <rect x="283" y="183" width="34" height="34" rx="3" fill="#051018" stroke="#14b8a6" stroke-width="0.9"/>
+  <rect x="283" y="183" width="34" height="34" rx="3" fill="#14b8a6" opacity="0.07"/>
+  <rect x="333" y="183" width="34" height="34" rx="3" fill="#051018" stroke="#14b8a6" stroke-width="0.9"/>
+  <rect x="333" y="183" width="34" height="34" rx="3" fill="#14b8a6" opacity="0.07"/>
+  <rect x="383" y="183" width="34" height="34" rx="3" fill="#051018" stroke="#14b8a6" stroke-width="0.9"/>
+  <rect x="383" y="183" width="34" height="34" rx="3" fill="#14b8a6" opacity="0.07"/>
+  <rect x="433" y="183" width="34" height="34" rx="3" fill="#051018" stroke="#14b8a6" stroke-width="0.9"/>
+  <rect x="433" y="183" width="34" height="34" rx="3" fill="#14b8a6" opacity="0.07"/>
+  <rect x="483" y="183" width="34" height="34" rx="3" fill="#051018" stroke="#14b8a6" stroke-width="0.9"/>
+  <rect x="483" y="183" width="34" height="34" rx="3" fill="#14b8a6" opacity="0.07"/>
+  <!-- Cache block (large) -->
+  <rect x="283" y="233" width="234" height="34" rx="3" fill="#051018" stroke="#0f766e" stroke-width="0.9"/>
+  <rect x="283" y="233" width="234" height="34" rx="3" fill="#14b8a6" opacity="0.05"/>
+  <g stroke="#0f766e" stroke-width="0.7" opacity="0.5">
+    <line x1="322" y1="233" x2="322" y2="267"/><line x1="361" y1="233" x2="361" y2="267"/>
+    <line x1="400" y1="233" x2="400" y2="267"/><line x1="439" y1="233" x2="439" y2="267"/>
+    <line x1="478" y1="233" x2="478" y2="267"/>
+  </g>
+  <!-- IO blocks bottom row -->
+  <rect x="283" y="283" width="34" height="34" rx="3" fill="#051018" stroke="#0f766e" stroke-width="0.8"/>
+  <rect x="333" y="283" width="34" height="34" rx="3" fill="#051018" stroke="#14b8a6" stroke-width="0.9"/>
+  <rect x="383" y="283" width="84" height="34" rx="3" fill="#051018" stroke="#14b8a6" stroke-width="0.9"/>
+  <rect x="383" y="283" width="84" height="34" rx="3" fill="#14b8a6" opacity="0.07"/>
+  <rect x="483" y="283" width="34" height="34" rx="3" fill="#051018" stroke="#0f766e" stroke-width="0.8"/>
+
+  <!-- ── CPU Pins (top) ── -->
+  <g fill="#0f766e">
+    <rect x="278" y="145" width="5" height="10" rx="1"/><rect x="290" y="145" width="5" height="10" rx="1"/>
+    <rect x="302" y="145" width="5" height="10" rx="1"/><rect x="314" y="145" width="5" height="10" rx="1"/>
+    <rect x="326" y="145" width="5" height="10" rx="1"/><rect x="338" y="145" width="5" height="10" rx="1"/>
+    <rect x="350" y="145" width="5" height="10" rx="1"/><rect x="362" y="145" width="5" height="10" rx="1"/>
+    <rect x="374" y="145" width="5" height="10" rx="1"/><rect x="386" y="145" width="5" height="10" rx="1"/>
+    <rect x="398" y="145" width="5" height="10" rx="1"/><rect x="410" y="145" width="5" height="10" rx="1"/>
+    <rect x="422" y="145" width="5" height="10" rx="1"/><rect x="434" y="145" width="5" height="10" rx="1"/>
+    <rect x="446" y="145" width="5" height="10" rx="1"/><rect x="458" y="145" width="5" height="10" rx="1"/>
+    <rect x="470" y="145" width="5" height="10" rx="1"/><rect x="482" y="145" width="5" height="10" rx="1"/>
+    <rect x="494" y="145" width="5" height="10" rx="1"/><rect x="506" y="145" width="5" height="10" rx="1"/>
+    <rect x="518" y="145" width="5" height="10" rx="1"/>
+  </g>
+  <!-- Bottom pins -->
+  <g fill="#0f766e">
+    <rect x="278" y="345" width="5" height="10" rx="1"/><rect x="290" y="345" width="5" height="10" rx="1"/>
+    <rect x="302" y="345" width="5" height="10" rx="1"/><rect x="314" y="345" width="5" height="10" rx="1"/>
+    <rect x="326" y="345" width="5" height="10" rx="1"/><rect x="338" y="345" width="5" height="10" rx="1"/>
+    <rect x="350" y="345" width="5" height="10" rx="1"/><rect x="362" y="345" width="5" height="10" rx="1"/>
+    <rect x="374" y="345" width="5" height="10" rx="1"/><rect x="386" y="345" width="5" height="10" rx="1"/>
+    <rect x="398" y="345" width="5" height="10" rx="1"/><rect x="410" y="345" width="5" height="10" rx="1"/>
+    <rect x="422" y="345" width="5" height="10" rx="1"/><rect x="434" y="345" width="5" height="10" rx="1"/>
+    <rect x="446" y="345" width="5" height="10" rx="1"/><rect x="458" y="345" width="5" height="10" rx="1"/>
+    <rect x="470" y="345" width="5" height="10" rx="1"/><rect x="482" y="345" width="5" height="10" rx="1"/>
+    <rect x="494" y="345" width="5" height="10" rx="1"/><rect x="506" y="345" width="5" height="10" rx="1"/>
+    <rect x="518" y="345" width="5" height="10" rx="1"/>
+  </g>
+  <!-- Left pins -->
+  <g fill="#0f766e">
+    <rect x="245" y="178" width="10" height="5" rx="1"/><rect x="245" y="190" width="10" height="5" rx="1"/>
+    <rect x="245" y="202" width="10" height="5" rx="1"/><rect x="245" y="214" width="10" height="5" rx="1"/>
+    <rect x="245" y="226" width="10" height="5" rx="1"/><rect x="245" y="238" width="10" height="5" rx="1"/>
+    <rect x="245" y="250" width="10" height="5" rx="1"/><rect x="245" y="262" width="10" height="5" rx="1"/>
+    <rect x="245" y="274" width="10" height="5" rx="1"/><rect x="245" y="286" width="10" height="5" rx="1"/>
+    <rect x="245" y="298" width="10" height="5" rx="1"/><rect x="245" y="310" width="10" height="5" rx="1"/>
+    <rect x="245" y="322" width="10" height="5" rx="1"/>
+  </g>
+  <!-- Right pins -->
+  <g fill="#0f766e">
+    <rect x="545" y="178" width="10" height="5" rx="1"/><rect x="545" y="190" width="10" height="5" rx="1"/>
+    <rect x="545" y="202" width="10" height="5" rx="1"/><rect x="545" y="214" width="10" height="5" rx="1"/>
+    <rect x="545" y="226" width="10" height="5" rx="1"/><rect x="545" y="238" width="10" height="5" rx="1"/>
+    <rect x="545" y="250" width="10" height="5" rx="1"/><rect x="545" y="262" width="10" height="5" rx="1"/>
+    <rect x="545" y="274" width="10" height="5" rx="1"/><rect x="545" y="286" width="10" height="5" rx="1"/>
+    <rect x="545" y="298" width="10" height="5" rx="1"/><rect x="545" y="310" width="10" height="5" rx="1"/>
+    <rect x="545" y="322" width="10" height="5" rx="1"/>
+  </g>
+
+  <!-- Corner accents -->
+  <path d="M38 38 h45 v22" stroke="#0f766e" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M762 38 h-45 v22" stroke="#0f766e" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M38 462 h45 v-22" stroke="#0f766e" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M762 462 h-45 v-22" stroke="#0f766e" stroke-width="1.5" fill="none" opacity="0.5"/>
+</svg>

@@ -7,14 +7,14 @@ import { useProductsStore } from "@/stores/products-store"
 import { Skeleton } from "@/components/ui/skeleton"
 
 const categoryImages: Record<string, string> = {
-  "laptops":          "/images/categories/laptops.jpg",
-  "perifericos":      "/images/categories/perifericos.jpg",
-  "redes":            "/images/categories/redes.jpg",
-  "impresoras":       "/images/categories/impresoras.jpg",
-  "equipos-fiscales": "/images/categories/fiscales.jpg",
-  "consumibles":      "/images/categories/consumibles.jpg",
-  "camaras":          "/images/categories/camaras.jpg",
-  "otros":            "/images/categories/otros.jpg",
+  "laptops":          "/images/categories/laptops.svg",
+  "perifericos":      "/images/categories/perifericos.svg",
+  "redes":            "/images/categories/redes.svg",
+  "impresoras":       "/images/categories/impresoras.svg",
+  "equipos-fiscales": "/images/categories/fiscales.svg",
+  "consumibles":      "/images/categories/consumibles.svg",
+  "camaras":          "/images/categories/camaras.svg",
+  "otros":            "/images/categories/otros.svg",
 }
 
 /* ── Desktop filmstrip card ── */

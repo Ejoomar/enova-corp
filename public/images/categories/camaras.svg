@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#060810"/><stop offset="100%" stop-color="#0e0c20"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="46%" r="50%"><stop offset="0%" stop-color="#ef4444" stop-opacity="0.28"/><stop offset="100%" stop-color="#ef4444" stop-opacity="0"/></radialGradient>
+    <radialGradient id="lensGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#3b82f6" stop-opacity="0.5"/><stop offset="60%" stop-color="#1d4ed8" stop-opacity="0.2"/><stop offset="100%" stop-color="#1d4ed8" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#glow)"/>
+  <g fill="#ef4444" opacity="0.1">
+    <circle cx="50" cy="50" r="1.5"/><circle cx="100" cy="50" r="1.5"/><circle cx="650" cy="50" r="1.5"/><circle cx="750" cy="50" r="1.5"/>
+    <circle cx="50" cy="450" r="1.5"/><circle cx="750" cy="450" r="1.5"/>
+  </g>
+
+  <!-- ── Scan rings (surveillance atmosphere) ── -->
+  <circle cx="400" cy="240" r="210" stroke="#ef4444" stroke-width="0.8" fill="none" opacity="0.06"/>
+  <circle cx="400" cy="240" r="175" stroke="#ef4444" stroke-width="0.8" fill="none" opacity="0.09"/>
+  <circle cx="400" cy="240" r="140" stroke="#ef4444" stroke-width="0.8" fill="none" opacity="0.12"/>
+  <circle cx="400" cy="240" r="105" stroke="#ef4444" stroke-width="1" fill="none" opacity="0.16"/>
+
+  <!-- ── Dome camera (main) ── -->
+  <!-- Mount bracket -->
+  <rect x="358" y="80" width="84" height="28" rx="6" fill="#0a0c18" stroke="#7f1d1d" stroke-width="1.8"/>
+  <rect x="374" y="88" width="52" height="12" rx="3" fill="#070910" stroke="#7f1d1d" stroke-width="1"/>
+  <line x1="400" y1="108" x2="400" y2="128" stroke="#7f1d1d" stroke-width="2.5"/>
+  <!-- Dome shell -->
+  <ellipse cx="400" cy="200" rx="110" ry="80" fill="#080b16" stroke="#7f1d1d" stroke-width="2.2"/>
+  <ellipse cx="400" cy="195" rx="108" ry="65" fill="#060912"/>
+  <!-- Dome shine -->
+  <path d="M330 165 Q355 145 390 152" stroke="#1e293b" stroke-width="3" fill="none" opacity="0.5" stroke-linecap="round"/>
+  <!-- Lens housing -->
+  <circle cx="400" cy="210" r="52" fill="#04060e" stroke="#7f1d1d" stroke-width="2"/>
+  <circle cx="400" cy="210" r="42" fill="#030508"/>
+  <circle cx="400" cy="210" r="42" fill="url(#lensGlow)"/>
+  <!-- Lens rings -->
+  <circle cx="400" cy="210" r="36" stroke="#1e3a5f" stroke-width="1.5" fill="none"/>
+  <circle cx="400" cy="210" r="28" stroke="#1e3a5f" stroke-width="1.2" fill="none"/>
+  <circle cx="400" cy="210" r="20" stroke="#1d4ed8" stroke-width="1.5" fill="#020408"/>
+  <circle cx="400" cy="210" r="13" fill="#01030a" stroke="#3b82f6" stroke-width="1"/>
+  <circle cx="400" cy="210" r="6" fill="#3b82f6" opacity="0.7"/>
+  <!-- Lens reflection -->
+  <ellipse cx="391" cy="202" rx="5" ry="3" fill="white" opacity="0.15" transform="rotate(-30 391 202)"/>
+  <!-- IR LEDs around lens -->
+  <circle cx="356" cy="186" r="4" fill="#7f1d1d" stroke="#ef4444" stroke-width="0.8" opacity="0.8"/>
+  <circle cx="444" cy="186" r="4" fill="#7f1d1d" stroke="#ef4444" stroke-width="0.8" opacity="0.8"/>
+  <circle cx="356" cy="234" r="4" fill="#7f1d1d" stroke="#ef4444" stroke-width="0.8" opacity="0.8"/>
+  <circle cx="444" cy="234" r="4" fill="#7f1d1d" stroke="#ef4444" stroke-width="0.8" opacity="0.8"/>
+  <circle cx="370" cy="170" r="3.5" fill="#7f1d1d" stroke="#ef4444" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="430" cy="170" r="3.5" fill="#7f1d1d" stroke="#ef4444" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="370" cy="250" r="3.5" fill="#7f1d1d" stroke="#ef4444" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="430" cy="250" r="3.5" fill="#7f1d1d" stroke="#ef4444" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- ── Bullet camera (right, smaller) ── -->
+  <!-- Mount -->
+  <rect x="570" y="130" width="60" height="16" rx="5" fill="#080b16" stroke="#7f1d1d" stroke-width="1.5"/>
+  <line x1="600" y1="146" x2="580" y2="166" stroke="#7f1d1d" stroke-width="2"/>
+  <!-- Bullet body -->
+  <rect x="545" y="165" width="110" height="44" rx="8" fill="#060810" stroke="#7f1d1d" stroke-width="1.8"/>
+  <rect x="545" y="165" width="110" height="3" rx="1.5" fill="#ef4444" opacity="0.45"/>
+  <!-- Bullet lens end -->
+  <ellipse cx="545" cy="187" rx="12" ry="22" fill="#040608" stroke="#7f1d1d" stroke-width="1.5"/>
+  <circle cx="545" cy="187" r="10" fill="#030508" stroke="#1d4ed8" stroke-width="1"/>
+  <circle cx="545" cy="187" r="5" fill="#3b82f6" opacity="0.5"/>
+  <!-- Status LED -->
+  <circle cx="638" cy="180" r="3.5" fill="#ef4444" opacity="0.9"/>
+  <!-- Vents -->
+  <g stroke="#7f1d1d" stroke-width="1" opacity="0.35">
+    <line x1="618" y1="172" x2="618" y2="202"/><line x1="628" y1="172" x2="628" y2="202"/><line x1="638" y1="172" x2="638" y2="202"/>
+  </g>
+
+  <!-- ── FOV lines from dome ── -->
+  <line x1="400" y1="262" x2="220" y2="380" stroke="#ef4444" stroke-width="0.8" opacity="0.12"/>
+  <line x1="400" y1="262" x2="580" y2="380" stroke="#ef4444" stroke-width="0.8" opacity="0.12"/>
+
+  <!-- Corner accents -->
+  <path d="M38 38 h45 v22" stroke="#7f1d1d" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M762 38 h-45 v22" stroke="#7f1d1d" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M38 462 h45 v-22" stroke="#7f1d1d" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M762 462 h-45 v-22" stroke="#7f1d1d" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <!-- Crosshair -->
+  <line x1="386" y1="210" x2="414" y2="210" stroke="#ef4444" stroke-width="0.8" opacity="0.3"/>
+  <line x1="400" y1="196" x2="400" y2="224" stroke="#ef4444" stroke-width="0.8" opacity="0.3"/>
+</svg>

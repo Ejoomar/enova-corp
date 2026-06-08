@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#020c24"/><stop offset="100%" stop-color="#0e1e50"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="48%"><stop offset="0%" stop-color="#3b82f6" stop-opacity="0.4"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#glow)"/>
+  <!-- Dot grid atmosphere -->
+  <g fill="#3b82f6" opacity="0.12">
+    <circle cx="60" cy="60" r="1.5"/><circle cx="110" cy="60" r="1.5"/><circle cx="160" cy="60" r="1.5"/><circle cx="640" cy="60" r="1.5"/><circle cx="690" cy="60" r="1.5"/><circle cx="740" cy="60" r="1.5"/>
+    <circle cx="60" cy="110" r="1.5"/><circle cx="740" cy="110" r="1.5"/><circle cx="60" cy="440" r="1.5"/><circle cx="740" cy="440" r="1.5"/>
+  </g>
+  <!-- Laptop screen -->
+  <rect x="210" y="75" width="380" height="240" rx="10" fill="#030d22" stroke="#1d4ed8" stroke-width="2.5"/>
+  <rect x="224" y="89" width="352" height="212" rx="4" fill="#020918"/>
+  <rect x="224" y="89" width="352" height="212" rx="4" fill="#1d4ed8" opacity="0.1"/>
+  <!-- Screen glow line top -->
+  <rect x="224" y="89" width="352" height="3" rx="1.5" fill="#3b82f6" opacity="0.6"/>
+  <!-- Code/UI lines on screen -->
+  <rect x="244" y="110" width="140" height="4" rx="2" fill="#60a5fa" opacity="0.8"/>
+  <rect x="244" y="124" width="200" height="2.5" rx="1.5" fill="#3b82f6" opacity="0.45"/>
+  <rect x="244" y="136" width="160" height="2" rx="1" fill="#93c5fd" opacity="0.3"/>
+  <rect x="244" y="148" width="240" height="2" rx="1" fill="#60a5fa" opacity="0.25"/>
+  <rect x="244" y="160" width="110" height="2" rx="1" fill="#93c5fd" opacity="0.3"/>
+  <rect x="365" y="160" width="80" height="2" rx="1" fill="#f59e0b" opacity="0.35"/>
+  <rect x="244" y="172" width="200" height="2" rx="1" fill="#60a5fa" opacity="0.2"/>
+  <rect x="244" y="184" width="130" height="2" rx="1" fill="#34d399" opacity="0.3"/>
+  <rect x="384" y="184" width="70" height="2" rx="1" fill="#60a5fa" opacity="0.2"/>
+  <rect x="244" y="196" width="220" height="2" rx="1" fill="#93c5fd" opacity="0.2"/>
+  <rect x="244" y="208" width="90" height="2" rx="1" fill="#f59e0b" opacity="0.25"/>
+  <rect x="244" y="220" width="180" height="2" rx="1" fill="#60a5fa" opacity="0.2"/>
+  <rect x="244" y="232" width="150" height="2" rx="1" fill="#34d399" opacity="0.25"/>
+  <rect x="244" y="244" width="210" height="2" rx="1" fill="#60a5fa" opacity="0.18"/>
+  <rect x="244" y="256" width="100" height="2" rx="1" fill="#93c5fd" opacity="0.2"/>
+  <rect x="244" y="268" width="170" height="2" rx="1" fill="#60a5fa" opacity="0.15"/>
+  <!-- Camera dot on screen bezel -->
+  <circle cx="400" cy="82" r="3" fill="#1d4ed8" opacity="0.6"/>
+  <!-- Hinge -->
+  <rect x="196" y="315" width="408" height="8" rx="3" fill="#040e24" stroke="#1d4ed8" stroke-width="1.5"/>
+  <!-- Base / keyboard deck -->
+  <path d="M 140 323 Q 128 325 128 338 L 128 410 Q 128 422 140 422 L 660 422 Q 672 422 672 410 L 672 338 Q 672 325 660 323 Z" fill="#030d22" stroke="#1d4ed8" stroke-width="2.2"/>
+  <!-- Keyboard rows (13 columns × 4 rows) -->
+  <g fill="#07162e" stroke="#1d4ed8" stroke-width="0.7" opacity="0.95">
+    <rect x="152" y="338" width="22" height="11" rx="2.5"/><rect x="178" y="338" width="22" height="11" rx="2.5"/><rect x="204" y="338" width="22" height="11" rx="2.5"/><rect x="230" y="338" width="22" height="11" rx="2.5"/><rect x="256" y="338" width="22" height="11" rx="2.5"/><rect x="282" y="338" width="22" height="11" rx="2.5"/><rect x="308" y="338" width="22" height="11" rx="2.5"/><rect x="334" y="338" width="22" height="11" rx="2.5"/><rect x="360" y="338" width="22" height="11" rx="2.5"/><rect x="386" y="338" width="22" height="11" rx="2.5"/><rect x="412" y="338" width="22" height="11" rx="2.5"/><rect x="438" y="338" width="22" height="11" rx="2.5"/><rect x="464" y="338" width="36" height="11" rx="2.5"/>
+    <rect x="152" y="353" width="30" height="11" rx="2.5"/><rect x="186" y="353" width="22" height="11" rx="2.5"/><rect x="212" y="353" width="22" height="11" rx="2.5"/><rect x="238" y="353" width="22" height="11" rx="2.5"/><rect x="264" y="353" width="22" height="11" rx="2.5"/><rect x="290" y="353" width="22" height="11" rx="2.5"/><rect x="316" y="353" width="22" height="11" rx="2.5"/><rect x="342" y="353" width="22" height="11" rx="2.5"/><rect x="368" y="353" width="22" height="11" rx="2.5"/><rect x="394" y="353" width="22" height="11" rx="2.5"/><rect x="420" y="353" width="22" height="11" rx="2.5"/><rect x="446" y="353" width="54" height="11" rx="2.5"/>
+    <rect x="152" y="368" width="36" height="11" rx="2.5"/><rect x="192" y="368" width="22" height="11" rx="2.5"/><rect x="218" y="368" width="22" height="11" rx="2.5"/><rect x="244" y="368" width="22" height="11" rx="2.5"/><rect x="270" y="368" width="22" height="11" rx="2.5"/><rect x="296" y="368" width="22" height="11" rx="2.5"/><rect x="322" y="368" width="22" height="11" rx="2.5"/><rect x="348" y="368" width="22" height="11" rx="2.5"/><rect x="374" y="368" width="22" height="11" rx="2.5"/><rect x="400" y="368" width="22" height="11" rx="2.5"/><rect x="426" y="368" width="74" height="11" rx="2.5"/>
+    <rect x="152" y="383" width="44" height="11" rx="2.5"/><rect x="200" y="383" width="26" height="11" rx="2.5"/><rect x="230" y="383" width="26" height="11" rx="2.5"/><rect x="260" y="383" width="148" height="11" rx="2.5"/><rect x="412" y="383" width="26" height="11" rx="2.5"/><rect x="442" y="383" width="26" height="11" rx="2.5"/><rect x="472" y="383" width="28" height="11" rx="2.5"/>
+  </g>
+  <!-- Touchpad -->
+  <rect x="298" y="398" width="204" height="15" rx="4" fill="#030c1c" stroke="#1d4ed8" stroke-width="1.2" opacity="0.85"/>
+  <!-- Power LED -->
+  <circle cx="648" cy="403" r="3" fill="#3b82f6" opacity="0.9"/>
+  <!-- Corner accents -->
+  <path d="M40 40 h50 v25" stroke="#1d4ed8" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M760 40 h-50 v25" stroke="#1d4ed8" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M40 460 h50 v-25" stroke="#1d4ed8" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M760 460 h-50 v-25" stroke="#1d4ed8" stroke-width="1.5" fill="none" opacity="0.5"/>
+</svg>

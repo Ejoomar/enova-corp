@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#120a02"/><stop offset="100%" stop-color="#1c1204"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="48%" r="50%"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.3"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/></radialGradient>
+    <linearGradient id="cartridgeGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1c1002"/><stop offset="50%" stop-color="#241602"/><stop offset="100%" stop-color="#1c1002"/></linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#glow)"/>
+  <g fill="#f59e0b" opacity="0.1">
+    <circle cx="50" cy="50" r="1.5"/><circle cx="100" cy="50" r="1.5"/><circle cx="650" cy="50" r="1.5"/><circle cx="750" cy="50" r="1.5"/>
+    <circle cx="50" cy="450" r="1.5"/><circle cx="750" cy="450" r="1.5"/>
+  </g>
+
+  <!-- ── Large toner cartridge (center-left) ── -->
+  <!-- Body -->
+  <rect x="160" y="155" width="280" height="160" rx="18" fill="url(#cartridgeGrad)" stroke="#92400e" stroke-width="2"/>
+  <rect x="160" y="155" width="280" height="4" rx="2" fill="#f59e0b" opacity="0.55"/>
+  <!-- Drum cylinder end-cap -->
+  <ellipse cx="160" cy="235" rx="18" ry="80" fill="#1a0e01" stroke="#92400e" stroke-width="1.8"/>
+  <ellipse cx="160" cy="235" rx="10" ry="50" fill="#120a00" stroke="#78350f" stroke-width="1"/>
+  <!-- Right end-cap -->
+  <ellipse cx="440" cy="235" rx="18" ry="80" fill="#1a0e01" stroke="#92400e" stroke-width="1.8"/>
+  <!-- Grip ridges on top -->
+  <g stroke="#78350f" stroke-width="2" opacity="0.4">
+    <line x1="220" y1="160" x2="220" y2="180"/><line x1="240" y1="158" x2="240" y2="178"/>
+    <line x1="260" y1="157" x2="260" y2="177"/><line x1="280" y1="158" x2="280" y2="178"/>
+    <line x1="300" y1="160" x2="300" y2="180"/><line x1="320" y1="162" x2="320" y2="180"/>
+    <line x1="340" y1="162" x2="340" y2="180"/><line x1="360" y1="162" x2="360" y2="180"/>
+  </g>
+  <!-- Label area -->
+  <rect x="195" y="195" width="220" height="70" rx="6" fill="#1a0e01" stroke="#78350f" stroke-width="1.2"/>
+  <rect x="205" y="205" width="140" height="5" rx="2.5" fill="#f59e0b" opacity="0.7"/>
+  <rect x="205" y="218" width="100" height="3" rx="1.5" fill="#fbbf24" opacity="0.4"/>
+  <rect x="205" y="228" width="160" height="3" rx="1.5" fill="#fbbf24" opacity="0.3"/>
+  <rect x="205" y="238" width="80" height="3" rx="1.5" fill="#fbbf24" opacity="0.35"/>
+  <!-- Chip contact -->
+  <rect x="358" y="230" width="46" height="30" rx="4" fill="#0e0900" stroke="#78350f" stroke-width="1"/>
+  <g stroke="#f59e0b" stroke-width="0.8" opacity="0.5">
+    <line x1="366" y1="236" x2="396" y2="236"/><line x1="366" y1="242" x2="396" y2="242"/>
+    <line x1="366" y1="248" x2="396" y2="248"/><line x1="366" y1="254" x2="396" y2="254"/>
+  </g>
+
+  <!-- ── Ink cartridge (smaller, right side) ── -->
+  <rect x="490" y="175" width="90" height="150" rx="10" fill="#1a0e01" stroke="#92400e" stroke-width="1.8"/>
+  <rect x="490" y="175" width="90" height="3" rx="1.5" fill="#f59e0b" opacity="0.5"/>
+  <!-- Ink window (cyan-like) -->
+  <rect x="504" y="195" width="62" height="80" rx="4" fill="#0a0804" stroke="#78350f" stroke-width="1"/>
+  <!-- Ink level fill -->
+  <rect x="506" y="235" width="58" height="38" rx="3" fill="#f59e0b" opacity="0.2"/>
+  <rect x="506" y="235" width="58" height="2" rx="1" fill="#f59e0b" opacity="0.7"/>
+  <!-- Cartridge label lines -->
+  <rect x="504" y="284" width="62" height="4" rx="2" fill="#fbbf24" opacity="0.35"/>
+  <rect x="504" y="294" width="40" height="3" rx="1.5" fill="#fbbf24" opacity="0.25"/>
+  <!-- Print head contacts -->
+  <rect x="500" y="315" width="70" height="6" rx="3" fill="#0a0804" stroke="#92400e" stroke-width="1"/>
+  <g stroke="#f59e0b" stroke-width="0.8" opacity="0.55">
+    <line x1="506" y1="316" x2="506" y2="321"/><line x1="514" y1="316" x2="514" y2="321"/>
+    <line x1="522" y1="316" x2="522" y2="321"/><line x1="530" y1="316" x2="530" y2="321"/>
+    <line x1="538" y1="316" x2="538" y2="321"/><line x1="546" y1="316" x2="546" y2="321"/>
+    <line x1="554" y1="316" x2="554" y2="321"/><line x1="562" y1="316" x2="562" y2="321"/>
+  </g>
+
+  <!-- ── Ink drop decoration ── -->
+  <path d="M 620 340 Q 620 300 640 290 Q 660 280 670 310 Q 680 340 660 360 Q 640 375 620 340 Z" fill="#f59e0b" opacity="0.18" stroke="#92400e" stroke-width="1.2"/>
+  <path d="M 630 340 Q 630 312 645 304 Q 660 296 666 318 Q 672 340 658 354 Q 642 368 630 340 Z" fill="#f59e0b" opacity="0.12"/>
+
+  <!-- ── Paper stack ── -->
+  <rect x="162" y="332" width="276" height="8" rx="2" fill="#1a0e01" stroke="#78350f" stroke-width="1" opacity="0.7"/>
+  <rect x="165" y="328" width="272" height="8" rx="2" fill="#1a0e01" stroke="#78350f" stroke-width="1" opacity="0.6"/>
+  <rect x="168" y="324" width="268" height="8" rx="2" fill="#1a0e01" stroke="#78350f" stroke-width="1" opacity="0.5"/>
+
+  <!-- Corner accents -->
+  <path d="M38 38 h45 v22" stroke="#92400e" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M762 38 h-45 v22" stroke="#92400e" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M38 462 h45 v-22" stroke="#92400e" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M762 462 h-45 v-22" stroke="#92400e" stroke-width="1.5" fill="none" opacity="0.5"/>
+</svg>

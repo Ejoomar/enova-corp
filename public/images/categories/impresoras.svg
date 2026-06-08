@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06080e"/><stop offset="100%" stop-color="#0c1428"/></linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="48%"><stop offset="0%" stop-color="#6366f1" stop-opacity="0.32"/><stop offset="100%" stop-color="#6366f1" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#glow)"/>
+  <!-- Dot atmosphere -->
+  <g fill="#6366f1" opacity="0.1">
+    <circle cx="50" cy="50" r="1.5"/><circle cx="100" cy="50" r="1.5"/><circle cx="650" cy="50" r="1.5"/><circle cx="750" cy="50" r="1.5"/>
+    <circle cx="50" cy="100" r="1.5"/><circle cx="750" cy="100" r="1.5"/>
+    <circle cx="50" cy="450" r="1.5"/><circle cx="750" cy="450" r="1.5"/>
+  </g>
+  <!-- ── Paper sheet coming out (back) ── -->
+  <rect x="285" y="130" width="230" height="130" rx="3" fill="#08101e" stroke="#312e81" stroke-width="1.5" opacity="0.9"/>
+  <!-- Paper lines (printed content) -->
+  <g stroke="#4f46e5" stroke-width="1.5" opacity="0.3">
+    <line x1="308" y1="158" x2="492" y2="158"/>
+    <line x1="308" y1="172" x2="450" y2="172"/>
+    <line x1="308" y1="186" x2="478" y2="186"/>
+    <line x1="308" y1="200" x2="420" y2="200"/>
+    <line x1="308" y1="214" x2="492" y2="214"/>
+    <line x1="308" y1="228" x2="460" y2="228"/>
+  </g>
+  <!-- Logo block on paper -->
+  <rect x="308" y="142" width="60" height="10" rx="2" fill="#6366f1" opacity="0.35"/>
+  <!-- ── Printer main body ── -->
+  <rect x="170" y="240" width="460" height="145" rx="14" fill="#06090f" stroke="#3730a3" stroke-width="2.2"/>
+  <!-- Top face (lid) -->
+  <rect x="170" y="240" width="460" height="40" rx="14" fill="#080c18" stroke="#3730a3" stroke-width="2.2"/>
+  <rect x="170" y="265" width="460" height="15" fill="#080c18"/>
+  <!-- Top accent line -->
+  <rect x="170" y="240" width="460" height="3" rx="1.5" fill="#6366f1" opacity="0.65"/>
+  <!-- Paper slot (output) -->
+  <rect x="230" y="273" width="340" height="10" rx="2" fill="#030610" stroke="#3730a3" stroke-width="1.2"/>
+  <!-- Paper emerging from slot -->
+  <rect x="260" y="234" width="280" height="45" rx="2" fill="#08101e" stroke="#312e81" stroke-width="1.2" opacity="0.85"/>
+  <g stroke="#4f46e5" stroke-width="1.2" opacity="0.25">
+    <line x1="278" y1="248" x2="522" y2="248"/>
+    <line x1="278" y1="258" x2="490" y2="258"/>
+    <line x1="278" y1="268" x2="510" y2="268"/>
+  </g>
+  <!-- Control panel area -->
+  <rect x="520" y="252" width="90" height="22" rx="4" fill="#06090e" stroke="#3730a3" stroke-width="1"/>
+  <!-- Status LEDs -->
+  <circle cx="538" cy="263" r="4" fill="#6366f1" opacity="0.9"/>
+  <circle cx="556" cy="263" r="4" fill="#34d399" opacity="0.7"/>
+  <circle cx="574" cy="263" r="4" fill="#6366f1" opacity="0.4"/>
+  <!-- Power button -->
+  <circle cx="596" cy="263" r="5" fill="#080c18" stroke="#6366f1" stroke-width="1.2"/>
+  <path d="M596 258 v4" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Front output tray -->
+  <rect x="220" y="385" width="360" height="18" rx="4" fill="#050810" stroke="#3730a3" stroke-width="1.5"/>
+  <!-- Tray lip -->
+  <rect x="220" y="385" width="360" height="4" rx="2" fill="#3730a3" opacity="0.3"/>
+  <!-- Body vents -->
+  <g stroke="#3730a3" stroke-width="1" opacity="0.35">
+    <line x1="192" y1="300" x2="192" y2="360"/><line x1="204" y1="300" x2="204" y2="360"/><line x1="216" y1="300" x2="216" y2="360"/>
+    <line x1="596" y1="300" x2="596" y2="360"/><line x1="608" y1="300" x2="608" y2="360"/>
+  </g>
+  <!-- USB/port cluster -->
+  <g fill="#06090e" stroke="#3730a3" stroke-width="1">
+    <rect x="186" y="350" width="14" height="8" rx="1.5"/><rect x="204" y="350" width="10" height="8" rx="1.5"/>
+  </g>
+  <!-- Corner accents -->
+  <path d="M38 38 h45 v22" stroke="#3730a3" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M762 38 h-45 v22" stroke="#3730a3" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M38 462 h45 v-22" stroke="#3730a3" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M762 462 h-45 v-22" stroke="#3730a3" stroke-width="1.5" fill="none" opacity="0.5"/>
+</svg>
