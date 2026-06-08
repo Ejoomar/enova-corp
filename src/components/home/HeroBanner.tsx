@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -67,10 +66,10 @@ export function HeroBanner() {
                 <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-[var(--brass)] via-[var(--brass-bright)] to-transparent" />
               )}
 
-              <div className="relative mx-auto grid max-w-[1440px] grid-cols-12 items-center gap-6 px-8 py-14 lg:px-14 lg:py-20">
+              <div className="relative mx-auto flex max-w-[1440px] items-center px-8 py-14 lg:px-14 lg:py-20">
 
-                {/* Text column */}
-                <div className="col-span-12 flex flex-col gap-5 lg:col-span-6">
+                {/* Text column — full width */}
+                <div className="flex max-w-xl flex-col gap-5">
                   <span className={`self-start rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${slide.tagColor}`}>
                     {slide.tag}
                   </span>
@@ -99,30 +98,16 @@ export function HeroBanner() {
                     >
                       <Link href={slide.cta1Href}>{slide.cta1Label}</Link>
                     </Button>
-                    <Button
-                      asChild
-                      size="lg"
-                      variant="ghost"
-                      className="border border-white/30 text-white hover:bg-white/10"
-                    >
-                      <Link href={slide.cta2Href}>{slide.cta2Label}</Link>
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Image column — solo desktop */}
-                <div className="hidden lg:flex lg:col-span-6 lg:items-center lg:justify-end">
-                  <div className="relative h-[300px] w-[500px]">
-                    <div className="absolute inset-0 rounded-2xl bg-black/20 backdrop-blur-sm" />
-                    <Image
-                      src={slide.image}
-                      alt={slide.imageAlt}
-                      fill
-                      className="rounded-2xl object-cover drop-shadow-2xl"
-                      style={{ objectPosition: slide.imagePosition ?? "center center" }}
-                      sizes="500px"
-                      priority={slide.order === 0}
-                    />
+                    {slide.cta2Label && (
+                      <Button
+                        asChild
+                        size="lg"
+                        variant="ghost"
+                        className="border border-white/30 text-white hover:bg-white/10"
+                      >
+                        <Link href={slide.cta2Href}>{slide.cta2Label}</Link>
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>

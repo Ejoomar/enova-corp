@@ -20,8 +20,8 @@ const bannerSchema = z.object({
   description: z.string().min(1, "Requerido"),
   cta1Label:   z.string().min(1, "Requerido"),
   cta1Href:    z.string().min(1, "Requerido"),
-  cta2Label:   z.string().min(1, "Requerido"),
-  cta2Href:    z.string().min(1, "Requerido"),
+  cta2Label:   z.string().optional(),
+  cta2Href:    z.string().optional(),
   imageAlt:    z.string().min(1, "Requerido"),
   isBrand:     z.boolean(),
   active:      z.boolean(),
@@ -347,11 +347,11 @@ export function BannerForm({ slide }: BannerFormProps) {
             <Input placeholder="/products" {...register("cta1Href")} />
           </div>
           <div className="space-y-2">
-            <Label>Botón 2 — Texto</Label>
-            <Input placeholder="Ver Todo" {...register("cta2Label")} />
+            <Label>Botón 2 — Texto <span className="text-muted-foreground font-normal">(opcional)</span></Label>
+            <Input placeholder="Dejar vacío para ocultar" {...register("cta2Label")} />
           </div>
           <div className="space-y-2">
-            <Label>Botón 2 — Enlace</Label>
+            <Label>Botón 2 — Enlace <span className="text-muted-foreground font-normal">(opcional)</span></Label>
             <Input placeholder="/products" {...register("cta2Href")} />
           </div>
         </div>
