@@ -57,3 +57,20 @@ See `/docs/PLAN.md` for detailed implementation phases and roadmap.
 - no uses server actions, usa Route handlers
 - para manejo de estado global usa Zustand
 - para formularios usar react-hook-form y zod
+
+## Deploy — OBLIGATORIO
+
+**Después de CADA cambio de código en este proyecto, sin excepción:**
+
+```bash
+git add <archivos modificados>
+git commit -m "tipo: descripción del cambio"
+git push origin master
+```
+
+Vercel detecta el push y despliega automáticamente.
+No preguntar si hacer deploy — siempre hacerlo al terminar cualquier tarea.
+
+### Regla de versión de store
+Cada vez que cambien URLs de imágenes en `src/data/mock-products.ts`,
+incrementar `version` en `src/stores/products-store.ts` para invalidar el caché de localStorage.
