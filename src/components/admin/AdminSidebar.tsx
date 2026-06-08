@@ -8,21 +8,20 @@ import {
   Package,
   CreditCard,
   ShoppingCart,
-  Users,
   Settings,
-  ChevronLeft,
   Store,
+  LayoutTemplate,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 const navigation = [
-  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { name: "Productos", href: "/admin/products", icon: Package },
-  { name: "Pedidos", href: "/admin/orders", icon: ShoppingCart },
-  { name: "Comprobantes", href: "/admin/payments", icon: CreditCard },
-  { name: "Usuarios", href: "/admin/users", icon: Users },
-  { name: "Configuracion", href: "/admin/settings", icon: Settings },
+  { name: "Dashboard",    href: "/admin",          icon: LayoutDashboard },
+  { name: "Productos",    href: "/admin/products", icon: Package },
+  { name: "Pedidos",      href: "/admin/orders",   icon: ShoppingCart },
+  { name: "Pagos",        href: "/admin/payments", icon: CreditCard },
+  { name: "Banners",      href: "/admin/banners",  icon: LayoutTemplate },
+  { name: "Configuración",href: "/admin/settings", icon: Settings },
 ]
 
 export function AdminSidebar() {

@@ -7,79 +7,13 @@ import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-interface Slide {
-  id: number
-  tag: string
-  title: string
-  subtitle: string
-  description: string
-  cta1: { label: string; href: string }
-  cta2: { label: string; href: string }
-  image: string
-  imageAlt: string
-  bg: string
-  tagColor: string
-  isBrand?: boolean
-}
-
-const slides: Slide[] = [
-  {
-    id: 0,
-    tag: "Computación | Redes | Equipos Fiscales",
-    title: "ENOVA",
-    subtitle: "CORP ®",
-    description: "Distribuidor oficial de tecnología en Venezuela. Laptops, equipos fiscales, impresoras, redes y periféricos con garantía oficial.",
-    cta1: { label: "Ver Catálogo", href: "/products" },
-    cta2: { label: "Equipos Fiscales", href: "/products?category=equipos-fiscales" },
-    image: "/images/hero/slide-1.jpg",
-    imageAlt: "ENOVA CORP — Tecnología Venezuela",
-    bg: "from-[#020817] via-[#0a1628] to-[#0c1e3d]",
-    tagColor: "bg-[var(--brass)]/20 text-[var(--brass-bright)] border border-[var(--brass)]/40",
-    isBrand: true,
-  },
-  {
-    id: 1,
-    tag: "Laptops empresariales",
-    title: "Dell Vostro",
-    subtitle: "& Lenovo",
-    description: "Laptops Core i5 e i7 de última generación. Rendimiento profesional para trabajo, diseño y productividad.",
-    cta1: { label: "Ver Laptops", href: "/products?category=laptops" },
-    cta2: { label: "Ver Todo", href: "/products" },
-    image: "/images/hero/slide-2.jpg",
-    imageAlt: "Dell Vostro laptop",
-    bg: "from-[#0a0a0a] via-[#111827] to-[#1a2744]",
-    tagColor: "bg-white/15 text-white border border-white/25",
-  },
-  {
-    id: 2,
-    tag: "Vigilancia inteligente",
-    title: "Cámaras",
-    subtitle: "EZVIZ · Hikvision",
-    description: "Sistemas de seguridad IP con visión nocturna, detección de movimiento y acceso remoto. Protege tu negocio.",
-    cta1: { label: "Ver Cámaras", href: "/products?category=camaras" },
-    cta2: { label: "Ver Redes", href: "/products?category=redes" },
-    image: "/images/hero/slide-3.jpg",
-    imageAlt: "Cámaras de seguridad EZVIZ",
-    bg: "from-[#0c1445] via-[#0f1f5c] to-[#0a2a6e]",
-    tagColor: "bg-white/15 text-white border border-white/25",
-  },
-  {
-    id: 3,
-    tag: "Conectividad total",
-    title: "Soluciones",
-    subtitle: "de Red",
-    description: "Routers, switches, access points y cableado TP-Link y Mercusys. Infraestructura de red para empresas y hogares.",
-    cta1: { label: "Ver Redes", href: "/products?category=redes" },
-    cta2: { label: "Ver Todo", href: "/products" },
-    image: "/images/hero/slide-4.jpg",
-    imageAlt: "Equipos de red TP-Link",
-    bg: "from-[#0a0a0a] via-[#141414] to-[#1c1c2e]",
-    tagColor: "bg-white/15 text-white border border-white/25",
-  },
-]
+import { useBannerStore } from "@/stores/banner-store"
 
 export function HeroBanner() {
+  const allSlides = useBannerStore((s) => s.slides)
+  const slides = [...allSlides]
+    .filter((s) => s.active)
+    .sort((a, b) => a.order - b.order)
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start" },
     [Autoplay({ delay: 5000, stopOnInteraction: false })]
@@ -114,7 +48,7 @@ export function HeroBanner() {
                 src={slide.image}
                 alt=""
                 aria-hidden="true"
-                loading={slide.id === 0 ? "eager" : "lazy"}
+                loading={slide.order === 0 ? "eager" : "lazy"}
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover object-center lg:hidden"
               />
@@ -162,7 +96,7 @@ export function HeroBanner() {
                         : "bg-[var(--surface-1)] text-[var(--foreground)] hover:bg-[var(--surface-1)]/90 font-semibold"
                       }
                     >
-                      <Link href={slide.cta1.href}>{slide.cta1.label}</Link>
+                      <Link href={slide.cta1Href}>{slide.cta1Label}</Link>
                     </Button>
                     <Button
                       asChild
@@ -170,7 +104,7 @@ export function HeroBanner() {
                       variant="ghost"
                       className="border border-white/30 text-white hover:bg-white/10"
                     >
-                      <Link href={slide.cta2.href}>{slide.cta2.label}</Link>
+                      <Link href={slide.cta2Href}>{slide.cta2Label}</Link>
                     </Button>
                   </div>
                 </div>
@@ -185,7 +119,7 @@ export function HeroBanner() {
                       fill
                       className="rounded-2xl object-cover object-center drop-shadow-2xl"
                       sizes="500px"
-                      priority={slide.id === 0}
+                      priority={slide.order === 0}
                     />
                   </div>
                 </div>
