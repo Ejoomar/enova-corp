@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -92,7 +91,7 @@ export function BannerForm({ slide }: BannerFormProps) {
       form.append("file", file)
       form.append("folder", "banners")
 
-      const res = await fetch("/api/upload", { method: "POST", body: form })
+      const res = await fetch("/api/admin/upload", { method: "POST", body: form })
       const data = await res.json()
 
       if (!res.ok) throw new Error(data.error ?? "Error al subir")
@@ -108,8 +107,9 @@ export function BannerForm({ slide }: BannerFormProps) {
   const onSubmit = (values: BannerFormValues) => {
     const payload = {
       ...values,
-      image: imageUrl || "/images/hero/slide-1.jpg",
-      bg: selectedBg,
+      image:    imageUrl || "/images/hero/slide-1.jpg",
+      bgImage:  imageUrl || slide?.bgImage || "/images/hero/bg-1.svg",
+      bg:       selectedBg,
       tagColor: values.isBrand
         ? "bg-[var(--brass)]/20 text-[var(--brass-bright)] border border-[var(--brass)]/40"
         : "bg-white/15 text-white border border-white/25",
@@ -152,12 +152,11 @@ export function BannerForm({ slide }: BannerFormProps) {
           selectedBg
         )}>
           {imageUrl ? (
-            <Image
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={imageUrl}
               alt="Preview"
-              fill
-              className="object-cover"
-              sizes="672px"
+              className="absolute inset-0 h-full w-full object-cover"
             />
           ) : (
             <div className="flex h-full items-center justify-center text-white/30 text-sm">
