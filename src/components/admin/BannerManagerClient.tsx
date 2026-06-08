@@ -50,114 +50,167 @@ export function BannerManagerClient() {
           <div
             key={slide.id}
             className={cn(
-              "flex items-center gap-4 rounded-xl border bg-card p-4 transition-opacity",
+              "rounded-xl border bg-card p-3 sm:p-4 transition-opacity",
               !slide.active && "opacity-50"
             )}
           >
-            {/* Thumbnail */}
-            <div
-              className="relative h-16 w-28 shrink-0 overflow-hidden rounded-lg"
-              style={{ background: "linear-gradient(to right, #020817, #0a1628, #0c1e3d)" }}
-            >
-              {slide.image ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src={slide.image}
-                  alt={slide.imageAlt}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              ) : slide.bgImage ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src={slide.bgImage}
-                  alt=""
-                  aria-hidden="true"
-                  className="absolute inset-0 h-full w-full object-cover opacity-60"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center">
-                  <LayoutTemplate className="h-5 w-5 text-white/40" />
-                </div>
-              )}
-              {!slide.active && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                  <EyeOff className="h-4 w-4 text-white" />
-                </div>
-              )}
-            </div>
-
-            {/* Info */}
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="font-semibold text-sm truncate">
-                  {slide.title} {slide.subtitle}
-                </span>
-                {slide.isBrand && (
-                  <Badge variant="secondary" className="text-[10px]">
-                    Marca
-                  </Badge>
-                )}
-                <Badge
-                  variant={slide.active ? "default" : "outline"}
-                  className="text-[10px]"
-                >
-                  {slide.active ? "Visible" : "Oculto"}
-                </Badge>
-              </div>
-              <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                {slide.tag}
-              </p>
-              <p className="text-xs text-muted-foreground/70 mt-0.5 truncate">
-                {slide.cta1Label} → {slide.cta1Href}
-              </p>
-            </div>
-
-            {/* Reorder */}
-            <div className="flex flex-col gap-1 shrink-0">
-              <button
-                onClick={() => moveUp(slide.id)}
-                disabled={idx === 0}
-                className="flex h-6 w-6 items-center justify-center rounded border text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30"
-                title="Subir"
+            {/* Top row: thumbnail + info + desktop reorder */}
+            <div className="flex items-start gap-3">
+              {/* Thumbnail */}
+              <div
+                className="relative h-14 w-24 shrink-0 overflow-hidden rounded-lg sm:h-16 sm:w-28"
+                style={{ background: "linear-gradient(to right, #020817, #0a1628, #0c1e3d)" }}
               >
-                <ArrowUp className="h-3 w-3" />
-              </button>
-              <button
-                onClick={() => moveDown(slide.id)}
-                disabled={idx === sorted.length - 1}
-                className="flex h-6 w-6 items-center justify-center rounded border text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30"
-                title="Bajar"
-              >
-                <ArrowDown className="h-3 w-3" />
-              </button>
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                onClick={() => toggleActive(slide.id)}
-                title={slide.active ? "Ocultar" : "Mostrar"}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {slide.active ? (
-                  <Eye className="h-4 w-4" />
+                {slide.image ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={slide.image}
+                    alt={slide.imageAlt}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                ) : slide.bgImage ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={slide.bgImage}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 h-full w-full object-cover opacity-60"
+                  />
                 ) : (
-                  <EyeOff className="h-4 w-4" />
+                  <div className="flex h-full items-center justify-center">
+                    <LayoutTemplate className="h-5 w-5 text-white/40" />
+                  </div>
                 )}
-              </button>
-              <Button asChild variant="outline" size="sm">
-                <Link href={`/admin/banners/${slide.id}`}>
-                  <Pencil className="h-3.5 w-3.5" />
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleDelete(slide)}
-                className="text-destructive hover:text-destructive hover:border-destructive/40"
-              >
-                <Trash2 className="h-3.5 w-3.5" />
-              </Button>
+                {!slide.active && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                    <EyeOff className="h-4 w-4 text-white" />
+                  </div>
+                )}
+              </div>
+
+              {/* Info */}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="font-semibold text-sm">
+                    {slide.title} {slide.subtitle}
+                  </span>
+                  {slide.isBrand && (
+                    <Badge variant="secondary" className="text-[10px]">
+                      Marca
+                    </Badge>
+                  )}
+                  <Badge
+                    variant={slide.active ? "default" : "outline"}
+                    className="text-[10px]"
+                  >
+                    {slide.active ? "Visible" : "Oculto"}
+                  </Badge>
+                </div>
+                <p className="text-xs text-muted-foreground mt-0.5 truncate">
+                  {slide.tag}
+                </p>
+                <p className="text-xs text-muted-foreground/70 mt-0.5 truncate hidden sm:block">
+                  {slide.cta1Label} → {slide.cta1Href}
+                </p>
+              </div>
+
+              {/* Reorder — desktop only */}
+              <div className="hidden sm:flex flex-col gap-1 shrink-0">
+                <button
+                  onClick={() => moveUp(slide.id)}
+                  disabled={idx === 0}
+                  className="flex h-7 w-7 items-center justify-center rounded border text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30"
+                  title="Subir"
+                >
+                  <ArrowUp className="h-3.5 w-3.5" />
+                </button>
+                <button
+                  onClick={() => moveDown(slide.id)}
+                  disabled={idx === sorted.length - 1}
+                  className="flex h-7 w-7 items-center justify-center rounded border text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30"
+                  title="Bajar"
+                >
+                  <ArrowDown className="h-3.5 w-3.5" />
+                </button>
+              </div>
+
+              {/* Actions — desktop only */}
+              <div className="hidden sm:flex items-center gap-2 shrink-0">
+                <button
+                  onClick={() => toggleActive(slide.id)}
+                  title={slide.active ? "Ocultar" : "Mostrar"}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {slide.active ? (
+                    <Eye className="h-4 w-4" />
+                  ) : (
+                    <EyeOff className="h-4 w-4" />
+                  )}
+                </button>
+                <Button asChild variant="outline" size="sm">
+                  <Link href={`/admin/banners/${slide.id}`}>
+                    <Pencil className="h-3.5 w-3.5" />
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleDelete(slide)}
+                  className="text-destructive hover:text-destructive hover:border-destructive/40"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Bottom row — mobile only: reorder + actions */}
+            <div className="flex items-center justify-between mt-2.5 pt-2.5 border-t sm:hidden">
+              {/* Reorder */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => moveUp(slide.id)}
+                  disabled={idx === 0}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30"
+                  title="Subir"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => moveDown(slide.id)}
+                  disabled={idx === sorted.length - 1}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30"
+                  title="Bajar"
+                >
+                  <ArrowDown className="h-4 w-4" />
+                </button>
+              </div>
+              {/* Actions */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => toggleActive(slide.id)}
+                  title={slide.active ? "Ocultar" : "Mostrar"}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {slide.active ? (
+                    <Eye className="h-4 w-4" />
+                  ) : (
+                    <EyeOff className="h-4 w-4" />
+                  )}
+                </button>
+                <Button asChild variant="outline" size="sm">
+                  <Link href={`/admin/banners/${slide.id}`}>
+                    <Pencil className="h-3.5 w-3.5" />
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleDelete(slide)}
+                  className="text-destructive hover:text-destructive hover:border-destructive/40"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              </div>
             </div>
           </div>
         ))}
