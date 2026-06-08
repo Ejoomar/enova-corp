@@ -1,6 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 44" fill="none">
-  <circle cx="22" cy="22" r="16" fill="#1A7A3C"/>
-  <text x="22" y="29" font-family="'Arial Black',sans-serif" font-size="20" font-weight="900" fill="white" text-anchor="middle">$</text>
-  <text x="58" y="20" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#1A7A3C" text-anchor="middle">USD</text>
-  <text x="58" y="32" font-family="Arial,sans-serif" font-size="8" font-weight="400" fill="#1A7A3C" text-anchor="middle">DIVISAS</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 48" fill="none">
+  <!-- Circle background -->
+  <circle cx="24" cy="24" r="22" fill="#1A7A3C"/>
+  <!-- Dollar sign using path for crisp rendering -->
+  <text x="24" y="32" font-family="Georgia,Times New Roman,serif" font-size="26" font-weight="700" fill="white" text-anchor="middle">$</text>
+  <!-- USD lettering -->
+  <text x="80" y="20" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="800" fill="#1A7A3C" text-anchor="middle" letter-spacing="3">USD</text>
+  <!-- Divider line -->
+  <line x1="52" y1="26" x2="112" y2="26" stroke="#1A7A3C" stroke-width="0.8" opacity="0.4"/>
+  <!-- Subtitle -->
+  <text x="80" y="38" font-family="Arial,Helvetica,sans-serif" font-size="8.5" font-weight="500" fill="#1A7A3C" text-anchor="middle" letter-spacing="1.5" opacity="0.75">DIVISAS</text>
 </svg>
