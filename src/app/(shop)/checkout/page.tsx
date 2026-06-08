@@ -1,22 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { ChevronLeft, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { ShippingForm } from "@/components/checkout/ShippingForm"
 import { PaymentForm } from "@/components/checkout/PaymentForm"
 import { OrderSummary } from "@/components/checkout/OrderSummary"
-import { products } from "@/data/mock-products"
-import { CartItem } from "@/types"
-
-// Mock cart data
-const cartItems: CartItem[] = [
-  { product: products[0], quantity: 1 },
-  { product: products[1], quantity: 2 },
-  { product: products[2], quantity: 1 },
-]
+import { useCartStore } from "@/stores/cart-store"
 
 const steps = [
   { id: 1, name: "Envío" },
@@ -25,7 +18,16 @@ const steps = [
 ]
 
 export default function CheckoutPage() {
+  const router = useRouter()
+  const { items } = useCartStore()
   const [currentStep, setCurrentStep] = useState(1)
+
+  // Redirect to cart if empty
+  useEffect(() => {
+    if (items.length === 0) {
+      router.replace("/cart")
+    }
+  }, [items, router])
 
   const handleNext = () => {
     if (currentStep < 3) {
@@ -38,6 +40,8 @@ export default function CheckoutPage() {
       setCurrentStep(currentStep - 1)
     }
   }
+
+  if (items.length === 0) return null
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -150,7 +154,7 @@ export default function CheckoutPage() {
         {/* Order Summary */}
         <div className="lg:col-span-1">
           <div className="sticky top-24">
-            <OrderSummary items={cartItems} />
+            <OrderSummary items={items} />
           </div>
         </div>
       </div>
