@@ -106,7 +106,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   {formatBsF(usdToBsF(product.price, bcv))}
                 </p>
                 <p className="text-xs text-muted-foreground/70">
-                  BCV: Bs. {bcv.toFixed(2)} / ${paralelo !== null ? ` · Paralelo: Bs. ${paralelo.toFixed(2)} / $` : ""}
+                  BCV: Bs. {bcv.toFixed(2)} / $
                 </p>
               </div>
             )}
