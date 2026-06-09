@@ -43,8 +43,8 @@ function AdminLoginContent() {
         return
       }
 
-      router.replace(from)
-      router.refresh()
+      // Full reload so the middleware picks up the new cookie immediately
+      window.location.href = from
     } catch {
       setError("Error de conexión. Intenta de nuevo.")
     } finally {
