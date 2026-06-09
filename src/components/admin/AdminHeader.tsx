@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useTransition } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Bell, LogOut, Search, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -17,16 +17,8 @@ import {
 import { ThemeToggle } from "@/components/layout/ThemeToggle"
 import { AdminMobileNav } from "./AdminMobileNav"
 
-interface AdminHeaderProps {
-  user?: {
-    name?: string | null
-    email?: string | null
-  }
-}
-
-export function AdminHeader({ user }: AdminHeaderProps) {
+export function AdminHeader() {
   const router = useRouter()
-  const [isPending, startTransition] = useTransition()
   const [searchQuery, setSearchQuery] = useState("")
   const [pendingPayments, setPendingPayments] = useState(0)
 
@@ -37,16 +29,11 @@ export function AdminHeader({ user }: AdminHeaderProps) {
       .catch(() => {})
   }, [])
 
-  const initials = user?.name
-    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
-    : "AD"
+  const initials = "AD"
 
-  function handleSignOut() {
-    startTransition(async () => {
-      await fetch("/api/admin/auth", { method: "DELETE" })
-      router.refresh()
-      router.replace("/admin/login")
-    })
+  async function handleSignOut() {
+    await fetch("/api/admin/auth", { method: "DELETE" })
+    window.location.href = "/admin/login"
   }
 
   function handleSearch(e: React.FormEvent) {
@@ -110,9 +97,9 @@ export function AdminHeader({ user }: AdminHeaderProps) {
           <DropdownMenuContent align="end" className="w-52">
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium">{user?.name ?? "Admin"}</p>
+                <p className="text-sm font-medium">Admin</p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {user?.email ?? "Gerencia@enovacorp.co"}
+                  Gerencia@enovacorp.co
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -124,11 +111,10 @@ export function AdminHeader({ user }: AdminHeaderProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={handleSignOut}
-              disabled={isPending}
               className="text-destructive focus:text-destructive"
             >
               <LogOut className="mr-2 h-4 w-4" />
-              {isPending ? "Cerrando sesión..." : "Cerrar sesión"}
+              Cerrar sesión
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

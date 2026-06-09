@@ -1,16 +1,21 @@
-import { auth } from "@/auth"
+import { cookies } from "next/headers"
 import { AdminSidebar } from "@/components/admin/AdminSidebar"
 import { AdminHeader } from "@/components/admin/AdminHeader"
+
+const ADMIN_COOKIE = "enova_admin_session"
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth()
+  const cookieStore = await cookies()
+  const session = cookieStore.get(ADMIN_COOKIE)
+  const expected = process.env.ADMIN_SESSION_TOKEN ?? "enova_admin_default"
+  const isAuthenticated = session?.value === expected
 
-  // Login page: render without sidebar/header (middleware handles auth redirect)
-  if (!session) {
+  // Sin sesión: solo renderiza el contenido (login page)
+  if (!isAuthenticated) {
     return <>{children}</>
   }
 
@@ -18,7 +23,7 @@ export default async function AdminLayout({
     <div className="min-h-screen bg-muted/30">
       <AdminSidebar />
       <div className="lg:pl-64">
-        <AdminHeader user={session.user} />
+        <AdminHeader />
         <main className="p-4 lg:p-6">{children}</main>
       </div>
     </div>
