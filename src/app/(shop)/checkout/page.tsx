@@ -143,7 +143,10 @@ export default function CheckoutPage() {
               {currentStep < 3 ? (
                 <Button onClick={handleNext}>Continuar</Button>
               ) : (
-                <Button className="bg-[var(--color-success)] hover:opacity-90">
+                <Button
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                  onClick={() => router.push("/checkout/confirmacion")}
+                >
                   Confirmar y Pagar
                 </Button>
               )}

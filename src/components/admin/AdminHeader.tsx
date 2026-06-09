@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { signOut } from "next-auth/react"
 import { Bell, LogOut, Search, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -44,7 +43,7 @@ export function AdminHeader({ user }: AdminHeaderProps) {
 
   function handleSignOut() {
     startTransition(async () => {
-      await signOut({ redirect: false })
+      await fetch("/api/admin/auth", { method: "DELETE" })
       router.replace("/admin/login")
     })
   }

@@ -1,6 +1,4 @@
-"use client"
-
-import { use } from "react"
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import {
@@ -23,13 +21,36 @@ interface ProductPageProps {
   params: Promise<{ id: string }>
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
-  const { id } = use(params)
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { id } = await params
+  const product = products.find((p) => p.slug === id || p.id === id)
 
-  // Buscar por slug o por id (el link usa product.slug)
-  const product = products.find(
-    (p) => p.slug === id || p.id === id
-  )
+  if (!product) {
+    return { title: "Producto no encontrado — ENOVA CORP" }
+  }
+
+  const title = `${product.name} — ENOVA CORP`
+  const description =
+    product.description?.slice(0, 155) ??
+    `${product.name} disponible en ENOVA CORP.${product.brand ? ` Marca: ${product.brand}.` : ""} Solicita tu cotización en Caracas, Venezuela.`
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: product.images[0] ? [{ url: product.images[0], alt: product.name }] : [],
+      locale: "es_VE",
+      type: "website",
+    },
+  }
+}
+
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { id } = await params
+
+  const product = products.find((p) => p.slug === id || p.id === id)
 
   if (!product) {
     return (
@@ -45,7 +66,6 @@ export default function ProductPage({ params }: ProductPageProps) {
     )
   }
 
-  // Productos relacionados: misma categoría, excluyendo el actual
   const related = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 8)
