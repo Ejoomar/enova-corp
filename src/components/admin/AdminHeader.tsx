@@ -44,6 +44,7 @@ export function AdminHeader({ user }: AdminHeaderProps) {
   function handleSignOut() {
     startTransition(async () => {
       await fetch("/api/admin/auth", { method: "DELETE" })
+      router.refresh()
       router.replace("/admin/login")
     })
   }
