@@ -2,6 +2,7 @@ import { MarqueeBar } from "@/components/layout/MarqueeBar"
 import { TopBar } from "@/components/layout/TopBar"
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton"
 
 export default function ShopLayout({
   children,
@@ -15,6 +16,7 @@ export default function ShopLayout({
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
+      <WhatsAppButton />
     </div>
   )
 }

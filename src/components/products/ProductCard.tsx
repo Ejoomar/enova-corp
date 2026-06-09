@@ -89,7 +89,7 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
                 src={productImage}
                 alt={product.name}
                 fill
-                className="object-contain mix-blend-multiply contrast-[1.04] transition-transform duration-500 motion-safe:group-hover:scale-[1.04]"
+                className="object-contain contrast-[1.04] transition-transform duration-500 motion-safe:group-hover:scale-[1.04] [&]:mix-blend-multiply dark:[&]:mix-blend-normal"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 onError={() => setImgError(true)}
               />

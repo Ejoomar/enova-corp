@@ -45,6 +45,7 @@ export default function EditProductPage() {
           category: product.category,
           brand: product.brand,
           images: product.images,
+          specs: product.specs,
           isNew: product.isNew,
           isFeatured: product.isFeatured,
           plusIva: product.plusIva,

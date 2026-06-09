@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import Image from "next/image"
-import { ImagePlus, Link as LinkIcon, Loader2, Save, X } from "lucide-react"
+import { ImagePlus, Link as LinkIcon, Loader2, Save, X, Plus } from "lucide-react"
 import { useProductsStore } from "@/stores/products-store"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -40,8 +40,10 @@ const productSchema = z.object({
 
 type ProductFormValues = z.infer<typeof productSchema>
 
+interface SpecRow { key: string; value: string }
+
 interface ProductFormProps {
-  initialData?: Partial<ProductFormValues> & { id?: string; images?: string[] }
+  initialData?: Partial<ProductFormValues> & { id?: string; images?: string[]; specs?: Record<string, string> }
   mode: "create" | "edit"
 }
 
@@ -53,6 +55,31 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
   const [imageUrl, setImageUrl] = useState("")
   const [uploading, setUploading] = useState(false)
   const [imageError, setImageError] = useState<string | null>(null)
+
+  // Specs — stored as array of rows for easy editing, serialised to Record on submit
+  const [specs, setSpecs] = useState<SpecRow[]>(() => {
+    const src = initialData?.specs ?? {}
+    return Object.entries(src).map(([key, value]) => ({ key, value }))
+  })
+
+  function addSpecRow() {
+    setSpecs((prev) => [...prev, { key: "", value: "" }])
+  }
+
+  function updateSpec(index: number, field: "key" | "value", val: string) {
+    setSpecs((prev) => prev.map((row, i) => i === index ? { ...row, [field]: val } : row))
+  }
+
+  function removeSpec(index: number) {
+    setSpecs((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  function specsToRecord(): Record<string, string> {
+    return specs.reduce<Record<string, string>>((acc, { key, value }) => {
+      if (key.trim()) acc[key.trim()] = value.trim()
+      return acc
+    }, {})
+  }
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -137,13 +164,12 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
     }
 
     startTransition(async () => {
-      const payload = { ...values, images }
+      const specsRecord = specsToRecord()
+      const payload = { ...values, images, specs: specsRecord }
 
       if (mode === "edit" && initialData?.id) {
-        // Update the persisted store directly — changes survive navigation
         updateProduct(initialData.id, payload)
       } else {
-        // Create: generate a temp id and add to store
         const newProduct = {
           id: `prod-${Date.now()}`,
           slug: values.slug,
@@ -158,7 +184,7 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
           isNew: values.isNew,
           isFeatured: values.isFeatured,
           plusIva: values.plusIva,
-          specs: {},
+          specs: specsRecord,
           rating: 0,
           reviews: 0,
         }
@@ -317,6 +343,50 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
               </Tabs>
 
               {imageError && <p className="text-xs text-destructive">{imageError}</p>}
+            </CardContent>
+          </Card>
+          {/* Specs */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-3">
+              <CardTitle className="text-base">Especificaciones técnicas</CardTitle>
+              <button
+                type="button"
+                onClick={addSpecRow}
+                className="flex items-center gap-1.5 rounded-md border border-[var(--hairline)] px-2.5 py-1 text-xs font-medium transition-colors hover:bg-muted"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                Añadir fila
+              </button>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {specs.length === 0 && (
+                <p className="text-xs text-muted-foreground py-2">
+                  Sin especificaciones. Haz clic en "Añadir fila" para agregar.
+                </p>
+              )}
+              {specs.map((row, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <Input
+                    placeholder="Ej: Procesador"
+                    value={row.key}
+                    onChange={(e) => updateSpec(i, "key", e.target.value)}
+                    className="h-8 text-sm"
+                  />
+                  <Input
+                    placeholder="Ej: Intel Core i5"
+                    value={row.value}
+                    onChange={(e) => updateSpec(i, "value", e.target.value)}
+                    className="h-8 text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeSpec(i)}
+                    className="shrink-0 rounded p-1 text-muted-foreground hover:text-destructive"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              ))}
             </CardContent>
           </Card>
         </div>
