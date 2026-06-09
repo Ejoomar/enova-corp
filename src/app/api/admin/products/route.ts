@@ -1,7 +1,7 @@
-import { auth } from "@/auth"
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { products as mockProducts } from "@/data/mock-products"
+import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
 const productSchema = z.object({
   name: z.string().min(1, "Nombre requerido"),
@@ -18,11 +18,8 @@ const productSchema = z.object({
   plusIva: z.boolean().optional(),
 })
 
-export async function GET() {
-  const session = await auth()
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+export async function GET(request: NextRequest) {
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   return NextResponse.json({
     success: true,
@@ -45,10 +42,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const session = await auth()
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   const body = await request.json()
   const parsed = productSchema.safeParse(body)

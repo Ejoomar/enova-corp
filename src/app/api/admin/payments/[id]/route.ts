@@ -1,12 +1,11 @@
-import { auth } from "@/auth"
 import { NextRequest, NextResponse } from "next/server"
+import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth()
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   const { id } = await params
   const { status } = await request.json()
@@ -16,8 +15,7 @@ export async function PATCH(
   }
 
   // When Supabase is connected:
-  // await db.paymentProof.update({ where: { id }, data: { status, reviewedBy: session.user.email, reviewedAt: new Date() } })
-  // If status === "approved", trigger Resend email to customer
+  // await db.paymentProof.update({ where: { id }, data: { status, reviewedAt: new Date() } })
 
   return NextResponse.json({
     success: true,

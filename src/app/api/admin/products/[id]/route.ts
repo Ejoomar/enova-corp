@@ -1,7 +1,7 @@
-import { auth } from "@/auth"
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { getProductById } from "@/lib/get-product"
+import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
 const updateSchema = z.object({
   name: z.string().min(1).optional(),
@@ -18,11 +18,10 @@ const updateSchema = z.object({
 })
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth()
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   const { id } = await params
   const product = await getProductById(id)
@@ -38,8 +37,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth()
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   const { id } = await params
   const body = await request.json()
@@ -60,11 +58,10 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth()
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   const { id } = await params
 

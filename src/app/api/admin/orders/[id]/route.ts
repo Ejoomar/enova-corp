@@ -1,13 +1,12 @@
-import { auth } from "@/auth"
 import { NextRequest, NextResponse } from "next/server"
 import { orders } from "@/data/mock-orders"
+import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth()
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   const { id } = await params
   const order = orders.find((o) => o.id === id)
@@ -23,8 +22,7 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth()
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   const { id } = await params
   const { status } = await request.json()

@@ -1,17 +1,15 @@
-import { auth } from "@/auth"
 import { NextRequest, NextResponse } from "next/server"
 import { settingsStore } from "@/lib/settings-store"
+import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
-export async function GET() {
-  const session = await auth()
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+export async function GET(request: NextRequest) {
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   return NextResponse.json({ success: true, data: settingsStore })
 }
 
 export async function PUT(request: NextRequest) {
-  const session = await auth()
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   try {
     const body = await request.json()
