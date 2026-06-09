@@ -161,7 +161,7 @@ export const useProductsStore = create<ProductsState>()(
       name: "enova-products",
       // Bump this version whenever mock-products.ts changes image URLs or
       // product data so browsers discard the cached catalog and reload fresh.
-      version: 3,
+      version: 4,
       partialize: (state) => ({ allProducts: state.allProducts }),
       migrate: () => ({ allProducts: mockProducts }),
     }

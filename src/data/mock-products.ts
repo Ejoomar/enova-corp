@@ -99,7 +99,7 @@ export const products: Product[] = [
     slug: "balanza-aclas-ls2-m3",
     brand: "ACLAS", category: "equipos-fiscales",
     price: 990, originalPrice: 1336.5,
-    images: ["https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=500&q=80"],
+    images: ["https://www.laserprintsoluciones.com/wp-content/uploads/2021/11/LS2-PT_1.jpg"],
     description: "Balanza fiscal ACLAS LS2 M3 homologada por el SENIAT. Ideal para comercios que requieren pesaje y emisión de tickets fiscales.",
     specs: { "Modelo": "LS2 M3", "Homologación": "SENIAT" },
     stock: 1, isNew: false, isFeatured: true, rating: 4.7, plusIva: true,
