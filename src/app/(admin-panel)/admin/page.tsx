@@ -20,7 +20,7 @@ function DashboardSkeleton() {
         <Skeleton className="h-8 w-32" />
         <Skeleton className="mt-2 h-4 w-64" />
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[1, 2, 3, 4].map((i) => (
           <Card key={i}>
             <CardHeader className="pb-2">
@@ -123,7 +123,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatsCard
           title="Ingresos Totales"
           value={`$${(stats?.totalRevenue || 0).toLocaleString("en-US")}`}
