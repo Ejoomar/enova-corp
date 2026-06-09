@@ -1,11 +1,8 @@
 "use client"
 
-import { Suspense, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { Eye, EyeOff, Lock, ShieldCheck } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Suspense } from "react"
+import { useSearchParams } from "next/navigation"
+import { ShieldCheck } from "lucide-react"
 
 export default function AdminLoginPage() {
   return (
@@ -16,41 +13,9 @@ export default function AdminLoginPage() {
 }
 
 function AdminLoginContent() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const from = searchParams.get("from") ?? "/admin"
-
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError("")
-    setLoading(true)
-
-    try {
-      const res = await fetch("/api/admin/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        setError(data.error ?? "Error al iniciar sesión")
-        return
-      }
-
-      // Full reload so the middleware picks up the new cookie immediately
-      window.location.href = from
-    } catch {
-      setError("Error de conexión. Intenta de nuevo.")
-    } finally {
-      setLoading(false)
-    }
-  }
+  const hasError = searchParams.get("error") === "1"
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--background)] px-4">
@@ -69,52 +34,43 @@ function AdminLoginContent() {
           </p>
         </div>
 
-        {/* Form */}
+        {/* Native form POST — el browser maneja el cookie automáticamente */}
         <form
-          onSubmit={handleSubmit}
+          method="POST"
+          action="/api/admin/auth"
           className="rounded-xl border border-[var(--hairline)] bg-card p-6 shadow-sm space-y-5"
         >
+          <input type="hidden" name="redirectTo" value={from} />
+
           <div className="space-y-2">
-            <Label htmlFor="password">Contraseña de administrador</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="pl-9 pr-10"
-                autoFocus
-                autoComplete="current-password"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((v) => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                tabIndex={-1}
-              >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
+            <label htmlFor="password" className="text-sm font-medium">
+              Contraseña de administrador
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              autoFocus
+              autoComplete="current-password"
+              required
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[var(--brass)]/40"
+            />
           </div>
 
-          {error && (
+          {hasError && (
             <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
-              {error}
+              Contraseña incorrecta. Intenta de nuevo.
             </p>
           )}
 
-          <Button
+          <button
             type="submit"
-            className="w-full"
+            className="w-full rounded-md py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: "var(--brass)" }}
-            disabled={loading || !password}
           >
-            {loading ? "Verificando..." : "Ingresar al panel"}
-          </Button>
+            Ingresar al panel
+          </button>
         </form>
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
