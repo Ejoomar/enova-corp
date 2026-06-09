@@ -4,16 +4,17 @@ const ADMIN_COOKIE = "enova_admin_session"
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const session = request.cookies.get(ADMIN_COOKIE)
-  const expected = process.env.ADMIN_SESSION_TOKEN ?? "enova_admin_default"
-  const isAuthenticated = session?.value === expected
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "enova2024"
 
-  // Si está autenticado y va al login → redirigir al dashboard
+  const cookie = request.cookies.get(ADMIN_COOKIE)
+  const isAuthenticated = cookie?.value === ADMIN_PASSWORD
+
+  // Autenticado intentando ir al login → dashboard
   if (isAuthenticated && pathname.startsWith("/admin/login")) {
     return NextResponse.redirect(new URL("/admin", request.url))
   }
 
-  // Si NO está autenticado y va a cualquier ruta admin → redirigir al login
+  // No autenticado intentando acceder al admin → login
   if (!isAuthenticated && pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
     const loginUrl = new URL("/admin/login", request.url)
     loginUrl.searchParams.set("from", pathname)

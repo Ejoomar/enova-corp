@@ -10,11 +10,11 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   const cookieStore = await cookies()
-  const session = cookieStore.get(ADMIN_COOKIE)
-  const expected = process.env.ADMIN_SESSION_TOKEN ?? "enova_admin_default"
-  const isAuthenticated = session?.value === expected
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "enova2024"
+  const cookie = cookieStore.get(ADMIN_COOKIE)
+  const isAuthenticated = cookie?.value === ADMIN_PASSWORD
 
-  // Sin sesión: solo renderiza el contenido (login page sin chrome)
+  // Sin sesión: solo renderiza el contenido sin chrome (login page)
   if (!isAuthenticated) {
     return <>{children}</>
   }

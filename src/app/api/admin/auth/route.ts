@@ -8,14 +8,14 @@ export async function POST(request: NextRequest) {
   const { password } = body as { password?: string }
 
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "enova2024"
-  const SESSION_TOKEN = process.env.ADMIN_SESSION_TOKEN ?? "enova_admin_default"
 
   if (!password || password !== ADMIN_PASSWORD) {
     return NextResponse.json({ error: "Contraseña incorrecta" }, { status: 401 })
   }
 
+  // Cookie value = el password mismo (httpOnly — el cliente nunca puede leerlo)
   const response = NextResponse.json({ ok: true })
-  response.cookies.set(ADMIN_COOKIE, SESSION_TOKEN, {
+  response.cookies.set(ADMIN_COOKIE, ADMIN_PASSWORD, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     maxAge: COOKIE_MAX_AGE,
