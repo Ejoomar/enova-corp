@@ -1,59 +1,53 @@
+import { Truck, MessageSquare, Globe, CreditCard } from "lucide-react"
+
 const pillars = [
   {
     num: "01",
     title: "Distribución directa",
     desc: "Trabajamos con proveedores seleccionados para ofrecerte los mejores equipos al mejor precio.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <path d="M1 3h15v13H1z" />
-        <path d="M16 8h4l3 3v5h-7V8z" />
-        <circle cx="5.5" cy="18.5" r="2.5" />
-        <circle cx="18.5" cy="18.5" r="2.5" />
-      </svg>
-    ),
+    stat: "+500",
+    statLabel: "equipos distribuidos",
+    Icon: Truck,
   },
   {
     num: "02",
     title: "Soporte técnico",
     desc: "Equipo especializado disponible para asesorarte antes, durante y después de tu compra.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
-    ),
+    stat: "98%",
+    statLabel: "satisfacción del cliente",
+    Icon: MessageSquare,
   },
   {
     num: "03",
     title: "Cobertura nacional",
     desc: "Enviamos a todo Venezuela. Tu pedido llega donde estés, de forma rápida y segura.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-      </svg>
-    ),
+    stat: "+23",
+    statLabel: "estados cubiertos",
+    Icon: Globe,
   },
   {
     num: "04",
     title: "Múltiples métodos de pago",
     desc: "USD, Bs., Zelle, Pago Móvil, Binance y transferencias a todos los bancos venezolanos.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-        <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-        <path d="M1 10h22" />
-      </svg>
-    ),
+    stat: "6+",
+    statLabel: "formas de pago aceptadas",
+    Icon: CreditCard,
   },
 ]
 
+const cardBase =
+  "group relative flex flex-col border border-[var(--hairline)] bg-[var(--surface-1)] p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--brass)]/40 hover:shadow-[0_12px_40px_-8px_rgba(0,87,183,0.16)]"
+
 export function BrandSection() {
+  const [p1, p2, p3, p4] = pillars
+
   return (
     <section className="border-b border-[var(--hairline)] py-20">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-20">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[5fr_7fr] lg:items-start lg:gap-20">
 
-          {/* ── Columna izquierda: ancla editorial ── */}
-          <div className="flex flex-col gap-7">
+          {/* ── Columna izquierda ── */}
+          <div className="flex flex-col gap-6 lg:pt-2">
             <span className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-[var(--brass)]">
               ENOVA CORP · Mérida, Venezuela
             </span>
@@ -66,7 +60,12 @@ export function BrandSection() {
               Más de 5 años siendo el distribuidor tecnológico de confianza en Venezuela. Equipos certificados, garantía real y atención personalizada.
             </p>
 
-            {/* CTA WhatsApp */}
+            {/* Separador decorativo */}
+            <div className="flex items-center gap-3">
+              <div className="h-px w-10 bg-[var(--brass)]/50" />
+              <div className="h-1 w-1 rounded-full bg-[var(--brass)]/40" />
+            </div>
+
             <a
               href="https://wa.me/584223668201?text=Hola%20ENOVA%20CORP%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n"
               target="_blank"
@@ -80,37 +79,136 @@ export function BrandSection() {
             </a>
           </div>
 
-          {/* ── Columna derecha: grid 2×2 ── */}
-          <div className="grid grid-cols-2 gap-3">
-            {pillars.map((p) => (
-              <div
-                key={p.num}
-                className="group flex flex-col gap-5 border border-[var(--hairline)] bg-[var(--surface-1)] p-5 transition-all duration-300 hover:border-[var(--brass)]/30 hover:shadow-[0_4px_24px_-4px_rgba(0,87,183,0.10)] sm:p-6"
-                style={{ borderTop: "2px solid var(--brass)" }}
-              >
-                {/* Icono + número */}
-                <div className="flex items-center justify-between">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center bg-[var(--brass)]/10 text-[var(--brass)] transition-transform duration-300 group-hover:scale-105">
-                    {p.icon}
+          {/* ── Columna derecha: bento asimétrico ── */}
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+
+            {/* Card 1 — tall (row-span-2) */}
+            <div
+              className={`${cardBase} justify-between lg:row-span-2`}
+              style={{ borderTop: "2px solid var(--brass)" }}
+            >
+              <div>
+                <div className="flex items-start justify-between">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[var(--brass)]/15 text-[var(--brass)] transition-all duration-300 group-hover:bg-[var(--brass)]/25 group-hover:scale-105">
+                    <p1.Icon className="h-7 w-7" strokeWidth={1.5} />
                   </div>
                   <span className="font-mono-ui text-[10px] tracking-[0.12em] text-[var(--muted-foreground)]">
-                    {p.num}
+                    {p1.num}
                   </span>
                 </div>
+                <h3 className="mt-5 font-display text-base font-medium leading-snug tracking-[-0.01em] text-foreground">
+                  {p1.title}
+                </h3>
+                <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)]">
+                  {p1.desc}
+                </p>
+              </div>
 
-                {/* Contenido */}
-                <div>
-                  <h3 className="font-display text-[15px] font-medium leading-snug tracking-[-0.01em] text-foreground sm:text-base">
-                    {p.title}
+              {/* Stat al pie */}
+              <div className="mt-8 border-t border-[var(--hairline)] pt-5">
+                <p className="font-display text-4xl font-light tracking-tight text-[var(--brass)]">
+                  {p1.stat}
+                </p>
+                <p className="mt-1 font-mono-ui text-[10px] uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
+                  {p1.statLabel}
+                </p>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div
+              className={cardBase}
+              style={{ borderTop: "2px solid var(--brass)" }}
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--brass)]/15 text-[var(--brass)] transition-all duration-300 group-hover:bg-[var(--brass)]/25 group-hover:scale-105">
+                  <p2.Icon className="h-6 w-6" strokeWidth={1.5} />
+                </div>
+                <span className="font-mono-ui text-[10px] tracking-[0.12em] text-[var(--muted-foreground)]">
+                  {p2.num}
+                </span>
+              </div>
+              <h3 className="mt-4 font-display text-[15px] font-medium leading-snug tracking-[-0.01em] text-foreground">
+                {p2.title}
+              </h3>
+              <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)]">
+                {p2.desc}
+              </p>
+              <div className="mt-4 border-t border-[var(--hairline)] pt-4">
+                <span className="font-display text-2xl font-light text-[var(--brass)]">{p2.stat}</span>
+                <span className="ml-2 font-mono-ui text-[10px] uppercase tracking-[0.1em] text-[var(--muted-foreground)]">
+                  {p2.statLabel}
+                </span>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div
+              className={cardBase}
+              style={{ borderTop: "2px solid var(--brass)" }}
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--brass)]/15 text-[var(--brass)] transition-all duration-300 group-hover:bg-[var(--brass)]/25 group-hover:scale-105">
+                  <p3.Icon className="h-6 w-6" strokeWidth={1.5} />
+                </div>
+                <span className="font-mono-ui text-[10px] tracking-[0.12em] text-[var(--muted-foreground)]">
+                  {p3.num}
+                </span>
+              </div>
+              <h3 className="mt-4 font-display text-[15px] font-medium leading-snug tracking-[-0.01em] text-foreground">
+                {p3.title}
+              </h3>
+              <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)]">
+                {p3.desc}
+              </p>
+              <div className="mt-4 border-t border-[var(--hairline)] pt-4">
+                <span className="font-display text-2xl font-light text-[var(--brass)]">{p3.stat}</span>
+                <span className="ml-2 font-mono-ui text-[10px] uppercase tracking-[0.1em] text-[var(--muted-foreground)]">
+                  {p3.statLabel}
+                </span>
+              </div>
+            </div>
+
+            {/* Card 4 — wide (col-span-2), layout horizontal */}
+            <div
+              className={`${cardBase} sm:col-span-2 lg:col-span-2`}
+              style={{ borderTop: "2px solid var(--brass)" }}
+            >
+              <div className="flex items-start gap-6 lg:items-center">
+                {/* Izquierda */}
+                <div className="flex-1">
+                  <div className="flex items-start justify-between">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--brass)]/15 text-[var(--brass)] transition-all duration-300 group-hover:bg-[var(--brass)]/25 group-hover:scale-105">
+                      <p4.Icon className="h-6 w-6" strokeWidth={1.5} />
+                    </div>
+                    <span className="font-mono-ui text-[10px] tracking-[0.12em] text-[var(--muted-foreground)]">
+                      {p4.num}
+                    </span>
+                  </div>
+                  <h3 className="mt-4 font-display text-[15px] font-medium leading-snug tracking-[-0.01em] text-foreground">
+                    {p4.title}
                   </h3>
-                  <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)] sm:text-[13px]">
-                    {p.desc}
+                  <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)]">
+                    {p4.desc}
                   </p>
                 </div>
-              </div>
-            ))}
-          </div>
 
+                {/* Divisor + stat grande */}
+                <div className="hidden shrink-0 items-center gap-6 lg:flex">
+                  <div className="h-16 w-px bg-[var(--hairline)]" />
+                  <div className="text-center">
+                    <p className="font-display text-5xl font-light tracking-tight text-[var(--brass)]">
+                      {p4.stat}
+                    </p>
+                    <p className="mt-1 font-mono-ui text-[10px] uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
+                      {p4.statLabel}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
