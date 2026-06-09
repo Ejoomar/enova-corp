@@ -1,20 +1,24 @@
 "use client"
 
 import Image from "next/image"
+import { TrendingUp, RefreshCw } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { CartItem } from "@/types"
+import { useDolarRate } from "@/hooks/useDolarRate"
+import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
 
 interface OrderSummaryProps {
   items: CartItem[]
 }
 
 export function OrderSummary({ items }: OrderSummaryProps) {
+  const { bcv, loading: bsfLoading } = useDolarRate()
+
   const subtotal = items.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
     0
   )
   const shipping = subtotal >= 200 ? 0 : 15
-  const tax = subtotal * 0.16 // 16% IVA Venezuela
   const total = subtotal + shipping
 
   return (
@@ -69,9 +73,30 @@ export function OrderSummary({ items }: OrderSummaryProps) {
       <Separator className="my-4" />
 
       <div className="flex justify-between font-semibold">
-        <span>Total</span>
-        <span className="text-lg text-primary">${total.toFixed(2)}</span>
+        <span>Total USD</span>
+        <span className="text-lg text-primary">{formatUSD(total)}</span>
       </div>
+
+      {/* BCV conversion */}
+      {bcv !== null ? (
+        <div className="rounded-md bg-muted/60 p-3 space-y-1 mt-3">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-muted-foreground">Total Bs.</span>
+            <span className="text-sm font-semibold">
+              {formatBsF(usdToBsF(total, bcv))}
+            </span>
+          </div>
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <TrendingUp className="h-3 w-3" />
+            <span>BCV: Bs. {bcv.toFixed(2)} / $</span>
+          </div>
+        </div>
+      ) : bsfLoading ? (
+        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-3">
+          <RefreshCw className="h-3 w-3 animate-spin" />
+          <span>Obteniendo tasa de cambio...</span>
+        </div>
+      ) : null}
     </div>
   )
 }
