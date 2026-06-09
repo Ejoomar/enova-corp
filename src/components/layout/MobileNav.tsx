@@ -22,10 +22,6 @@ const navLinks = [
   { label: "Catálogo",         href: "/catalogo"                           },
 ]
 
-const utilLinks = [
-  { label: "Cotización", href: "/cotizacion" },
-]
-
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
 
@@ -76,22 +72,6 @@ export function MobileNav() {
             </Link>
           ))}
         </nav>
-
-        <div className="mt-6 border-t border-[var(--hairline)] px-6 pt-6">
-          <p className="eyebrow mb-4">Más opciones</p>
-          <div className="flex flex-col gap-2">
-            {utilLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)]"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
       </SheetContent>
     </Sheet>
   )
