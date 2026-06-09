@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Heart, ShoppingCart, Star, Minus, Plus, Truck, ShieldCheck, Check, ClipboardList } from "lucide-react"
+import { Heart, ShoppingCart, Star, Minus, Plus, Check, ClipboardList } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -264,33 +264,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
           </p>
         </div>
       )}
-
-      <Separator />
-
-      {/* Benefits */}
-      <div className="grid gap-4 sm:grid-cols-3">
-        <div className="flex items-center gap-3 text-sm">
-          <Truck className="h-5 w-5 text-muted-foreground" />
-          <div>
-            <p className="font-medium">Despacho nacional</p>
-            <p className="text-xs text-muted-foreground">MRW · Zoom · Despacho 1 día hábil</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 text-sm">
-          <ClipboardList className="h-5 w-5 text-muted-foreground" />
-          <div>
-            <p className="font-medium">Cotización rápida</p>
-            <p className="text-xs text-muted-foreground">Respuesta en 24 h</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 text-sm">
-          <ShieldCheck className="h-5 w-5 text-muted-foreground" />
-          <div>
-            <p className="font-medium">Garantía oficial</p>
-            <p className="text-xs text-muted-foreground">6 meses a 1 año</p>
-          </div>
-        </div>
-      </div>
 
       {/* Specs */}
       {Object.keys(product.specs).length > 0 && (
