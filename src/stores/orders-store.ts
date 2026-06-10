@@ -7,6 +7,7 @@ interface OrdersState {
   allOrders: Order[]
 
   // Actions
+  addOrder: (order: Order) => void
   updateOrderStatus: (id: string, status: Order["status"]) => void
 }
 
@@ -14,6 +15,10 @@ export const useOrdersStore = create<OrdersState>()(
   persist(
     (set) => ({
       allOrders: mockOrders,
+
+      addOrder: (order) => {
+        set((state) => ({ allOrders: [order, ...state.allOrders] }))
+      },
 
       updateOrderStatus: (id, status) => {
         set((state) => ({
@@ -27,9 +32,14 @@ export const useOrdersStore = create<OrdersState>()(
     }),
     {
       name: "enova-orders",
-      version: 1,
+      version: 2,
       partialize: (state) => ({ allOrders: state.allOrders }),
-      migrate: () => ({ allOrders: mockOrders }),
+      // v1 → v2: Order ganó campos opcionales (totalBs, tasaBcv, source) —
+      // los pedidos v1 persistidos siguen siendo válidos, se conservan tal cual.
+      migrate: (persisted) => {
+        const state = persisted as { allOrders?: Order[] } | undefined
+        return { allOrders: state?.allOrders ?? mockOrders }
+      },
     }
   )
 )

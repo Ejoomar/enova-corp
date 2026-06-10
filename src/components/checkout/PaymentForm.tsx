@@ -1,102 +1,110 @@
 "use client"
 
-import { CreditCard, Building2, Wallet } from "lucide-react"
+import { useForm, Controller } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { Smartphone, DollarSign, Bitcoin, Banknote } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent } from "@/components/ui/card"
+import {
+  useCheckoutStore,
+  PAYMENT_METHOD_LABELS,
+  type PaymentMethodId,
+} from "@/stores/checkout-store"
 
-export function PaymentForm() {
+const paymentSchema = z.object({
+  method: z.enum(["pago-movil", "zelle", "binance", "usd-efectivo"], {
+    error: "Selecciona un método de pago",
+  }),
+})
+
+type PaymentFormValues = z.infer<typeof paymentSchema>
+
+const METHODS: Array<{
+  id: PaymentMethodId
+  icon: typeof Smartphone
+  description: string
+}> = [
+  {
+    id: "pago-movil",
+    icon: Smartphone,
+    description: "Bs. a tasa BCV del día — todos los bancos",
+  },
+  {
+    id: "zelle",
+    icon: DollarSign,
+    description: "USD · transferencia instantánea",
+  },
+  {
+    id: "binance",
+    icon: Bitcoin,
+    description: "USDT · red BEP20",
+  },
+  {
+    id: "usd-efectivo",
+    icon: Banknote,
+    description: "Efectivo al recibir o en tienda (Mérida)",
+  },
+]
+
+interface PaymentFormProps {
+  /** Llamado solo cuando hay un método seleccionado. */
+  onValid: () => void
+}
+
+export function PaymentForm({ onValid }: PaymentFormProps) {
+  const { paymentMethod, setPaymentMethod } = useCheckoutStore()
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<PaymentFormValues>({
+    resolver: zodResolver(paymentSchema),
+    defaultValues: { method: paymentMethod ?? undefined },
+  })
+
+  function onSubmit(data: PaymentFormValues) {
+    setPaymentMethod(data.method)
+    onValid()
+  }
+
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Metodo de Pago</h2>
+    <form id="payment-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+      <h2 className="text-lg font-semibold">Método de Pago</h2>
+      <p className="text-sm text-muted-foreground">
+        Realizarás el pago después de confirmar — te mostraremos los datos
+        exactos y enviarás tu comprobante por WhatsApp.
+      </p>
 
-      <RadioGroup defaultValue="card" className="space-y-3">
-        {/* Credit Card */}
-        <div>
-          <RadioGroupItem
-            value="card"
-            id="card"
-            className="peer sr-only"
-          />
-          <Label
-            htmlFor="card"
-            className="flex cursor-pointer items-start gap-4 rounded-lg border p-4 peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-1 peer-data-[state=checked]:ring-primary"
+      <Controller
+        name="method"
+        control={control}
+        render={({ field }) => (
+          <RadioGroup
+            value={field.value}
+            onValueChange={field.onChange}
+            className="space-y-3"
           >
-            <CreditCard className="h-5 w-5 mt-0.5" />
-            <div className="flex-1">
-              <p className="font-medium">Tarjeta de Credito/Debito</p>
-              <p className="text-sm text-muted-foreground">
-                Visa, Mastercard, American Express
-              </p>
-
-              {/* Card Details - shown when selected */}
-              <div className="mt-4 space-y-3">
-                <div className="space-y-2">
-                  <Label htmlFor="cardNumber">Numero de Tarjeta</Label>
-                  <Input id="cardNumber" placeholder="1234 5678 9012 3456" />
-                </div>
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="space-y-2 sm:col-span-2">
-                    <Label htmlFor="expiry">Fecha de Expiracion</Label>
-                    <Input id="expiry" placeholder="MM/AA" />
+            {METHODS.map(({ id, icon: Icon, description }) => (
+              <div key={id}>
+                <RadioGroupItem value={id} id={`pay-${id}`} className="peer sr-only" />
+                <Label
+                  htmlFor={`pay-${id}`}
+                  className="flex cursor-pointer items-start gap-4 rounded-lg border p-4 peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-1 peer-data-[state=checked]:ring-primary"
+                >
+                  <Icon className="mt-0.5 h-5 w-5" />
+                  <div>
+                    <p className="font-medium">{PAYMENT_METHOD_LABELS[id]}</p>
+                    <p className="text-sm text-muted-foreground">{description}</p>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="cvv">CVV</Label>
-                    <Input id="cvv" placeholder="123" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="cardName">Nombre en la Tarjeta</Label>
-                  <Input id="cardName" placeholder="JUAN PEREZ" />
-                </div>
+                </Label>
               </div>
-            </div>
-          </Label>
-        </div>
-
-        {/* Bank Transfer */}
-        <div>
-          <RadioGroupItem
-            value="transfer"
-            id="transfer"
-            className="peer sr-only"
-          />
-          <Label
-            htmlFor="transfer"
-            className="flex cursor-pointer items-start gap-4 rounded-lg border p-4 peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-1 peer-data-[state=checked]:ring-primary"
-          >
-            <Building2 className="h-5 w-5 mt-0.5" />
-            <div>
-              <p className="font-medium">Transferencia Bancaria</p>
-              <p className="text-sm text-muted-foreground">
-                Banesco, Mercantil, BBVA Provincial, BNC
-              </p>
-            </div>
-          </Label>
-        </div>
-
-        {/* Digital Wallet */}
-        <div>
-          <RadioGroupItem
-            value="wallet"
-            id="wallet"
-            className="peer sr-only"
-          />
-          <Label
-            htmlFor="wallet"
-            className="flex cursor-pointer items-start gap-4 rounded-lg border p-4 peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-1 peer-data-[state=checked]:ring-primary"
-          >
-            <Wallet className="h-5 w-5 mt-0.5" />
-            <div>
-              <p className="font-medium">Billetera Digital</p>
-              <p className="text-sm text-muted-foreground">
-                Pago Móvil, Zelle, PayPal
-              </p>
-            </div>
-          </Label>
-        </div>
-      </RadioGroup>
-    </div>
+            ))}
+          </RadioGroup>
+        )}
+      />
+      {errors.method && <p className="text-xs text-destructive">{errors.method.message}</p>}
+    </form>
   )
 }

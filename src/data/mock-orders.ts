@@ -13,6 +13,9 @@ export interface ShippingAddress {
   address: string
   city: string
   state: string
+  cedula?: string
+  email?: string
+  courier?: string
 }
 
 export interface Order {
@@ -21,9 +24,15 @@ export interface Order {
   subtotal: number
   shipping: number
   total: number
+  /** Total en bolívares a la tasa BCV del momento de la compra. */
+  totalBs?: number | null
+  /** Tasa BCV usada para calcular totalBs. */
+  tasaBcv?: number | null
   paymentMethod: string
   status: "pending" | "processing" | "shipped" | "delivered" | "cancelled"
   shippingAddress: ShippingAddress
+  /** "web" = pedido real hecho desde la tienda; ausente = dato mock. */
+  source?: "web"
   notes?: string
   createdAt: string
   updatedAt: string

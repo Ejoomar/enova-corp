@@ -64,6 +64,17 @@ src/components/
 - para manejo de estado global usa Zustand
 - para formularios usar react-hook-form y zod
 
+## Reporte final — OBLIGATORIO
+
+Al terminar CUALQUIER implementación o corrección en este proyecto, el reporte final debe explicar detalladamente, en español y en este orden:
+
+1. **¿En qué se basó?** — evidencia concreta (archivos, líneas, hallazgos) que motivó el cambio
+2. **¿Qué se implementó?** — qué archivos se crearon/modificaron y qué hace cada cambio
+3. **¿Qué beneficios trae?** — impacto real para el negocio/usuario, no tecnicismos vacíos
+4. **¿Rompe algo?** — análisis honesto de riesgos, qué se verificó (build, pruebas) y cómo revertir si falla
+
+Y cerrar siempre con la frase exacta: **"He terminado, lee tranquilo."**
+
 ## Deploy — OBLIGATORIO
 
 **Después de CADA cambio de código en este proyecto, sin excepción:**
