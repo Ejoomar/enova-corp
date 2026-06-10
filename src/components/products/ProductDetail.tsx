@@ -179,62 +179,64 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
       {/* Quantity & Add to Cart */}
       {product.price > 0 ? (
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-          {/* Quantity Selector */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">Cantidad:</span>
-            <div className="flex items-center rounded-md border">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            {/* Quantity Selector */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">Cantidad:</span>
+              <div className="flex items-center rounded-md border">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 rounded-r-none"
+                  onClick={decreaseQuantity}
+                  disabled={quantity <= 1}
+                >
+                  <Minus className="h-4 w-4" />
+                </Button>
+                <span className="w-12 text-center text-sm font-medium">{quantity}</span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 rounded-l-none"
+                  onClick={increaseQuantity}
+                  disabled={quantity >= product.stock}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Add to Cart */}
+            <div className="flex flex-1 gap-2">
               <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 rounded-r-none"
-                onClick={decreaseQuantity}
-                disabled={quantity <= 1}
+                className="flex-1"
+                size="lg"
+                disabled={product.stock === 0 || added}
+                onClick={handleAddToCart}
               >
-                <Minus className="h-4 w-4" />
+                {added ? (
+                  <>
+                    <Check className="mr-2 h-4 w-4" />
+                    Agregado
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart className="mr-2 h-4 w-4" />
+                    Agregar al Carrito
+                  </>
+                )}
               </Button>
-              <span className="w-12 text-center text-sm font-medium">{quantity}</span>
               <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 rounded-l-none"
-                onClick={increaseQuantity}
-                disabled={quantity >= product.stock}
+                variant="outline"
+                size="lg"
+                onClick={() => setIsFavorite((f) => !f)}
+                aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+                className={isFavorite ? "border-[var(--brass)] text-[var(--brass)]" : ""}
               >
-                <Plus className="h-4 w-4" />
+                <Heart className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
               </Button>
             </div>
-          </div>
-
-          {/* Add to Cart */}
-          <div className="flex flex-1 gap-2">
-            <Button
-              className="flex-1"
-              size="lg"
-              disabled={product.stock === 0 || added}
-              onClick={handleAddToCart}
-            >
-              {added ? (
-                <>
-                  <Check className="mr-2 h-4 w-4" />
-                  Agregado
-                </>
-              ) : (
-                <>
-                  <ShoppingCart className="mr-2 h-4 w-4" />
-                  Agregar al Carrito
-                </>
-              )}
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => setIsFavorite((f) => !f)}
-              aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-              className={isFavorite ? "border-[var(--brass)] text-[var(--brass)]" : ""}
-            >
-              <Heart className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
-            </Button>
           </div>
 
           {/* Add to Quote */}
