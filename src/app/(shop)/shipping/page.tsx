@@ -12,7 +12,7 @@ export default function ShippingPage() {
   return (
     <div className="mx-auto max-w-[1440px] px-6 lg:px-10 py-20">
       <div className="mb-16">
-        <h1 className="font-display text-5xl font-light tracking-[-0.02em]">
+        <h1 className="font-display text-[length:var(--text-h1)] font-light leading-[1.1]">
           Envíos a todo<br />Venezuela
         </h1>
       </div>
@@ -43,7 +43,7 @@ export default function ShippingPage() {
       <div className="mb-12 overflow-hidden rounded-xl border border-white/5 bg-[#0a0f1e]">
         <div className="flex flex-col items-center justify-center gap-10 px-10 py-10 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/8">
           <div className="hidden sm:flex sm:flex-col sm:items-end sm:pr-12">
-            <p className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-white/30 leading-loose">
+            <p className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-white/30 leading-loose">
               Enviamos<br />con
             </p>
           </div>
@@ -75,10 +75,10 @@ export default function ShippingPage() {
       {/* Payment methods — same logos as footer */}
       <div className="mb-12">
         <div className="mb-8">
-          <p className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-[var(--brass)] mb-3">
+          <p className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--brass)] mb-3">
             — Métodos de pago
           </p>
-          <h2 className="font-display text-3xl font-light tracking-[-0.03em] text-[var(--foreground)]">
+          <h2 className="font-display text-3xl font-light tracking-[-0.02em] text-[var(--foreground)]">
             Tú eliges cómo pagar
           </h2>
           <p className="mt-2 font-mono-ui text-[11px] text-[var(--muted-foreground)]">
@@ -108,7 +108,7 @@ export default function ShippingPage() {
                 />
               </div>
               {/* Sub-label */}
-              <p className="mt-3 text-center font-mono-ui text-[10px] font-semibold uppercase tracking-[0.10em] text-[var(--foreground)]/70">
+              <p className="mt-3 text-center font-mono-ui text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--foreground)]/70">
                 {p.label}
               </p>
             </div>

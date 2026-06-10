@@ -85,7 +85,7 @@ function FilmCard({ index, name, slug, productCount, priority = false }: FilmCar
         </div>
       )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/92 via-black/25 to-black/5" />
-      <span className="film-num pointer-events-none absolute left-3.5 top-3.5 font-mono-ui text-[9px] tracking-[0.14em] text-white/30">
+      <span className="film-num pointer-events-none absolute left-3.5 top-3.5 font-mono-ui text-[10px] tracking-[0.14em] text-white/30">
         {num}
       </span>
       <span className="film-arrow pointer-events-none absolute right-3.5 top-3.5 flex h-[26px] w-[26px] items-center justify-center rounded-full border border-[var(--brass)]/50 bg-[var(--brass)]/25 text-[11px] text-[var(--brass-bright)]">
@@ -101,7 +101,7 @@ function FilmCard({ index, name, slug, productCount, priority = false }: FilmCar
             {name}
           </span>
         </div>
-        <span className="film-count font-mono-ui text-[9px] uppercase tracking-[0.1em]">
+        <span className="film-count font-mono-ui text-[10px] uppercase tracking-[0.12em]">
           {productCount} productos
         </span>
       </div>
@@ -140,7 +140,7 @@ function MobileCard({ name, slug, productCount, priority = false }: MobileCardPr
       <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[var(--brass)] transition-all duration-300 group-active:w-full" />
       <div className="absolute bottom-0 left-0 p-3">
         <p className="text-[13px] font-semibold leading-tight text-white">{name}</p>
-        <p className="mt-0.5 font-mono-ui text-[9px] uppercase tracking-[0.1em] text-white/50">
+        <p className="mt-0.5 font-mono-ui text-[10px] uppercase tracking-[0.12em] text-white/50">
           {productCount} prod.
         </p>
       </div>

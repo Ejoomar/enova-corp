@@ -18,7 +18,7 @@ export default function NotFound() {
         <Image src="/images/logo.png" alt={EMPRESA.nombre} width={56} height={56} className="h-14 w-auto" />
       </Link>
 
-      <p className="font-mono-ui text-[11px] uppercase tracking-[0.2em] text-[var(--brass)]">
+      <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass)]">
         Error 404
       </p>
       <h1 className="font-display mt-3 text-4xl font-light tracking-[-0.02em] sm:text-5xl">

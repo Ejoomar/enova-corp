@@ -4,7 +4,7 @@ export default function WarrantyPage() {
       <div className="grid grid-cols-12 gap-6 mb-16">
         <span className="col-span-12 font-mono-ui text-[11px] text-[var(--muted-foreground)] lg:col-span-2">— Garantía</span>
         <div className="col-span-12 lg:col-span-8">
-          <h1 className="font-display text-5xl font-light tracking-[-0.02em] mb-4">
+          <h1 className="font-display text-[length:var(--text-h1)] font-light leading-[1.1] mb-4">
             Garantía de<br />fábrica en todos<br />los productos
           </h1>
           <p className="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-xl">

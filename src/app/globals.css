@@ -316,10 +316,22 @@ body::before {
   z-index: 0;
 }
 
+/* ── Tokens tipográficos (independientes del tema) ──
+   Escala fluida: mismo token escala de móvil (320px) a desktop (1440px). */
+:root {
+  --text-hero: clamp(2.25rem, 1.2rem + 4.5vw, 3.75rem);
+  --text-h1: clamp(1.9rem, 1.2rem + 3vw, 3rem);
+  --text-h2: clamp(1.5rem, 1.1rem + 1.8vw, 2.25rem);
+  --text-h3: clamp(1.15rem, 1rem + 0.6vw, 1.35rem);
+  --tracking-display: -0.02em;
+  --tracking-label: 0.12em;
+  --tracking-eyebrow: 0.14em;
+}
+
 /* Typography utilities */
 .font-display {
   font-family: var(--font-display), Georgia, serif;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--tracking-display);
 }
 .font-mono-ui {
   font-family: var(--font-mono), monospace;
@@ -327,9 +339,15 @@ body::before {
 .eyebrow {
   font-family: var(--font-mono), monospace;
   font-size: 0.6875rem;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
   color: var(--brass);
+}
+.label-mono {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
 }
 .hairline {
   border-color: var(--hairline);

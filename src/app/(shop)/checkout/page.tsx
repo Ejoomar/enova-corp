@@ -129,7 +129,7 @@ export default function CheckoutPage() {
             Volver al Carrito
           </Link>
         </Button>
-        <h1 className="text-2xl font-bold">Checkout</h1>
+        <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">Checkout</h1>
       </div>
 
       {/* Steps */}
@@ -185,7 +185,7 @@ export default function CheckoutPage() {
             )}
             {currentStep === 3 && shipping && paymentMethod && (
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Confirmar Pedido</h2>
+                <h2 className="font-display text-lg font-medium">Confirmar Pedido</h2>
                 <p className="text-sm text-muted-foreground">
                   Por favor revisa los detalles de tu pedido antes de confirmar.
                 </p>

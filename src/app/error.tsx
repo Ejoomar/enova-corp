@@ -19,7 +19,7 @@ export default function GlobalError({
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--background)] px-4 text-center">
-      <p className="font-mono-ui text-[11px] uppercase tracking-[0.2em] text-destructive">
+      <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-destructive">
         Algo salió mal
       </p>
       <h1 className="font-display mt-3 text-3xl font-light tracking-[-0.02em] sm:text-4xl">

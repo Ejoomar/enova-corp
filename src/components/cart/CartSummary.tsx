@@ -32,7 +32,7 @@ export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSu
 
   return (
     <div className="rounded-lg border bg-card p-6">
-      <h2 className="text-lg font-semibold">Resumen del Pedido</h2>
+      <h2 className="font-display text-lg font-medium">Resumen del Pedido</h2>
 
       <div className="mt-4 space-y-3">
         <div className="flex justify-between text-sm">

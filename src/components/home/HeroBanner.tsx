@@ -95,10 +95,10 @@ export function HeroBanner() {
                   </span>
 
                   <div>
-                    <h2 className={`font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl ${slide.isBrand ? "text-[var(--brass-bright)]" : "text-white"}`}>
+                    <h2 className={`font-display text-4xl font-medium leading-tight sm:text-5xl lg:text-6xl ${slide.isBrand ? "text-[var(--brass-bright)]" : "text-white"}`}>
                       {slide.title}
                     </h2>
-                    <h2 className={`font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl ${slide.isBrand ? "text-white" : "text-white/70"}`}>
+                    <h2 className={`font-display text-4xl font-medium leading-tight sm:text-5xl lg:text-6xl ${slide.isBrand ? "text-white" : "text-white/70"}`}>
                       {slide.subtitle}
                     </h2>
                   </div>

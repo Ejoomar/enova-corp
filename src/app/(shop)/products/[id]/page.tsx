@@ -57,7 +57,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     return (
       <div className="container mx-auto px-4 py-20 text-center space-y-4">
-        <h1 className="text-2xl font-bold">Producto no encontrado</h1>
+        <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">Producto no encontrado</h1>
         <p className="text-muted-foreground">
           El producto que buscas no existe o ha sido eliminado.
         </p>

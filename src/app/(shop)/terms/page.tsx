@@ -3,7 +3,7 @@ export default function TermsPage() {
     <div className="mx-auto max-w-[1440px] px-6 lg:px-10 py-20">
       <div className="grid grid-cols-12 gap-6 mb-16">
         <span className="col-span-12 font-mono-ui text-[11px] text-[var(--muted-foreground)] lg:col-span-2">— Legal</span>
-        <h1 className="col-span-12 font-display text-5xl font-light tracking-[-0.02em] lg:col-span-8">
+        <h1 className="col-span-12 font-display text-[length:var(--text-h1)] font-light leading-[1.1] lg:col-span-8">
           Términos y<br />Condiciones
         </h1>
       </div>
@@ -18,7 +18,7 @@ export default function TermsPage() {
           { title: "6. Limitación de responsabilidad", body: "ENOVA CORP ® no será responsable por daños indirectos, incidentales o consecuentes derivados del uso o imposibilidad de uso de los productos adquiridos." },
         ].map((section) => (
           <div key={section.title} className="border-b border-[var(--hairline)] pb-10 last:border-0">
-            <h2 className="font-display text-xl font-light mb-3 tracking-[-0.01em]">{section.title}</h2>
+            <h2 className="font-display text-xl font-light mb-3 tracking-[-0.02em]">{section.title}</h2>
             <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{section.body}</p>
           </div>
         ))}

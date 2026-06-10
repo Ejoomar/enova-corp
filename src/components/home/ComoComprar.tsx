@@ -35,7 +35,7 @@ export function ComoComprar() {
 
         {/* Section header */}
         <div className="mb-14">
-          <p className="font-mono-ui mb-3 text-[11px] uppercase tracking-[0.2em] text-[var(--brass)]">
+          <p className="font-mono-ui mb-3 text-[11px] uppercase tracking-[0.14em] text-[var(--brass)]">
             — Comprar es fácil
           </p>
           <h2 className="font-display text-4xl font-light tracking-[-0.02em]">
@@ -59,7 +59,7 @@ export function ComoComprar() {
               <p className="font-mono-ui mt-5 text-[11px] tracking-[0.14em] text-[var(--brass)]">
                 {num}
               </p>
-              <h3 className="font-display mt-1.5 text-lg font-medium tracking-[-0.01em]">
+              <h3 className="font-display mt-1.5 text-lg font-medium tracking-[-0.02em]">
                 {title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">

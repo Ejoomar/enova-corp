@@ -90,7 +90,7 @@ export function ShippingForm({ onValid }: ShippingFormProps) {
 
   return (
     <form id="shipping-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-      <h2 className="text-lg font-semibold">Información de Envío</h2>
+      <h2 className="font-display text-lg font-medium">Información de Envío</h2>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">

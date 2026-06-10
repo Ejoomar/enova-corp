@@ -66,7 +66,7 @@ export function Header() {
               className="h-10 w-auto"
               priority
             />
-            <span className="hidden font-display text-[15px] font-medium tracking-[-0.03em] text-foreground min-[440px]:inline">
+            <span className="hidden font-display text-[15px] font-medium tracking-[-0.02em] text-foreground min-[440px]:inline">
               ENOVA CORP
             </span>
           </Link>

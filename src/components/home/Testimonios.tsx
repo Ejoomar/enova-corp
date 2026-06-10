@@ -25,7 +25,7 @@ export function Testimonios() {
         {/* Section header */}
         <div className="mb-14 grid grid-cols-12 items-end gap-6">
           <div className="col-span-12 lg:col-span-7">
-            <p className="font-mono-ui mb-3 text-[11px] uppercase tracking-[0.2em] text-[var(--brass)]">
+            <p className="font-mono-ui mb-3 text-[11px] uppercase tracking-[0.14em] text-[var(--brass)]">
               — Clientes reales
             </p>
             <h2 className="font-display text-4xl font-light tracking-[-0.02em]">
@@ -58,7 +58,7 @@ export function Testimonios() {
                   ))}
                 </div>
 
-                <h3 className="font-display mt-4 text-base font-medium tracking-[-0.01em]">
+                <h3 className="font-display mt-4 text-base font-medium tracking-[-0.02em]">
                   {review.title}
                 </h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--muted-foreground)]">

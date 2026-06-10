@@ -49,7 +49,7 @@ export function BrandSection() {
 
           {/* ── Columna izquierda ── */}
           <div className="flex flex-col gap-6 lg:pt-2">
-            <span className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-[var(--brass)]">
+            <span className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--brass)]">
               ENOVA CORP · Mérida, Venezuela
             </span>
 
@@ -97,7 +97,7 @@ export function BrandSection() {
                     {p1.num}
                   </span>
                 </div>
-                <h3 className="mt-5 font-display text-base font-medium leading-snug tracking-[-0.01em] text-foreground">
+                <h3 className="mt-5 font-display text-base font-medium leading-snug tracking-[-0.02em] text-foreground">
                   {p1.title}
                 </h3>
                 <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)]">
@@ -129,7 +129,7 @@ export function BrandSection() {
                   {p2.num}
                 </span>
               </div>
-              <h3 className="mt-4 font-display text-[15px] font-medium leading-snug tracking-[-0.01em] text-foreground">
+              <h3 className="mt-4 font-display text-[15px] font-medium leading-snug tracking-[-0.02em] text-foreground">
                 {p2.title}
               </h3>
               <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)]">
@@ -137,7 +137,7 @@ export function BrandSection() {
               </p>
               <div className="mt-4 border-t border-[var(--hairline)] pt-4">
                 <span className="font-display text-2xl font-light text-[var(--brass)]">{p2.stat}</span>
-                <span className="ml-2 font-mono-ui text-[10px] uppercase tracking-[0.1em] text-[var(--muted-foreground)]">
+                <span className="ml-2 font-mono-ui text-[10px] uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
                   {p2.statLabel}
                 </span>
               </div>
@@ -156,7 +156,7 @@ export function BrandSection() {
                   {p3.num}
                 </span>
               </div>
-              <h3 className="mt-4 font-display text-[15px] font-medium leading-snug tracking-[-0.01em] text-foreground">
+              <h3 className="mt-4 font-display text-[15px] font-medium leading-snug tracking-[-0.02em] text-foreground">
                 {p3.title}
               </h3>
               <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)]">
@@ -164,7 +164,7 @@ export function BrandSection() {
               </p>
               <div className="mt-4 border-t border-[var(--hairline)] pt-4">
                 <span className="font-display text-2xl font-light text-[var(--brass)]">{p3.stat}</span>
-                <span className="ml-2 font-mono-ui text-[10px] uppercase tracking-[0.1em] text-[var(--muted-foreground)]">
+                <span className="ml-2 font-mono-ui text-[10px] uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
                   {p3.statLabel}
                 </span>
               </div>
@@ -186,7 +186,7 @@ export function BrandSection() {
                       {p4.num}
                     </span>
                   </div>
-                  <h3 className="mt-4 font-display text-[15px] font-medium leading-snug tracking-[-0.01em] text-foreground">
+                  <h3 className="mt-4 font-display text-[15px] font-medium leading-snug tracking-[-0.02em] text-foreground">
                     {p4.title}
                   </h3>
                   <p className="mt-2 text-[12px] leading-relaxed text-[var(--muted-foreground)]">

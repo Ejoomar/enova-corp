@@ -69,7 +69,7 @@ function ProductsContent() {
 
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold">
+          <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">
             {filters.search.trim() ? `"${filters.search.trim()}"` : "Todos los Productos"}
           </h1>
           <p className="text-sm text-muted-foreground">

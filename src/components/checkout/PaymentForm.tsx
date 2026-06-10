@@ -71,7 +71,7 @@ export function PaymentForm({ onValid }: PaymentFormProps) {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-      <h2 className="text-lg font-semibold">Método de Pago</h2>
+      <h2 className="font-display text-lg font-medium">Método de Pago</h2>
       <p className="text-sm text-muted-foreground">
         Realizarás el pago después de confirmar — te mostraremos los datos
         exactos y enviarás tu comprobante por WhatsApp.

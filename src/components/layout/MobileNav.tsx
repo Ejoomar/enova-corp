@@ -48,7 +48,7 @@ export function MobileNav() {
                 height={40}
                 className="h-10 w-auto"
               />
-              <span className="font-display text-[15px] font-medium tracking-[-0.03em] text-foreground">
+              <span className="font-display text-[15px] font-medium tracking-[-0.02em] text-foreground">
                 ENOVA CORP
               </span>
             </Link>

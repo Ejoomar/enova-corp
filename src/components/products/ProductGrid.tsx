@@ -135,7 +135,7 @@ export function ProductGrid({
                     <button
                       key={p}
                       onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }) }}
-                      className={`flex h-8 w-8 items-center justify-center font-mono-ui text-[11px] tracking-[0.08em] transition-colors ${
+                      className={`flex h-8 w-8 items-center justify-center font-mono-ui text-[11px] tracking-[0.12em] transition-colors ${
                         isActive
                           ? "border border-[var(--brass)] bg-[var(--brass)] text-white"
                           : "border border-[var(--hairline)] text-[var(--muted-foreground)] hover:border-[var(--brass)] hover:text-[var(--brass)]"

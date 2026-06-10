@@ -41,12 +41,12 @@ function RailCard({ product, index }: RailCardProps) {
               sizes="210px"
             />
           ) : (
-            <span className="px-2 text-center font-mono-ui text-[9px] text-[var(--muted-foreground)]">
+            <span className="px-2 text-center font-mono-ui text-[10px] text-[var(--muted-foreground)]">
               {product.name}
             </span>
           )}
           {product.isNew && (
-            <span className="absolute left-2 top-2 border border-[var(--brass)]/40 bg-[var(--brass)]/10 px-1.5 py-0.5 font-mono-ui text-[8px] uppercase tracking-[0.12em] text-[var(--brass)]">
+            <span className="absolute left-2 top-2 border border-[var(--brass)]/40 bg-[var(--brass)]/10 px-1.5 py-0.5 font-mono-ui text-[10px] uppercase tracking-[0.12em] text-[var(--brass)]">
               Nuevo
             </span>
           )}
@@ -55,14 +55,14 @@ function RailCard({ product, index }: RailCardProps) {
 
       {/* Meta */}
       <div className="flex flex-1 flex-col p-3">
-        <p className="mb-1 font-mono-ui text-[8px] tracking-[0.14em] text-[var(--hairline)]">
+        <p className="mb-1 font-mono-ui text-[10px] tracking-[0.14em] text-[var(--hairline)]">
           {num}
         </p>
-        <p className="font-mono-ui text-[9px] uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
+        <p className="font-mono-ui text-[10px] uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
           {product.brand}
         </p>
         <Link href={`/products/${product.slug}`}>
-          <h3 className="mt-1.5 line-clamp-2 flex-1 font-display text-[13px] font-light leading-snug tracking-[-0.01em] text-foreground transition-colors hover:text-[var(--brass-bright)]">
+          <h3 className="mt-1.5 line-clamp-2 flex-1 font-display text-[13px] font-light leading-snug tracking-[-0.02em] text-foreground transition-colors hover:text-[var(--brass-bright)]">
             {product.name}
           </h3>
         </Link>
@@ -82,13 +82,13 @@ function RailCard({ product, index }: RailCardProps) {
             </a>
           ) : (
             <>
-              <p className="font-mono-ui text-[13px] font-semibold tabular-nums text-[var(--brass-bright)]">
+              <p className="font-mono-ui text-[13px] font-medium tabular-nums text-[var(--brass-bright)]">
                 {formatUSD(product.price)}
               </p>
               <button
                 onClick={() => addItem(product)}
                 disabled={product.stock === 0}
-                className="font-mono-ui text-[9px] uppercase tracking-[0.1em] text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)] disabled:cursor-not-allowed disabled:opacity-40"
+                className="font-mono-ui text-[10px] uppercase tracking-[0.12em] text-[var(--muted-foreground)] transition-colors hover:text-[var(--brass)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 + Agregar
               </button>

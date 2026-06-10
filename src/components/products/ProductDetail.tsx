@@ -75,7 +75,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
       <p className="text-sm text-muted-foreground">{product.brand}</p>
 
       {/* Name */}
-      <h1 className="text-2xl font-bold sm:text-3xl">{product.name}</h1>
+      <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">{product.name}</h1>
 
       {/* Rating */}
       <div className="flex items-center gap-2">

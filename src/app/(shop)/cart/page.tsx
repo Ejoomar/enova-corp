@@ -19,7 +19,7 @@ export default function CartPage() {
           <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-muted">
             <ShoppingBag className="h-12 w-12 text-muted-foreground" />
           </div>
-          <h1 className="text-2xl font-bold">Tu carrito está vacío</h1>
+          <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">Tu carrito está vacío</h1>
           <p className="mt-2 text-muted-foreground">
             Parece que aún no has agregado productos a tu carrito.
           </p>
@@ -41,7 +41,7 @@ export default function CartPage() {
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Carrito de Compras</h1>
+          <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">Carrito de Compras</h1>
           <p className="text-sm text-muted-foreground">
             {items.length} {items.length === 1 ? "producto" : "productos"} en tu carrito
           </p>

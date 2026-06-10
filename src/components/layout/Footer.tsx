@@ -158,10 +158,10 @@ export function Footer() {
 
             {/* Header */}
             <div className="mb-8">
-              <p className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-[var(--brass)] mb-3">
+              <p className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--brass)] mb-3">
                 — Transferencias bancarias
               </p>
-              <h3 className="font-display text-3xl font-light tracking-[-0.03em] text-[var(--foreground)]">
+              <h3 className="font-display text-3xl font-light tracking-[-0.02em] text-[var(--foreground)]">
                 Paga directo a<br className="hidden sm:block" /> nuestras cuentas
               </h3>
               <p className="mt-2 font-mono-ui text-[11px] text-[var(--muted-foreground)]">
@@ -192,7 +192,7 @@ export function Footer() {
                     />
                   </div>
                   {/* Sub-label */}
-                  <p className="mt-3 text-center font-mono-ui text-[10px] font-semibold uppercase tracking-[0.10em] text-[var(--foreground)]/70">
+                  <p className="mt-3 text-center font-mono-ui text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--foreground)]/70">
                     Transferencia · Pago Móvil
                   </p>
                 </div>
@@ -204,10 +204,10 @@ export function Footer() {
         {/* ── Métodos de pago ── */}
         <div className="border-b border-[var(--hairline)] py-10">
           <div className="mb-8">
-            <p className="font-mono-ui text-[10px] uppercase tracking-[0.18em] text-[var(--brass)] mb-3">
+            <p className="font-mono-ui text-[10px] uppercase tracking-[0.14em] text-[var(--brass)] mb-3">
               — Métodos de pago
             </p>
-            <h3 className="font-display text-3xl font-light tracking-[-0.03em] text-[var(--foreground)]">
+            <h3 className="font-display text-3xl font-light tracking-[-0.02em] text-[var(--foreground)]">
               Tú eliges cómo pagar
             </h3>
             <p className="mt-2 font-mono-ui text-[11px] text-[var(--muted-foreground)]">
@@ -237,7 +237,7 @@ export function Footer() {
                   />
                 </div>
                 {/* Sub-label */}
-                <p className="mt-3 text-center font-mono-ui text-[10px] font-semibold uppercase tracking-[0.10em] text-[var(--foreground)]/70">
+                <p className="mt-3 text-center font-mono-ui text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--foreground)]/70">
                   {p.label}
                 </p>
               </div>
@@ -248,7 +248,7 @@ export function Footer() {
         {/* Wordmark + Copyright */}
         <div className="flex flex-col items-start justify-between gap-3 py-6 sm:flex-row sm:items-end">
           <p
-            className="font-display select-none text-[clamp(1.8rem,5vw,4rem)] font-light leading-none tracking-[-0.04em] text-[var(--hairline)]"
+            className="font-display select-none text-[clamp(1.8rem,5vw,4rem)] font-light leading-none tracking-[-0.02em] text-[var(--hairline)]"
             aria-hidden="true"
           >
             ENOVA CORP

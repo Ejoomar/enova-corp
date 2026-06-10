@@ -39,7 +39,7 @@ export default function CotizacionPage() {
       <div className="container mx-auto flex flex-col items-center justify-center gap-6 px-4 py-24 text-center">
         <ClipboardList className="h-14 w-14 text-muted-foreground" />
         <div>
-          <h1 className="text-2xl font-bold">Tu cotización está vacía</h1>
+          <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">Tu cotización está vacía</h1>
           <p className="mt-2 text-muted-foreground">
             Agrega productos desde el catálogo para armar tu pedido.
           </p>
@@ -56,7 +56,7 @@ export default function CotizacionPage() {
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Solicitud de cotización</h1>
+          <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">Solicitud de cotización</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {items.length} {items.length === 1 ? "producto" : "productos"} · Revisá y enviá tu pedido
           </p>

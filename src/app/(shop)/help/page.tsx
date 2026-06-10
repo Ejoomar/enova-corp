@@ -16,7 +16,7 @@ export default function HelpPage() {
     <div className="mx-auto max-w-[1440px] px-6 lg:px-10 py-20">
       <div className="grid grid-cols-12 gap-6 mb-16">
         <span className="col-span-12 font-mono-ui text-[11px] text-[var(--muted-foreground)] lg:col-span-2">— Ayuda</span>
-        <h1 className="col-span-12 font-display text-5xl font-light tracking-[-0.02em] lg:col-span-8">Centro de Ayuda</h1>
+        <h1 className="col-span-12 font-display text-[length:var(--text-h1)] font-light leading-[1.1] lg:col-span-8">Centro de Ayuda</h1>
       </div>
 
       <div className="border border-[var(--hairline)]">

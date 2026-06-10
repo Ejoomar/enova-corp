@@ -58,12 +58,12 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
           {/* Badges — top-left */}
           <div className="absolute left-3 top-3 z-10 flex flex-col gap-1">
             {product.isNew && (
-              <span className="inline-block bg-[var(--brass)] px-2 py-[3px] text-[10px] font-bold uppercase tracking-[0.1em] text-black">
+              <span className="inline-block bg-[var(--brass)] px-2 py-[3px] text-[10px] font-bold uppercase tracking-[0.12em] text-black">
                 Nuevo
               </span>
             )}
             {showDiscountBadge && (
-              <span className="inline-block bg-red-600 px-2 py-[3px] text-[10px] font-bold uppercase tracking-[0.1em] text-white">
+              <span className="inline-block bg-red-600 px-2 py-[3px] text-[10px] font-bold uppercase tracking-[0.12em] text-white">
                 -{discountPercent}%
               </span>
             )}
@@ -116,7 +116,7 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
             {product.brand} · {product.category}
           </p>
           <Link href={`/products/${product.slug}`}>
-            <h3 className="font-display mt-1 text-base font-light leading-tight tracking-[-0.01em] transition-colors group-hover:text-[var(--brass-bright)]">
+            <h3 className="font-display mt-1 text-base font-light leading-tight tracking-[-0.02em] transition-colors group-hover:text-[var(--brass-bright)]">
               {product.name}
             </h3>
           </Link>

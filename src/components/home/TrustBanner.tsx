@@ -53,7 +53,7 @@ export function TrustBanner() {
 
               {/* Text */}
               <div className="min-w-0 pt-0.5">
-                <p className="font-display text-[15px] font-bold leading-tight tracking-[-0.01em] text-white">
+                <p className="font-display text-[15px] font-medium leading-tight text-white">
                   {title}
                 </p>
                 <p className="mt-1 text-[12px] leading-snug text-white/75">

@@ -108,7 +108,7 @@ function ConfirmacionContent() {
     return (
       <div className="container mx-auto max-w-md px-4 py-20 text-center">
         <PackageSearch className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-        <h1 className="text-xl font-bold">No encontramos tu pedido</h1>
+        <h1 className="font-display text-[length:var(--text-h3)] font-medium leading-[1.15]">No encontramos tu pedido</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           El enlace puede haber expirado. Si ya hiciste tu pedido,
           escríbenos por WhatsApp y te ayudamos.
@@ -134,7 +134,7 @@ function ConfirmacionContent() {
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
           <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
         </div>
-        <h1 className="text-2xl font-bold">¡Pedido registrado!</h1>
+        <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">¡Pedido registrado!</h1>
         <p className="mt-2 text-muted-foreground">
           Gracias por tu compra en ENOVA CORP
         </p>
@@ -145,7 +145,7 @@ function ConfirmacionContent() {
 
       {/* Order summary */}
       <div className="rounded-xl border border-[var(--hairline)] bg-card p-6 space-y-3">
-        <h2 className="font-semibold text-base">Tu pedido</h2>
+        <h2 className="font-display font-medium text-base">Tu pedido</h2>
         {order.items.map((item) => (
           <div key={item.productId} className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
@@ -196,7 +196,7 @@ function ConfirmacionContent() {
 
       {/* Instructions */}
       <div className="rounded-xl border border-[var(--hairline)] bg-card p-6 space-y-4">
-        <h2 className="font-semibold text-base">Próximos pasos</h2>
+        <h2 className="font-display font-medium text-base">Próximos pasos</h2>
         <ol className="space-y-2 text-sm text-muted-foreground list-none">
           <li className="flex gap-3">
             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--brass)] text-white text-xs font-bold">1</span>
@@ -216,7 +216,7 @@ function ConfirmacionContent() {
       <Separator className="my-6" />
 
       {/* Payment methods */}
-      <h2 className="mb-4 font-semibold">Métodos de pago disponibles</h2>
+      <h2 className="mb-4 font-display font-medium">Métodos de pago disponibles</h2>
       <div className="grid gap-3 sm:grid-cols-2">
         {PAYMENT_METHODS.map((method) => (
           <div

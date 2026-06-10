@@ -115,7 +115,7 @@ function ProductCard({ product, bcvRate }: { product: CatalogProduct; bcvRate: n
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="font-mono-ui text-[11px] uppercase tracking-[0.1em] text-[var(--brass)] transition-colors hover:text-[var(--brass-bright)]"
+              className="font-mono-ui text-[11px] uppercase tracking-[0.12em] text-[var(--brass)] transition-colors hover:text-[var(--brass-bright)]"
             >
               Consultar →
             </a>
@@ -157,7 +157,7 @@ export function CatalogGrid({ products }: CatalogGridProps) {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Catálogo de Productos</h2>
+          <h2 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">Catálogo de Productos</h2>
           <p className="text-sm text-muted-foreground">
             {filtered.length} producto{filtered.length !== 1 ? "s" : ""} encontrado
             {filtered.length !== 1 ? "s" : ""}

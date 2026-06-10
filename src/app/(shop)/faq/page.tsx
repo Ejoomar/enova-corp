@@ -64,7 +64,7 @@ export default function FAQPage() {
       />
       <div className="grid grid-cols-12 gap-6 mb-16">
         <span className="col-span-12 font-mono-ui text-[11px] text-[var(--muted-foreground)] lg:col-span-2">— FAQ</span>
-        <h1 className="col-span-12 font-display text-5xl font-light tracking-[-0.02em] lg:col-span-8">
+        <h1 className="col-span-12 font-display text-[length:var(--text-h1)] font-light leading-[1.1] lg:col-span-8">
           Preguntas<br />frecuentes
         </h1>
       </div>
@@ -72,7 +72,7 @@ export default function FAQPage() {
       <div className="border border-[var(--hairline)]">
         {faqs.map((faq, i) => (
           <div key={i} className="border-b border-[var(--hairline)] bg-[var(--surface-1)] p-7 last:border-0">
-            <h2 className="font-display text-lg font-light mb-2 tracking-[-0.01em]">{faq.q}</h2>
+            <h2 className="font-display text-lg font-light mb-2 tracking-[-0.02em]">{faq.q}</h2>
             <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{faq.a}</p>
           </div>
         ))}
