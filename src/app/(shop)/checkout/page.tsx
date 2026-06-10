@@ -48,11 +48,18 @@ export default function CheckoutPage() {
     return unsub
   }, [])
 
-  // Redirect to cart if empty (but not while we're placing the order)
+  // Redirect to cart if empty (but not while we're placing the order).
+  // OJO: tras hidratar, el snapshot de React va un render detrás del store —
+  // hasHydrated()=true no garantiza que `items` ya refleje localStorage.
+  // Por eso la decisión se difiere y relee el store vivo con getState().
   useEffect(() => {
-    if (hydrated && items.length === 0 && !isConfirming) {
-      router.replace("/cart")
-    }
+    if (!hydrated || isConfirming || items.length > 0) return
+    const t = setTimeout(() => {
+      if (useCartStore.getState().items.length === 0) {
+        router.replace("/cart")
+      }
+    }, 150)
+    return () => clearTimeout(t)
   }, [hydrated, items, router, isConfirming])
 
   if (!hydrated || (items.length === 0 && !isConfirming)) return null

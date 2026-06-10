@@ -445,3 +445,15 @@ body {
 @media (prefers-reduced-motion: reduce) {
   body { transition: none; }
 }
+
+/* Ping suave para el boton flotante de WhatsApp — scale 1.5 en vez del 2.0
+   de animate-ping, que desbordaba el viewport en moviles (overflow-x). */
+@keyframes ping-soft {
+  75%, 100% { transform: scale(1.5); opacity: 0; }
+}
+.animate-ping-soft {
+  animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-ping-soft { animation: none; opacity: 0; }
+}

@@ -53,8 +53,8 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 isolate w-full border-b border-[var(--hairline)] bg-[var(--background)]/90 backdrop-blur-md">
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        <div className="flex h-16 items-center justify-between gap-8">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10">
+        <div className="flex h-16 items-center justify-between gap-3 sm:gap-8">
 
           {/* Logo + wordmark */}
           <Link href="/" className="flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-80">
@@ -66,7 +66,7 @@ export function Header() {
               className="h-10 w-auto"
               priority
             />
-            <span className="font-display text-[15px] font-medium tracking-[-0.03em] text-foreground">
+            <span className="hidden font-display text-[15px] font-medium tracking-[-0.03em] text-foreground min-[440px]:inline">
               ENOVA CORP
             </span>
           </Link>

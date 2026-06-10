@@ -92,13 +92,17 @@ function ConfirmacionContent() {
   const searchParams = useSearchParams()
   const ref = searchParams.get("ref")
   const allOrders = useOrdersStore((s) => s.allOrders)
-  // Esperar hidratación de zustand/persist antes de declarar "no encontrado"
-  const [hydrated, setHydrated] = useState(false)
-  useEffect(() => setHydrated(true), [])
+  // El snapshot de React va un render detrás de la hidratación del store:
+  // esperar un instante antes de declarar "no encontrado" en cargas directas.
+  const [settled, setSettled] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setSettled(true), 250)
+    return () => clearTimeout(t)
+  }, [])
 
   const order = ref ? allOrders.find((o) => o.id === ref) : undefined
 
-  if (!hydrated) return null
+  if (!order && !settled) return null
 
   if (!order) {
     return (
