@@ -14,12 +14,17 @@ interface CartSummaryProps {
   bsfUpdatedAt: string | null
 }
 
+// El timestamp es la fecha de publicación oficial del BCV (una vez al día),
+// no la del último fetch de la app — por eso debe escalar a horas/días.
 function getRelativeTime(isoString: string | null): string {
   if (!isoString) return ""
-  const diff = Math.floor((Date.now() - new Date(isoString).getTime()) / 60000)
-  if (diff < 1) return "ahora mismo"
-  if (diff === 1) return "hace 1 min"
-  return `hace ${diff} min`
+  const minutes = Math.floor((Date.now() - new Date(isoString).getTime()) / 60000)
+  if (minutes < 1) return "ahora mismo"
+  if (minutes < 60) return minutes === 1 ? "hace 1 min" : `hace ${minutes} min`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return hours === 1 ? "hace 1 h" : `hace ${hours} h`
+  const days = Math.floor(hours / 24)
+  return days === 1 ? "hace 1 día" : `hace ${days} días`
 }
 
 export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSummaryProps) {
