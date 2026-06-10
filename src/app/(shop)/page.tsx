@@ -8,10 +8,39 @@ import { Testimonios } from "@/components/home/Testimonios"
 import { BrandSection } from "@/components/home/BrandSection"
 import { TrustBanner } from "@/components/home/TrustBanner"
 import { ScrollReveal } from "@/components/ui/ScrollReveal"
+import { EMPRESA, SITE_URL } from "@/config/empresa"
+
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Store",
+  name: EMPRESA.nombre,
+  description:
+    "Distribuidor de computación, laptops, equipos fiscales, redes y cámaras en Venezuela. Garantía oficial y envíos a todo el país.",
+  url: SITE_URL,
+  logo: `${SITE_URL}/images/logo.png`,
+  image: `${SITE_URL}/images/logo.png`,
+  telephone: `+${EMPRESA.whatsapp}`,
+  email: EMPRESA.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Av. Andrés Bello, C.C. Alto Chama, Local 105-A",
+    addressLocality: "Mérida",
+    addressRegion: "Mérida",
+    addressCountry: "VE",
+  },
+  sameAs: [EMPRESA.instagramUrl],
+  priceRange: "$$",
+  currenciesAccepted: "USD, VES",
+  paymentAccepted: "Pago Móvil, Zelle, Binance Pay, Efectivo USD",
+}
 
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+      />
       {/* El hero entra inmediato (above the fold); el resto se revela al scroll */}
       <HeroBanner />
       <ScrollReveal>

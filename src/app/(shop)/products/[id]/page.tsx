@@ -16,6 +16,8 @@ import { ProductDetail } from "@/components/products/ProductDetail"
 import { ProductReviews } from "@/components/products/ProductReviews"
 import { RelatedProducts } from "@/components/products/RelatedProducts"
 import { products, categories } from "@/data/mock-products"
+import { reviews } from "@/data/mock-reviews"
+import { EMPRESA, SITE_URL } from "@/config/empresa"
 
 interface ProductPageProps {
   params: Promise<{ id: string }>
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const title = `${product.name} — ENOVA CORP`
   const description =
     product.description?.slice(0, 155) ??
-    `${product.name} disponible en ENOVA CORP.${product.brand ? ` Marca: ${product.brand}.` : ""} Solicita tu cotización en Caracas, Venezuela.`
+    `${product.name} disponible en ENOVA CORP.${product.brand ? ` Marca: ${product.brand}.` : ""} Garantía oficial y envíos a toda Venezuela desde Mérida.`
 
   return {
     title,
@@ -73,8 +75,50 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const categoryData = categories.find((c) => c.slug === product.category)
   const categoryName = categoryData?.name ?? product.category
 
+  // JSON-LD Product + Offer (+ rating si el producto tiene reseñas)
+  const productReviews = reviews.filter((r) => r.productId === product.id)
+  const avgRating = productReviews.length
+    ? productReviews.reduce((acc, r) => acc + r.rating, 0) / productReviews.length
+    : null
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description ?? `${product.name} disponible en ${EMPRESA.nombre}.`,
+    sku: product.code ?? product.id,
+    brand: { "@type": "Brand", name: product.brand },
+    category: categoryName,
+    image: product.images.filter(Boolean),
+    url: `${SITE_URL}/products/${product.slug}`,
+    ...(product.price > 0 && {
+      offers: {
+        "@type": "Offer",
+        url: `${SITE_URL}/products/${product.slug}`,
+        priceCurrency: "USD",
+        price: product.price,
+        availability:
+          product.stock > 0
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+        seller: { "@type": "Organization", name: EMPRESA.nombre },
+      },
+    }),
+    ...(avgRating && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: Math.round(avgRating * 10) / 10,
+        reviewCount: productReviews.length,
+      },
+    }),
+  }
+
   return (
     <div className="container mx-auto px-4 py-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Back — Mobile */}
       <Button variant="ghost" asChild className="mb-4 -ml-2 sm:hidden">
         <Link href="/products">

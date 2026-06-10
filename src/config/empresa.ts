@@ -41,3 +41,8 @@ export const EMPRESA = {
 export function whatsappLink(message: string): string {
   return `https://wa.me/${EMPRESA.whatsapp}?text=${encodeURIComponent(message)}`
 }
+
+// URL pública del sitio — usada por sitemap, robots, OG y JSON-LD.
+// TODO-CLIENTE: configurar NEXT_PUBLIC_SITE_URL en Vercel con el dominio final.
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://basictech-mkrfsz52i-jomar-eliezers-projects.vercel.app"

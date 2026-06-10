@@ -3,6 +3,7 @@ import { Fraunces, Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "sonner"
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
+import { SITE_URL } from "@/config/empresa"
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -28,9 +29,15 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "ENOVA CORP ® — Computación | Equipos Fiscales",
   description: "Distribuidor de computación, laptops, equipos fiscales, redes y cámaras en Venezuela. Marcas: Dell, HP, Lenovo, Epson, TP-Link, Hikvision. Garantía 6 meses a 1 año y envíos a todo Venezuela.",
-  // Favicons: src/app/icon.png y apple-icon.png (convención de Next, sin config)
+  openGraph: {
+    siteName: "ENOVA CORP",
+    locale: "es_VE",
+    type: "website",
+  },
+  // Favicons: src/app/icon.png y apple-icon.png; OG: src/app/opengraph-image.png
 }
 
 export default function RootLayout({
