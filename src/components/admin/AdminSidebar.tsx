@@ -32,11 +32,11 @@ export function AdminSidebar() {
       {/* Logo */}
       <div className="flex h-16 items-center gap-3 border-b px-6">
         <Image
-          src="/images/logo.jpg"
+          src="/images/logo.png"
           alt="ENOVA CORP"
-          width={32}
-          height={32}
-          className="rounded-md"
+          width={36}
+          height={36}
+          className="h-9 w-auto"
         />
         <span className="font-bold text-sm">Admin Panel</span>
       </div>

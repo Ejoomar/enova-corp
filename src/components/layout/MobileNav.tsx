@@ -42,11 +42,11 @@ export function MobileNav() {
           <SheetTitle className="text-left">
             <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
               <Image
-                src="/images/logo.jpg"
+                src="/images/logo.png"
                 alt="ENOVA CORP"
-                width={32}
-                height={32}
-                className="rounded-md"
+                width={40}
+                height={40}
+                className="h-10 w-auto"
               />
               <span className="font-display text-[15px] font-medium tracking-[-0.03em] text-foreground">
                 ENOVA CORP

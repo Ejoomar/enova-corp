@@ -50,11 +50,11 @@ export function Footer() {
           <div className="flex flex-col gap-6">
             <Link href="/">
               <Image
-                src="/images/logo.jpg"
+                src="/images/logo.png"
                 alt="ENOVA CORP"
-                width={48}
-                height={48}
-                className="rounded-lg"
+                width={56}
+                height={56}
+                className="h-14 w-auto"
               />
             </Link>
             <p className="text-sm leading-relaxed text-[var(--steel)]">

@@ -46,11 +46,11 @@ export function Header() {
           {/* Logo + wordmark */}
           <Link href="/" className="flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-80">
             <Image
-              src="/images/logo.jpg"
+              src="/images/logo.png"
               alt="ENOVA CORP"
-              width={32}
-              height={32}
-              className="rounded-md"
+              width={40}
+              height={40}
+              className="h-10 w-auto"
               priority
             />
             <span className="font-display text-[15px] font-medium tracking-[-0.03em] text-foreground">
