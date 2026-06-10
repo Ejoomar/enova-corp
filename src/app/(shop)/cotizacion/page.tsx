@@ -1,4 +1,5 @@
 "use client"
+import { EMPRESA } from "@/config/empresa"
 
 import { useState } from "react"
 import Link from "next/link"
@@ -137,7 +138,7 @@ export default function CotizacionPage() {
 
         <div className="flex flex-col gap-3 sm:flex-row">
           <a
-            href={`https://wa.me/584223668201?text=${buildWhatsAppMessage()}`}
+            href={`https://wa.me/${EMPRESA.whatsapp}?text=${buildWhatsAppMessage()}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setSent(true)}

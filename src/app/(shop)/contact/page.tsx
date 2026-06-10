@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin, Instagram } from "lucide-react"
+import { EMPRESA } from "@/config/empresa"
 
 export default function ContactPage() {
   return (
@@ -16,7 +17,7 @@ export default function ContactPage() {
           <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">Canales de contacto</p>
 
           {[
-            { icon: Phone,     label: "Teléfono / WhatsApp", value: "0422-3668201",         href: "tel:+584223668201" },
+            { icon: Phone,     label: "Teléfono / WhatsApp", value: EMPRESA.whatsappDisplay, href: `tel:+${EMPRESA.whatsapp}` },
             { icon: Mail,      label: "Email",               value: "Gerencia@enovacorp.co", href: "mailto:Gerencia@enovacorp.co" },
             { icon: Instagram, label: "Instagram",  value: "@enovacorpve",            href: "https://www.instagram.com/enovacorpve/" },
             { icon: MapPin,    label: "Ubicación",  value: "C.C. Alto Chama, Local 105-A · Mérida, Venezuela",  href: undefined },

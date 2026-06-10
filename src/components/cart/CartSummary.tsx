@@ -1,9 +1,10 @@
 "use client"
 
-import { Truck, RefreshCw, TrendingUp } from "lucide-react"
+import Link from "next/link"
+import { Truck, RefreshCw, TrendingUp, ArrowRight } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/button"
 import { CartItem } from "@/types"
-import { StripeCheckoutButton } from "./StripeCheckoutButton"
 import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
 
 interface CartSummaryProps {
@@ -87,7 +88,12 @@ export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSu
       </div>
 
       <div className="mt-6">
-        <StripeCheckoutButton />
+        <Button asChild className="w-full" size="lg" disabled={items.length === 0}>
+          <Link href="/checkout">
+            Proceder al Pago
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
       </div>
 
       <div className="mt-4 space-y-2 text-center">

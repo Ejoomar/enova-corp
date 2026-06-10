@@ -75,6 +75,15 @@ Al terminar CUALQUIER implementación o corrección en este proyecto, el reporte
 
 Y cerrar siempre con la frase exacta: **"He terminado, lee tranquilo."**
 
+### Prompt de aprendizajes por fase — OBLIGATORIO
+
+Al completar CADA fase del plan (A–G y futuras), crear un archivo .txt en
+`C:\Users\david\Desktop\Prompts creados por fable maxicompra\` llamado
+`FASE-X-<tema>-errores-comunes.txt` con: un prompt reutilizable que liste los
+errores reales encontrados en esa fase, cómo chequear cada uno (comandos grep,
+qué buscar) y cómo corregirlo. El objetivo es que el usuario pueda pegar ese
+prompt en otros proyectos para detectar los mismos errores.
+
 ## Deploy — OBLIGATORIO
 
 **Después de CADA cambio de código en este proyecto, sin excepción:**

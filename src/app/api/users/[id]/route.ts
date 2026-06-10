@@ -1,78 +1,46 @@
 import { NextRequest, NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+import { adminUsers } from "@/data/mock-admin-users"
+import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params
-    const user = await prisma.user.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        phone: true,
-        role: true,
-        status: true,
-        createdAt: true,
-        _count: { select: { orders: true } },
-        orders: { select: { total: true } },
-      },
-    })
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
-    if (!user) {
-      return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 })
-    }
+  const { id } = await params
+  const user = adminUsers.find((u) => u.id === id)
 
-    return NextResponse.json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone ?? undefined,
-      role: user.role.toLowerCase(),
-      status: user.status.toLowerCase(),
-      createdAt: user.createdAt.toISOString(),
-      orders: user._count.orders,
-      totalSpent: user.orders.reduce((sum: number, o: { total: unknown }) => sum + Number(o.total), 0),
-    })
-  } catch (error) {
-    console.error("Error fetching user:", error)
-    return NextResponse.json({ error: "Error al obtener usuario" }, { status: 500 })
+  if (!user) {
+    return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 })
   }
+
+  return NextResponse.json(user)
 }
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params
-    const body = await request.json()
+  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
-    const updateData: Record<string, unknown> = {}
-    if (body.name)   updateData.name   = body.name
-    if (body.email)  updateData.email  = body.email
-    if (body.phone !== undefined) updateData.phone = body.phone || null
-    if (body.role)   updateData.role   = body.role.toUpperCase()
-    if (body.status) updateData.status = body.status.toUpperCase()
+  const { id } = await params
+  const user = adminUsers.find((u) => u.id === id)
 
-    const user = await prisma.user.update({
-      where: { id },
-      data: updateData,
-      select: { id: true, name: true, email: true, role: true, status: true },
-    })
-
-    return NextResponse.json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role.toLowerCase(),
-      status: user.status.toLowerCase(),
-    })
-  } catch (error) {
-    console.error("Error updating user:", error)
-    return NextResponse.json({ error: "Error al actualizar usuario" }, { status: 500 })
+  if (!user) {
+    return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 })
   }
+
+  const body = await request.json()
+
+  // UI-only mode: echo the merged result without persisting.
+  // When Supabase is connected: await db.user.update({ where: { id }, data })
+  return NextResponse.json({
+    id: user.id,
+    name: body.name ?? user.name,
+    email: body.email ?? user.email,
+    phone: body.phone !== undefined ? body.phone : user.phone,
+    role: body.role ?? user.role,
+    status: body.status ?? user.status,
+  })
 }

@@ -1,4 +1,5 @@
 "use client"
+import { EMPRESA } from "@/config/empresa"
 
 import { useState } from "react"
 import Image from "next/image"
@@ -120,7 +121,7 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
         <div className="shrink-0 text-right">
           {sinPrecio ? (
             <a
-              href={`https://wa.me/584223668201?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
+              href={`https://wa.me/${EMPRESA.whatsapp}?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass)] hover:text-[var(--brass-bright)]"
@@ -157,7 +158,7 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
           </p>
           {sinPrecio ? (
             <a
-              href={`https://wa.me/584223668201?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
+              href={`https://wa.me/${EMPRESA.whatsapp}?text=${encodeURIComponent("Hola ENOVA CORP, quiero cotizar: " + product.name)}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}

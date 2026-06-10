@@ -30,11 +30,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "ENOVA CORP ® — Computación | Equipos Fiscales",
   description: "Distribuidor de computación, laptops, equipos fiscales, redes y cámaras en Venezuela. Marcas: Dell, HP, Lenovo, Epson, TP-Link, Hikvision. Garantía 6 meses a 1 año y envíos a todo Venezuela.",
-  icons: {
-    icon: "/images/logo.jpg",
-    shortcut: "/images/logo.jpg",
-    apple: "/images/logo.jpg",
-  },
+  // Favicons: src/app/icon.png y apple-icon.png (convención de Next, sin config)
 }
 
 export default function RootLayout({

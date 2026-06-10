@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Truck, ShieldCheck, Phone } from "lucide-react"
+import { EMPRESA } from "@/config/empresa"
 
 export function TopBar() {
   return (
@@ -12,7 +13,7 @@ export function TopBar() {
           </div>
           <div className="flex items-center gap-4 sm:gap-6">
             <a
-              href="tel:+584223668201"
+              href={`tel:+${EMPRESA.whatsapp}`}
               className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
               aria-label="Llamar a Contacto"
             >

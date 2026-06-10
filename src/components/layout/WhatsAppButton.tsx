@@ -1,7 +1,8 @@
 "use client"
+import { EMPRESA } from "@/config/empresa"
 
 export function WhatsAppButton() {
-  const phone = "584223668201"
+  const phone = EMPRESA.whatsapp
   const message = encodeURIComponent("Hola ENOVA CORP, necesito información sobre sus productos.")
   const href = `https://wa.me/${phone}?text=${message}`
 

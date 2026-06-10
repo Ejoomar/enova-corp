@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { EMPRESA } from "@/config/empresa"
 import { Mail, Phone, MapPin } from "lucide-react"
 
 const banks = [
@@ -74,8 +75,8 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2 text-sm text-[var(--steel)]">
                 <Phone className="h-3.5 w-3.5 shrink-0 text-[var(--brass)]" />
-                <a href="tel:+584223668201" className="transition-colors hover:text-[var(--brass-bright)]">
-                  0422-3668201
+                <a href={`tel:+${EMPRESA.whatsapp}`} className="transition-colors hover:text-[var(--brass-bright)]">
+                  {EMPRESA.whatsappDisplay}
                 </a>
               </div>
             </address>
@@ -94,7 +95,7 @@ export function Footer() {
               </Link>
               <span className="text-[var(--hairline)]">·</span>
               <Link
-                href="https://wa.me/584223668201"
+                href={`https://wa.me/${EMPRESA.whatsapp}`}
                 target="_blank"
                 rel="noopener"
                 aria-label="WhatsApp ENOVA CORP"

@@ -1,4 +1,5 @@
 "use client"
+import { EMPRESA } from "@/config/empresa"
 
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
@@ -69,7 +70,7 @@ function RailCard({ product, index }: RailCardProps) {
         <div className="mt-3 flex items-center justify-between border-t border-[var(--hairline)] pt-2.5">
           {sinPrecio ? (
             <a
-              href={`https://wa.me/584223668201?text=${encodeURIComponent(
+              href={`https://wa.me/${EMPRESA.whatsapp}?text=${encodeURIComponent(
                 "Hola ENOVA CORP, quiero cotizar: " + product.name
               )}`}
               target="_blank"

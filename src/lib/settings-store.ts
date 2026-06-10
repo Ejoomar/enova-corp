@@ -1,3 +1,4 @@
+import { EMPRESA } from "@/config/empresa"
 /**
  * Shared in-memory settings store.
  * Imported by both /api/admin/settings and /api/exchange-rate so they share
@@ -9,7 +10,7 @@ export const settingsStore = {
   general: {
     storeName:        "ENOVA CORP",
     storeEmail:       "Gerencia@enovacorp.co",
-    storePhone:       "0422-3668201",
+    storePhone:       EMPRESA.whatsappDisplay,
     storeAddress:     "Av. Andrés Bello, C.C. Alto Chama, Local 105-A, Mérida",
     storeDescription: "Tu tienda de tecnología de confianza",
     timezone:         "america-caracas",

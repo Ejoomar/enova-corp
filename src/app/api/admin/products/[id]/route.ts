@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { getProductById } from "@/lib/get-product"
+import { products as mockProducts } from "@/data/mock-products"
 import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
 const updateSchema = z.object({
@@ -24,7 +24,7 @@ export async function GET(
   if (!isAdminAuthenticated(request)) return unauthorizedResponse()
 
   const { id } = await params
-  const product = await getProductById(id)
+  const product = mockProducts.find((p) => p.id === id || p.slug === id)
 
   if (!product) {
     return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 })

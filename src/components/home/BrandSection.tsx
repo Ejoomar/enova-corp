@@ -1,4 +1,5 @@
 import { Truck, MessageSquare, Globe, CreditCard } from "lucide-react"
+import { whatsappLink } from "@/config/empresa"
 
 const pillars = [
   {
@@ -67,7 +68,7 @@ export function BrandSection() {
             </div>
 
             <a
-              href="https://wa.me/584223668201?text=Hola%20ENOVA%20CORP%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n"
+              href={whatsappLink("Hola ENOVA CORP, quiero más información")}
               target="_blank"
               rel="noopener noreferrer"
               className="group/cta self-start inline-flex items-center gap-2.5 border border-[var(--brass)]/40 px-5 py-2.5 font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass)] transition-all duration-200 hover:border-[var(--brass)] hover:bg-[var(--brass)]/8"

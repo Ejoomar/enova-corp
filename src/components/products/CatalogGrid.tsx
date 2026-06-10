@@ -1,4 +1,5 @@
 "use client"
+import { EMPRESA } from "@/config/empresa"
 
 import { useState, useMemo } from "react"
 import Image from "next/image"
@@ -52,7 +53,7 @@ function ProductCard({ product, bcvRate }: { product: CatalogProduct; bcvRate: n
   const [imgError, setImgError] = useState(false)
   const hasPrice = product.price != null && product.price > 0
   const bsValue = (bcvRate && hasPrice) ? usdToBsF(product.price!, bcvRate) : null
-  const waUrl = `https://wa.me/584223668201?text=${encodeURIComponent(`Hola ENOVA CORP, quiero cotizar: ${product.name}`)}`
+  const waUrl = `https://wa.me/${EMPRESA.whatsapp}?text=${encodeURIComponent(`Hola ENOVA CORP, quiero cotizar: ${product.name}`)}`
 
   return (
     <Link

@@ -1,4 +1,5 @@
 "use client"
+import { EMPRESA } from "@/config/empresa"
 
 import { useEffect, useState } from "react"
 import { Check, Loader2, Save } from "lucide-react"
@@ -25,7 +26,7 @@ export default function AdminSettingsPage() {
   // General
   const [storeName,        setStoreName]        = useState("ENOVA CORP")
   const [storeEmail,       setStoreEmail]       = useState("Gerencia@enovacorp.co")
-  const [storePhone,       setStorePhone]       = useState("0422-3668201")
+  const [storePhone,       setStorePhone]       = useState(EMPRESA.whatsappDisplay)
   const [storeAddress,     setStoreAddress]     = useState("Av. Andrés Bello, C.C. Alto Chama, Local 105-A, Mérida")
   const [storeDescription, setStoreDescription] = useState("Tu tienda de tecnología de confianza")
   const [timezone,         setTimezone]         = useState("america-caracas")
