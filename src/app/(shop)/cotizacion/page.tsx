@@ -41,7 +41,7 @@ export default function CotizacionPage() {
         <div>
           <h1 className="text-2xl font-bold">Tu cotización está vacía</h1>
           <p className="mt-2 text-muted-foreground">
-            Agregá productos desde el catálogo para armar tu pedido.
+            Agrega productos desde el catálogo para armar tu pedido.
           </p>
         </div>
         <Button asChild variant="brass" size="lg">

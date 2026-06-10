@@ -5,6 +5,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Product } from "@/types"
@@ -38,6 +39,9 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
     e.preventDefault()
     e.stopPropagation()
     addItem(product)
+    toast.success(`${product.name} agregado al carrito`, {
+      action: { label: "Ver carrito", onClick: () => router.push("/cart") },
+    })
   }
 
   return (
@@ -150,10 +154,12 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
           <p className="font-mono-ui text-[10px] text-[var(--muted-foreground)]">
             {sinPrecio ? (
               <span className="text-[var(--muted-foreground)]">Bajo cotización</span>
-            ) : product.stock > 0 ? (
-              <span className="text-[var(--color-success)]">En stock</span>
-            ) : (
+            ) : product.stock === 0 ? (
               <span className="text-destructive">Agotado</span>
+            ) : product.stock <= 5 ? (
+              <span className="text-[var(--color-warning)]">¡Últimas {product.stock}!</span>
+            ) : (
+              <span className="text-[var(--color-success)]">En stock</span>
             )}
           </p>
           {sinPrecio ? (
@@ -166,15 +172,22 @@ export function ProductCard({ product, bsfRate }: ProductCardProps) {
             >
               Cotizar →
             </a>
+          ) : product.stock === 0 ? (
+            <a
+              href={`https://wa.me/${EMPRESA.whatsapp}?text=${encodeURIComponent("Hola ENOVA CORP, ¿cuándo estará disponible: " + product.name + "?")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="font-mono-ui text-right text-[10px] uppercase tracking-[0.14em] text-[var(--brass)] transition-colors hover:text-[var(--brass-bright)]"
+            >
+              Consultar →
+            </a>
           ) : (
             <button
               onClick={handleAddToCart}
-              disabled={product.stock === 0}
               className={cn(
                 "font-mono-ui text-right text-[10px] uppercase tracking-[0.14em] transition-colors",
-                product.stock > 0
-                  ? "text-[var(--muted-foreground)] hover:text-[var(--brass)]"
-                  : "cursor-not-allowed opacity-40"
+                "text-[var(--muted-foreground)] hover:text-[var(--brass)]"
               )}
             >
               + Agregar

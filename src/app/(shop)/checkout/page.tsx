@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { ChevronLeft, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -112,6 +113,9 @@ export default function CheckoutPage() {
 
     clearCart()
     reset()
+    toast.success(`Pedido ${reference} registrado`, {
+      description: "Ahora envía tu comprobante de pago por WhatsApp.",
+    })
     router.push(`/checkout/confirmacion?ref=${reference}`)
   }
 

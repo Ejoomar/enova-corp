@@ -2,7 +2,9 @@
 import { HeroBanner } from "@/components/home/HeroBanner"
 import { CategoryGrid } from "@/components/home/CategoryGrid"
 import { PromoBanners } from "@/components/home/PromoBanners"
+import { ComoComprar } from "@/components/home/ComoComprar"
 import { FeaturedProducts } from "@/components/home/FeaturedProducts"
+import { Testimonios } from "@/components/home/Testimonios"
 import { BrandSection } from "@/components/home/BrandSection"
 import { TrustBanner } from "@/components/home/TrustBanner"
 import { ScrollReveal } from "@/components/ui/ScrollReveal"
@@ -18,10 +20,13 @@ export default function HomePage() {
       <ScrollReveal>
         <PromoBanners />
       </ScrollReveal>
+      {/* ComoComprar y Testimonios revelan sus items internamente */}
+      <ComoComprar />
       <ScrollReveal>
         <FeaturedProducts />
       </ScrollReveal>
       <TrustBanner />
+      <Testimonios />
       <ScrollReveal>
         <BrandSection />
       </ScrollReveal>

@@ -3,6 +3,8 @@ import { EMPRESA } from "@/config/empresa"
 
 import { useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { Heart, ShoppingCart, Star, Minus, Plus, Check, ClipboardList } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -19,6 +21,7 @@ interface ProductDetailProps {
 }
 
 export function ProductDetail({ product }: ProductDetailProps) {
+  const router = useRouter()
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
   const [quotedAdded, setQuotedAdded] = useState(false)
@@ -43,12 +46,18 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const handleAddToCart = () => {
     addItem(product, quantity)
     setAdded(true)
+    toast.success(`${product.name} agregado al carrito`, {
+      action: { label: "Ver carrito", onClick: () => router.push("/cart") },
+    })
     setTimeout(() => setAdded(false), 2000)
   }
 
   const handleAddToQuote = () => {
     addQuoteItem(product, quantity)
     setQuotedAdded(true)
+    toast.success(`${product.name} agregado a tu cotización`, {
+      action: { label: "Ver cotización", onClick: () => router.push("/cotizacion") },
+    })
     setTimeout(() => setQuotedAdded(false), 2000)
   }
 

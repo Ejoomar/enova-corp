@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next"
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
+import { Toaster } from "sonner"
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
-import { SessionProvider } from "@/components/providers/SessionProvider"
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -45,16 +45,14 @@ export default function RootLayout({
         <link rel="preload" href="/images/hero/bg-1.svg" as="image" type="image/svg+xml" />
       </head>
       <body className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}>
-        <SessionProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem={false}
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </SessionProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+        >
+          {children}
+          <Toaster richColors position="bottom-center" closeButton />
+        </ThemeProvider>
       </body>
     </html>
   )
