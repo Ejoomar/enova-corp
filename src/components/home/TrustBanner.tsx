@@ -1,4 +1,5 @@
 import { Truck, ClipboardList, ShieldCheck, Headphones } from "lucide-react"
+import { ScrollReveal } from "@/components/ui/ScrollReveal"
 
 const pillars = [
   {
@@ -33,8 +34,9 @@ export function TrustBanner() {
       <div className="mx-auto max-w-[1440px]">
         <div className="grid grid-cols-2 lg:grid-cols-4">
           {pillars.map(({ Icon, title, sub, tag }, i) => (
-            <div
+            <ScrollReveal
               key={title}
+              delay={i * 90}
               className={[
                 "flex items-start gap-5 px-7 py-9 lg:px-8 lg:py-10",
                 "transition-colors duration-200 hover:bg-white/[0.07]",
@@ -61,7 +63,7 @@ export function TrustBanner() {
                   {tag}
                 </p>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Search, ShoppingCart, ClipboardList } from "lucide-react"
@@ -25,6 +25,19 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false)
   const itemCount = useCartStore((state) => state.getItemCount())
   const quoteCount = useQuoteStore((state) => state.getItemCount())
+
+  // Bounce del badge cuando AUMENTA el contador (no al hidratar ni al quitar)
+  const [cartBounce, setCartBounce] = useState(false)
+  const prevItemCount = useRef(itemCount)
+  useEffect(() => {
+    if (mounted && itemCount > prevItemCount.current) {
+      setCartBounce(true)
+      const t = setTimeout(() => setCartBounce(false), 400)
+      prevItemCount.current = itemCount
+      return () => clearTimeout(t)
+    }
+    prevItemCount.current = itemCount
+  }, [itemCount, mounted])
 
   useEffect(() => {
     setMounted(true)
@@ -108,7 +121,11 @@ export function Header() {
               <Button variant="ghost" size="icon" className="relative h-9 w-9">
                 <ShoppingCart className="h-4 w-4" />
                 {mounted && itemCount > 0 && (
-                  <Badge className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full border-0 bg-[var(--brass)] p-0 font-mono-ui text-[10px] text-[var(--background)]">
+                  <Badge
+                    className={`absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full border-0 bg-[var(--brass)] p-0 font-mono-ui text-[10px] text-[var(--background)] ${
+                      cartBounce ? "animate-cart-bounce" : ""
+                    }`}
+                  >
                     {itemCount > 99 ? "99+" : itemCount}
                   </Badge>
                 )}

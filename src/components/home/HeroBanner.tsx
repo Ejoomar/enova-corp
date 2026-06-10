@@ -31,6 +31,14 @@ export function HeroBanner() {
     return () => { emblaApi.off("select", onSelect) }
   }, [emblaApi])
 
+  // Accesibilidad: detener el autoplay si el usuario pide menos movimiento
+  useEffect(() => {
+    if (!emblaApi) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      emblaApi.plugins().autoplay?.stop()
+    }
+  }, [emblaApi])
+
   // Skeleton mientras Zustand hidrata desde localStorage
   if (slides.length === 0) {
     return (
@@ -149,19 +157,26 @@ export function HeroBanner() {
             <ChevronRight className="h-5 w-5" />
           </button>
 
-          {/* Dot indicators */}
+          {/* Dot indicators — el activo muestra el progreso del autoplay (5s) */}
           <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
             {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => scrollTo(i)}
                 aria-label={`Ir a slide ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
+                className={`relative h-1.5 overflow-hidden rounded-full transition-all duration-300 ${
                   i === selectedIndex
-                    ? "w-6 bg-[var(--brass-bright)]"
+                    ? "w-6 bg-white/25"
                     : "w-1.5 bg-white/40 hover:bg-white/70"
                 }`}
-              />
+              >
+                {i === selectedIndex && (
+                  <span
+                    key={selectedIndex}
+                    className="absolute inset-0 origin-left rounded-full bg-[var(--brass-bright)] motion-safe:animate-[dot-progress_5s_linear_forwards] motion-reduce:transform-none"
+                  />
+                )}
+              </button>
             ))}
           </div>
         </>

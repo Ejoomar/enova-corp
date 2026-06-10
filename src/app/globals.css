@@ -395,3 +395,53 @@ body::before {
 .filmstrip-grid:hover .film-card:hover .split-left  { transform: translateX(0); opacity: 1; }
 .filmstrip-grid:hover .film-card:hover .split-right { transform: translateX(0); opacity: 1; transition-delay: 80ms; }
 .filmstrip-grid:hover .film-card:hover .film-count  { color: rgba(255,255,255,.42); transform: translateY(0); }
+
+/* ════════════════════════════════════════════════
+   Animaciones de entrada y feedback (Fase E)
+   Solo propiedades de compositor: transform + opacity.
+   ════════════════════════════════════════════════ */
+
+/* Scroll reveal — usado por <ScrollReveal> */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 550ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 550ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* Bounce del badge del carrito al agregar un producto */
+@keyframes cart-bounce {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.4); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+.animate-cart-bounce {
+  animation: cart-bounce 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Barra de progreso del dot activo del hero (sincronizada con autoplay 5s) */
+@keyframes dot-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Accesibilidad: sin movimiento para quien lo pide */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .animate-cart-bounce { animation: none; }
+}
+
+/* Transición suave al cambiar tema claro/oscuro */
+body {
+  transition: background-color 300ms ease, color 300ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  body { transition: none; }
+}
