@@ -2,6 +2,7 @@
 import { EMPRESA } from "@/config/empresa"
 
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
 import { Check, Loader2, Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -113,8 +114,13 @@ export default function AdminSettingsPage() {
       })
       if (res.ok) {
         setSaved(true)
+        toast.success("Configuración guardada")
         setTimeout(() => setSaved(false), 3000)
+      } else {
+        toast.error("No se pudo guardar la configuración")
       }
+    } catch {
+      toast.error("No se pudo guardar la configuración")
     } finally {
       setSaving(false)
     }

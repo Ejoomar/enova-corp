@@ -14,7 +14,8 @@ import {
   type SortingState,
   type ColumnFiltersState,
 } from "@tanstack/react-table"
-import { Pencil, Plus, Search, Trash2 } from "lucide-react"
+import { toast } from "sonner"
+import { Copy, Pencil, Plus, Search, Trash2 } from "lucide-react"
 import { SortableHeader } from "@/components/admin/SortableHeader"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -48,14 +49,33 @@ import { useProductsStore } from "@/stores/products-store"
 import type { Product } from "@/types"
 
 export default function AdminProductsPage() {
-  const { allProducts, deleteProduct } = useProductsStore()
+  const { allProducts, deleteProduct, addProduct } = useProductsStore()
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
+  const deleteTarget = allProducts.find((p) => p.id === deleteId) ?? null
+
   function handleDelete(id: string) {
+    const name = allProducts.find((p) => p.id === id)?.name ?? "Producto"
     deleteProduct(id)
     setDeleteId(null)
+    toast.success(`«${name}» eliminado del catálogo`)
+  }
+
+  // Duplica un producto: copia todo, genera id/slug nuevos y lo marca para edición.
+  function handleDuplicate(id: string) {
+    const original = allProducts.find((p) => p.id === id)
+    if (!original) return
+    const suffix = Date.now().toString(36).slice(-4)
+    addProduct({
+      ...original,
+      id: `prod-${Date.now()}`,
+      slug: `${original.slug}-copia-${suffix}`,
+      name: `${original.name} (copia)`,
+      isFeatured: false,
+    })
+    toast.success(`«${original.name}» duplicado — edítalo para ajustar los datos`)
   }
 
   const columns: ColumnDef<Product>[] = [
@@ -124,7 +144,7 @@ export default function AdminProductsPage() {
       enableSorting: false,
       cell: ({ row }) => (
         <div className="flex items-center justify-end gap-1">
-          <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
+          <Button variant="ghost" size="icon" className="h-8 w-8" asChild title="Editar">
             <Link href={`/admin/products/${row.original.id}`}>
               <Pencil className="h-3.5 w-3.5" />
             </Link>
@@ -132,8 +152,18 @@ export default function AdminProductsPage() {
           <Button
             variant="ghost"
             size="icon"
+            className="h-8 w-8"
+            onClick={() => handleDuplicate(row.original.id)}
+            title="Duplicar"
+          >
+            <Copy className="h-3.5 w-3.5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
             className="h-8 w-8 text-destructive hover:text-destructive"
             onClick={() => setDeleteId(row.original.id)}
+            title="Eliminar"
           >
             <Trash2 className="h-3.5 w-3.5" />
           </Button>
@@ -299,9 +329,11 @@ export default function AdminProductsPage() {
       <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>¿Eliminar producto?</AlertDialogTitle>
+            <AlertDialogTitle>
+              ¿Eliminar «{deleteTarget?.name ?? "este producto"}»?
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. El producto será eliminado permanentemente.
+              Esta acción no se puede deshacer y el producto dejará de mostrarse en la tienda.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

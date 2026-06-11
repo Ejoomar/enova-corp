@@ -2,9 +2,11 @@
 
 import { useParams, useRouter } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, Package, MapPin, CreditCard, Calendar, Hash } from "lucide-react"
+import { toast } from "sonner"
+import { ArrowLeft, Package, MapPin, CreditCard, Calendar, Hash, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { whatsappLink } from "@/config/empresa"
 import {
   Select,
   SelectContent,
@@ -24,6 +26,15 @@ export default function AdminOrderDetailPage() {
 
   function changeStatus(status: string) {
     updateOrderStatus(id, status as Order["status"])
+    toast.success(`${id} → ${STATUS_LABELS[status] ?? status}`)
+  }
+
+  // Normaliza un teléfono venezolano a formato wa.me (código país 58, sin símbolos).
+  function toWhatsappNumber(raw: string): string {
+    const digits = raw.replace(/\D/g, "")
+    if (digits.startsWith("58")) return digits
+    if (digits.startsWith("0")) return `58${digits.slice(1)}`
+    return `58${digits}`
   }
 
   if (!order) {
@@ -40,6 +51,11 @@ export default function AdminOrderDetailPage() {
   }
 
   const subtotal = order.subtotal ?? order.items.reduce((s, i) => s + i.price * i.quantity, 0)
+
+  const customerWhatsapp = `https://wa.me/${toWhatsappNumber(order.shippingAddress.phone)}?text=${encodeURIComponent(
+    `Hola ${order.shippingAddress.name}, te escribimos de ENOVA CORP sobre tu pedido ${order.id} ` +
+      `(${order.items.length} ${order.items.length === 1 ? "producto" : "productos"}, total $${order.total.toFixed(2)}). `
+  )}`
 
   return (
     <div className="space-y-6">
@@ -70,8 +86,17 @@ export default function AdminOrderDetailPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground hidden sm:block">Cambiar estado:</span>
+        <div className="flex flex-col items-end gap-2 sm:flex-row sm:items-center">
+          <Button
+            asChild
+            size="sm"
+            className="bg-[#25D366] text-white hover:bg-[#1ebe5a]"
+          >
+            <a href={customerWhatsapp} target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="mr-1.5 h-4 w-4" />
+              Contactar cliente
+            </a>
+          </Button>
           <Select value={order.status} onValueChange={changeStatus}>
             <SelectTrigger className="w-40">
               <SelectValue />

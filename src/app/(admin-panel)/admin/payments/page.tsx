@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react"
 import Image from "next/image"
+import { toast } from "sonner"
 import {
   useReactTable,
   getCoreRowModel,
@@ -84,7 +85,10 @@ export default function AdminPaymentsPage() {
 
   function confirmPaymentAction() {
     if (!confirmAction) return
+    const payment = allPayments.find((p) => p.id === confirmAction.id)
     updatePaymentStatus(confirmAction.id, confirmAction.status)
+    const verb = confirmAction.status === "approved" ? "aprobado" : "rechazado"
+    toast.success(`Comprobante de ${payment?.userName ?? "cliente"} ${verb}`)
     setConfirmAction(null)
   }
 

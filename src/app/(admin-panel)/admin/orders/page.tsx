@@ -13,6 +13,7 @@ import {
   type SortingState,
 } from "@tanstack/react-table"
 import { Eye, Search } from "lucide-react"
+import { toast } from "sonner"
 import Link from "next/link"
 import { SortableHeader } from "@/components/admin/SortableHeader"
 import { Button } from "@/components/ui/button"
@@ -54,6 +55,7 @@ export default function AdminOrdersPage() {
 
   function changeOrderStatus(id: string, status: string) {
     updateOrderStatus(id, status as Order["status"])
+    toast.success(`${id} → ${STATUS_LABELS[status] ?? status}`)
   }
 
   const columns: ColumnDef<Order>[] = [

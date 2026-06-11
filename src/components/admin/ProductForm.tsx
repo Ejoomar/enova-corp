@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -169,6 +170,7 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
 
       if (mode === "edit" && initialData?.id) {
         updateProduct(initialData.id, payload)
+        toast.success(`«${values.name}» actualizado`)
       } else {
         const newProduct = {
           id: `prod-${Date.now()}`,
@@ -189,6 +191,7 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
           reviews: 0,
         }
         addProduct(newProduct)
+        toast.success(`«${values.name}» creado y publicado en la tienda`)
       }
 
       router.push("/admin/products")
