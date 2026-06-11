@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next"
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "sonner"
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ThemeProvider } from "@/components/providers/ThemeProvider"
 import { SITE_URL } from "@/config/empresa"
 
@@ -26,6 +28,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  themeColor: "#0057b7",
 }
 
 export const metadata: Metadata = {
@@ -60,6 +63,8 @@ export default function RootLayout({
           {children}
           <Toaster richColors position="bottom-center" closeButton />
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
