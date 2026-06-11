@@ -38,6 +38,7 @@ const footerLinks = {
     { name: "Garantía",             href: "/warranty" },
     { name: "Preguntas Frecuentes", href: "/faq"      },
     { name: "Términos y Cond.",     href: "/terms"    },
+    { name: "Privacidad",           href: "/privacy"  },
   ],
 }
 

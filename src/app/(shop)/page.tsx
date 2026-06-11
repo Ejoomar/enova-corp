@@ -41,6 +41,11 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
       />
+      {/* h1 de la página (sr-only): los títulos del hero son h2 por ser un carrusel
+          de N slides — un h1 visible rotando duplicaría h1 o cambiaría de texto. */}
+      <h1 className="sr-only">
+        ENOVA CORP — Computación, equipos fiscales, redes e impresoras en Venezuela
+      </h1>
       {/* El hero entra inmediato (above the fold); el resto se revela al scroll */}
       <HeroBanner />
       <ScrollReveal>
