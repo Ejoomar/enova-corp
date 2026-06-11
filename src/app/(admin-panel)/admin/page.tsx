@@ -1,16 +1,17 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { DollarSign, ShoppingCart, Users, Package, ArrowUpRight, AlertCircle, RefreshCw } from "lucide-react"
+import { DollarSign, ShoppingCart, Users, Package, ArrowUpRight, Plus, CreditCard } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { StatsCard } from "@/components/admin/StatsCard"
-import { useAdminStore } from "@/stores/admin-store"
+import { useOrdersStore } from "@/stores/orders-store"
 import { useProductsStore } from "@/stores/products-store"
+import { usePaymentsStore } from "@/stores/payments-store"
 import { ORDER_STATUS_LABELS, ORDER_STATUS_VARIANTS } from "@/lib/order-status"
 
 function DashboardSkeleton() {
@@ -76,78 +77,114 @@ function DashboardSkeleton() {
   )
 }
 
+function initialsOf(name: string): string {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase()
+}
+
+function greeting(): string {
+  const h = new Date().getHours()
+  if (h < 12) return "Buen día"
+  if (h < 19) return "Buenas tardes"
+  return "Buenas noches"
+}
+
 export default function AdminDashboard() {
-  const { stats, statChanges, recentOrders, ordersByStatus, dashboardLoading, error, fetchDashboard } = useAdminStore()
-  // Use the live catalog count so new/deleted products are reflected immediately
-  const totalProducts = useProductsStore((state) => state.allProducts.length)
+  // Evita desajuste de hidratación: los stores se rehidratan desde localStorage en cliente.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
-  useEffect(() => {
-    fetchDashboard()
-  }, [fetchDashboard])
+  const allOrders = useOrdersStore((s) => s.allOrders)
+  const totalProducts = useProductsStore((s) => s.allProducts.length)
+  const pendingPayments = usePaymentsStore((s) =>
+    s.allPayments.filter((p) => p.status === "pending").length
+  )
 
-  if (dashboardLoading && !stats) {
+  const stats = useMemo(() => {
+    const active = allOrders.filter((o) => o.status !== "cancelled")
+    const revenue = active.reduce((sum, o) => sum + o.total, 0)
+    const customers = new Set(allOrders.map((o) => o.shippingAddress.name)).size
+    return { revenue, orders: allOrders.length, customers }
+  }, [allOrders])
+
+  const ordersByStatus = useMemo(() => {
+    const counts = { pending: 0, processing: 0, shipped: 0, delivered: 0, cancelled: 0 }
+    for (const o of allOrders) counts[o.status] += 1
+    return counts
+  }, [allOrders])
+
+  const recentOrders = useMemo(
+    () =>
+      [...allOrders]
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 5),
+    [allOrders]
+  )
+
+  if (!mounted) {
     return <DashboardSkeleton />
   }
 
-  if (!dashboardLoading && !stats && error) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10">
-          <AlertCircle className="h-7 w-7 text-destructive" />
-        </div>
-        <div>
-          <p className="text-lg font-semibold">Error al cargar el dashboard</p>
-          <p className="mt-1 text-sm text-muted-foreground max-w-sm">
-            No se pudo conectar con la base de datos. Verifica que el servidor esté activo e inténtalo de nuevo.
-          </p>
-        </div>
-        <button
-          onClick={() => fetchDashboard()}
-          className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
-        >
-          <RefreshCw className="h-4 w-4" />
-          Reintentar
-        </button>
-      </div>
-    )
-  }
+  const today = new Date().toLocaleDateString("es-VE", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  })
+  const pendingOrders = ordersByStatus.pending
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Bienvenido al panel de administración de ENOVA CORP
-        </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">{greeting()}</h1>
+          <p className="text-muted-foreground capitalize">
+            {today}
+            {pendingOrders > 0 && (
+              <span className="lowercase">
+                {" "}— tienes <strong className="text-foreground">{pendingOrders}</strong> pedido
+                {pendingOrders !== 1 ? "s" : ""} pendiente{pendingOrders !== 1 ? "s" : ""}
+              </span>
+            )}
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button asChild size="sm">
+            <Link href="/admin/products/new">
+              <Plus className="mr-1.5 h-4 w-4" />
+              Nuevo producto
+            </Link>
+          </Button>
+          <Button asChild size="sm" variant="outline">
+            <Link href="/admin/payments">
+              <CreditCard className="mr-1.5 h-4 w-4" />
+              Comprobantes
+              {pendingPayments > 0 && (
+                <Badge variant="destructive" className="ml-1.5 h-5 px-1.5">
+                  {pendingPayments}
+                </Badge>
+              )}
+            </Link>
+          </Button>
+        </div>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatsCard
           title="Ingresos Totales"
-          value={`$${(stats?.totalRevenue || 0).toLocaleString("en-US")}`}
-          change={statChanges?.revenue ?? null}
+          value={stats.revenue}
+          format={(n) => `$${Math.round(n).toLocaleString("en-US")}`}
           icon={DollarSign}
         />
-        <StatsCard
-          title="Pedidos"
-          value={(stats?.totalOrders || 0).toLocaleString()}
-          change={statChanges?.orders ?? null}
-          icon={ShoppingCart}
-        />
-        <StatsCard
-          title="Clientes"
-          value={(stats?.totalCustomers || 0).toLocaleString()}
-          change={statChanges?.customers ?? null}
-          icon={Users}
-        />
-        <StatsCard
-          title="Productos"
-          value={totalProducts.toString()}
-          change={statChanges?.products ?? null}
-          icon={Package}
-        />
+        <StatsCard title="Pedidos" value={stats.orders} icon={ShoppingCart} />
+        <StatsCard title="Clientes" value={stats.customers} icon={Users} />
+        <StatsCard title="Productos" value={totalProducts} icon={Package} />
       </div>
 
       {/* Content Grid */}
@@ -157,7 +194,7 @@ export default function AdminDashboard() {
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle>Pedidos Recientes</CardTitle>
-              <CardDescription>Los ultimos pedidos de tu tienda</CardDescription>
+              <CardDescription>Los últimos pedidos de tu tienda</CardDescription>
             </div>
             <Button variant="outline" size="sm" asChild>
               <Link href="/admin/orders">
@@ -169,35 +206,34 @@ export default function AdminDashboard() {
           <CardContent>
             {recentOrders.length === 0 ? (
               <p className="text-center text-muted-foreground py-8">
-                No hay pedidos recientes
+                Aún no hay pedidos. Cuando un cliente complete su compra aparecerá aquí.
               </p>
             ) : (
               <div className="space-y-4">
                 {recentOrders.map((order) => (
-                  <div
+                  <Link
                     key={order.id}
-                    className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0"
+                    href={`/admin/orders/${order.id}`}
+                    className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0 -mx-2 px-2 rounded-md transition-colors hover:bg-muted/50"
                   >
                     <div className="flex items-center gap-3">
                       <Avatar className="h-9 w-9">
-                        <AvatarFallback>
-                          {order.customer.split(" ").map((n) => n[0]).join("")}
-                        </AvatarFallback>
+                        <AvatarFallback>{initialsOf(order.shippingAddress.name)}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="text-sm font-medium">{order.customer}</p>
-                        <p className="text-xs text-muted-foreground">{order.orderNumber}</p>
+                        <p className="text-sm font-medium">{order.shippingAddress.name}</p>
+                        <p className="text-xs text-muted-foreground font-mono">{order.id}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
                       <Badge variant={ORDER_STATUS_VARIANTS[order.status] ?? "outline"}>
                         {ORDER_STATUS_LABELS[order.status] ?? order.status}
                       </Badge>
-                      <span className="text-sm font-medium">
+                      <span className="text-sm font-medium tabular-nums">
                         ${order.total.toFixed(2)}
                       </span>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}
@@ -214,23 +250,23 @@ export default function AdminDashboard() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Pendientes</span>
-                <Badge variant="outline">{ordersByStatus?.pending ?? 0}</Badge>
+                <Badge variant="outline">{ordersByStatus.pending}</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Procesando</span>
-                <Badge variant="secondary">{ordersByStatus?.processing ?? 0}</Badge>
+                <Badge variant="secondary">{ordersByStatus.processing}</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Enviados</span>
-                <Badge variant="secondary">{ordersByStatus?.shipped ?? 0}</Badge>
+                <Badge variant="secondary">{ordersByStatus.shipped}</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Entregados</span>
-                <Badge variant="default">{ordersByStatus?.delivered ?? 0}</Badge>
+                <Badge variant="default">{ordersByStatus.delivered}</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Cancelados</span>
-                <Badge variant="destructive">{ordersByStatus?.cancelled ?? 0}</Badge>
+                <Badge variant="destructive">{ordersByStatus.cancelled}</Badge>
               </div>
             </div>
           </CardContent>

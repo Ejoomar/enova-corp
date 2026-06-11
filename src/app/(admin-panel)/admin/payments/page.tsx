@@ -48,7 +48,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import type { PaymentProofMock } from "@/app/api/admin/payments/route"
+import type { PaymentProofMock } from "@/stores/payments-store"
 import { usePaymentsStore } from "@/stores/payments-store"
 
 const STATUS_LABELS: Record<string, string> = {

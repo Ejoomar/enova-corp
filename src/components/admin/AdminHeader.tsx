@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Bell, LogOut, Search, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { usePaymentsStore } from "@/stores/payments-store"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,14 +21,11 @@ import { AdminMobileNav } from "./AdminMobileNav"
 export function AdminHeader() {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState("")
-  const [pendingPayments, setPendingPayments] = useState(0)
-
-  useEffect(() => {
-    fetch("/api/admin/payments?status=pending")
-      .then((r) => r.json())
-      .then((data) => setPendingPayments(data.meta?.total ?? 0))
-      .catch(() => {})
-  }, [])
+  // Lee del mismo store que la página de Pagos para que el contador refleje al instante
+  // las aprobaciones/rechazos (antes leía un endpoint mock y quedaba desactualizado).
+  const pendingPayments = usePaymentsStore((state) =>
+    state.allPayments.filter((p) => p.status === "pending").length
+  )
 
   const initials = "AD"
 

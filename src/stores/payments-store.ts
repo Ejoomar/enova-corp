@@ -1,8 +1,22 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-import type { PaymentProofMock } from "@/app/api/admin/payments/route"
 
-// Default mock data — mirrored from the API route so the store seeds itself
+// El store es la única fuente de verdad de los comprobantes (antes el tipo vivía en
+// la ruta API, ya eliminada). Persiste en localStorage del admin.
+export interface PaymentProofMock {
+  id: string
+  orderNumber: string | null
+  userName: string
+  userEmail: string
+  amount: number
+  method: string
+  imageUrl: string
+  notes: string | null
+  status: "pending" | "approved" | "rejected"
+  createdAt: string
+}
+
+// Default mock data — el store se siembra con estos comprobantes de ejemplo
 const DEFAULT_PAYMENTS: PaymentProofMock[] = [
   {
     id: "pay-001",

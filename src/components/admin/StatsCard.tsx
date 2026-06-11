@@ -1,16 +1,59 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
 import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
 interface StatsCardProps {
   title: string
-  value: string
+  value: number
+  /** Formatea el número ya animado. Por defecto separador de miles local. */
+  format?: (n: number) => string
   /** Pass null to hide the trend row entirely (e.g. no prior-period data). */
   change?: number | null
   icon: LucideIcon
 }
 
-export function StatsCard({ title, value, change = null, icon: Icon }: StatsCardProps) {
+const DURATION_MS = 600
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return true
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+}
+
+// Cuenta desde 0 hasta `target` en DURATION_MS. Sin movimiento si el usuario lo pide.
+function useCountUp(target: number): number {
+  const [display, setDisplay] = useState(() => (prefersReducedMotion() ? target : 0))
+  const frameRef = useRef<number | undefined>(undefined)
+
+  useEffect(() => {
+    if (prefersReducedMotion()) {
+      setDisplay(target)
+      return
+    }
+    const start = performance.now()
+    const from = 0
+    function tick(now: number) {
+      const progress = Math.min((now - start) / DURATION_MS, 1)
+      // easeOutCubic
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setDisplay(from + (target - from) * eased)
+      if (progress < 1) frameRef.current = requestAnimationFrame(tick)
+    }
+    frameRef.current = requestAnimationFrame(tick)
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current)
+    }
+  }, [target])
+
+  return display
+}
+
+export function StatsCard({ title, value, format, change = null, icon: Icon }: StatsCardProps) {
+  const animated = useCountUp(value)
+  const formatter = format ?? ((n: number) => Math.round(n).toLocaleString())
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 pb-1 sm:p-6 sm:pb-2">
@@ -20,7 +63,7 @@ export function StatsCard({ title, value, change = null, icon: Icon }: StatsCard
         <Icon className="h-3.5 w-3.5 shrink-0 text-muted-foreground sm:h-4 sm:w-4" />
       </CardHeader>
       <CardContent className="p-3 pt-1 sm:p-6 sm:pt-0">
-        <div className="text-xl font-bold sm:text-2xl">{value}</div>
+        <div className="text-xl font-bold sm:text-2xl tabular-nums">{formatter(animated)}</div>
 
         {change != null && (
           <div className="flex items-center gap-1 text-xs mt-1">
