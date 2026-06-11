@@ -6,7 +6,6 @@ import { toast } from "sonner"
 import { ArrowLeft, Package, MapPin, CreditCard, Calendar, Hash, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { whatsappLink } from "@/config/empresa"
 import {
   Select,
   SelectContent,
