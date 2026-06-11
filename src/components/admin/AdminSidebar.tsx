@@ -34,7 +34,7 @@ export function AdminSidebar() {
         <Image
           src="/images/logo.png"
           alt="ENOVA CORP"
-          width={36}
+          width={59}
           height={36}
           className="h-9 w-auto"
         />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import {
@@ -23,12 +24,29 @@ interface ProductPageProps {
   params: Promise<{ id: string }>
 }
 
+// Pre-renderiza todos los productos del catálogo (por slug y por id) y devuelve
+// 404 HTTP real para cualquier otro valor. Sin esto, el loading.tsx de la ruta
+// hace streaming y el status ya salió como 200 cuando notFound() se ejecuta.
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  const params = new Set<string>()
+  for (const p of products) {
+    params.add(p.slug)
+    params.add(p.id)
+  }
+  return [...params].map((id) => ({ id }))
+}
+
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { id } = await params
   const product = products.find((p) => p.slug === id || p.id === id)
 
+  // notFound() aquí (y no solo en el page) porque la ruta tiene loading.tsx:
+  // con streaming los headers ya salieron cuando el page lanza el 404; el
+  // metadata resuelve ANTES del primer byte, así el status HTTP es 404 real.
   if (!product) {
-    return { title: "Producto no encontrado — ENOVA CORP" }
+    notFound()
   }
 
   const title = `${product.name} — ENOVA CORP`
@@ -54,18 +72,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const product = products.find((p) => p.slug === id || p.id === id)
 
+  // 404 real (status HTTP) en vez de página suave con 200 — evita que Google
+  // indexe URLs de productos eliminados. Renderiza el not-found.tsx global de marca.
   if (!product) {
-    return (
-      <div className="container mx-auto px-4 py-20 text-center space-y-4">
-        <h1 className="font-display text-[length:var(--text-h2)] font-medium leading-[1.15]">Producto no encontrado</h1>
-        <p className="text-muted-foreground">
-          El producto que buscas no existe o ha sido eliminado.
-        </p>
-        <Button asChild>
-          <Link href="/products">Ver todos los productos</Link>
-        </Button>
-      </div>
-    )
+    notFound()
   }
 
   const related = products

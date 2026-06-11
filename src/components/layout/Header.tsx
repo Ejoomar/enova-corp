@@ -12,10 +12,12 @@ import { ImageSearch } from "@/components/search/ImageSearch"
 import { useCartStore } from "@/stores/cart-store"
 import { useQuoteStore } from "@/stores/quote-store"
 
+// Mantener en sincronía con MobileNav.tsx — misma oferta en móvil y escritorio
 const navLinks = [
   { label: "Laptops",           href: "/products?category=laptops"          },
   { label: "Redes",             href: "/products?category=redes"            },
   { label: "Equipos Fiscales",  href: "/products?category=equipos-fiscales" },
+  { label: "Impresoras",        href: "/products?category=impresoras"       },
   { label: "Periféricos",       href: "/products?category=perifericos"      },
   { label: "Catálogo",          href: "/catalogo"                           },
 ]
@@ -61,7 +63,7 @@ export function Header() {
             <Image
               src="/images/logo.png"
               alt="ENOVA CORP"
-              width={40}
+              width={65}
               height={40}
               className="h-10 w-auto"
               priority
@@ -71,8 +73,8 @@ export function Header() {
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-8 md:flex">
+          {/* Desktop nav — desde lg: con 6 categorías + iconos no cabe antes de 1024px */}
+          <nav className="hidden items-center gap-5 lg:flex xl:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

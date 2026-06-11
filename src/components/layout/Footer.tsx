@@ -53,7 +53,7 @@ export function Footer() {
               <Image
                 src="/images/logo.png"
                 alt="ENOVA CORP"
-                width={56}
+                width={92}
                 height={56}
                 className="h-14 w-auto"
               />

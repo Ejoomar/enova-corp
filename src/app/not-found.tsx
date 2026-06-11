@@ -15,7 +15,7 @@ export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--background)] px-4 text-center">
       <Link href="/" className="mb-10">
-        <Image src="/images/logo.png" alt={EMPRESA.nombre} width={56} height={56} className="h-14 w-auto" />
+        <Image src="/images/logo.png" alt={EMPRESA.nombre} width={92} height={56} className="h-14 w-auto" />
       </Link>
 
       <p className="font-mono-ui text-[11px] uppercase tracking-[0.14em] text-[var(--brass)]">

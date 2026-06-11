@@ -28,7 +28,7 @@ export function MobileNav() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-9 w-9 md:hidden">
+        <Button variant="ghost" size="icon" className="h-9 w-9 lg:hidden">
           <Menu className="h-4 w-4" />
           <span className="sr-only">Menú</span>
         </Button>
@@ -44,7 +44,7 @@ export function MobileNav() {
               <Image
                 src="/images/logo.png"
                 alt="ENOVA CORP"
-                width={40}
+                width={65}
                 height={40}
                 className="h-10 w-auto"
               />

@@ -96,6 +96,7 @@ export function ImageSearch() {
         className="shrink-0 relative overflow-hidden border-primary/30 hover:border-primary hover:bg-primary/5"
         onClick={() => setOpen(true)}
         title="Buscar por imagen"
+        aria-label="Buscar por imagen"
       >
         <Camera className="h-4 w-4 text-primary" />
       </Button>

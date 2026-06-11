@@ -8,7 +8,7 @@ export const EMPRESA = {
   // TODO-CLIENTE: confirmar número oficial (los prefijos 0422/0439 actuales no son móviles VE válidos)
   whatsapp: "584223668201",
   whatsappDisplay: "0422-366-8201",
-  email: "Generala@enovacorp.co",
+  email: "Gerencia@enovacorp.co",
   instagram: "@enovacorpve",
   instagramUrl: "https://instagram.com/enovacorpve",
   direccion: "Av. Andrés Bello, C.C. Alto Chama, Local 105-A, Mérida",
