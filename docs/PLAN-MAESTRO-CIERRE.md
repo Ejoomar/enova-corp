@@ -23,7 +23,7 @@ PLAN-ADMIN.md (§2.4 y fase 5) · PREGUNTAS-CLIENTE.md
 
 ---
 
-## BLOQUE 1 — Seguridad web y fundaciones SEO/PWA (sin dependencias, empezar aquí)
+## BLOQUE 1 — Seguridad web y fundaciones SEO/PWA ✅ EJECUTADO (11/06/2026)
 
 | Tarea | Archivos | Detalle |
 |---|---|---|
@@ -38,7 +38,7 @@ el home tiene exactamente un `<h1>` (grep en el HTML servido) · `/manifest.webm
 responde 200 · `/privacy` responde 200, aparece en `/sitemap.xml` y tiene enlace en el footer ·
 build verde · sin overflow nuevo en 375px.
 
-## BLOQUE 2 — Medición (el negocio deja de volar a ciegas)
+## BLOQUE 2 — Medición (el negocio deja de volar a ciegas) ✅ EJECUTADO (11/06/2026)
 
 | Tarea | Detalle |
 |---|---|
