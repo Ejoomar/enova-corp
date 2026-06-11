@@ -5,7 +5,7 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
+  if (!(await isAdminAuthenticated(request))) return unauthorizedResponse()
 
   const { id } = await params
   const { status } = await request.json()

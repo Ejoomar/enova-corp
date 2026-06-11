@@ -1,10 +1,13 @@
 import { put } from "@vercel/blob"
 import { NextRequest, NextResponse } from "next/server"
+import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"]
 const MAX_SIZE = 4.5 * 1024 * 1024 // 4.5 MB
 
 export async function POST(request: NextRequest) {
+  if (!(await isAdminAuthenticated(request))) return unauthorizedResponse()
+
   const formData = await request.formData()
   const file = formData.get("file") as File | null
 

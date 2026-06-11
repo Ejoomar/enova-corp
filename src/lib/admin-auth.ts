@@ -1,12 +1,9 @@
-import { NextRequest } from "next/server"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
+import { ADMIN_COOKIE, verifySessionToken } from "./admin-session"
 
-const ADMIN_COOKIE = "enova_admin_session"
-
-export function isAdminAuthenticated(request: NextRequest): boolean {
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "enova2024"
-  const cookie = request.cookies.get(ADMIN_COOKIE)
-  return cookie?.value === ADMIN_PASSWORD
+export async function isAdminAuthenticated(request: NextRequest): Promise<boolean> {
+  const token = request.cookies.get(ADMIN_COOKIE)?.value
+  return verifySessionToken(token)
 }
 
 export function unauthorizedResponse() {

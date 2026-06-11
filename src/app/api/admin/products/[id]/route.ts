@@ -21,7 +21,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
+  if (!(await isAdminAuthenticated(request))) return unauthorizedResponse()
 
   const { id } = await params
   const product = mockProducts.find((p) => p.id === id || p.slug === id)
@@ -37,7 +37,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
+  if (!(await isAdminAuthenticated(request))) return unauthorizedResponse()
 
   const { id } = await params
   const body = await request.json()
@@ -61,7 +61,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
+  if (!(await isAdminAuthenticated(request))) return unauthorizedResponse()
 
   const { id } = await params
 

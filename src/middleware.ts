@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
+import { ADMIN_COOKIE, verifySessionToken } from "@/lib/admin-session"
 
-const ADMIN_COOKIE = "enova_admin_session"
-
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "enova2024"
 
-  const cookie = request.cookies.get(ADMIN_COOKIE)
-  const isAuthenticated = cookie?.value === ADMIN_PASSWORD
+  const token = request.cookies.get(ADMIN_COOKIE)?.value
+  const isAuthenticated = await verifySessionToken(token)
 
   // Autenticado intentando ir al login → dashboard
   if (isAuthenticated && pathname.startsWith("/admin/login")) {

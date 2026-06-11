@@ -15,7 +15,15 @@ export default function AdminLoginPage() {
 function AdminLoginContent() {
   const searchParams = useSearchParams()
   const from = searchParams.get("from") ?? "/admin"
-  const hasError = searchParams.get("error") === "1"
+  const errorCode = searchParams.get("error")
+  const errorMessage =
+    errorCode === "rate"
+      ? "Demasiados intentos. Espera 15 minutos e intenta de nuevo."
+      : errorCode === "config"
+        ? "El acceso no está configurado. Contacta al administrador del sitio."
+        : errorCode === "1"
+          ? "Contraseña incorrecta. Intenta de nuevo."
+          : null
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--background)] px-4">
@@ -58,9 +66,9 @@ function AdminLoginContent() {
             />
           </div>
 
-          {hasError && (
+          {errorMessage && (
             <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
-              Contraseña incorrecta. Intenta de nuevo.
+              {errorMessage}
             </p>
           )}
 

@@ -3,7 +3,7 @@ import { dashboardStats, orders as mockOrders } from "@/data/mock-admin"
 import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
 export async function GET(request: NextRequest) {
-  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
+  if (!(await isAdminAuthenticated(request))) return unauthorizedResponse()
 
   const statusCounts = mockOrders.reduce((acc, o) => {
     acc[o.status] = (acc[o.status] ?? 0) + 1

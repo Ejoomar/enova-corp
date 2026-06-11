@@ -1,8 +1,7 @@
 import { cookies } from "next/headers"
 import { AdminSidebar } from "@/components/admin/AdminSidebar"
 import { AdminHeader } from "@/components/admin/AdminHeader"
-
-const ADMIN_COOKIE = "enova_admin_session"
+import { ADMIN_COOKIE, verifySessionToken } from "@/lib/admin-session"
 
 export default async function AdminLayout({
   children,
@@ -10,9 +9,8 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   const cookieStore = await cookies()
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "enova2024"
-  const cookie = cookieStore.get(ADMIN_COOKIE)
-  const isAuthenticated = cookie?.value === ADMIN_PASSWORD
+  const token = cookieStore.get(ADMIN_COOKIE)?.value
+  const isAuthenticated = await verifySessionToken(token)
 
   // Sin sesión: solo renderiza el contenido sin chrome (login page)
   if (!isAuthenticated) {

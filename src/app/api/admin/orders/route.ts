@@ -3,7 +3,7 @@ import { orders } from "@/data/mock-orders"
 import { isAdminAuthenticated, unauthorizedResponse } from "@/lib/admin-auth"
 
 export async function GET(request: NextRequest) {
-  if (!isAdminAuthenticated(request)) return unauthorizedResponse()
+  if (!(await isAdminAuthenticated(request))) return unauthorizedResponse()
 
   const { searchParams } = new URL(request.url)
   const status = searchParams.get("status")
