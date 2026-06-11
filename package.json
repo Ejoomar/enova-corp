@@ -10,7 +10,8 @@
     "catalog:parse": "node scripts/parse-catalog.mjs",
     "catalog:images": "node scripts/download-images.mjs",
     "catalog:all": "node scripts/parse-catalog.mjs && node scripts/download-images.mjs",
-    "capturas": "node scripts/capturas-admin.mjs"
+    "capturas": "node scripts/capturas-admin.mjs",
+    "capturas:web": "node scripts/capturas-web.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
