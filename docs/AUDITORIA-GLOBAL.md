@@ -33,13 +33,12 @@ al cliente final** (reseñas y ratings inventados — decisión de negocio pendi
 
 ## B. Código muerto y dependencias
 
-### B1. Componentes sin un solo importador (verificado por grep de consumidores)
-| Componente | Estado |
-|---|---|
-| `products/BrandFilter.tsx` | muerto |
-| `products/CategoryFilter.tsx` | muerto |
-| `products/PriceFilter.tsx` | muerto |
-| `products/CatalogGrid.tsx` | muerto — reemplazado por `CatalogoClient` |
+### B1. ~~Componentes sin importador~~ — FALSO POSITIVO (corregido en la implementación)
+- El conteo inicial solo buscaba imports con ruta absoluta (`@/components/...`). Al verificar
+  con imports **relativos** (`./BrandFilter`), los 4 componentes SÍ tienen consumidores:
+  BrandFilter/CategoryFilter/PriceFilter ← `FilterSidebar`; CatalogGrid ← `CatalogoClient`.
+- **No se borró ninguno.** Lección registrada en la biblioteca de prompts: el grep de
+  consumidores debe cubrir rutas absolutas, relativas Y símbolos exportados.
 
 ### B2. Librería muerta con los únicos `any` del proyecto
 - [src/lib/transformers.ts](../src/lib/transformers.ts): 0 consumidores y contiene los 3 únicos `: any` de todo `src/`. Borrarlo limpia dos hallazgos a la vez.

@@ -28,7 +28,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [isFavorite, setIsFavorite] = useState(false)
   const addItem = useCartStore((state) => state.addItem)
   const addQuoteItem = useQuoteStore((state) => state.addItem)
-  const { bcv, paralelo } = useDolarRate()
+  const { bcv } = useDolarRate()
 
   const hasDiscount = product.originalPrice && product.originalPrice > product.price
   const discountPercent = hasDiscount

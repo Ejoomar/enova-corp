@@ -1,11 +1,24 @@
 import { NextRequest, NextResponse } from "next/server"
 import { products } from "@/data/mock-products"
+import { createRateLimiter, getClientIp } from "@/lib/rate-limit"
+
+// Cada llamada cuesta tokens de Groq — límite por IP para evitar abuso de costo.
+const limiter = createRateLimiter(10, 60 * 60 * 1000) // 10 búsquedas/hora por IP
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) {
     return NextResponse.json({ error: "Servicio no configurado" }, { status: 503 })
   }
+
+  const ip = getClientIp(request)
+  if (limiter.isLimited(ip)) {
+    return NextResponse.json(
+      { error: "Demasiadas búsquedas por imagen. Intenta de nuevo en una hora." },
+      { status: 429 }
+    )
+  }
+  limiter.register(ip)
 
   try {
     const formData = await request.formData()
@@ -80,7 +93,7 @@ export async function POST(request: NextRequest) {
       const jsonMatch = text.match(/\{[\s\S]*\}/)
       analysis = JSON.parse(jsonMatch ? jsonMatch[0] : text)
     } catch {
-      console.error("JSON parse failed. Gemini returned:", text)
+      console.error("JSON parse failed. Groq returned:", text)
       return NextResponse.json({ error: "No se pudo interpretar la imagen" }, { status: 422 })
     }
 

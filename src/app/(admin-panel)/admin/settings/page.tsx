@@ -251,7 +251,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <p className="font-medium">Mostrar productos agotados</p>
                   <p className="text-sm text-muted-foreground">
-                    Los productos sin stock se mostrarán como "Agotado"
+                    Los productos sin stock se mostrarán como «Agotado»
                   </p>
                 </div>
                 <Switch checked={showOutOfStock} onCheckedChange={setShowOutOfStock} />

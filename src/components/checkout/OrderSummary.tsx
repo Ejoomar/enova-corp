@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator"
 import { CartItem } from "@/types"
 import { useDolarRate } from "@/hooks/useDolarRate"
 import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
+import { calcularEnvio } from "@/config/envio"
 
 interface OrderSummaryProps {
   items: CartItem[]
@@ -18,7 +19,7 @@ export function OrderSummary({ items }: OrderSummaryProps) {
     (acc, item) => acc + item.product.price * item.quantity,
     0
   )
-  const shipping = subtotal >= 200 ? 0 : 15
+  const shipping = calcularEnvio(subtotal)
   const total = subtotal + shipping
 
   return (

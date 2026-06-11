@@ -79,6 +79,13 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: "enovacorp-cart",
+      version: 1,
+      // v0 (sin version) → v1: mismo shape; se conservan los carritos guardados.
+      // Si CartItem cambia de forma incompatible, subir version y migrar/resetear aquí.
+      migrate: (persisted) => {
+        const state = persisted as { items?: CartItem[] } | undefined
+        return { items: state?.items ?? [] }
+      },
     }
   )
 )

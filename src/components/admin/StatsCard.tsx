@@ -24,14 +24,13 @@ function prefersReducedMotion(): boolean {
 
 // Cuenta desde 0 hasta `target` en DURATION_MS. Sin movimiento si el usuario lo pide.
 function useCountUp(target: number): number {
-  const [display, setDisplay] = useState(() => (prefersReducedMotion() ? target : 0))
+  // Lazy init: con reduced-motion el estado nunca cambia y el efecto no programa frames.
+  const [reduced] = useState(prefersReducedMotion)
+  const [display, setDisplay] = useState(() => (reduced ? target : 0))
   const frameRef = useRef<number | undefined>(undefined)
 
   useEffect(() => {
-    if (prefersReducedMotion()) {
-      setDisplay(target)
-      return
-    }
+    if (reduced) return
     const start = performance.now()
     const from = 0
     function tick(now: number) {
@@ -45,9 +44,10 @@ function useCountUp(target: number): number {
     return () => {
       if (frameRef.current) cancelAnimationFrame(frameRef.current)
     }
-  }, [target])
+  }, [target, reduced])
 
-  return display
+  // Con reduced-motion el valor es siempre el target actual (sin animar).
+  return reduced ? target : display
 }
 
 export function StatsCard({ title, value, format, change = null, icon: Icon }: StatsCardProps) {

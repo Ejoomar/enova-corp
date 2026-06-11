@@ -62,6 +62,14 @@ export const useQuoteStore = create<QuoteState>()(
 
       getItemCount: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
     }),
-    { name: "enova-quote" }
+    {
+      name: "enova-quote",
+      version: 1,
+      // v0 (sin version) → v1: mismo shape; se conservan las cotizaciones guardadas.
+      migrate: (persisted) => {
+        const state = persisted as { items?: QuoteItem[] } | undefined
+        return { items: state?.items ?? [] }
+      },
+    }
   )
 )

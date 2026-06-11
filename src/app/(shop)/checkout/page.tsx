@@ -19,6 +19,7 @@ import {
 } from "@/stores/checkout-store"
 import { useDolarRate } from "@/hooks/useDolarRate"
 import { formatBsF, usdToBsF } from "@/lib/currency"
+import { calcularEnvio } from "@/config/envio"
 
 const steps = [
   { id: 1, name: "Envío" },
@@ -26,8 +27,6 @@ const steps = [
   { id: 3, name: "Confirmar" },
 ]
 
-const FREE_SHIPPING_THRESHOLD = 200
-const SHIPPING_COST = 15
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -74,7 +73,7 @@ export default function CheckoutPage() {
       (acc, item) => acc + item.product.price * item.quantity,
       0
     )
-    const shippingCost = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST
+    const shippingCost = calcularEnvio(subtotal)
     const total = subtotal + shippingCost
     const now = new Date().toISOString()
 

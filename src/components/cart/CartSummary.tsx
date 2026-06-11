@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { CartItem } from "@/types"
 import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
+import { ENVIO, calcularEnvio } from "@/config/envio"
 
 interface CartSummaryProps {
   items: CartItem[]
@@ -32,7 +33,7 @@ export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSu
     (acc, item) => acc + item.product.price * item.quantity,
     0
   )
-  const shipping = subtotal >= 200 ? 0 : 15
+  const shipping = calcularEnvio(subtotal)
   const total = subtotal + shipping
 
   return (
@@ -53,7 +54,7 @@ export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSu
           <div className="flex items-center gap-2 rounded-md bg-muted p-3 text-xs">
             <Truck className="h-4 w-4 shrink-0 text-muted-foreground" />
             <span>
-              Agrega {formatUSD(200 - subtotal)} más para envío gratis
+              Agrega {formatUSD(ENVIO.gratisDesde - subtotal)} más para envío gratis
             </span>
           </div>
         )}

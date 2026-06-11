@@ -364,7 +364,7 @@ export function ProductForm({ initialData, mode }: ProductFormProps) {
             <CardContent className="space-y-2">
               {specs.length === 0 && (
                 <p className="text-xs text-muted-foreground py-2">
-                  Sin especificaciones. Haz clic en "Añadir fila" para agregar.
+                  Sin especificaciones. Haz clic en «Añadir fila» para agregar.
                 </p>
               )}
               {specs.map((row, i) => (

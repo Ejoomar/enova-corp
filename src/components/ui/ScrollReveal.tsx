@@ -22,11 +22,8 @@ export function ScrollReveal({ children, className, delay = 0 }: ScrollRevealPro
     const el = ref.current
     if (!el) return
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRevealed(true)
-      return
-    }
-
+    // prefers-reduced-motion lo cubre globals.css: .reveal queda visible sin
+    // transición bajo ese media query, así que no hace falta estado extra aquí.
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
