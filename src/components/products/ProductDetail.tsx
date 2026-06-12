@@ -15,6 +15,7 @@ import { useCartStore } from "@/stores/cart-store"
 import { useQuoteStore } from "@/stores/quote-store"
 import { useDolarRate } from "@/hooks/useDolarRate"
 import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
+import { FiscalTrustBanner } from "@/components/products/FiscalTrustBanner"
 
 interface ProductDetailProps {
   product: Product
@@ -143,6 +144,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <span className="text-destructive">Agotado</span>
         )}
       </p>
+
+      {/* Sello SENIAT + garantía — solo en equipos fiscales */}
+      {product.category === "equipos-fiscales" && <FiscalTrustBanner />}
 
       <Separator />
 

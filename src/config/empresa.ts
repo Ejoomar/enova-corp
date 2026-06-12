@@ -36,6 +36,16 @@ export const EMPRESA = {
       detalle: "Coordinar entrega por WhatsApp",
     },
   },
+
+  // Equipos fiscales: la palabra "SENIAT" + garantía es lo que busca el comprador
+  // (la competencia gana el nicho citándolo explícitamente).
+  fiscal: {
+    // TODO-CLIENTE: confirmar el N° de providencia SENIAT aplicable a los equipos
+    // (ej. "SNAT/2018/0141"). Si queda vacío, el sello dice "homologado" sin número.
+    providencia: "",
+    // TODO-CLIENTE: confirmar la garantía exacta de los equipos fiscales.
+    garantia: "Garantía oficial y soporte técnico post-venta",
+  },
 } as const
 
 export function whatsappLink(message: string): string {

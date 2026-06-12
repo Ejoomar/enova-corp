@@ -14,6 +14,7 @@ import { FilterSidebar } from "@/components/products/FilterSidebar"
 import { FilterMobile } from "@/components/products/FilterMobile"
 import { ProductGrid } from "@/components/products/ProductGrid"
 import { SortSelect } from "@/components/products/SortSelect"
+import { FiscalTrustBanner } from "@/components/products/FiscalTrustBanner"
 import { useProductsStore } from "@/stores/products-store"
 import { FilterState } from "@/types"
 
@@ -91,6 +92,13 @@ function ProductsContent() {
           />
         </div>
       </div>
+
+      {/* Sello SENIAT + garantía cuando se navega la categoría de equipos fiscales */}
+      {filters.categories.includes("equipos-fiscales") && (
+        <div className="mb-6">
+          <FiscalTrustBanner variant="compact" />
+        </div>
+      )}
 
       <div className="flex gap-8">
         <aside className="hidden w-64 shrink-0 lg:block">
