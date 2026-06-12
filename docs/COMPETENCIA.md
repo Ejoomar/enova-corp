@@ -72,11 +72,13 @@ sin dominio propio ni Search Console).
 
 ## Las 3 movidas recomendadas (impacto ÷ esfuerzo)
 
-### 1. Citar SENIAT y garantía en la categoría fiscal — *impacto alto, esfuerzo: horas*
+### 1. Citar SENIAT y garantía en la categoría fiscal — ✅ EJECUTADO (12/06/2026)
 Máquinas Fiscales gana el nicho citando "providencia 0141 del SENIAT" y "1 año de garantía".
-Nosotros vendemos lo mismo sin decir la palabra que el comprador busca. Acción: añadir a la
-categoría Equipos Fiscales y a cada producto fiscal el texto de homologación SENIAT +
-garantía explícita. (Verificar con el cliente el número de providencia aplicable.)
+Nosotros vendíamos lo mismo sin destacar la palabra que el comprador busca.
+**Hecho:** componente `FiscalTrustBanner` con homologación SENIAT + garantía, mostrado en la
+categoría Equipos Fiscales y en cada producto fiscal. El número de providencia y la garantía
+exacta quedaron como campos de config (`EMPRESA.fiscal`) marcados TODO-CLIENTE — el cliente
+solo confirma el número y aparece automáticamente. **No se inventó ningún número.**
 
 ### 2. Dominio propio + Search Console — *impacto altísimo, esfuerzo: trámite (bloque 6)*
 Los 3 competidores aparecen en Google; nosotros somos invisibles en un subdominio
@@ -88,6 +90,11 @@ Las dos ventajas reales de Sigma son cuotas y pago online. Integrar Cashea (el e
 venezolano de cuotas) es proyecto de fase 2, pero la **decisión** hay que tomarla ya porque
 condiciona el flujo de pago. Y en paralelo: sustituir las reseñas inventadas por 3-5 reales
 de clientes B2B con permiso — los tres rivales nos ganan ese punto hoy y es gratis arreglarlo.
+
+> **Estado reseñas (12/06/2026):** el dueño decidió DEJARLAS POR AHORA y revisarlo con su
+> cliente. Pendiente: conseguir 3-5 reseñas reales (con permiso) o, si no, ocultarlas — las
+> estrellas y el conteo "X reseñas" son inventados (el conteo es la fórmula `rating × 20 + 10`,
+> no un dato real).
 
 ---
 
