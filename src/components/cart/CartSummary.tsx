@@ -1,12 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { Truck, RefreshCw, TrendingUp, ArrowRight } from "lucide-react"
+import { RefreshCw, TrendingUp, ArrowRight } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { CartItem } from "@/types"
 import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
-import { ENVIO, calcularEnvio } from "@/config/envio"
 
 interface CartSummaryProps {
   items: CartItem[]
@@ -33,9 +32,6 @@ export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSu
     (acc, item) => acc + item.product.price * item.quantity,
     0
   )
-  const shipping = calcularEnvio(subtotal)
-  const total = subtotal + shipping
-
   return (
     <div className="rounded-lg border bg-card p-6">
       <h2 className="font-display text-lg font-medium">Resumen del Pedido</h2>
@@ -47,23 +43,14 @@ export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSu
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Envío</span>
-          <span>{shipping === 0 ? "Gratis" : formatUSD(shipping)}</span>
+          <span className="text-muted-foreground">Cobro en destino</span>
         </div>
-
-        {shipping > 0 && (
-          <div className="flex items-center gap-2 rounded-md bg-muted p-3 text-xs">
-            <Truck className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <span>
-              Agrega {formatUSD(ENVIO.gratisDesde - subtotal)} más para envío gratis
-            </span>
-          </div>
-        )}
 
         <Separator />
 
         <div className="flex justify-between font-semibold">
           <span>Total USD</span>
-          <span className="text-lg text-primary">{formatUSD(total)}</span>
+          <span className="text-lg text-primary">{formatUSD(subtotal)}</span>
         </div>
 
         {/* Bolivares section */}
@@ -72,7 +59,7 @@ export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSu
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Total Bs.</span>
               <span className="text-sm font-semibold">
-                {formatBsF(usdToBsF(total, bsfRate))}
+                {formatBsF(usdToBsF(subtotal, bsfRate))}
               </span>
             </div>
             <div className="flex items-center justify-between gap-1">
@@ -107,7 +94,7 @@ export function CartSummary({ items, bsfRate, bsfLoading, bsfUpdatedAt }: CartSu
           Pago 100% seguro · Múltiples métodos disponibles
         </p>
         <p className="text-xs text-muted-foreground/60">
-          Pago Móvil · Zelle · Binance · USD Efectivo
+          Pago Móvil · USD Efectivo · Cashea
         </p>
       </div>
     </div>

@@ -198,16 +198,15 @@ export default function AdminOrderDetailPage() {
             <span>Subtotal</span>
             <span>${subtotal.toFixed(2)}</span>
           </div>
-          {order.shipping > 0 && (
+          {order.shipping > 0 ? (
             <div className="flex justify-between text-sm text-muted-foreground">
               <span>Envío</span>
               <span>${order.shipping.toFixed(2)}</span>
             </div>
-          )}
-          {order.shipping === 0 && (
+          ) : (
             <div className="flex justify-between text-sm text-muted-foreground">
               <span>Envío</span>
-              <span className="text-emerald-600 dark:text-emerald-400">Gratis</span>
+              <span>Cobro en destino</span>
             </div>
           )}
           <div className="flex justify-between text-base font-bold border-t pt-1.5 mt-1.5">

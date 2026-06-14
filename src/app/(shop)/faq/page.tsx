@@ -1,11 +1,11 @@
 const faqs = [
   {
     q: "¿Cuáles son los métodos de pago aceptados?",
-    a: "Aceptamos transferencias bancarias nacionales (Mercantil y Provincial), Zelle, Binance Pay y Pago Móvil. Al finalizar tu pedido te indicamos los datos según el método elegido.",
+    a: "Aceptamos Pago Móvil (Bs. a tasa BCV), USD en efectivo y Cashea. Al finalizar tu pedido te indicamos los datos de pago por WhatsApp.",
   },
   {
     q: "¿Los precios están en dólares?",
-    a: "Sí, los precios se muestran en USD. El pago puede realizarse en dólares (Zelle, Binance) o en bolívares a la tasa del día según el método de pago elegido.",
+    a: "Sí, los precios se muestran en USD y no incluyen IVA (se añade 16% al momento de pagar). El pago puede realizarse en efectivo USD o en bolívares a la tasa BCV del día vía Pago Móvil.",
   },
   {
     q: "¿Tienen política de devoluciones?",

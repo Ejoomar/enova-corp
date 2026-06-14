@@ -11,33 +11,20 @@ import { EMPRESA, whatsappLink } from "@/config/empresa"
 import { formatUSD, formatBsF } from "@/lib/currency"
 import type { Order } from "@/data/mock-orders"
 
-const PAYMENT_METHODS = [
+const PAYMENT_METHODS: Array<{
+  label: string
+  details: Array<{ key: string; value: string }>
+  note?: string
+}> = [
   {
     label: EMPRESA.pagos.pagoMovil.label,
-    details: [
-      { key: "Banco", value: EMPRESA.pagos.pagoMovil.banco },
-      { key: "Teléfono", value: EMPRESA.pagos.pagoMovil.telefono },
-      { key: "Cédula", value: EMPRESA.pagos.pagoMovil.cedula },
-    ],
-  },
-  {
-    label: EMPRESA.pagos.zelle.label,
-    details: [
-      { key: "Email", value: EMPRESA.pagos.zelle.email },
-      { key: "Nombre", value: EMPRESA.pagos.zelle.titular },
-    ],
+    details: [],
+    note: EMPRESA.pagos.pagoMovil.nota,
   },
   {
     label: EMPRESA.pagos.usdEfectivo.label,
     details: [
       { key: "Contacto", value: `WhatsApp: ${EMPRESA.whatsappDisplay}` },
-    ],
-  },
-  {
-    label: EMPRESA.pagos.binance.label,
-    details: [
-      { key: "ID", value: EMPRESA.pagos.binance.id },
-      { key: "Moneda", value: EMPRESA.pagos.binance.moneda },
     ],
   },
 ]
@@ -66,12 +53,11 @@ function buildWhatsAppMessage(order: Order): string {
     ),
     "",
     `Subtotal: ${formatUSD(order.subtotal)}`,
-    `Envío: ${order.shipping === 0 ? "Gratis" : formatUSD(order.shipping)}`,
     order.totalBs && order.tasaBcv
       ? `*Total: ${formatUSD(order.total)}* (${formatBsF(order.totalBs)} — tasa BCV ${formatBsF(order.tasaBcv)})`
       : `*Total: ${formatUSD(order.total)}*`,
     "",
-    `Envío: ${order.shippingAddress.courier ?? "Por coordinar"} a ${order.shippingAddress.city}, ${order.shippingAddress.state}`,
+    `Envío: ${order.shippingAddress.courier ?? "Por coordinar"} (cobro en destino) a ${order.shippingAddress.city}, ${order.shippingAddress.state}`,
     `Recibe: ${order.shippingAddress.name} · ${order.shippingAddress.phone}`,
     `Método de pago: ${order.paymentMethod}`,
     "",
@@ -163,7 +149,7 @@ function ConfirmacionContent() {
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Envío</span>
-          <span>{order.shipping === 0 ? "Gratis" : formatUSD(order.shipping)}</span>
+          <span className="text-muted-foreground">Cobro en destino</span>
         </div>
         <div className="flex justify-between font-semibold">
           <span>Total</span>
@@ -229,6 +215,9 @@ function ConfirmacionContent() {
             }`}
           >
             <p className="text-sm font-semibold text-[var(--brass)]">{method.label}</p>
+            {method.note && (
+              <p className="text-xs text-muted-foreground">{method.note}</p>
+            )}
             {method.details.map(({ key, value }) => (
               <div key={key} className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">{key}</span>

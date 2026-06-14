@@ -2,8 +2,6 @@ import Image from "next/image"
 
 const payments = [
   { name: "Pago Móvil", label: "Todos los bancos",  src: "/logos/pagomovil.svg", w: 120, h: 44,  color: "#0057B7", maxWClass: "max-w-[90px] sm:max-w-[110px]" },
-  { name: "Zelle",      label: "USD · Instantáneo", src: "/logos/zelle.svg",     w: 220, h: 90,  color: "#6C1CD1", maxWClass: "max-w-[90px] sm:max-w-[150px]" },
-  { name: "Binance",   label: "USDT · Cripto",     src: "/logos/binance.svg",   w: 520, h: 112, color: "#F3BA2F", maxWClass: "max-w-[90px] sm:max-w-[210px]" },
   { name: "USD",       label: "Efectivo · Divisa",  src: "/logos/usd.svg",       w: 120, h: 48,  color: "#1A7A3C", maxWClass: "max-w-[90px] sm:max-w-[120px]" },
   { name: "Cashea",    label: "Pago en cuotas",    src: "/logos/cashea.svg",    w: 465, h: 135, color: "#FFF212", maxWClass: "max-w-[90px] sm:max-w-[190px]" },
 ]
@@ -86,7 +84,7 @@ export default function ShippingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           {payments.map((p) => (
             <div
               key={p.name}

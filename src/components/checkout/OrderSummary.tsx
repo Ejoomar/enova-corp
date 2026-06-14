@@ -6,7 +6,6 @@ import { Separator } from "@/components/ui/separator"
 import { CartItem } from "@/types"
 import { useDolarRate } from "@/hooks/useDolarRate"
 import { formatUSD, formatBsF, usdToBsF } from "@/lib/currency"
-import { calcularEnvio } from "@/config/envio"
 
 interface OrderSummaryProps {
   items: CartItem[]
@@ -19,8 +18,6 @@ export function OrderSummary({ items }: OrderSummaryProps) {
     (acc, item) => acc + item.product.price * item.quantity,
     0
   )
-  const shipping = calcularEnvio(subtotal)
-  const total = subtotal + shipping
 
   return (
     <div className="rounded-lg border bg-card p-6">
@@ -63,11 +60,11 @@ export function OrderSummary({ items }: OrderSummaryProps) {
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">IVA (16%)</span>
-          <span>Incluido</span>
+          <span className="text-muted-foreground">No incluido</span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Envio</span>
-          <span>{shipping === 0 ? "Gratis" : `$${shipping.toFixed(2)}`}</span>
+          <span className="text-muted-foreground">Cobro en destino</span>
         </div>
       </div>
 
@@ -75,7 +72,7 @@ export function OrderSummary({ items }: OrderSummaryProps) {
 
       <div className="flex justify-between font-semibold">
         <span>Total USD</span>
-        <span className="text-lg text-primary">{formatUSD(total)}</span>
+        <span className="text-lg text-primary">{formatUSD(subtotal)}</span>
       </div>
 
       {/* BCV conversion */}
@@ -84,7 +81,7 @@ export function OrderSummary({ items }: OrderSummaryProps) {
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">Total Bs.</span>
             <span className="text-sm font-semibold">
-              {formatBsF(usdToBsF(total, bcv))}
+              {formatBsF(usdToBsF(subtotal, bcv))}
             </span>
           </div>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">

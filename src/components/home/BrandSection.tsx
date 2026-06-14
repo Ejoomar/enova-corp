@@ -29,9 +29,9 @@ const pillars = [
   {
     num: "04",
     title: "Múltiples métodos de pago",
-    desc: "USD, Bs., Zelle, Pago Móvil, Binance y transferencias a todos los bancos venezolanos.",
-    stat: "6+",
-    statLabel: "formas de pago aceptadas",
+    desc: "USD en efectivo, Pago Móvil en bolívares a tasa BCV, y Cashea en cuotas.",
+    stat: "3",
+    statLabel: "formas de pago",
     Icon: CreditCard,
   },
 ]

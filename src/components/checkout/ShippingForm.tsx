@@ -47,7 +47,7 @@ const shippingSchema = z.object({
   estado: z.string().min(1, "Selecciona tu estado"),
   ciudad: z.string().min(2, "Escribe tu ciudad"),
   direccion: z.string().min(10, "Dirección muy corta — incluye referencias"),
-  courier: z.enum(["mrw", "zoom", "delivery-merida"], {
+  courier: z.enum(["mrw", "zoom"], {
     error: "Selecciona cómo quieres recibir tu pedido",
   }),
   notas: z.string().optional(),
@@ -165,7 +165,7 @@ export function ShippingForm({ onValid }: ShippingFormProps) {
             <RadioGroup
               value={field.value}
               onValueChange={field.onChange}
-              className="grid gap-2 sm:grid-cols-3"
+              className="grid gap-2 sm:grid-cols-2"
             >
               {(Object.keys(COURIER_LABELS) as Array<keyof typeof COURIER_LABELS>).map((id) => (
                 <div key={id}>

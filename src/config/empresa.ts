@@ -5,7 +5,6 @@
 export const EMPRESA = {
   nombre: "ENOVA CORP C.A.",
   rif: "J-00000000-0", // TODO-CLIENTE: RIF real
-  // TODO-CLIENTE: confirmar número oficial (los prefijos 0422/0439 actuales no son móviles VE válidos)
   whatsapp: "584223668201",
   whatsappDisplay: "0422-366-8201",
   email: "Gerencia@enovacorp.co",
@@ -17,19 +16,8 @@ export const EMPRESA = {
   pagos: {
     pagoMovil: {
       label: "Pago Móvil",
-      banco: "Banesco",          // TODO-CLIENTE
-      telefono: "0412-000-0000", // TODO-CLIENTE
-      cedula: "V-00.000.000",    // TODO-CLIENTE
-    },
-    zelle: {
-      label: "Zelle",
-      email: "pagos@enovacorp.co", // TODO-CLIENTE
-      titular: "ENOVA CORP C.A.",  // TODO-CLIENTE
-    },
-    binance: {
-      label: "Binance Pay",
-      id: "ENOVA-CORP",          // TODO-CLIENTE
-      moneda: "USDT · BEP20",
+      // TODO-CLIENTE: banco/teléfono/cédula reales — mientras tanto se coordinan por WhatsApp
+      nota: "Te enviamos el banco, teléfono y cédula por WhatsApp para completar tu pago.",
     },
     usdEfectivo: {
       label: "USD Efectivo / Divisa",

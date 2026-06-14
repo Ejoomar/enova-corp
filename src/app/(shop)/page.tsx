@@ -31,7 +31,7 @@ const localBusinessJsonLd = {
   sameAs: [EMPRESA.instagramUrl],
   priceRange: "$$",
   currenciesAccepted: "USD, VES",
-  paymentAccepted: "Pago Móvil, Zelle, Binance Pay, Efectivo USD",
+  paymentAccepted: "Pago Móvil, Efectivo USD, Cashea",
 }
 
 export default function HomePage() {

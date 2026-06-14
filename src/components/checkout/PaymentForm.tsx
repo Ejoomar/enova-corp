@@ -3,7 +3,7 @@
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Smartphone, DollarSign, Bitcoin, Banknote } from "lucide-react"
+import { Smartphone, Banknote } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
@@ -13,7 +13,7 @@ import {
 } from "@/stores/checkout-store"
 
 const paymentSchema = z.object({
-  method: z.enum(["pago-movil", "zelle", "binance", "usd-efectivo"], {
+  method: z.enum(["pago-movil", "usd-efectivo"], {
     error: "Selecciona un método de pago",
   }),
 })
@@ -29,16 +29,6 @@ const METHODS: Array<{
     id: "pago-movil",
     icon: Smartphone,
     description: "Bs. a tasa BCV del día — todos los bancos",
-  },
-  {
-    id: "zelle",
-    icon: DollarSign,
-    description: "USD · transferencia instantánea",
-  },
-  {
-    id: "binance",
-    icon: Bitcoin,
-    description: "USDT · red BEP20",
   },
   {
     id: "usd-efectivo",

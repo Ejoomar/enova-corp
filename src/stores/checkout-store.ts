@@ -1,11 +1,9 @@
 import { create } from "zustand"
 
-export type PaymentMethodId = "pago-movil" | "zelle" | "binance" | "usd-efectivo"
+export type PaymentMethodId = "pago-movil" | "usd-efectivo"
 
 export const PAYMENT_METHOD_LABELS: Record<PaymentMethodId, string> = {
   "pago-movil": "Pago Móvil",
-  "zelle": "Zelle",
-  "binance": "Binance Pay (USDT)",
   "usd-efectivo": "USD Efectivo / Divisa",
 }
 
@@ -17,14 +15,13 @@ export interface ShippingData {
   estado: string
   ciudad: string
   direccion: string
-  courier: "mrw" | "zoom" | "delivery-merida"
+  courier: "mrw" | "zoom"
   notas?: string
 }
 
 export const COURIER_LABELS: Record<ShippingData["courier"], string> = {
   "mrw": "MRW (cobro en destino)",
   "zoom": "Zoom (cobro en destino)",
-  "delivery-merida": "Delivery en Mérida",
 }
 
 interface CheckoutState {

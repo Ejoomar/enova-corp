@@ -18,13 +18,13 @@ const pasos = [
     num: "03",
     Icon: Wallet,
     title: "Paga como prefieras",
-    desc: "Pago Móvil, Zelle, Binance o USD en efectivo. Envías el comprobante y lo verificamos al instante.",
+    desc: "Pago Móvil (Bs. a tasa BCV), USD en efectivo o Cashea. Envías el comprobante y lo verificamos al instante.",
   },
   {
     num: "04",
     Icon: PackageCheck,
     title: "Recibe tu pedido",
-    desc: "Despacho en 24–48h hábiles por MRW o Zoom a todo el país, o delivery el mismo día en Mérida.",
+    desc: "Despacho en 24–48h hábiles por MRW o Zoom a todo el país (cobro en destino), o retira el mismo día en nuestra tienda en Mérida.",
   },
 ]
 

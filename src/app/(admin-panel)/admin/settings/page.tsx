@@ -400,7 +400,7 @@ export default function AdminSettingsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">Billeteras digitales</p>
-                  <p className="text-sm text-muted-foreground">Pago Móvil, Zelle, PayPal</p>
+                  <p className="text-sm text-muted-foreground">Pago Móvil, Cashea</p>
                 </div>
                 <Switch checked={acceptDigital} onCheckedChange={setAcceptDigital} />
               </div>

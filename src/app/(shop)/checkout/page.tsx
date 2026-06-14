@@ -19,7 +19,6 @@ import {
 } from "@/stores/checkout-store"
 import { useDolarRate } from "@/hooks/useDolarRate"
 import { formatBsF, usdToBsF } from "@/lib/currency"
-import { calcularEnvio } from "@/config/envio"
 
 const steps = [
   { id: 1, name: "Envío" },
@@ -73,8 +72,7 @@ export default function CheckoutPage() {
       (acc, item) => acc + item.product.price * item.quantity,
       0
     )
-    const shippingCost = calcularEnvio(subtotal)
-    const total = subtotal + shippingCost
+    const total = subtotal
     const now = new Date().toISOString()
 
     addOrder({
@@ -88,7 +86,7 @@ export default function CheckoutPage() {
         image: item.product.images[0],
       })),
       subtotal,
-      shipping: shippingCost,
+      shipping: 0,
       total,
       totalBs: bcv ? usdToBsF(total, bcv) : null,
       tasaBcv: bcv ?? null,
